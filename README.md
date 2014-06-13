@@ -1,4 +1,2 @@
-anti-shipping-activity-messages-app
-===================================
+Anti-Shipping Activity Messages (ASAM) App for iOS and Android displays location and descriptive information about hostile acts against ships and mariners. The app caches warning data and works without a Wi-Fi or cellular connection. The reports may be useful for recognition, prevention and avoidance of potential hostile activity. The National Geospatial-Intelligence Agency maintains this warning database. This app makes it easier for mariners and others to query and interact with this data on their own phone even when disconnected.  
 
-Anti-Shipping Activity Messages (ASAM) App for iOS and Android displays location and descriptive information about hostile acts against ships and mariners. The app caches warning data and works without a Wi-Fi or cellular connection.  
