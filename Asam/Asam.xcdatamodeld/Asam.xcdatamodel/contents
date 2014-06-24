@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model name="" userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="2057" systemVersion="12C60" minimumToolsVersion="Xcode 4.1" macOSVersion="Automatic" iOSVersion="Automatic">
+    <entity name="Asam" representedClassName="Asam" syncable="YES">
+        <attribute name="aggressor" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="asamDescription" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="dateofOccurrence" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="decimalLatitude" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="decimalLongitude" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="degreeLatitude" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="degreeLongitude" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="geographicalSubregion" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="referenceNumber" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="victim" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="Asam" positionX="160" positionY="192" width="128" height="195"/>
+    </elements>
+</model>
