@@ -191,6 +191,7 @@
     self.subRegionsPickerView = [[UIPickerView alloc] initWithFrame:CGRectMake(0, toolbarHeight, 0, 0)];
 	self.subRegionsPickerView.delegate = self;
 	self.subRegionsPickerView.dataSource = self;
+    self.subRegionsPickerView.backgroundColor = [UIColor whiteColor];
 	self.subRegionsPickerView.showsSelectionIndicator = YES;
     
     UIToolbar *pickerToolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, toolbarHeight)];
