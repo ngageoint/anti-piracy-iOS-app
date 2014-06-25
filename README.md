@@ -11,6 +11,6 @@ All pull request contributions to this project will be released under the Apache
 Software source code previously released under an open source license and then modified by NGA staff is considered a "joint work" (see *17 USC  101*); it is partially copyrighted, partially public domain, and as a whole is protected by the copyrights of the non-government authors and must be released according to the terms of the original open source license.
 
 ###Screenshots
-![asam1](https://cloud.githubusercontent.com/assets/3793883/3378946/3bc9b11e-fbea-11e3-933a-55b7ff70327d.png)
-![asam2](https://cloud.githubusercontent.com/assets/3793883/3378945/3bc8e0ea-fbea-11e3-85a1-82bba1d9e437.png)
-![asam3](https://cloud.githubusercontent.com/assets/3793883/3378947/3bd47d74-fbea-11e3-93b9-4c1588a9f748.png)
+![asam1](https://cloud.githubusercontent.com/assets/3793883/3392492/29cab488-fcb5-11e3-91ab-74d9f1d12ca7.PNG)
+![asam2](https://cloud.githubusercontent.com/assets/3793883/3392491/29ca07cc-fcb5-11e3-9da9-f838f1c21c28.PNG)
+![asam3](https://cloud.githubusercontent.com/assets/3793883/3392493/29cbed30-fcb5-11e3-831f-5460f67de5bf.PNG)
