@@ -113,6 +113,7 @@
     self.datePickerFromView = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, toolbarHeight, 0, 0)];
     self.datePickerFromView.datePickerMode = UIDatePickerModeDate;
     self.datePickerFromView.hidden = NO;
+    self.datePickerFromView.backgroundColor = [UIColor whiteColor];
     self.datePickerFromView.date = [NSDate date];
 
     UIToolbar *pickerToolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, toolbarHeight)];
@@ -151,6 +152,7 @@
     self.datePickerToView = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, toolbarHeight, 0, 0)];
     self.datePickerToView.datePickerMode = UIDatePickerModeDate;
     self.datePickerToView.hidden = NO;
+    self.datePickerToView.backgroundColor = [UIColor whiteColor];
     self.datePickerToView.date = [NSDate date];
     
     UIToolbar *pickerToolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, toolbarHeight)];
