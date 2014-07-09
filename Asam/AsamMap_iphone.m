@@ -23,6 +23,8 @@
 @property (nonatomic, strong) IBOutlet REVClusterMapView *mapView;
 @property (nonatomic, strong) NSMutableArray *asamResults;
 @property (nonatomic, strong) NSString *numberOfDaysToFetch;
+@property (nonatomic, strong) UILabel *countLabel;
+
 
 - (void)populateAsamsInMap:(id)sender;
 - (void)prepareNavBar;
@@ -30,8 +32,10 @@
 - (void)fetchAsams:(id) sender;
 - (void)populateAsamPins;
 - (void)clearAndResetMap;
+- (void)updateCountLabel:(NSString *)text;
 
-- (IBAction)showActionSheet;
+- (IBAction)showActionSheetForQuery;
+- (IBAction)showActionSheetForMapType;
 - (IBAction)viewAsamsAsList;
 
 @end
@@ -47,10 +51,11 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self.view addSubview:self.countLabel];
+    [self.view addSubview:self.mapView];
     [self prepareNavBar];
     self.numberOfDaysToFetch = @"365";
-    [self.view addSubview:self.mapView];
-    [self performSelector:@selector(populateAsamsInMap:) withObject:@"365" afterDelay:0.2];    
+    [self performSelector:@selector(populateAsamsInMap:) withObject:@"365" afterDelay:0.2];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -60,6 +65,7 @@
 - (void)viewDidUnload {
     [super viewDidUnload];
     self.mapView = nil;
+    self.countLabel = nil;
     self.asamArray = nil;
     self.actionSheet = nil;
     self.numberOfDaysToFetch = nil;
@@ -94,11 +100,7 @@
     }
     
     [self populateAsamPins];
-    UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(7, 0, 70, 30)];
-    titleLabel.font = [UIFont fontWithName:@"Helvetica-Bold" size:10.0];
-    titleLabel.backgroundColor = [UIColor clearColor];
-    titleLabel.textColor = [UIColor whiteColor];
-    titleLabel.textAlignment = NSTextAlignmentCenter;
+    
     NSString *asamFounds = [NSString stringWithFormat:@"%lu ASAM(s)", (unsigned long)self.asamArray.count];
     NSString *inDays = @"";
     if ([self.numberOfDaysToFetch isEqualToString:@"All"]) {
@@ -107,11 +109,9 @@
     else {
         inDays =[NSString stringWithFormat:@"in last %@ days", self.numberOfDaysToFetch];
     }
-    titleLabel.numberOfLines = 0;
-    titleLabel.lineBreakMode = NSLineBreakByWordWrapping;
-    [titleLabel setText:[NSString stringWithFormat:@"%@\n%@", asamFounds, inDays]];
     
-    self.navigationItem.titleView = titleLabel;
+    [self updateCountLabel:[NSString stringWithFormat: @"%@ %@", asamFounds, inDays]];
+    
 }
 
 - (void)prepareNavBar {
@@ -122,7 +122,7 @@
     UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:title style:UIBarButtonItemStyleBordered target:nil action:nil];
     backButton.tintColor = [UIColor blackColor];
     self.navigationItem.backBarButtonItem = backButton;
-    self.segmentedControl = [[UISegmentedControl alloc] initWithItems:@[@"Reset", @"Query",@"List View"]];
+    self.segmentedControl = [[UISegmentedControl alloc] initWithItems:@[@"Reset", @"Query",@"List View",@"Map"]];
     self.segmentedControl.tag = 3;
     [self.segmentedControl addTarget:self action:@selector(segmentAction:) forControlEvents:UIControlEventValueChanged];
     self.segmentedControl.segmentedControlStyle = UISegmentedControlStyleBar;
@@ -145,55 +145,105 @@
         case 0:
             [self clearAndResetMap];
             break;
-            
         case 1:
-            [self showActionSheet];
+            [self showActionSheetForQuery];
             break;
             
         case 2:
             [self viewAsamsAsList];
             break;
-            
+        case 3:
+            [self showActionSheetForMapType];
+            break;
         default:
             break;
     }
 }
 
-- (IBAction)showActionSheet {
+- (IBAction)showActionSheetForQuery {
     self.actionSheet = [[UIActionSheet alloc] initWithTitle:@"Select the number of days to query:" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Last 60 days", @"Last 90 days", @"Last 180 days", @"Last 1 Year", @"All", nil];
     [self.actionSheet showInView:self.view];
 }
 
+- (IBAction)showActionSheetForMapType {
+    self.actionSheet = [[UIActionSheet alloc] initWithTitle:@"Select the map type:" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Standard", @"Satellite", @"Hybrid", nil];
+    [self.actionSheet showInView:self.view];
+}
+
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
-    switch (buttonIndex) {
-		case 0:
-            self.numberOfDaysToFetch = @"60";
-            [self populateAsamsInMap:self.numberOfDaysToFetch];
-            break;
-            
-        case 1:
-            self.numberOfDaysToFetch = @"90";
-            [self populateAsamsInMap:self.numberOfDaysToFetch];
-            break;
-            
-		case 2:
-            self.numberOfDaysToFetch = @"180";
-            [self populateAsamsInMap:self.numberOfDaysToFetch];
-            break;
-            
-		case 3:
-            self.numberOfDaysToFetch = @"365";
-            [self populateAsamsInMap:self.numberOfDaysToFetch];
-            break;
-            
-		case 4:
-            self.numberOfDaysToFetch = @"All";
-            [self populateAsamsInMap:self.numberOfDaysToFetch];
-            break;
-            
-        default:
-            break;
+    
+    if ([[actionSheet title] isEqualToString:@"Select the map type:"]) {
+        
+        
+        switch (buttonIndex) {
+            case 0:
+                _mapView.mapType = MKMapTypeStandard;
+                break;
+            case 1:
+                _mapView.mapType = MKMapTypeSatellite;
+                break;
+            case 2:
+                _mapView.mapType = MKMapTypeHybrid;
+                break;
+            default:
+                break;
+        }
+        
     }
+    else {
+        switch (buttonIndex) {
+            case 0:
+                self.numberOfDaysToFetch = @"60";
+                [self populateAsamsInMap:self.numberOfDaysToFetch];
+                break;
+                
+            case 1:
+                self.numberOfDaysToFetch = @"90";
+                [self populateAsamsInMap:self.numberOfDaysToFetch];
+                break;
+                
+            case 2:
+                self.numberOfDaysToFetch = @"180";
+                [self populateAsamsInMap:self.numberOfDaysToFetch];
+                break;
+                
+            case 3:
+                self.numberOfDaysToFetch = @"365";
+                [self populateAsamsInMap:self.numberOfDaysToFetch];
+                break;
+                
+            case 4:
+                self.numberOfDaysToFetch = @"All";
+                [self populateAsamsInMap:self.numberOfDaysToFetch];
+                break;
+                
+            default:
+                break;
+        }
+    }
+
+}
+
+- (void)updateCountLabel:(NSString *)text {
+
+    // remove all labels from mapView
+    for (UIView *labelView in self.mapView.subviews) {
+        if ([labelView isKindOfClass:[UILabel class]]) {
+            [labelView removeFromSuperview];
+        }
+    }
+    
+    //build label and add to mapView
+    _countLabel = [[UILabel alloc] initWithFrame:CGRectMake(1, 1, 0, 0)];
+    [_countLabel setTextColor:[UIColor whiteColor]];
+    [_countLabel setBackgroundColor:[UIColor grayColor]];
+    [_countLabel setAlpha:0.9];
+    [_countLabel setFont:[UIFont fontWithName:@"Helvetica-Bold" size:10.0]];
+    [_countLabel setText:text];
+    [_countLabel sizeToFit];
+    
+    [self.mapView addSubview:_countLabel];
+    
 }
 
 - (void)clearAndResetMap {
