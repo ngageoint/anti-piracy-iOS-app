@@ -58,6 +58,7 @@
 - (void)updateAsamFromDate;
 - (NSInteger)getPositionOfIndexInArrayByDate:(NSArray *)array withNumber:(NSUInteger)numberOfAsam withDate:(NSDate *)targetDate;
 - (void) populateMapWithAsams:(id)sender;
+- (void) setMapType: (NSNotification *)notification;
 
 @end
 
@@ -113,11 +114,11 @@
             self.asamSettingsView.edgesForExtendedLayout = UIRectEdgeNone;
             navController.navigationBar.backgroundColor = [UIColor colorWithRed:0.1f green:0.1f blue:0.1f alpha:1.0f];
             self.settingsPopOver = [[UIPopoverController alloc] initWithContentViewController:navController];
-            self.settingsPopOver.popoverContentSize = CGSizeMake(320.0f, 250.0f);
+            self.settingsPopOver.popoverContentSize = CGSizeMake(400.0f, 300.0f);
         }
         else {
             self.settingsPopOver = [[UIPopoverController alloc] initWithContentViewController:navController];
-            self.settingsPopOver.popoverContentSize = CGSizeMake(320.0f, 200.0f);
+            self.settingsPopOver.popoverContentSize = CGSizeMake(400.0f, 250.0f);
         }
         self.asamSettingsView.asamUpdateDelegate = self;
 		[self.settingsPopOver presentPopoverFromBarButtonItem:sender permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
@@ -401,6 +402,16 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    //listen for changes to map type
+    NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
+    [center addObserver:self
+            selector:@selector(setMapType:)
+            name:NSUserDefaultsDidChangeNotification
+            object:nil];
+    
+    [self setMapType: nil];
+    
     if (NSFoundationVersionNumber > NSFoundationVersionNumber_iOS_6_1) { // iOS 7+
         self.toolBar.tintColor = [UIColor whiteColor];
         self.toolBar.barTintColor = [UIColor blackColor];
@@ -468,6 +479,7 @@
     self.asamSearchPopOver = nil;
     self.asamSearchView = nil;
     self.displayAsamInListArray = nil;
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
     [super viewDidUnload];
 }
 
@@ -478,6 +490,19 @@
     [self.callOutPopOver dismissPopoverAnimated:YES];
     [self.asamSearchPopOver dismissPopoverAnimated:YES];
     [[NSNotificationCenter defaultCenter]removeObserver:self];
+}
+
+-(void)viewDidAppear:(BOOL)animated {
+    
+    //listen for changes to map type
+    NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
+    [center addObserver:self
+            selector:@selector(setMapType:)
+            name:NSUserDefaultsDidChangeNotification
+            object:nil];
+    
+    [self setMapType: nil];
+
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
@@ -642,6 +667,31 @@
         }
     }
     return [sorted count];
+}
+
+- (void)setMapType: (NSNotification *)notification {
+
+    //moniters NSUserDefault for changes.
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSString *maptype = [defaults stringForKey:@"maptype"];
+    
+    //set the maptype
+    if ([@"Standard" isEqual:maptype]) {
+        _mapView.mapType = MKMapTypeStandard;
+    }
+    else if ([@"Satellite" isEqual:maptype]) {
+        _mapView.mapType = MKMapTypeSatellite;
+    }
+    else if ([@"Hybrid" isEqual:maptype]) {
+        _mapView.mapType = MKMapTypeHybrid;
+    }
+    else if ([@"Offline" isEqual:maptype]) {
+        _mapView.mapType = MKMapTypeStandard;
+    }
+    else {
+        _mapView.mapType = MKMapTypeStandard;
+    }
+
 }
 
 @end
