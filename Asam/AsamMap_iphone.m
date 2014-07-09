@@ -166,7 +166,7 @@
 }
 
 - (IBAction)showActionSheetForMapType {
-    self.actionSheet = [[UIActionSheet alloc] initWithTitle:@"Select the map type:" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Standard", @"Satellite", @"Hybrid", @"Offline", nil];
+    self.actionSheet = [[UIActionSheet alloc] initWithTitle:@"Select the map type:" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Standard", @"Satellite", @"Hybrid", nil];
     [self.actionSheet showInView:self.view];
 }
 
