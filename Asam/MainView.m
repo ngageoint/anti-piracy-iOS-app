@@ -18,6 +18,8 @@
 #import "AsamDownloader.h"
 #import "AsamConstants.h"
 #import "NSString+StringFromDate.h"
+#import "OfflineMapUtility.h"
+
 
 @interface MainView() <UIPopoverControllerDelegate, MKMapViewDelegate, AsamSearchDelegate, SubRegionDelegate, AsamUpdateDelegate>
 
@@ -687,11 +689,21 @@
     }
     else if ([@"Offline" isEqual:maptype]) {
         _mapView.mapType = MKMapTypeStandard;
+        [_mapView addOverlays:[OfflineMapUtility getPolygons]];
     }
     else {
         _mapView.mapType = MKMapTypeStandard;
     }
 
+}
+
+- (MKOverlayView *)mapView:(MKMapView *)mapView viewForOverlay:(id <MKOverlay>)overlay
+{
+    MKPolygonView *polygonView = [[MKPolygonView alloc] initWithPolygon:overlay];
+    polygonView.lineWidth = 1.0;
+    polygonView.strokeColor = [UIColor redColor];
+    polygonView.fillColor = [UIColor greenColor];
+    return polygonView;
 }
 
 @end

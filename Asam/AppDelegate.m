@@ -4,7 +4,7 @@
 #import "DSActivityView.h"
 #import "MainView.h"
 #import "MainViewController_iphone.h"
-
+#import "OfflineMapUtility.h"
 
 @implementation AppDelegate
 
@@ -27,6 +27,12 @@
         self.navController = [[UINavigationController alloc] initWithRootViewController:self.mainViewController_iphone];
         self.window.rootViewController = self.navController;
     }
+    
+    //initializing offline map polygons (potentially thread this)
+    NSDictionary *geojson = [OfflineMapUtility dictionaryWithContentsOfJSONString:@"ne_110m_land"];
+    NSMutableArray *featuresArray = [geojson objectForKey:@"features"];
+    [OfflineMapUtility generateExteriorPolygons:featuresArray];
+    
     [self.window makeKeyAndVisible];
     return YES;
 }

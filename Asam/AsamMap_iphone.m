@@ -11,6 +11,7 @@
 #import "AsamDetailView.h"
 #import "REVClusterMap.h"
 #import "REVClusterAnnotationView.h"
+#import "OfflineMapUtility.h"
 
 #pragma
 #pragma mark - Private Methods i(UIActivityIndicator)
@@ -24,7 +25,6 @@
 @property (nonatomic, strong) NSMutableArray *asamResults;
 @property (nonatomic, strong) NSString *numberOfDaysToFetch;
 @property (nonatomic, strong) UILabel *countLabel;
-
 
 - (void)populateAsamsInMap:(id)sender;
 - (void)prepareNavBar;
@@ -166,24 +166,31 @@
 }
 
 - (IBAction)showActionSheetForMapType {
-    self.actionSheet = [[UIActionSheet alloc] initWithTitle:@"Select the map type:" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Standard", @"Satellite", @"Hybrid", nil];
+    self.actionSheet = [[UIActionSheet alloc] initWithTitle:@"Select the map type:" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Standard", @"Satellite", @"Hybrid", @"Offline", nil];
     [self.actionSheet showInView:self.view];
 }
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
-    
+
     if ([[actionSheet title] isEqualToString:@"Select the map type:"]) {
         
         
         switch (buttonIndex) {
             case 0:
+                [_mapView removeOverlays:_mapView.overlays];
                 _mapView.mapType = MKMapTypeStandard;
                 break;
             case 1:
+                [_mapView removeOverlays:_mapView.overlays];
                 _mapView.mapType = MKMapTypeSatellite;
                 break;
             case 2:
+                [_mapView removeOverlays:_mapView.overlays];
                 _mapView.mapType = MKMapTypeHybrid;
+                break;
+            case 3:
+                _mapView.mapType = MKMapTypeStandard;                
+                [_mapView addOverlays:[OfflineMapUtility getPolygons]];
                 break;
             default:
                 break;
@@ -224,6 +231,16 @@
 
 }
 
+
+- (MKOverlayView *)mapView:(MKMapView *)mapView viewForOverlay:(id <MKOverlay>)overlay
+{
+    MKPolygonView *polygonView = [[MKPolygonView alloc] initWithPolygon:overlay];
+    polygonView.lineWidth = 1.0;
+    polygonView.strokeColor = [UIColor redColor];
+    polygonView.fillColor = [UIColor greenColor];
+    return polygonView;
+}
+    
 - (void)updateCountLabel:(NSString *)text {
 
     // remove all labels from mapView

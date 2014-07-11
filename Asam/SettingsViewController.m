@@ -101,7 +101,7 @@
             cell.textLabel.text = option;
         }
         else if ([option isEqualToString:@"Map Layer"]) {
-            NSArray *itemArray = [NSArray arrayWithObjects: @"Standard", @"Satellite", @"Hybrid", nil];
+            NSArray *itemArray = [NSArray arrayWithObjects: @"Standard", @"Satellite", @"Hybrid", @"Offline", nil];
             UISegmentedControl *segmentedControl = [[UISegmentedControl alloc] initWithItems:itemArray];
             segmentedControl.frame = CGRectMake(110, 7, 280, 30);
             segmentedControl.segmentedControlStyle = UISegmentedControlStyleBordered;
