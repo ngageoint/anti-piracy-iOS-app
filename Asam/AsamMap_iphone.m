@@ -26,6 +26,8 @@
 @property (nonatomic, strong) NSString *numberOfDaysToFetch;
 @property (nonatomic, strong) UILabel *countLabel;
 
+@property (nonatomic, strong) MKPolygonView *polygonView;
+
 - (void)populateAsamsInMap:(id)sender;
 - (void)prepareNavBar;
 - (void)segmentAction:(UISegmentedControl*)sender;
@@ -189,8 +191,8 @@
                 _mapView.mapType = MKMapTypeHybrid;
                 break;
             case 3:
-                _mapView.mapType = MKMapTypeStandard;                
-                [_mapView addOverlays:[OfflineMapUtility getPolygons]];
+                _mapView.mapType = MKMapTypeStandard;
+                [_mapView addOverlays:[OfflineMapUtility getPolygons]];            
                 break;
             default:
                 break;
@@ -235,9 +237,17 @@
 - (MKOverlayView *)mapView:(MKMapView *)mapView viewForOverlay:(id <MKOverlay>)overlay
 {
     MKPolygonView *polygonView = [[MKPolygonView alloc] initWithPolygon:overlay];
-    polygonView.lineWidth = 1.0;
-    polygonView.strokeColor = [UIColor redColor];
-    polygonView.fillColor = [UIColor greenColor];
+    
+    if ([overlay.title isEqualToString:@"ocean"]) {
+        polygonView.fillColor = [UIColor colorWithRed:127/255.0 green:153/255.0 blue:171/255.0 alpha:1];
+        polygonView.strokeColor = [UIColor clearColor];
+        polygonView.lineWidth = 0.0;
+    }
+    else {
+        polygonView.fillColor = [UIColor colorWithRed:221/255.0 green:221/255.0 blue:221/255.0 alpha:1];
+        polygonView.strokeColor = [UIColor clearColor];
+        polygonView.lineWidth = 0.0;
+    }
     return polygonView;
 }
     
