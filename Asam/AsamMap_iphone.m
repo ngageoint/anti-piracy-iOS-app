@@ -35,6 +35,7 @@
 - (void)populateAsamPins;
 - (void)clearAndResetMap;
 - (void)updateCountLabel:(NSString *)text;
+- (void)setMapType: (NSNotification *)notification;
 
 - (IBAction)showActionSheetForQuery;
 - (IBAction)showActionSheetForMapType;
@@ -52,6 +53,16 @@
 #pragma mark - View lifecycle
 
 - (void)viewDidLoad {
+    
+    //listen for changes to map type
+    NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
+    [center addObserver:self
+               selector:@selector(setMapType:)
+                   name:NSUserDefaultsDidChangeNotification
+                 object:nil];
+    
+    [self setMapType: nil];
+    
     [super viewDidLoad];
     [self.view addSubview:self.countLabel];
     [self.view addSubview:self.mapView];
@@ -61,6 +72,16 @@
 }
 
 - (void)viewDidAppear:(BOOL)animated {
+    
+    //listen for changes to map type
+    NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
+    [center addObserver:self
+               selector:@selector(setMapType:)
+                   name:NSUserDefaultsDidChangeNotification
+                 object:nil];
+    
+    [self setMapType: nil];
+    
     [super viewDidAppear:animated];
 }
 
@@ -75,6 +96,7 @@
     self.segmentedControl = nil;
     self.mapView.delegate = nil;
     self.asamUtil = nil;
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
@@ -175,29 +197,26 @@
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
 
     if ([[actionSheet title] isEqualToString:@"Select the map type:"]) {
-        
-        
+
+        NSUserDefaults * standardUserDefaults = [NSUserDefaults standardUserDefaults];
+
         switch (buttonIndex) {
             case 0:
-                [_mapView removeOverlays:_mapView.overlays];
-                _mapView.mapType = MKMapTypeStandard;
+                [standardUserDefaults setObject:@"Standard" forKey:@"maptype"];
                 break;
             case 1:
-                [_mapView removeOverlays:_mapView.overlays];
-                _mapView.mapType = MKMapTypeSatellite;
+                [standardUserDefaults setObject:@"Satellite" forKey:@"maptype"];
                 break;
             case 2:
-                [_mapView removeOverlays:_mapView.overlays];
-                _mapView.mapType = MKMapTypeHybrid;
+                [standardUserDefaults setObject:@"Hybrid" forKey:@"maptype"];
                 break;
             case 3:
-                _mapView.mapType = MKMapTypeStandard;
-                [_mapView addOverlays:[OfflineMapUtility getPolygons]];            
+                [standardUserDefaults setObject:@"Offline" forKey:@"maptype"];
                 break;
             default:
                 break;
         }
-        
+                
     }
     else {
         switch (buttonIndex) {
@@ -382,6 +401,34 @@
             [DSBezelActivityView removeViewAnimated:YES];
         });
     });
+}
+
+- (void)setMapType: (NSNotification *)notification {
+    
+    //moniters NSUserDefault for changes.
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSString *maptype = [defaults stringForKey:@"maptype"];
+    
+    [_mapView removeOverlays:_mapView.overlays];
+    
+    //set the maptype
+    if ([@"Standard" isEqual:maptype]) {
+        _mapView.mapType = MKMapTypeStandard;
+    }
+    else if ([@"Satellite" isEqual:maptype]) {
+        _mapView.mapType = MKMapTypeSatellite;
+    }
+    else if ([@"Hybrid" isEqual:maptype]) {
+        _mapView.mapType = MKMapTypeHybrid;
+    }
+    else if ([@"Offline" isEqual:maptype]) {
+        _mapView.mapType = MKMapTypeStandard;
+        [_mapView addOverlays:[OfflineMapUtility getPolygons]];
+    }
+    else {
+        _mapView.mapType = MKMapTypeStandard;
+    }
+    
 }
 
 - (void)dealloc {

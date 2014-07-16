@@ -59,8 +59,8 @@
 - (void)populateMap:(NSArray *)array withNumber:(id)numberOfAsam initializeWithOneYear:(BOOL)oneYear;
 - (void)updateAsamFromDate;
 - (NSInteger)getPositionOfIndexInArrayByDate:(NSArray *)array withNumber:(NSUInteger)numberOfAsam withDate:(NSDate *)targetDate;
-- (void) populateMapWithAsams:(id)sender;
-- (void) setMapType: (NSNotification *)notification;
+- (void)populateMapWithAsams:(id)sender;
+- (void)setMapType: (NSNotification *)notification;
 
 @end
 
@@ -676,6 +676,8 @@
     //moniters NSUserDefault for changes.
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSString *maptype = [defaults stringForKey:@"maptype"];
+
+    [_mapView removeOverlays:_mapView.overlays];
     
     //set the maptype
     if ([@"Standard" isEqual:maptype]) {
@@ -700,9 +702,17 @@
 - (MKOverlayView *)mapView:(MKMapView *)mapView viewForOverlay:(id <MKOverlay>)overlay
 {
     MKPolygonView *polygonView = [[MKPolygonView alloc] initWithPolygon:overlay];
-    polygonView.lineWidth = 1.0;
-    polygonView.strokeColor = [UIColor redColor];
-    polygonView.fillColor = [UIColor greenColor];
+    
+    if ([overlay.title isEqualToString:@"ocean"]) {
+        polygonView.fillColor = [UIColor colorWithRed:127/255.0 green:153/255.0 blue:171/255.0 alpha:1];
+        polygonView.strokeColor = [UIColor clearColor];
+        polygonView.lineWidth = 0.0;
+    }
+    else {
+        polygonView.fillColor = [UIColor colorWithRed:221/255.0 green:221/255.0 blue:221/255.0 alpha:1];
+        polygonView.strokeColor = [UIColor clearColor];
+        polygonView.lineWidth = 0.0;
+    }
     return polygonView;
 }
 

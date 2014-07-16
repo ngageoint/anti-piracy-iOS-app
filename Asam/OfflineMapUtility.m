@@ -103,18 +103,15 @@ static NSArray *polygons;
         [interiorPolygons addObject:recursePolygon];
     }
     
-    
-    
     MKPolygon *exteriorPolygon;
-    
     if (interiorPolygons.count > 0) {
         exteriorPolygon = [MKPolygon polygonWithCoordinates:exteriorMapCoordinates count:exteriorPolygonCoordinates.count interiorPolygons:[NSArray arrayWithArray:interiorPolygons]];
     }
     else {
         exteriorPolygon = [MKPolygon polygonWithCoordinates:exteriorMapCoordinates count:exteriorPolygonCoordinates.count];
     }
-    
-    
+    exteriorPolygon.title = @"feature";
+
     return exteriorPolygon;
 }
 
