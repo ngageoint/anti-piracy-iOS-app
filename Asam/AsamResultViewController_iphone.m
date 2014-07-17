@@ -7,6 +7,8 @@
 #import "REVClusterMap.h"
 #import "REVClusterAnnotationView.h"
 #import "Asam.h"
+#import "OfflineMapUtility.h"
+
 
 #pragma
 #pragma mark - Private Methods 
@@ -36,7 +38,7 @@
     self.mapView = [[REVClusterMapView alloc] initWithFrame:fullScreenRect];
     self.mapView.delegate = self;
     [self.view addSubview:self.mapView];
-
+    [self setMapType: nil];
     [self setUpSegment];
     [self startAnimation:nil];
 }
@@ -218,6 +220,51 @@
 #pragma mark - Private methods (UIActivityIndicator) impl.
 - (IBAction)startAnimation:(id)sender {
     [self populateAsamPins];
+}
+
+
+- (void)setMapType: (NSNotification *)notification {
+    
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSString *maptype = [defaults stringForKey:@"maptype"];
+    
+    [_mapView removeOverlays:_mapView.overlays];
+    
+    //set the maptype
+    if ([@"Standard" isEqual:maptype]) {
+        _mapView.mapType = MKMapTypeStandard;
+    }
+    else if ([@"Satellite" isEqual:maptype]) {
+        _mapView.mapType = MKMapTypeSatellite;
+    }
+    else if ([@"Hybrid" isEqual:maptype]) {
+        _mapView.mapType = MKMapTypeHybrid;
+    }
+    else if ([@"Offline" isEqual:maptype]) {
+        _mapView.mapType = MKMapTypeStandard;
+        [_mapView addOverlays:[OfflineMapUtility getPolygons]];
+    }
+    else {
+        _mapView.mapType = MKMapTypeStandard;
+    }
+    
+}
+
+- (MKOverlayView *)mapView:(MKMapView *)mapView viewForOverlay:(id <MKOverlay>)overlay
+{
+    MKPolygonView *polygonView = [[MKPolygonView alloc] initWithPolygon:overlay];
+    
+    if ([overlay.title isEqualToString:@"ocean"]) {
+        polygonView.fillColor = [UIColor colorWithRed:127/255.0 green:153/255.0 blue:171/255.0 alpha:1];
+        polygonView.strokeColor = [UIColor clearColor];
+        polygonView.lineWidth = 0.0;
+    }
+    else {
+        polygonView.fillColor = [UIColor colorWithRed:221/255.0 green:221/255.0 blue:221/255.0 alpha:1];
+        polygonView.strokeColor = [UIColor clearColor];
+        polygonView.lineWidth = 0.0;
+    }
+    return polygonView;
 }
 
 - (void)dealloc {
