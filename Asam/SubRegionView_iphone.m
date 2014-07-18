@@ -166,7 +166,6 @@
             }
             polygonView.lineWidth = 2;
             polygonView.strokeColor = [UIColor orangeColor];
-            //polygonView.opaque = TRUE;
         }
         
 		return polygonView;
