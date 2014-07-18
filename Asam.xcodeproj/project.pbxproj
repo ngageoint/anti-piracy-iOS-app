@@ -7,10 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1F4DDDAC196DC83900670A70 /* ne_110m_land.geojson in Resources */ = {isa = PBXBuildFile; fileRef = 1F4DDDAB196DC83900670A70 /* ne_110m_land.geojson */; };
-		1F4DDDAE196F348100670A70 /* ne_50m_land.geojson in Resources */ = {isa = PBXBuildFile; fileRef = 1F4DDDAD196F348100670A70 /* ne_50m_land.geojson */; };
+		1F03D4A61979B3CF0021BEFC /* ne_50m_land.simplify0.2.geojson in Resources */ = {isa = PBXBuildFile; fileRef = 1F03D4A51979B3CF0021BEFC /* ne_50m_land.simplify0.2.geojson */; };
 		1F4DDDB11970324100670A70 /* OfflineMapUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F4DDDB01970324100670A70 /* OfflineMapUtility.m */; };
-		1F4DDDB31970522400670A70 /* ne_10m_land.geojson in Resources */ = {isa = PBXBuildFile; fileRef = 1F4DDDB21970522400670A70 /* ne_10m_land.geojson */; };
 		2400B466167A2C7D00326B57 /* pirate@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2400B465167A2C7D00326B57 /* pirate@2x.png */; };
 		2402DB3A15DE6C00005AAFE4 /* REVAnnotationsCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 2402DB3015DE6C00005AAFE4 /* REVAnnotationsCollection.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		2402DB3B15DE6C00005AAFE4 /* REVClusterBlock.m in Sources */ = {isa = PBXBuildFile; fileRef = 2402DB3215DE6C00005AAFE4 /* REVClusterBlock.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -169,11 +167,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		1F4DDDAB196DC83900670A70 /* ne_110m_land.geojson */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = ne_110m_land.geojson; path = ../../../../Desktop/ne_110m_land.geojson; sourceTree = "<group>"; };
-		1F4DDDAD196F348100670A70 /* ne_50m_land.geojson */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = ne_50m_land.geojson; path = ../../../../Downloads/ne_50m_land.geojson; sourceTree = "<group>"; };
+		1F03D4A51979B3CF0021BEFC /* ne_50m_land.simplify0.2.geojson */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ne_50m_land.simplify0.2.geojson; sourceTree = "<group>"; };
 		1F4DDDAF1970324100670A70 /* OfflineMapUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OfflineMapUtility.h; sourceTree = "<group>"; };
 		1F4DDDB01970324100670A70 /* OfflineMapUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OfflineMapUtility.m; sourceTree = "<group>"; };
-		1F4DDDB21970522400670A70 /* ne_10m_land.geojson */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = ne_10m_land.geojson; path = ../../../../Downloads/ne_10m_land.geojson; sourceTree = "<group>"; };
 		2400B465167A2C7D00326B57 /* pirate@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pirate@2x.png"; sourceTree = "<group>"; };
 		2402DB2F15DE6C00005AAFE4 /* REVAnnotationsCollection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = REVAnnotationsCollection.h; sourceTree = "<group>"; };
 		2402DB3015DE6C00005AAFE4 /* REVAnnotationsCollection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = REVAnnotationsCollection.m; sourceTree = "<group>"; };
@@ -783,9 +779,7 @@
 		24C78D5914D5B35E0027AE3B /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				1F4DDDB21970522400670A70 /* ne_10m_land.geojson */,
-				1F4DDDAD196F348100670A70 /* ne_50m_land.geojson */,
-				1F4DDDAB196DC83900670A70 /* ne_110m_land.geojson */,
+				1F03D4A51979B3CF0021BEFC /* ne_50m_land.simplify0.2.geojson */,
 				96E9CF8D18201D3F004E292C /* Asam.sqlite */,
 				249993A0166F87DB000F8452 /* thirdparty_description */,
 				24C9F3AB14D9718D00172AAC /* images */,
@@ -1031,7 +1025,6 @@
 				242AA53B166E74D10005CFDA /* Icon-72.png in Resources */,
 				242AA53C166E74D10005CFDA /* Icon-72@2x.png in Resources */,
 				242AA53D166E74D10005CFDA /* Icon-Small-50.png in Resources */,
-				1F4DDDAC196DC83900670A70 /* ne_110m_land.geojson in Resources */,
 				242AA53E166E74D10005CFDA /* Icon-Small-50@2x.png in Resources */,
 				242AA53F166E74D10005CFDA /* Icon-Small.png in Resources */,
 				242AA540166E74D10005CFDA /* Icon-Small@2x.png in Resources */,
@@ -1054,6 +1047,7 @@
 				249993AA166F87F6000F8452 /* reachability.txt in Resources */,
 				249993AB166F87F6000F8452 /* revclustermap.txt in Resources */,
 				249993AD166F87F6000F8452 /* ddactionheaderview.txt in Resources */,
+				1F03D4A61979B3CF0021BEFC /* ne_50m_land.simplify0.2.geojson in Resources */,
 				249993AF166F8821000F8452 /* asamapp.txt in Resources */,
 				24A5FD96166FA2E800C53193 /* ngadisclaimer.txt in Resources */,
 				961E27D818C7D18B00B90864 /* icon_iPhone_Retina_58x58.png in Resources */,
@@ -1061,7 +1055,6 @@
 				961E27DF18C7D18B00B90864 /* Portrait_Non_Retina_768x1024@2x.png in Resources */,
 				24F1467B166FB9200028E013 /* LegalViewController_ipad.xib in Resources */,
 				24F14681166FB93B0028E013 /* LegalDetailsViewController_ipad.xib in Resources */,
-				1F4DDDB31970522400670A70 /* ne_10m_land.geojson in Resources */,
 				2400B466167A2C7D00326B57 /* pirate@2x.png in Resources */,
 				24BDA33B167B703400F7E5D9 /* greyButton.png in Resources */,
 				24BDA33C167B703400F7E5D9 /* greyButton@2x.png in Resources */,
@@ -1074,7 +1067,6 @@
 				249E54731682316F0058BD27 /* left@2x.png in Resources */,
 				249E54741682316F0058BD27 /* right@2x.png in Resources */,
 				961E27D218C7D18B00B90864 /* icon_iPad _Non_Retina_40x40.png in Resources */,
-				1F4DDDAE196F348100670A70 /* ne_50m_land.geojson in Resources */,
 				249E5479168231CC0058BD27 /* slider-fill@2x.png in Resources */,
 				249E547A168231CC0058BD27 /* slider-track@2x.png in Resources */,
 				2490E8DC1709C01E00EB9ACB /* background.png in Resources */,

@@ -43,6 +43,8 @@
     lpgr.numberOfTouchesRequired = 1;
     lpgr.minimumPressDuration = 0.1;
     [self.mapView addGestureRecognizer:lpgr];
+    
+    
 }
 
 - (void)viewDidUnload{
