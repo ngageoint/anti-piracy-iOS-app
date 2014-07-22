@@ -3,6 +3,7 @@
 #import "AppDelegate.h"
 #import "AsamFetch.h"
 #import "mach/mach.h"
+#import "OfflineMapUtility.h"
 
 
 @interface SubRegionView() <MKMapViewDelegate, UIActionSheetDelegate,UIGestureRecognizerDelegate>
@@ -37,6 +38,8 @@
     self.selectedSubRegions = [[NSMutableArray alloc] init];
     [self prepareNavBar];
     [self populateSubregions];
+    [self setMapType: nil];
+    
     UILongPressGestureRecognizer *lpgr = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleLongPress:)];
     lpgr.numberOfTapsRequired = 0;
     lpgr.numberOfTouchesRequired = 1;
@@ -64,6 +67,9 @@
     for (id <MKOverlay> overlay in self.mapView.overlays) {
         if ([overlay isKindOfClass:[MKPolygon class]]) {
             MKPolygon *poly = (MKPolygon*) overlay;
+            if ([poly.title isEqualToString:@"ocean"] || [poly.title isEqualToString:@"feature"]) {
+                break;
+            }
             id view = [_mapView viewForOverlay:poly];
             if ([view isKindOfClass:[MKPolygonView class]]){
                 MKPolygonView *polyView = (MKPolygonView*)view;
@@ -90,16 +96,25 @@
                     mapCoordinateIsInPolygon = CGPathContainsPoint(polyView.path, NULL, polygonViewPoint, NO);
                 }
                 if (mapCoordinateIsInPolygon ){
-                    if(![self.selectedSubRegions containsObject:poly.title]) {
+                    if (![self.selectedSubRegions containsObject:poly.title]) {
                         [self.selectedSubRegions addObject:poly.title];
                         polyView.strokeColor = [UIColor orangeColor];
-                        polyView.fillColor = [[UIColor greenColor] colorWithAlphaComponent:0.5];
+                        polyView.fillColor = [[UIColor greenColor] colorWithAlphaComponent:0.7];
+                        polyView.opaque = true;
                         break;
                     }
                     else {
                         [self.selectedSubRegions removeObject:poly.title];
-                        polyView.strokeColor = [UIColor orangeColor];
-                        polyView.fillColor = [[UIColor yellowColor] colorWithAlphaComponent:0.3];
+                        polyView.strokeColor=[UIColor orangeColor];
+                        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+                        NSString *maptype = [defaults stringForKey:@"maptype"];
+                        if ([@"Offline" isEqual:maptype]) {
+                            polyView.fillColor = [[UIColor whiteColor] colorWithAlphaComponent:0.9];
+                        }
+                        else {
+                            polyView.fillColor = [[UIColor yellowColor] colorWithAlphaComponent:0.2];
+                        }
+                        
                         break;
                     }
                 }
@@ -124,15 +139,39 @@
 }
 
 #pragma
-#pragma mark - Map View for overlay
+#pragma mark - Map Views
 - (MKOverlayView *)mapView:(MKMapView *)mapView viewForOverlay:(id <MKOverlay>)overlay {
-	if ([overlay isKindOfClass:[MKPolygon class]]) {
-		MKPolygonView *polyView = [[MKPolygonView alloc] initWithOverlay:overlay];
-		polyView.lineWidth = 2;
-        polyView.strokeColor = [UIColor orangeColor];
-		polyView.fillColor = [[UIColor yellowColor] colorWithAlphaComponent:0.3];
-        polyView.opaque = TRUE;
-		return polyView;
+    
+    MKPolygonView *polygonView = [[MKPolygonView alloc] initWithOverlay:overlay];
+    
+    if ([overlay isKindOfClass:[MKPolygon class]]) {
+        
+        if ([overlay.title isEqualToString:@"ocean"]) {
+            polygonView.fillColor = [UIColor colorWithRed:127/255.0 green:153/255.0 blue:171/255.0 alpha:0.8];
+            polygonView.strokeColor = [UIColor clearColor];
+            polygonView.lineWidth = 0.0;
+            polygonView.opaque = TRUE;
+        }
+        else if ([overlay.title isEqualToString:@"feature"]) {
+            polygonView.fillColor = [UIColor colorWithRed:221/255.0 green:221/255.0 blue:221/255.0 alpha:0.7];
+            polygonView.strokeColor = [UIColor clearColor];
+            polygonView.lineWidth = 0.0;
+            polygonView.opaque = TRUE;
+        }
+        else {
+            NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+            NSString *maptype = [defaults stringForKey:@"maptype"];
+            if ([@"Offline" isEqual:maptype]) {
+                polygonView.fillColor = [[UIColor whiteColor] colorWithAlphaComponent:0.9];
+            }
+            else {
+                polygonView.fillColor = [[UIColor yellowColor] colorWithAlphaComponent:0.2];
+            }
+            polygonView.lineWidth = 2;
+            polygonView.strokeColor = [UIColor orangeColor];
+        }
+        
+		return polygonView;
 	}
 	return nil;
 }
@@ -248,6 +287,8 @@
     [self.selectedSubRegions removeAllObjects];
     [self toggleButtonsVisibility:FALSE];
     [self populateSubregions];
+    [self setMapType: nil];
+
 }
 
 - (void)dismissView {
@@ -312,6 +353,33 @@
         self.selectedSubregionsButton.enabled = NO;
         self.resetButton.enabled = NO;
     }
+}
+
+- (void)setMapType: (NSNotification *)notification {
+    
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSString *maptype = [defaults stringForKey:@"maptype"];
+    
+    //[_mapView removeOverlays:_mapView.overlays];
+    
+    //set the maptype
+    if ([@"Standard" isEqual:maptype]) {
+        _mapView.mapType = MKMapTypeStandard;
+    }
+    else if ([@"Satellite" isEqual:maptype]) {
+        _mapView.mapType = MKMapTypeSatellite;
+    }
+    else if ([@"Hybrid" isEqual:maptype]) {
+        _mapView.mapType = MKMapTypeHybrid;
+    }
+    else if ([@"Offline" isEqual:maptype]) {
+        _mapView.mapType = MKMapTypeStandard;
+        [_mapView addOverlays:[OfflineMapUtility getPolygons]];
+    }
+    else {
+        _mapView.mapType = MKMapTypeStandard;
+    }
+    
 }
 
 @end

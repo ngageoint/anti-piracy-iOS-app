@@ -11,6 +11,7 @@
 #import "AsamDetailView.h"
 #import "REVClusterMap.h"
 #import "REVClusterAnnotationView.h"
+#import "OfflineMapUtility.h"
 
 #pragma
 #pragma mark - Private Methods i(UIActivityIndicator)
@@ -25,6 +26,7 @@
 @property (nonatomic, strong) NSString *numberOfDaysToFetch;
 @property (nonatomic, strong) UILabel *countLabel;
 
+@property (nonatomic, strong) MKPolygonView *polygonView;
 
 - (void)populateAsamsInMap:(id)sender;
 - (void)prepareNavBar;
@@ -33,6 +35,7 @@
 - (void)populateAsamPins;
 - (void)clearAndResetMap;
 - (void)updateCountLabel:(NSString *)text;
+- (void)setMapType: (NSNotification *)notification;
 
 - (IBAction)showActionSheetForQuery;
 - (IBAction)showActionSheetForMapType;
@@ -50,6 +53,16 @@
 #pragma mark - View lifecycle
 
 - (void)viewDidLoad {
+    
+    //listen for changes to map type
+    NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
+    [center addObserver:self
+               selector:@selector(setMapType:)
+                   name:NSUserDefaultsDidChangeNotification
+                 object:nil];
+    
+    [self setMapType: nil];
+    
     [super viewDidLoad];
     [self.view addSubview:self.countLabel];
     [self.view addSubview:self.mapView];
@@ -59,6 +72,16 @@
 }
 
 - (void)viewDidAppear:(BOOL)animated {
+    
+    //listen for changes to map type
+    NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
+    [center addObserver:self
+               selector:@selector(setMapType:)
+                   name:NSUserDefaultsDidChangeNotification
+                 object:nil];
+    
+    [self setMapType: nil];
+    
     [super viewDidAppear:animated];
 }
 
@@ -73,6 +96,7 @@
     self.segmentedControl = nil;
     self.mapView.delegate = nil;
     self.asamUtil = nil;
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
@@ -166,29 +190,33 @@
 }
 
 - (IBAction)showActionSheetForMapType {
-    self.actionSheet = [[UIActionSheet alloc] initWithTitle:@"Select the map type:" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Standard", @"Satellite", @"Hybrid", nil];
+    self.actionSheet = [[UIActionSheet alloc] initWithTitle:@"Select the map type:" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Standard", @"Satellite", @"Hybrid", @"Offline", nil];
     [self.actionSheet showInView:self.view];
 }
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
-    
+
     if ([[actionSheet title] isEqualToString:@"Select the map type:"]) {
-        
-        
+
+        NSUserDefaults * standardUserDefaults = [NSUserDefaults standardUserDefaults];
+
         switch (buttonIndex) {
             case 0:
-                _mapView.mapType = MKMapTypeStandard;
+                [standardUserDefaults setObject:@"Standard" forKey:@"maptype"];
                 break;
             case 1:
-                _mapView.mapType = MKMapTypeSatellite;
+                [standardUserDefaults setObject:@"Satellite" forKey:@"maptype"];
                 break;
             case 2:
-                _mapView.mapType = MKMapTypeHybrid;
+                [standardUserDefaults setObject:@"Hybrid" forKey:@"maptype"];
+                break;
+            case 3:
+                [standardUserDefaults setObject:@"Offline" forKey:@"maptype"];
                 break;
             default:
                 break;
         }
-        
+                
     }
     else {
         switch (buttonIndex) {
@@ -224,6 +252,24 @@
 
 }
 
+
+- (MKOverlayView *)mapView:(MKMapView *)mapView viewForOverlay:(id <MKOverlay>)overlay
+{
+    MKPolygonView *polygonView = [[MKPolygonView alloc] initWithPolygon:overlay];
+    
+    if ([overlay.title isEqualToString:@"ocean"]) {
+        polygonView.fillColor = [UIColor colorWithRed:127/255.0 green:153/255.0 blue:171/255.0 alpha:1];
+        polygonView.strokeColor = [UIColor clearColor];
+        polygonView.lineWidth = 0.0;
+    }
+    else {
+        polygonView.fillColor = [UIColor colorWithRed:221/255.0 green:221/255.0 blue:221/255.0 alpha:1];
+        polygonView.strokeColor = [UIColor clearColor];
+        polygonView.lineWidth = 0.0;
+    }
+    return polygonView;
+}
+    
 - (void)updateCountLabel:(NSString *)text {
 
     // remove all labels from mapView
@@ -355,6 +401,34 @@
             [DSBezelActivityView removeViewAnimated:YES];
         });
     });
+}
+
+- (void)setMapType: (NSNotification *)notification {
+    
+    //moniters NSUserDefault for changes.
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSString *maptype = [defaults stringForKey:@"maptype"];
+    
+    [_mapView removeOverlays:_mapView.overlays];
+    
+    //set the maptype
+    if ([@"Standard" isEqual:maptype]) {
+        _mapView.mapType = MKMapTypeStandard;
+    }
+    else if ([@"Satellite" isEqual:maptype]) {
+        _mapView.mapType = MKMapTypeSatellite;
+    }
+    else if ([@"Hybrid" isEqual:maptype]) {
+        _mapView.mapType = MKMapTypeHybrid;
+    }
+    else if ([@"Offline" isEqual:maptype]) {
+        _mapView.mapType = MKMapTypeStandard;
+        [_mapView addOverlays:[OfflineMapUtility getPolygons]];
+    }
+    else {
+        _mapView.mapType = MKMapTypeStandard;
+    }
+    
 }
 
 - (void)dealloc {

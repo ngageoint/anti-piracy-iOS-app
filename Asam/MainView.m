@@ -18,6 +18,8 @@
 #import "AsamDownloader.h"
 #import "AsamConstants.h"
 #import "NSString+StringFromDate.h"
+#import "OfflineMapUtility.h"
+
 
 @interface MainView() <UIPopoverControllerDelegate, MKMapViewDelegate, AsamSearchDelegate, SubRegionDelegate, AsamUpdateDelegate>
 
@@ -57,8 +59,8 @@
 - (void)populateMap:(NSArray *)array withNumber:(id)numberOfAsam initializeWithOneYear:(BOOL)oneYear;
 - (void)updateAsamFromDate;
 - (NSInteger)getPositionOfIndexInArrayByDate:(NSArray *)array withNumber:(NSUInteger)numberOfAsam withDate:(NSDate *)targetDate;
-- (void) populateMapWithAsams:(id)sender;
-- (void) setMapType: (NSNotification *)notification;
+- (void)populateMapWithAsams:(id)sender;
+- (void)setMapType: (NSNotification *)notification;
 
 @end
 
@@ -674,6 +676,8 @@
     //moniters NSUserDefault for changes.
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSString *maptype = [defaults stringForKey:@"maptype"];
+
+    [_mapView removeOverlays:_mapView.overlays];
     
     //set the maptype
     if ([@"Standard" isEqual:maptype]) {
@@ -687,11 +691,29 @@
     }
     else if ([@"Offline" isEqual:maptype]) {
         _mapView.mapType = MKMapTypeStandard;
+        [_mapView addOverlays:[OfflineMapUtility getPolygons]];
     }
     else {
         _mapView.mapType = MKMapTypeStandard;
     }
 
+}
+
+- (MKOverlayView *)mapView:(MKMapView *)mapView viewForOverlay:(id <MKOverlay>)overlay
+{
+    MKPolygonView *polygonView = [[MKPolygonView alloc] initWithPolygon:overlay];
+    
+    if ([overlay.title isEqualToString:@"ocean"]) {
+        polygonView.fillColor = [UIColor colorWithRed:127/255.0 green:153/255.0 blue:171/255.0 alpha:1];
+        polygonView.strokeColor = [UIColor clearColor];
+        polygonView.lineWidth = 0.0;
+    }
+    else {
+        polygonView.fillColor = [UIColor colorWithRed:221/255.0 green:221/255.0 blue:221/255.0 alpha:1];
+        polygonView.strokeColor = [UIColor clearColor];
+        polygonView.lineWidth = 0.0;
+    }
+    return polygonView;
 }
 
 @end

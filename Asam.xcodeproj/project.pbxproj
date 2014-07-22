@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1F03D4A61979B3CF0021BEFC /* ne_50m_land.simplify0.2.geojson in Resources */ = {isa = PBXBuildFile; fileRef = 1F03D4A51979B3CF0021BEFC /* ne_50m_land.simplify0.2.geojson */; };
+		1F4DDDB11970324100670A70 /* OfflineMapUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F4DDDB01970324100670A70 /* OfflineMapUtility.m */; };
 		2400B466167A2C7D00326B57 /* pirate@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2400B465167A2C7D00326B57 /* pirate@2x.png */; };
 		2402DB3A15DE6C00005AAFE4 /* REVAnnotationsCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 2402DB3015DE6C00005AAFE4 /* REVAnnotationsCollection.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		2402DB3B15DE6C00005AAFE4 /* REVClusterBlock.m in Sources */ = {isa = PBXBuildFile; fileRef = 2402DB3215DE6C00005AAFE4 /* REVClusterBlock.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -165,6 +167,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1F03D4A51979B3CF0021BEFC /* ne_50m_land.simplify0.2.geojson */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ne_50m_land.simplify0.2.geojson; sourceTree = "<group>"; };
+		1F4DDDAF1970324100670A70 /* OfflineMapUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OfflineMapUtility.h; sourceTree = "<group>"; };
+		1F4DDDB01970324100670A70 /* OfflineMapUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OfflineMapUtility.m; sourceTree = "<group>"; };
 		2400B465167A2C7D00326B57 /* pirate@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pirate@2x.png"; sourceTree = "<group>"; };
 		2402DB2F15DE6C00005AAFE4 /* REVAnnotationsCollection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = REVAnnotationsCollection.h; sourceTree = "<group>"; };
 		2402DB3015DE6C00005AAFE4 /* REVAnnotationsCollection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = REVAnnotationsCollection.m; sourceTree = "<group>"; };
@@ -574,6 +579,8 @@
 				24984FDB14D747B2000CBCBE /* KMLParser.m */,
 				24984FDE14D747B2000CBCBE /* AsamUtility.h */,
 				24984FDF14D747B2000CBCBE /* AsamUtility.m */,
+				1F4DDDAF1970324100670A70 /* OfflineMapUtility.h */,
+				1F4DDDB01970324100670A70 /* OfflineMapUtility.m */,
 			);
 			name = "Utility Classes";
 			sourceTree = "<group>";
@@ -772,6 +779,7 @@
 		24C78D5914D5B35E0027AE3B /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				1F03D4A51979B3CF0021BEFC /* ne_50m_land.simplify0.2.geojson */,
 				96E9CF8D18201D3F004E292C /* Asam.sqlite */,
 				249993A0166F87DB000F8452 /* thirdparty_description */,
 				24C9F3AB14D9718D00172AAC /* images */,
@@ -1039,6 +1047,7 @@
 				249993AA166F87F6000F8452 /* reachability.txt in Resources */,
 				249993AB166F87F6000F8452 /* revclustermap.txt in Resources */,
 				249993AD166F87F6000F8452 /* ddactionheaderview.txt in Resources */,
+				1F03D4A61979B3CF0021BEFC /* ne_50m_land.simplify0.2.geojson in Resources */,
 				249993AF166F8821000F8452 /* asamapp.txt in Resources */,
 				24A5FD96166FA2E800C53193 /* ngadisclaimer.txt in Resources */,
 				961E27D818C7D18B00B90864 /* icon_iPhone_Retina_58x58.png in Resources */,
@@ -1078,6 +1087,7 @@
 				24C78D5F14D5B35E0027AE3B /* main.m in Sources */,
 				24C78D6314D5B35E0027AE3B /* AppDelegate.m in Sources */,
 				24C78D6614D5B35E0027AE3B /* Asam.xcdatamodeld in Sources */,
+				1F4DDDB11970324100670A70 /* OfflineMapUtility.m in Sources */,
 				24C78D9B14D5B39D0027AE3B /* MainView.m in Sources */,
 				24A9704A14D7332900E895B5 /* AsamDetailView.m in Sources */,
 				24984FC414D746EE000CBCBE /* NSManagedObjectContext-EasyFetch.m in Sources */,
