@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		1F03D4A61979B3CF0021BEFC /* ne_50m_land.simplify0.2.geojson in Resources */ = {isa = PBXBuildFile; fileRef = 1F03D4A51979B3CF0021BEFC /* ne_50m_land.simplify0.2.geojson */; };
 		1F4DDDB11970324100670A70 /* OfflineMapUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F4DDDB01970324100670A70 /* OfflineMapUtility.m */; };
+		1FF3F916197EC1F200017F88 /* naturalearth.txt in Resources */ = {isa = PBXBuildFile; fileRef = 1FF3F915197EC1F200017F88 /* naturalearth.txt */; };
 		2400B466167A2C7D00326B57 /* pirate@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2400B465167A2C7D00326B57 /* pirate@2x.png */; };
 		2402DB3A15DE6C00005AAFE4 /* REVAnnotationsCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 2402DB3015DE6C00005AAFE4 /* REVAnnotationsCollection.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		2402DB3B15DE6C00005AAFE4 /* REVClusterBlock.m in Sources */ = {isa = PBXBuildFile; fileRef = 2402DB3215DE6C00005AAFE4 /* REVClusterBlock.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -170,6 +171,7 @@
 		1F03D4A51979B3CF0021BEFC /* ne_50m_land.simplify0.2.geojson */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ne_50m_land.simplify0.2.geojson; sourceTree = "<group>"; };
 		1F4DDDAF1970324100670A70 /* OfflineMapUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OfflineMapUtility.h; sourceTree = "<group>"; };
 		1F4DDDB01970324100670A70 /* OfflineMapUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OfflineMapUtility.m; sourceTree = "<group>"; };
+		1FF3F915197EC1F200017F88 /* naturalearth.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = naturalearth.txt; sourceTree = "<group>"; };
 		2400B465167A2C7D00326B57 /* pirate@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pirate@2x.png"; sourceTree = "<group>"; };
 		2402DB2F15DE6C00005AAFE4 /* REVAnnotationsCollection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = REVAnnotationsCollection.h; sourceTree = "<group>"; };
 		2402DB3015DE6C00005AAFE4 /* REVAnnotationsCollection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = REVAnnotationsCollection.m; sourceTree = "<group>"; };
@@ -616,6 +618,7 @@
 				249993A4166F87F6000F8452 /* reachability.txt */,
 				249993A5166F87F6000F8452 /* revclustermap.txt */,
 				249993A7166F87F6000F8452 /* ddactionheaderview.txt */,
+				1FF3F915197EC1F200017F88 /* naturalearth.txt */,
 			);
 			name = thirdparty_description;
 			sourceTree = "<group>";
@@ -1020,6 +1023,7 @@
 				24914EA11655D4EA0092E072 /* AsamDetailView.xib in Resources */,
 				242AA52D166E742C0005CFDA /* mapview.png in Resources */,
 				242AA52E166E742C0005CFDA /* query.png in Resources */,
+				1FF3F916197EC1F200017F88 /* naturalearth.txt in Resources */,
 				242AA52F166E742C0005CFDA /* settings.png in Resources */,
 				242AA530166E742C0005CFDA /* subregion.png in Resources */,
 				242AA53B166E74D10005CFDA /* Icon-72.png in Resources */,
