@@ -29,7 +29,7 @@
                             </connections>
                         </barButtonItem>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="7"/>
-                        <barButtonItem title="I agree" id="5">
+                        <barButtonItem title="I Agree" id="5">
                             <connections>
                                 <action selector="dismissDisclaimer:" destination="-1" id="15"/>
                             </connections>

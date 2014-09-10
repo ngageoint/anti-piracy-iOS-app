@@ -148,7 +148,6 @@
                                    action:@selector(viewAsamsAsList)];
     
     self.navigationItem.rightBarButtonItem = self.listButton;
-    self.asamUtil = [[AsamUtility alloc] init];
 }
 
 - (IBAction)showActionSheetForQuery {

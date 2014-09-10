@@ -14,10 +14,11 @@
 #pragma mark - Private Methods 
 @interface AsamResultViewController_iphone() <MKMapViewDelegate>
 
-@property (weak, nonatomic) IBOutlet REVClusterMapView *mapView;
+@property (nonatomic, weak) IBOutlet REVClusterMapView *mapView;
+@property (nonatomic, weak) IBOutlet UILabel *controlLabel;
 @property (nonatomic, strong) NSMutableArray *asamResults;
 @property (nonatomic, strong) AsamUtility *asamUtil;
-@property (weak, nonatomic) IBOutlet UILabel *controlLabel;
+@property (nonatomic, strong) UIBarButtonItem *listButton;
 
 - (void)setUpSegment;
 - (IBAction)viewAsamsAsList;
@@ -58,18 +59,14 @@
 
 - (void)setUpSegment {
     
-    // Create top right button
-    UISegmentedControl *segmentedControl = [[UISegmentedControl alloc] initWithItems:@[@"List View"]];
-    segmentedControl.frame = CGRectMake(0, 0, 80, 30);
-    segmentedControl.tag = 0;
-    segmentedControl.segmentedControlStyle = UISegmentedControlStyleBar;
     
-    [segmentedControl addTarget:self action:@selector(segmentAction:) forControlEvents:UIControlEventValueChanged];
-    segmentedControl.momentary = YES;
-    segmentedControl.tintColor = [UIColor blackColor];
+    self.listButton = [[UIBarButtonItem alloc]
+                       initWithTitle:@"List"
+                       style:UIBarButtonItemStylePlain
+                       target:self
+                       action:@selector(viewAsamsAsList)];
     
-    UIBarButtonItem *segmentBarItem = [[UIBarButtonItem alloc] initWithCustomView:segmentedControl];
-    self.navigationItem.rightBarButtonItem = segmentBarItem;
+    self.navigationItem.rightBarButtonItem = self.listButton;
 }
 
 - (void)segmentAction:(UISegmentedControl*)sender {
