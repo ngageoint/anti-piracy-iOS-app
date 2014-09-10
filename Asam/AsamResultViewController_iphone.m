@@ -14,9 +14,10 @@
 #pragma mark - Private Methods 
 @interface AsamResultViewController_iphone() <MKMapViewDelegate>
 
-@property (nonatomic, strong) REVClusterMapView *mapView;
+@property (weak, nonatomic) IBOutlet REVClusterMapView *mapView;
 @property (nonatomic, strong) NSMutableArray *asamResults;
 @property (nonatomic, strong) AsamUtility *asamUtil;
+@property (weak, nonatomic) IBOutlet UILabel *controlLabel;
 
 - (void)setUpSegment;
 - (IBAction)viewAsamsAsList;
@@ -33,11 +34,6 @@
     [super viewDidLoad];
     self.asamUtil = [[AsamUtility alloc] init];
     
-    UIScreen *screen = [UIScreen mainScreen];
-    CGRect fullScreenRect = screen.bounds; // implicitly in Portrait orientation.
-    self.mapView = [[REVClusterMapView alloc] initWithFrame:fullScreenRect];
-    self.mapView.delegate = self;
-    [self.view addSubview:self.mapView];
     [self setMapType: nil];
     [self setUpSegment];
     [self startAnimation:nil];
@@ -198,22 +194,23 @@
         self.mapView.region = MKCoordinateRegionForMapRect(MKMapRectWorld);
     }
     
-    NSString *title = @"";
-    if (NSFoundationVersionNumber <= NSFoundationVersionNumber_iOS_6_1) { // < iOS 7
-        title = @"Back";
-    }
-    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:title style:UIBarButtonItemStyleBordered target:nil action:nil];
-    backButton.tintColor = [UIColor blackColor];
-    self.navigationItem.backBarButtonItem = backButton;
+//    NSString *title = @"";
+//    if (NSFoundationVersionNumber <= NSFoundationVersionNumber_iOS_6_1) { // < iOS 7
+//        title = @"Back";
+//    }
+//    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:title style:UIBarButtonItemStyleBordered target:nil action:nil];
+//    backButton.tintColor = [UIColor blackColor];
+//    self.navigationItem.backBarButtonItem = backButton;
     
-    UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(5, 0, 320, 40)];
-    titleLabel.font = [UIFont fontWithName:@"Helvetica-Bold" size:14.0];
-    titleLabel.backgroundColor = [UIColor clearColor];
-    titleLabel.textColor = [UIColor whiteColor];
-    titleLabel.textAlignment = NSTextAlignmentCenter;
-    
-    titleLabel.text = [NSString stringWithFormat:@"%lu ASAM(s)", (unsigned long)self.asamResults.count];
-    self.navigationItem.titleView = titleLabel;
+//    UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(5, 0, 320, 40)];
+//    titleLabel.font = [UIFont fontWithName:@"Helvetica-Bold" size:14.0];
+//    titleLabel.backgroundColor = [UIColor clearColor];
+//    titleLabel.textColor = [UIColor whiteColor];
+//    titleLabel.textAlignment = NSTextAlignmentCenter;
+//    
+//    titleLabel.text = [NSString stringWithFormat:@"%lu ASAM(s)", (unsigned long)self.asamResults.count];
+//    self.navigationItem.titleView = titleLabel;
+    _controlLabel.text =[NSString stringWithFormat:@"%lu ASAM(s)", (unsigned long)self.asamResults.count];
 }
 
 #pragma

@@ -66,9 +66,7 @@
     
     [self prepareNavBar];
     if (NSFoundationVersionNumber > NSFoundationVersionNumber_iOS_6_1) { // iOS 7+
-//        self.disclaimerTextView.backgroundColor = [UIColor blackColor];
         self.toolBar.tintColor = [UIColor whiteColor];
-//        [self performSelector:@selector(setNeedsStatusBarAppearanceUpdate)];
     }
     
     self.numberOfDaysToFetch = @"365";
