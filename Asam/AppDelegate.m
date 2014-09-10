@@ -12,6 +12,7 @@
     if (NSFoundationVersionNumber > NSFoundationVersionNumber_iOS_6_1) { // iOS 7+
         [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
     }
+    
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     if ([[UIDevice currentDevice]userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(isDeviceInLandscapeMode:) name:UIApplicationDidChangeStatusBarOrientationNotification object:nil];
@@ -21,11 +22,16 @@
         self.window.rootViewController = self.viewController;
     }
     else {
-        
         // Override point for customization after application launch.
         self.mainViewController_iphone = [[MainViewController_iphone alloc] initWithNibName:@"MainViewController_iphone" bundle:nil];
         self.navController = [[UINavigationController alloc] initWithRootViewController:self.mainViewController_iphone];
         self.window.rootViewController = self.navController;
+        
+        if (NSFoundationVersionNumber > NSFoundationVersionNumber_iOS_6_1) { // iOS 7+
+            self.navController.navigationBar.translucent = NO;
+            self.navController.navigationBar.barTintColor = [UIColor blackColor];
+            self.navController.view.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:.8];
+        }
     }
     
     //initializing offline map polygons (potentially thread this)

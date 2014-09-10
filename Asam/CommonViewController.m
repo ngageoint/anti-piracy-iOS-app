@@ -17,10 +17,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    if (NSFoundationVersionNumber > NSFoundationVersionNumber_iOS_6_1) { // iOS 7+
-//        self.view.backgroundColor = [UIColor blackColor];
-    }
-    else {
+    if (NSFoundationVersionNumber <= NSFoundationVersionNumber_iOS_6_1) { // iOS 7+
         self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"background"]];
     }
     

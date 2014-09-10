@@ -1,4 +1,5 @@
 #import "AsamMap_iphone.h"
+#import "MapLayoutGuide.h"
 #import "DSActivityView.h"
 #import <dispatch/dispatch.h>
 #import "AsamListViewController_iphone.h"
@@ -17,24 +18,23 @@
 #pragma mark - Private Methods i(UIActivityIndicator)
 @interface AsamMap_iphone() <UIActionSheetDelegate, MKMapViewDelegate>
 
+@property (weak, nonatomic) IBOutlet REVClusterMapView *mapView;
 @property (nonatomic, strong) AsamUtility *asamUtil;
-@property (nonatomic, strong) IBOutlet UISegmentedControl *segmentedControl;
+@property (nonatomic, strong) UIBarButtonItem *listButton;
 @property (nonatomic, strong) NSArray *asamArray;
 @property (nonatomic, strong) UIActionSheet *actionSheet;
-@property (nonatomic, strong) IBOutlet REVClusterMapView *mapView;
 @property (nonatomic, strong) NSMutableArray *asamResults;
 @property (nonatomic, strong) NSString *numberOfDaysToFetch;
-@property (nonatomic, strong) UILabel *countLabel;
+@property (weak, nonatomic) IBOutlet UILabel *countLabel;
+@property (weak, nonatomic) IBOutlet UIToolbar *toolBar;
 
 @property (nonatomic, strong) MKPolygonView *polygonView;
 
 - (void)populateAsamsInMap:(id)sender;
 - (void)prepareNavBar;
-- (void)segmentAction:(UISegmentedControl*)sender;
 - (void)fetchAsams:(id) sender;
 - (void)populateAsamPins;
 - (void)clearAndResetMap;
-- (void)updateCountLabel:(NSString *)text;
 - (void)setMapType: (NSNotification *)notification;
 
 - (IBAction)showActionSheetForQuery;
@@ -53,7 +53,8 @@
 #pragma mark - View lifecycle
 
 - (void)viewDidLoad {
-    
+    [super viewDidLoad];
+        
     //listen for changes to map type
     NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
     [center addObserver:self
@@ -63,16 +64,18 @@
     
     [self setMapType: nil];
     
-    [super viewDidLoad];
-    [self.view addSubview:self.countLabel];
-    [self.view addSubview:self.mapView];
     [self prepareNavBar];
+    if (NSFoundationVersionNumber > NSFoundationVersionNumber_iOS_6_1) { // iOS 7+
+//        self.disclaimerTextView.backgroundColor = [UIColor blackColor];
+        self.toolBar.tintColor = [UIColor whiteColor];
+//        [self performSelector:@selector(setNeedsStatusBarAppearanceUpdate)];
+    }
+    
     self.numberOfDaysToFetch = @"365";
     [self performSelector:@selector(populateAsamsInMap:) withObject:@"365" afterDelay:0.2];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
-    
     //listen for changes to map type
     NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
     [center addObserver:self
@@ -93,7 +96,6 @@
     self.actionSheet = nil;
     self.numberOfDaysToFetch = nil;
     self.asamResults = nil;
-    self.segmentedControl = nil;
     self.mapView.delegate = nil;
     self.asamUtil = nil;
     [[NSNotificationCenter defaultCenter] removeObserver:self];
@@ -134,54 +136,21 @@
         inDays =[NSString stringWithFormat:@"in last %@ days", self.numberOfDaysToFetch];
     }
     
-    [self updateCountLabel:[NSString stringWithFormat: @"%@ %@", asamFounds, inDays]];
-    
+    self.countLabel.text = [NSString stringWithFormat: @"%@ %@", asamFounds, inDays];
 }
 
 - (void)prepareNavBar {
-    NSString *title = @"";
-    if (NSFoundationVersionNumber <= NSFoundationVersionNumber_iOS_6_1) { // < iOS 7
-        title = @"Map";
-    }
-    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:title style:UIBarButtonItemStyleBordered target:nil action:nil];
-    backButton.tintColor = [UIColor blackColor];
-    self.navigationItem.backBarButtonItem = backButton;
-    self.segmentedControl = [[UISegmentedControl alloc] initWithItems:@[@"Reset", @"Query",@"List View",@"Map"]];
-    self.segmentedControl.tag = 3;
-    [self.segmentedControl addTarget:self action:@selector(segmentAction:) forControlEvents:UIControlEventValueChanged];
-    self.segmentedControl.segmentedControlStyle = UISegmentedControlStyleBar;
-    self.segmentedControl.momentary = YES;
-    [self.segmentedControl sizeToFit];
-    self.segmentedControl.opaque = TRUE;
-    [self.segmentedControl setWidth:65.0 forSegmentAtIndex:2];
-    self.segmentedControl.tintColor = [UIColor blackColor];
-    if (NSFoundationVersionNumber > NSFoundationVersionNumber_iOS_6_1) { // iOS 7+
-        [self.segmentedControl setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]} forState:UIControlStateNormal];
-    }
-    UIBarButtonItem *segmentBarItem = [[UIBarButtonItem alloc] initWithCustomView:self.segmentedControl];
-    
-    self.navigationItem.rightBarButtonItem = segmentBarItem;
+    self.title = @"Map";
     self.asamUtil = [[AsamUtility alloc] init];
-}
-
-- (void)segmentAction:(UISegmentedControl*)sender {
-    switch ([sender selectedSegmentIndex]) {
-        case 0:
-            [self clearAndResetMap];
-            break;
-        case 1:
-            [self showActionSheetForQuery];
-            break;
-            
-        case 2:
-            [self viewAsamsAsList];
-            break;
-        case 3:
-            [self showActionSheetForMapType];
-            break;
-        default:
-            break;
-    }
+    
+     self.listButton = [[UIBarButtonItem alloc]
+                                   initWithTitle:@"List"
+                                   style:UIBarButtonItemStylePlain
+                                   target:self
+                                   action:@selector(viewAsamsAsList)];
+    
+    self.navigationItem.rightBarButtonItem = self.listButton;
+    self.asamUtil = [[AsamUtility alloc] init];
 }
 
 - (IBAction)showActionSheetForQuery {
@@ -269,30 +238,8 @@
     }
     return polygonView;
 }
-    
-- (void)updateCountLabel:(NSString *)text {
 
-    // remove all labels from mapView
-    for (UIView *labelView in self.mapView.subviews) {
-        if ([labelView isKindOfClass:[UILabel class]]) {
-            [labelView removeFromSuperview];
-        }
-    }
-    
-    //build label and add to mapView
-    _countLabel = [[UILabel alloc] initWithFrame:CGRectMake(1, 1, 0, 0)];
-    [_countLabel setTextColor:[UIColor whiteColor]];
-    [_countLabel setBackgroundColor:[UIColor grayColor]];
-    [_countLabel setAlpha:0.9];
-    [_countLabel setFont:[UIFont fontWithName:@"Helvetica-Bold" size:10.0]];
-    [_countLabel setText:text];
-    [_countLabel sizeToFit];
-    
-    [self.mapView addSubview:_countLabel];
-    
-}
-
-- (void)clearAndResetMap {
+- (IBAction)clearAndResetMap {
     self.numberOfDaysToFetch = @"365";
     [self populateAsamsInMap:self.numberOfDaysToFetch];
 }
@@ -429,6 +376,10 @@
         _mapView.mapType = MKMapTypeStandard;
     }
     
+}
+
+- (id)bottomLayoutGuide {
+    return [[MapLayoutGuide alloc] initWithLength:40];
 }
 
 - (void)dealloc {
