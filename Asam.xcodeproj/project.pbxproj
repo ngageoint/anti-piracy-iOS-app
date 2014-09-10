@@ -462,8 +462,6 @@
 				240B73741651473B00D59CC8 /* AsamMap_iphone.h */,
 				240B73751651473B00D59CC8 /* AsamMap_iphone.m */,
 				240B73761651473B00D59CC8 /* AsamMap_iphone.xib */,
-				2FB364B119C0CC4600EC8DAD /* MapLayoutGuide.h */,
-				2FB364B219C0CC4600EC8DAD /* MapLayoutGuide.m */,
 			);
 			name = "Map View iPhone";
 			sourceTree = "<group>";
@@ -582,6 +580,8 @@
 		24984FD914D74786000CBCBE /* Utility Classes */ = {
 			isa = PBXGroup;
 			children = (
+				2FB364B119C0CC4600EC8DAD /* MapLayoutGuide.h */,
+				2FB364B219C0CC4600EC8DAD /* MapLayoutGuide.m */,
 				24984FDA14D747B2000CBCBE /* KMLParser.h */,
 				24984FDB14D747B2000CBCBE /* KMLParser.m */,
 				24984FDE14D747B2000CBCBE /* AsamUtility.h */,

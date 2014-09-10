@@ -1,4 +1,5 @@
 #import "SubRegionView_iphone.h"
+#import "MapLayoutGuide.h"
 #import "AppDelegate.h"
 #import "AsamUtility.h"
 #import "AsamFetch.h"
@@ -376,6 +377,10 @@
         _mapView.mapType = MKMapTypeStandard;
     }
     
+}
+
+- (id)bottomLayoutGuide {
+    return [[MapLayoutGuide alloc] initWithLength:40];
 }
 
 
