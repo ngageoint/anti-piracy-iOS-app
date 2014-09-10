@@ -46,6 +46,7 @@
 @property (nonatomic, strong) IBOutlet UILabel *asamLabelDisplayed;
 @property (nonatomic, strong) AsamUtility *asamUtil;
 @property (nonatomic, weak) UIButton *restartButton;
+@property (weak, nonatomic) IBOutlet UIView *statusBarBackground;
 
 - (IBAction)showAsamList:(id)sender;
 - (IBAction)asamSearchView:(id)sender;
@@ -89,6 +90,7 @@
 		self.asamListPopOver = [[UIPopoverController alloc] initWithContentViewController:navController];
         [self.asamListPopOver presentPopoverFromBarButtonItem:sender permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
         self.asamListPopOver.delegate = self;
+        self.toolBar.delegate = self;
         NSSortDescriptor *dateDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"dateofOccurrence" ascending:NO selector:@selector(compare:)];
         NSArray *sortDescriptors = @[dateDescriptor];
         asamListView.asamArray = [self.displayAsamInListArray sortedArrayUsingDescriptors:sortDescriptors];
@@ -417,10 +419,13 @@
     if (NSFoundationVersionNumber > NSFoundationVersionNumber_iOS_6_1) { // iOS 7+
         self.toolBar.tintColor = [UIColor whiteColor];
         self.toolBar.barTintColor = [UIColor blackColor];
+        self.toolBar.alpha = .8f;
         self.asamListButton.tintColor = [UIColor whiteColor];
         self.settingsButton.tintColor = [UIColor whiteColor];
         self.subregionsButton.tintColor = [UIColor whiteColor];
         self.searchButton.tintColor = [UIColor whiteColor];
+    } else {
+        self.statusBarBackground.hidden = YES;
     }
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(checkRotation:) name:UIApplicationDidChangeStatusBarOrientationNotification object:nil];
     self.asamUtil = [[AsamUtility alloc] init];
