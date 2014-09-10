@@ -9,6 +9,7 @@
 @interface SubRegionView() <MKMapViewDelegate, UIActionSheetDelegate,UIGestureRecognizerDelegate>
     
 @property (nonatomic, strong) IBOutlet UIToolbar *toolBar;
+@property (weak, nonatomic) IBOutlet UIView *statusBarBackground;
 @property (nonatomic, strong) IBOutlet MKMapView *mapView;
 @property (nonatomic, strong) NSString *subregionQuery;
 @property (nonatomic, strong) UIBarButtonItem *resetButton;
@@ -227,11 +228,13 @@
     [self toggleButtonsVisibility:FALSE];
     self.toolBar.items = barItems;
     if (NSFoundationVersionNumber > NSFoundationVersionNumber_iOS_6_1) { // iOS 7+
-        self.toolBar.barTintColor = [UIColor blackColor];
         self.toolBar.tintColor = [UIColor whiteColor];
+        self.toolBar.barTintColor = [UIColor blackColor];
+        self.toolBar.alpha = .8f;
     }
     else {
         self.toolBar.barStyle = UIBarStyleBlack;
+        self.statusBarBackground.hidden = YES;
     }
 }
 
