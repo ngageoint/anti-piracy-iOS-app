@@ -296,7 +296,7 @@
         }
         annView.image = [UIImage imageNamed:@"cluster.png"];
         [(REVClusterAnnotationView*)annView setClusterText:[NSString stringWithFormat:@"%lu", (unsigned long)[pin nodeCount]]];
-        annView.canShowCallout = YES;
+        annView.canShowCallout = NO;
         annView.rightCalloutAccessoryView = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
     }
     else {
@@ -305,27 +305,31 @@
             annView = (REVClusterAnnotationView*)[[REVClusterAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"pin"];
         }
         annView.image = [UIImage imageNamed:@"pirate"];
-        annView.canShowCallout = YES;
+        annView.canShowCallout = NO;
         annView.rightCalloutAccessoryView = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
         annView.calloutOffset = CGPointMake(-6.0, 0.0);
     }
     return annView;
 }
 
-- (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control {
-    REVClusterPin *selectedObject = (REVClusterPin *) view.annotation;
+- (void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view
+{
+    [mapView deselectAnnotation:view.annotation animated:YES];
+    
+    REVClusterPin *selectedObject = (REVClusterPin *)view.annotation;
+    
     if (selectedObject.nodeCount > 1) {
         AsamListViewController_iphone *asamListView = [[AsamListViewController_iphone alloc] initWithNibName:@"AsamListViewController_iphone" bundle:nil];
         NSSortDescriptor *dateDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"dateofOccurrence" ascending:NO selector:@selector(compare:)];
         NSArray *sortDescriptors = [NSArray arrayWithObject:dateDescriptor];
         asamListView.asamArray = [[selectedObject nodes] sortedArrayUsingDescriptors:sortDescriptors];
         [self.navigationController pushViewController:asamListView animated:YES];
-    }
-    else {
+    } else {
         AsamDetailView *asamDetailView = [[AsamDetailView alloc] initWithNibName:@"AsamDetailView" bundle:nil];
         asamDetailView.asam = selectedObject;
         [self.navigationController pushViewController:asamDetailView animated:YES];
     }
+    
 }
 
 #pragma
