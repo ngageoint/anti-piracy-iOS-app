@@ -118,7 +118,7 @@
         self.asamArray  = [context fetchObjectsForEntityName:@"Asam" withPredicate:predicate];
     }
     if (self.asamArray.count == 0){
-        UIAlertView *message = [[UIAlertView alloc] initWithTitle:@"0 ASAM found" message:@"Select a different search parameter." delegate:nil  cancelButtonTitle:@"OK"  otherButtonTitles:nil];
+        UIAlertView *message = [[UIAlertView alloc] initWithTitle:@"0 ASAMs found" message:@"Select a different search parameter." delegate:nil  cancelButtonTitle:@"OK"  otherButtonTitles:nil];
         [message show];
         return;
     }
@@ -289,7 +289,7 @@
         
     MKAnnotationView *annView;
     if (pin.nodeCount > 0 ) {
-        pin.title = [NSString stringWithFormat:@"%lu%@", (unsigned long)[pin nodeCount], @" Asams"];
+        pin.title = [NSString stringWithFormat:@"%lu%@", (unsigned long)[pin nodeCount], @" ASAMs"];
         annView = (REVClusterAnnotationView*)[mapView dequeueReusableAnnotationViewWithIdentifier:@"cluster"];
         if (!annView) {
             annView = (REVClusterAnnotationView*)[[REVClusterAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"cluster"];
@@ -333,7 +333,7 @@
 - (void)populateAsamsInMap:(id)sender {
     dispatch_queue_t mainQueue = dispatch_get_main_queue();
     dispatch_async(mainQueue, ^{
-        [DSBezelActivityView activityViewForView:self.view withLabel:@"Fetching Asam(s)..." width:160];
+        [DSBezelActivityView activityViewForView:self.view withLabel:@"Fetching ASAM(s)..." width:160];
         
         if (self.mapView.annotations != nil && self.mapView.annotations.count > 0) {
             [self.mapView removeAnnotations:self.mapView.annotations];

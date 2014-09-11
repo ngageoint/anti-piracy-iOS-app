@@ -16,7 +16,6 @@
                 <outlet property="slider" destination="133" id="134"/>
                 <outlet property="statusBarBackground" destination="1Md-cc-9sU" id="dMP-mH-4OD"/>
                 <outlet property="subregionsButton" destination="227" id="dcA-V4-Oo6"/>
-                <outlet property="titleButton" destination="223" id="qce-nU-pyx"/>
                 <outlet property="toolBar" destination="220" id="rYG-XR-DHN"/>
                 <outlet property="view" destination="2" id="126"/>
             </connections>
@@ -78,8 +77,21 @@
                             </button>
                         </barButtonItem>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="221"/>
-                        <barButtonItem title="Anti-Shipping Activity Messages" style="plain" id="223">
-                            <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <barButtonItem style="plain" id="OHr-a9-f5q">
+                            <view key="customView" contentMode="scaleToFill" id="so7-ly-deH">
+                                <rect key="frame" x="125" y="6" width="270" height="33"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Anti-Shipping Activity Messages" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="qWF-9L-QTJ">
+                                        <rect key="frame" x="0.0" y="6" width="270" height="21"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="17"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            </view>
                         </barButtonItem>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="222"/>
                         <barButtonItem title="List View" id="228">

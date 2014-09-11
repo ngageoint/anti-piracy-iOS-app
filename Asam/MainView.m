@@ -189,7 +189,7 @@
     self.asamTotalLabel.text = [NSString stringWithFormat:@"Showing %i out of %lu ASAM(s)", progressAsInt, (unsigned long)[self.asamArray count]];
     NSInteger arg = progressAsInt;
     id withObject = [NSNumber numberWithInt:(int)arg];
-    [DSBezelActivityView activityViewForView:self.view withLabel:@"Fetching Asam(s)..." width:180];
+    [DSBezelActivityView activityViewForView:self.view withLabel:@"Fetching ASAM(s)..." width:180];
     dispatch_queue_t mainQueue = dispatch_get_main_queue();
     dispatch_async(mainQueue, ^{
         if (self.mapView.annotations != nil && self.mapView.annotations.count > 0) {
@@ -363,7 +363,7 @@
         [message show];
         return;
     }
-    [DSBezelActivityView activityViewForView:self.view withLabel:@"Fetching Asam(s)..." width:160];
+    [DSBezelActivityView activityViewForView:self.view withLabel:@"Fetching ASAM(s)..." width:160];
     AsamDownloader *asamDownloader = [[AsamDownloader alloc] init];
     NSString *urlToCall = [NSString stringWithFormat:@"%@%@%@%@", kAsamBaseUrl, [AsamUtility fetchAndFomatLastSyncDate], kAsamPartTwo, [AsamUtility formatTodaysDate]];
     [asamDownloader downloadAndSaveAsamsWithURL:[NSURL URLWithString:urlToCall] completionBlock:^(BOOL success,NSError *error) {
@@ -545,7 +545,7 @@
     REVClusterPin *pin = (REVClusterPin *)annotation;
     MKAnnotationView *annView;
     if (pin.nodeCount > 0) {
-        pin.title = [NSString stringWithFormat:@"%lu Asams", (unsigned long)pin.nodeCount];
+        pin.title = [NSString stringWithFormat:@"%lu ASAM(s)", (unsigned long)pin.nodeCount];
         annView = (REVClusterAnnotationView*)[mapView dequeueReusableAnnotationViewWithIdentifier:@"cluster"];
         if (!annView) {
             annView = (REVClusterAnnotationView*)[[REVClusterAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"cluster"];
@@ -629,7 +629,7 @@
 #pragma
 #pragma mark - Private methods (UIActivityIndicator) impl.
 - (void)populateMapWithAsams:(id)sender {
-    [DSBezelActivityView activityViewForView:self.view withLabel:@"Fetching Asam(s)..." width:180];
+    [DSBezelActivityView activityViewForView:self.view withLabel:@"Fetching ASAM(s)..." width:180];
     if(self.mapView.annotations != nil && self.mapView.annotations.count > 0) {
         [self.mapView removeAnnotations:self.mapView.annotations];
     }
