@@ -26,7 +26,7 @@
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
                 <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" id="99" customClass="REVClusterMapView">
-                    <rect key="frame" x="0.0" y="0.0" width="773" height="1004"/>
+                    <rect key="frame" x="0.0" y="0.0" width="773" height="1024"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <inset key="insetFor6xAndEarlier" minX="0.0" minY="-20" maxX="0.0" maxY="20"/>
                     <userDefinedRuntimeAttributes>

@@ -90,7 +90,6 @@
 		self.asamListPopOver = [[UIPopoverController alloc] initWithContentViewController:navController];
         [self.asamListPopOver presentPopoverFromBarButtonItem:sender permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
         self.asamListPopOver.delegate = self;
-        self.toolBar.delegate = self;
         NSSortDescriptor *dateDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"dateofOccurrence" ascending:NO selector:@selector(compare:)];
         NSArray *sortDescriptors = @[dateDescriptor];
         asamListView.asamArray = [self.displayAsamInListArray sortedArrayUsingDescriptors:sortDescriptors];
@@ -420,6 +419,7 @@
         self.toolBar.tintColor = [UIColor whiteColor];
         self.toolBar.barTintColor = [UIColor blackColor];
         self.toolBar.alpha = .8f;
+        self.view.backgroundColor = [UIColor whiteColor];
         self.asamListButton.tintColor = [UIColor whiteColor];
         self.settingsButton.tintColor = [UIColor whiteColor];
         self.subregionsButton.tintColor = [UIColor whiteColor];
@@ -589,8 +589,7 @@
                 self.asamListPopOver.popoverContentSize = CGSizeMake(320.0f, 400.0f);
                 [self.asamListPopOver presentPopoverFromRect:view.bounds inView:view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
                 if (NSFoundationVersionNumber > NSFoundationVersionNumber_iOS_6_1) { // iOS 7+
-                    navController.navigationBar.backgroundColor = [UIColor colorWithRed:0.1f green:0.1f blue:0.1f alpha:1.0f];
-                    navController.navigationBar.tintColor = [UIColor whiteColor];
+                    self.asamListPopOver.backgroundColor = [UIColor blackColor];
                 }
                 self.asamListPopOver.delegate = self;
                 NSSortDescriptor *dateDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"dateofOccurrence" ascending:NO selector:@selector(compare:)];
@@ -614,8 +613,7 @@
             self.callOutPopOver.popoverContentSize = CGSizeMake(320.0f, 400.0f);
             [self.callOutPopOver presentPopoverFromRect:view.bounds inView:view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
             if (NSFoundationVersionNumber > NSFoundationVersionNumber_iOS_6_1) { // iOS 7+
-                navController.navigationBar.backgroundColor = [UIColor colorWithRed:0.1f green:0.1f blue:0.1f alpha:1.0f];
-                navController.navigationBar.tintColor = [UIColor whiteColor];
+                self.asamListPopOver.backgroundColor = [UIColor blackColor];
             }
             view.canShowCallout = YES;
             [self.mapView deselectAnnotation:selectedObject animated:NO];
