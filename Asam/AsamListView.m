@@ -14,7 +14,6 @@
 @property (nonatomic, strong) AsamUtility *asamUtil;
 
 - (void)showActionSheet;
-- (void)segmentAction:(UISegmentedControl*)sender;
 - (void)prepareNavBar;
 - (void)sortAsamArrayWithVictimQualifier;
 - (void)sortAsamArrayWithAggressorQualifier;

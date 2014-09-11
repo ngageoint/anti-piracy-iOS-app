@@ -19,6 +19,7 @@
 #import "AsamConstants.h"
 #import "NSString+StringFromDate.h"
 #import "OfflineMapUtility.h"
+#import "MapLayoutGuide.h"
 
 
 @interface MainView() <UIPopoverControllerDelegate, MKMapViewDelegate, AsamSearchDelegate, SubRegionDelegate, AsamUpdateDelegate>
@@ -82,14 +83,18 @@
     if (![self.asamListPopOver isPopoverVisible]) {
 		AsamListView *asamListView = [[AsamListView alloc] initWithNibName:@"AsamListView" bundle:nil];
         UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:asamListView];
-        if (NSFoundationVersionNumber > NSFoundationVersionNumber_iOS_6_1) { // iOS 7+
-            self.asamListView.edgesForExtendedLayout = UIRectEdgeNone;
-            navController.navigationBar.backgroundColor = [UIColor colorWithRed:0.1f green:0.1f blue:0.1f alpha:1.0f];
-            navController.navigationBar.tintColor = [UIColor whiteColor];
-        }
+
 		self.asamListPopOver = [[UIPopoverController alloc] initWithContentViewController:navController];
         [self.asamListPopOver presentPopoverFromBarButtonItem:sender permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
         self.asamListPopOver.delegate = self;
+        
+        if (NSFoundationVersionNumber > NSFoundationVersionNumber_iOS_6_1) { // iOS 7+
+            self.asamListView.edgesForExtendedLayout = UIRectEdgeNone;
+            self.asamListPopOver.backgroundColor = [UIColor colorWithWhite:(64/255.0f) alpha:1.0f];
+            navController.navigationBar.backgroundColor = [UIColor colorWithRed:0.1f green:0.1f blue:0.1f alpha:1.0f];
+            navController.navigationBar.tintColor = [UIColor whiteColor];
+        }
+        
         NSSortDescriptor *dateDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"dateofOccurrence" ascending:NO selector:@selector(compare:)];
         NSArray *sortDescriptors = @[dateDescriptor];
         asamListView.asamArray = [self.displayAsamInListArray sortedArrayUsingDescriptors:sortDescriptors];
@@ -415,18 +420,6 @@
     
     [self setMapType: nil];
     
-    if (NSFoundationVersionNumber > NSFoundationVersionNumber_iOS_6_1) { // iOS 7+
-        self.toolBar.tintColor = [UIColor whiteColor];
-        self.toolBar.barTintColor = [UIColor blackColor];
-        self.toolBar.alpha = .8f;
-        self.view.backgroundColor = [UIColor whiteColor];
-        self.asamListButton.tintColor = [UIColor whiteColor];
-        self.settingsButton.tintColor = [UIColor whiteColor];
-        self.subregionsButton.tintColor = [UIColor whiteColor];
-        self.searchButton.tintColor = [UIColor whiteColor];
-    } else {
-        self.statusBarBackground.hidden = YES;
-    }
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(checkRotation:) name:UIApplicationDidChangeStatusBarOrientationNotification object:nil];
     self.asamUtil = [[AsamUtility alloc] init];
 
@@ -464,6 +457,23 @@
     
     self.actionHeaderView.items = @[self.restartButton, self.asamLabelDisplayed, self.slider, self.asamTotalLabel];
     [self populateMapWithAsams:@"90"];
+    
+    if (NSFoundationVersionNumber > NSFoundationVersionNumber_iOS_6_1) { // iOS 7+
+        self.toolBar.tintColor = [UIColor whiteColor];
+        self.toolBar.barTintColor = [UIColor blackColor];
+        self.toolBar.alpha = .8f;
+        self.view.backgroundColor = [UIColor whiteColor];
+        self.asamListButton.tintColor = [UIColor whiteColor];
+        self.settingsButton.tintColor = [UIColor whiteColor];
+        self.subregionsButton.tintColor = [UIColor whiteColor];
+        self.searchButton.tintColor = [UIColor whiteColor];
+        
+        [self.restartButton setTitle:@"Reset" forState:UIControlStateNormal];
+        self.restartButton.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:13.0];
+        [self.restartButton setImage:nil forState:UIControlStateNormal];
+    } else {
+        self.statusBarBackground.hidden = YES;
+    }
 }
 
 - (void)viewDidUnload {
@@ -718,6 +728,10 @@
         polygonView.lineWidth = 0.0;
     }
     return polygonView;
+}
+
+- (id)bottomLayoutGuide {
+    return [[MapLayoutGuide alloc] initWithLength:55];
 }
 
 @end
