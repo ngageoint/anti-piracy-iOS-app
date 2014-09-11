@@ -85,8 +85,6 @@
         UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:asamListView];
 
 		self.asamListPopOver = [[UIPopoverController alloc] initWithContentViewController:navController];
-        [self.asamListPopOver presentPopoverFromBarButtonItem:sender permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
-        self.asamListPopOver.delegate = self;
         
         if (NSFoundationVersionNumber > NSFoundationVersionNumber_iOS_6_1) { // iOS 7+
             self.asamListView.edgesForExtendedLayout = UIRectEdgeNone;
@@ -94,6 +92,9 @@
             navController.navigationBar.backgroundColor = [UIColor colorWithRed:0.1f green:0.1f blue:0.1f alpha:1.0f];
             navController.navigationBar.tintColor = [UIColor whiteColor];
         }
+        
+        [self.asamListPopOver presentPopoverFromBarButtonItem:sender permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+        self.asamListPopOver.delegate = self;
         
         NSSortDescriptor *dateDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"dateofOccurrence" ascending:NO selector:@selector(compare:)];
         NSArray *sortDescriptors = @[dateDescriptor];
@@ -120,8 +121,6 @@
         UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:self.asamSettingsView];
         
         self.settingsPopOver = [[UIPopoverController alloc] initWithContentViewController:navController];
-		[self.settingsPopOver presentPopoverFromBarButtonItem:sender permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
-        self.asamSettingsView.asamUpdateDelegate = self;
 
         if (NSFoundationVersionNumber > NSFoundationVersionNumber_iOS_6_1) { // iOS 7+
             self.asamSettingsView.edgesForExtendedLayout = UIRectEdgeNone;
@@ -132,6 +131,8 @@
         else {
             self.settingsPopOver.popoverContentSize = CGSizeMake(400.0f, 250.0f);
         }
+        [self.settingsPopOver presentPopoverFromBarButtonItem:sender permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+        self.asamSettingsView.asamUpdateDelegate = self;
 
 	}
     else {
@@ -591,11 +592,12 @@
         AsamListView *asamListView = [[AsamListView alloc] initWithNibName:@"AsamListView" bundle:nil];
         UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:asamListView];
         self.asamListPopOver = [[UIPopoverController alloc] initWithContentViewController:navController];
-        self.asamListPopOver.popoverContentSize = CGSizeMake(320.0f, 400.0f);
-        [self.asamListPopOver presentPopoverFromRect:view.bounds inView:view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
         if (NSFoundationVersionNumber > NSFoundationVersionNumber_iOS_6_1) { // iOS 7+
             self.asamListPopOver.backgroundColor = [UIColor blackColor];
         }
+        self.asamListPopOver.popoverContentSize = CGSizeMake(320.0f, 400.0f);
+        [self.asamListPopOver presentPopoverFromRect:view.bounds inView:view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+
         self.asamListPopOver.delegate = self;
         NSSortDescriptor *dateDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"dateofOccurrence" ascending:NO selector:@selector(compare:)];
         NSArray *sortDescriptors = @[dateDescriptor];
@@ -603,16 +605,18 @@
         [self.navigationController pushViewController:asamListView animated:YES];
     } else {
         AsamDetailView *asamDetail = [[AsamDetailView alloc] initWithNibName:@"AsamDetailView" bundle:nil];
+        asamDetail.asam = selectedObject;
         UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:asamDetail];
         self.asamListView.navigationItem.title = @"ASAM Detail";
-        UIPopoverController *popOver = [[UIPopoverController alloc] initWithContentViewController:navController];
-        self.callOutPopOver = popOver;
-        self.callOutPopOver.delegate = self;
-        self.callOutPopOver.popoverContentSize = CGSizeMake(320.0f, 400.0f);
-        [self.callOutPopOver presentPopoverFromRect:view.bounds inView:view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+        self.callOutPopOver = [[UIPopoverController alloc] initWithContentViewController:navController];
         if (NSFoundationVersionNumber > NSFoundationVersionNumber_iOS_6_1) { // iOS 7+
             self.callOutPopOver.backgroundColor = [UIColor blackColor];
         }
+        
+        self.callOutPopOver.delegate = self;
+        self.callOutPopOver.popoverContentSize = CGSizeMake(320.0f, 400.0f);
+        [self.callOutPopOver presentPopoverFromRect:view.bounds inView:view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+
     }
 
 }
