@@ -581,8 +581,11 @@
     REVClusterPin *selectedObject = (REVClusterPin *)view.annotation;
     if (![self.callOutPopOver isPopoverVisible]) {
 		self.asamDetailView = [[AsamDetailView alloc] initWithNibName:@"AsamDetailView" bundle:nil];
+        [self.mapView deselectAnnotation:selectedObject animated:NO];
+
         if (selectedObject.nodeCount > 1) {
             if (![self.asamListPopOver isPopoverVisible]) {
+
                 AsamListView *asamListView = [[AsamListView alloc] initWithNibName:@"AsamListView" bundle:nil];
                 UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:asamListView];
                 self.asamListPopOver = [[UIPopoverController alloc] initWithContentViewController:navController];
@@ -596,7 +599,6 @@
                 NSArray *sortDescriptors = @[dateDescriptor];
                 asamListView.asamArray = [selectedObject.nodes sortedArrayUsingDescriptors:sortDescriptors];
                 [self.navigationController pushViewController:asamListView animated:YES];
-                [self.mapView deselectAnnotation:selectedObject animated:NO];
             }
             else {
                 [self.asamListPopOver dismissPopoverAnimated:YES];
@@ -613,10 +615,9 @@
             self.callOutPopOver.popoverContentSize = CGSizeMake(320.0f, 400.0f);
             [self.callOutPopOver presentPopoverFromRect:view.bounds inView:view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
             if (NSFoundationVersionNumber > NSFoundationVersionNumber_iOS_6_1) { // iOS 7+
-                self.asamListPopOver.backgroundColor = [UIColor blackColor];
+                self.callOutPopOver.backgroundColor = [UIColor blackColor];
             }
             view.canShowCallout = YES;
-            [self.mapView deselectAnnotation:selectedObject animated:NO];
         }
     }
     else {
