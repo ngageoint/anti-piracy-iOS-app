@@ -1,4 +1,5 @@
 #import "AsamMap_iphone.h"
+#import "MapLayoutGuide.h"
 #import "DSActivityView.h"
 #import <dispatch/dispatch.h>
 #import "AsamListViewController_iphone.h"
@@ -17,24 +18,23 @@
 #pragma mark - Private Methods i(UIActivityIndicator)
 @interface AsamMap_iphone() <UIActionSheetDelegate, MKMapViewDelegate>
 
+@property (weak, nonatomic) IBOutlet REVClusterMapView *mapView;
 @property (nonatomic, strong) AsamUtility *asamUtil;
-@property (nonatomic, strong) IBOutlet UISegmentedControl *segmentedControl;
+@property (nonatomic, strong) UIBarButtonItem *listButton;
 @property (nonatomic, strong) NSArray *asamArray;
 @property (nonatomic, strong) UIActionSheet *actionSheet;
-@property (nonatomic, strong) IBOutlet REVClusterMapView *mapView;
 @property (nonatomic, strong) NSMutableArray *asamResults;
 @property (nonatomic, strong) NSString *numberOfDaysToFetch;
-@property (nonatomic, strong) UILabel *countLabel;
+@property (weak, nonatomic) IBOutlet UILabel *countLabel;
+@property (weak, nonatomic) IBOutlet UIToolbar *toolBar;
 
 @property (nonatomic, strong) MKPolygonView *polygonView;
 
 - (void)populateAsamsInMap:(id)sender;
 - (void)prepareNavBar;
-- (void)segmentAction:(UISegmentedControl*)sender;
 - (void)fetchAsams:(id) sender;
 - (void)populateAsamPins;
 - (void)clearAndResetMap;
-- (void)updateCountLabel:(NSString *)text;
 - (void)setMapType: (NSNotification *)notification;
 
 - (IBAction)showActionSheetForQuery;
@@ -53,7 +53,8 @@
 #pragma mark - View lifecycle
 
 - (void)viewDidLoad {
-    
+    [super viewDidLoad];
+        
     //listen for changes to map type
     NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
     [center addObserver:self
@@ -63,16 +64,16 @@
     
     [self setMapType: nil];
     
-    [super viewDidLoad];
-    [self.view addSubview:self.countLabel];
-    [self.view addSubview:self.mapView];
     [self prepareNavBar];
+    if (NSFoundationVersionNumber > NSFoundationVersionNumber_iOS_6_1) { // iOS 7+
+        self.toolBar.tintColor = [UIColor whiteColor];
+    }
+    
     self.numberOfDaysToFetch = @"365";
     [self performSelector:@selector(populateAsamsInMap:) withObject:@"365" afterDelay:0.2];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
-    
     //listen for changes to map type
     NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
     [center addObserver:self
@@ -93,7 +94,6 @@
     self.actionSheet = nil;
     self.numberOfDaysToFetch = nil;
     self.asamResults = nil;
-    self.segmentedControl = nil;
     self.mapView.delegate = nil;
     self.asamUtil = nil;
     [[NSNotificationCenter defaultCenter] removeObserver:self];
@@ -118,7 +118,7 @@
         self.asamArray  = [context fetchObjectsForEntityName:@"Asam" withPredicate:predicate];
     }
     if (self.asamArray.count == 0){
-        UIAlertView *message = [[UIAlertView alloc] initWithTitle:@"0 ASAM found" message:@"Select a different search parameter." delegate:nil  cancelButtonTitle:@"OK"  otherButtonTitles:nil];
+        UIAlertView *message = [[UIAlertView alloc] initWithTitle:@"0 ASAMs found" message:@"Select a different search parameter." delegate:nil  cancelButtonTitle:@"OK"  otherButtonTitles:nil];
         [message show];
         return;
     }
@@ -134,54 +134,20 @@
         inDays =[NSString stringWithFormat:@"in last %@ days", self.numberOfDaysToFetch];
     }
     
-    [self updateCountLabel:[NSString stringWithFormat: @"%@ %@", asamFounds, inDays]];
-    
+    self.countLabel.text = [NSString stringWithFormat: @"%@ %@", asamFounds, inDays];
 }
 
 - (void)prepareNavBar {
-    NSString *title = @"";
-    if (NSFoundationVersionNumber <= NSFoundationVersionNumber_iOS_6_1) { // < iOS 7
-        title = @"Map";
-    }
-    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:title style:UIBarButtonItemStyleBordered target:nil action:nil];
-    backButton.tintColor = [UIColor blackColor];
-    self.navigationItem.backBarButtonItem = backButton;
-    self.segmentedControl = [[UISegmentedControl alloc] initWithItems:@[@"Reset", @"Query",@"List View",@"Map"]];
-    self.segmentedControl.tag = 3;
-    [self.segmentedControl addTarget:self action:@selector(segmentAction:) forControlEvents:UIControlEventValueChanged];
-    self.segmentedControl.segmentedControlStyle = UISegmentedControlStyleBar;
-    self.segmentedControl.momentary = YES;
-    [self.segmentedControl sizeToFit];
-    self.segmentedControl.opaque = TRUE;
-    [self.segmentedControl setWidth:65.0 forSegmentAtIndex:2];
-    self.segmentedControl.tintColor = [UIColor blackColor];
-    if (NSFoundationVersionNumber > NSFoundationVersionNumber_iOS_6_1) { // iOS 7+
-        [self.segmentedControl setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]} forState:UIControlStateNormal];
-    }
-    UIBarButtonItem *segmentBarItem = [[UIBarButtonItem alloc] initWithCustomView:self.segmentedControl];
-    
-    self.navigationItem.rightBarButtonItem = segmentBarItem;
+    self.title = @"Map";
     self.asamUtil = [[AsamUtility alloc] init];
-}
-
-- (void)segmentAction:(UISegmentedControl*)sender {
-    switch ([sender selectedSegmentIndex]) {
-        case 0:
-            [self clearAndResetMap];
-            break;
-        case 1:
-            [self showActionSheetForQuery];
-            break;
-            
-        case 2:
-            [self viewAsamsAsList];
-            break;
-        case 3:
-            [self showActionSheetForMapType];
-            break;
-        default:
-            break;
-    }
+    
+     self.listButton = [[UIBarButtonItem alloc]
+                                   initWithTitle:@"List"
+                                   style:UIBarButtonItemStylePlain
+                                   target:self
+                                   action:@selector(viewAsamsAsList)];
+    
+    self.navigationItem.rightBarButtonItem = self.listButton;
 }
 
 - (IBAction)showActionSheetForQuery {
@@ -269,30 +235,8 @@
     }
     return polygonView;
 }
-    
-- (void)updateCountLabel:(NSString *)text {
 
-    // remove all labels from mapView
-    for (UIView *labelView in self.mapView.subviews) {
-        if ([labelView isKindOfClass:[UILabel class]]) {
-            [labelView removeFromSuperview];
-        }
-    }
-    
-    //build label and add to mapView
-    _countLabel = [[UILabel alloc] initWithFrame:CGRectMake(1, 1, 0, 0)];
-    [_countLabel setTextColor:[UIColor whiteColor]];
-    [_countLabel setBackgroundColor:[UIColor grayColor]];
-    [_countLabel setAlpha:0.9];
-    [_countLabel setFont:[UIFont fontWithName:@"Helvetica-Bold" size:10.0]];
-    [_countLabel setText:text];
-    [_countLabel sizeToFit];
-    
-    [self.mapView addSubview:_countLabel];
-    
-}
-
-- (void)clearAndResetMap {
+- (IBAction)clearAndResetMap {
     self.numberOfDaysToFetch = @"365";
     [self populateAsamsInMap:self.numberOfDaysToFetch];
 }
@@ -345,14 +289,14 @@
         
     MKAnnotationView *annView;
     if (pin.nodeCount > 0 ) {
-        pin.title = [NSString stringWithFormat:@"%lu%@", (unsigned long)[pin nodeCount], @" Asams"];
+        pin.title = [NSString stringWithFormat:@"%lu%@", (unsigned long)[pin nodeCount], @" ASAMs"];
         annView = (REVClusterAnnotationView*)[mapView dequeueReusableAnnotationViewWithIdentifier:@"cluster"];
         if (!annView) {
             annView = (REVClusterAnnotationView*)[[REVClusterAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"cluster"];
         }
         annView.image = [UIImage imageNamed:@"cluster.png"];
         [(REVClusterAnnotationView*)annView setClusterText:[NSString stringWithFormat:@"%lu", (unsigned long)[pin nodeCount]]];
-        annView.canShowCallout = YES;
+        annView.canShowCallout = NO;
         annView.rightCalloutAccessoryView = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
     }
     else {
@@ -361,27 +305,31 @@
             annView = (REVClusterAnnotationView*)[[REVClusterAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"pin"];
         }
         annView.image = [UIImage imageNamed:@"pirate"];
-        annView.canShowCallout = YES;
+        annView.canShowCallout = NO;
         annView.rightCalloutAccessoryView = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
         annView.calloutOffset = CGPointMake(-6.0, 0.0);
     }
     return annView;
 }
 
-- (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control {
-    REVClusterPin *selectedObject = (REVClusterPin *) view.annotation;
+- (void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view
+{
+    [mapView deselectAnnotation:view.annotation animated:YES];
+    
+    REVClusterPin *selectedObject = (REVClusterPin *)view.annotation;
+    
     if (selectedObject.nodeCount > 1) {
         AsamListViewController_iphone *asamListView = [[AsamListViewController_iphone alloc] initWithNibName:@"AsamListViewController_iphone" bundle:nil];
         NSSortDescriptor *dateDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"dateofOccurrence" ascending:NO selector:@selector(compare:)];
         NSArray *sortDescriptors = [NSArray arrayWithObject:dateDescriptor];
         asamListView.asamArray = [[selectedObject nodes] sortedArrayUsingDescriptors:sortDescriptors];
         [self.navigationController pushViewController:asamListView animated:YES];
-    }
-    else {
+    } else {
         AsamDetailView *asamDetailView = [[AsamDetailView alloc] initWithNibName:@"AsamDetailView" bundle:nil];
         asamDetailView.asam = selectedObject;
         [self.navigationController pushViewController:asamDetailView animated:YES];
     }
+    
 }
 
 #pragma
@@ -389,7 +337,7 @@
 - (void)populateAsamsInMap:(id)sender {
     dispatch_queue_t mainQueue = dispatch_get_main_queue();
     dispatch_async(mainQueue, ^{
-        [DSBezelActivityView activityViewForView:self.view withLabel:@"Fetching Asam(s)..." width:160];
+        [DSBezelActivityView activityViewForView:self.view withLabel:@"Fetching ASAM(s)..." width:160];
         
         if (self.mapView.annotations != nil && self.mapView.annotations.count > 0) {
             [self.mapView removeAnnotations:self.mapView.annotations];
@@ -429,6 +377,10 @@
         _mapView.mapType = MKMapTypeStandard;
     }
     
+}
+
+- (id)bottomLayoutGuide {
+    return [[MapLayoutGuide alloc] initWithLength:40];
 }
 
 - (void)dealloc {

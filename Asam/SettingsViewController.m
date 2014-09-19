@@ -62,6 +62,11 @@
     return self.settingsArray.count;
 }
 
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    return 0.1f;
+}
+
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     static NSString *SettingTableIdentifier = @"SettingTableIdentifier";
@@ -70,7 +75,6 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"SettingTableIdentifier"];
 		UIFont *titleFont = [UIFont fontWithName:@"Helvetica-Bold" size:16.0];
         [[cell textLabel] setFont:titleFont];
-        cell.textLabel.textColor = [UIColor blackColor];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         UIButton *button = nil;
 
@@ -80,7 +84,12 @@
         if ([option isEqualToString:@"Last Sync Date"]) {
             self.dateLabel = [[UILabel alloc] initWithFrame:CGRectMake(200, 12, 100, 30)];
             self.dateLabel.backgroundColor = [UIColor clearColor];
-            self.dateLabel.textColor = [UIColor blackColor];
+            if (NSFoundationVersionNumber > NSFoundationVersionNumber_iOS_6_1) { // iOS 7+
+                self.dateLabel.textColor = [UIColor whiteColor];
+            } else {
+                self.dateLabel.textColor = [UIColor blackColor];
+            }
+            
             if ([self.prefs objectForKey:kLastSyncDateKey] == nil) {
                 self.dateLabel.text = [NSString getStringFromDate:[AsamUtility fetchAndFomatLastSyncDate]];
             }
@@ -105,7 +114,7 @@
             UISegmentedControl *segmentedControl = [[UISegmentedControl alloc] initWithItems:itemArray];
             segmentedControl.frame = CGRectMake(110, 7, 280, 30);
             segmentedControl.segmentedControlStyle = UISegmentedControlStyleBordered;
-            segmentedControl.tintColor = [UIColor blackColor];
+            segmentedControl.tintColor = [UIColor whiteColor];
             [segmentedControl addTarget:self action:@selector(action:) forControlEvents:UIControlEventValueChanged];
             
             //set the selected map type.
@@ -139,15 +148,27 @@
             else {
                 [button addTarget:self action:@selector(fetchAllAsamsFromLastSyncedDate:) forControlEvents:UIControlEventTouchUpInside];
             }
+            if (NSFoundationVersionNumber > NSFoundationVersionNumber_iOS_6_1) { // iOS 7+
+                button.tintColor = [UIColor whiteColor];
+            } else {
+                button.tintColor = [UIColor blackColor];
+                [button addGradient:button];
+            }
             [button setTitle:@"Sync Now" forState:UIControlStateNormal];
             [button setTitleColor:[UIColor whiteColor] forState:(UIControlStateSelected | UIControlStateHighlighted)];
-            button.frame =  CGRectMake(10, 8, 150, 30);
+            button.frame =  CGRectMake(170, 7, 150, 30);
             button.tag = 3;
-            button.autoresizingMask = UIViewAutoresizingFlexibleRightMargin;
-            [button addGradient:button];
+            button.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin;
             [cell addSubview:button];
         }
 	}
+    if (NSFoundationVersionNumber > NSFoundationVersionNumber_iOS_6_1) { // iOS 7+
+        cell.backgroundColor = [UIColor blackColor];
+        cell.textLabel.textColor = [UIColor whiteColor];
+    } else {
+        cell.textLabel.textColor = [UIColor blackColor];
+    }
+    
     return cell;
 }
 

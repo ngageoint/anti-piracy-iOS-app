@@ -1,4 +1,5 @@
 #import "SubRegionView_iphone.h"
+#import "MapLayoutGuide.h"
 #import "AppDelegate.h"
 #import "AsamUtility.h"
 #import "AsamFetch.h"
@@ -12,8 +13,11 @@
 @interface SubRegionView_iphone() <MKMapViewDelegate, UIActionSheetDelegate>
 
 @property (nonatomic, strong) IBOutlet MKMapView *mapView;
-@property (nonatomic, strong) IBOutlet UISegmentedControl *segmentedControl;
 @property (nonatomic, strong) NSMutableArray *selectedSubRegions;
+@property (weak, nonatomic) IBOutlet UIToolbar *toolBar;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *resetButton;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *queryButton;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *regionsButton;
 
 - (void)filterSubregions;
 - (void)queryAsam:(id)sender;
@@ -22,7 +26,6 @@
 - (void)showActionSheet;
 - (void)populateSubregions;
 - (void)prepareNavBar;
-- (void)segmentAction:(UISegmentedControl*)sender;
 - (void)handleLongPress:(UIGestureRecognizer *)gestureRecognizer;
 
 @end
@@ -38,6 +41,10 @@
     [self populateSubregions];
     [self setMapType: nil];
     
+    if (NSFoundationVersionNumber > NSFoundationVersionNumber_iOS_6_1) { // iOS 7+
+        self.toolBar.tintColor = [UIColor whiteColor];
+    }
+    
     UILongPressGestureRecognizer *lpgr = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleLongPress:)];
     lpgr.numberOfTapsRequired = 0;
     lpgr.numberOfTouchesRequired = 1;
@@ -50,7 +57,6 @@
 - (void)viewDidUnload{
     self.mapView = nil;
     self.selectedSubRegions = nil;
-    self.segmentedControl = nil;
     [super viewDidUnload];
 }
 
@@ -120,15 +126,21 @@
         
     }
     if (self.selectedSubRegions.count > 0) {
-        self.segmentedControl.enabled = YES;
+        [self setToolbarButtonsEnabled:YES];
     }
     else {
-        self.segmentedControl.enabled = NO;
+        [self setToolbarButtonsEnabled:NO];
     }
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
 	return (interfaceOrientation == UIInterfaceOrientationPortrait);
+}
+
+- (void) setToolbarButtonsEnabled:(BOOL)enabled {
+    for (UIBarButtonItem *item in self.toolBar.items) {
+        item.enabled = enabled;
+    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -216,33 +228,11 @@
 
 
 - (void)prepareNavBar {
-    NSString *title = @"";
-    if (NSFoundationVersionNumber <= NSFoundationVersionNumber_iOS_6_1) { // < iOS 7
-        title = @"Subregions";
-    }
-    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:title style:UIBarButtonItemStyleBordered target:nil action:nil];
-    backButton.tintColor = [UIColor blackColor];
-    self.navigationItem.backBarButtonItem = backButton;
-    
-    self.segmentedControl = [[UISegmentedControl alloc] initWithItems:@[@"Reset", @"Query", @"Selected Regions"]];
-    self.segmentedControl.tag = 3;
-    [self.segmentedControl addTarget:self action:@selector(segmentAction:) forControlEvents:UIControlEventValueChanged];
-    self.segmentedControl.segmentedControlStyle = UISegmentedControlStyleBar;
-    self.segmentedControl.momentary = YES;
-    self.segmentedControl.opaque = TRUE;
-    [self.segmentedControl sizeToFit];
-    [self.segmentedControl setWidth:110.0 forSegmentAtIndex:2];
-    self.segmentedControl.tintColor = [UIColor blackColor];
-    if (NSFoundationVersionNumber > NSFoundationVersionNumber_iOS_6_1) { // iOS 7+
-        [self.segmentedControl setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]} forState:UIControlStateNormal];
-    }
-    
-    UIBarButtonItem *segmentBarItem = [[UIBarButtonItem alloc] initWithCustomView:self.segmentedControl];
-    self.navigationItem.rightBarButtonItem = segmentBarItem;
-    self.segmentedControl.enabled = NO;
+    self.title = @"Subregions";
+    [self setToolbarButtonsEnabled:NO];
 }
 
-- (void)filterSubregions {
+- (IBAction)filterSubregions {
     if (self.selectedSubRegions.count == 0) {
         return;
     }
@@ -297,33 +287,16 @@
     }
 }
 
-- (void)segmentAction:(UISegmentedControl*)sender {
-    switch ([sender selectedSegmentIndex]) {
-        case 0:
-            [self reset];
-            break;
-            
-        case 1:
-            [self showActionSheet];
-            break;
-            
-        case 2:
-            [self filterSubregions];
-            break;
-            
-        default:
-            break;
-    }
-}
-
-- (void)reset {
-    if (self.segmentedControl.enabled == NO) {
+- (IBAction) reset {
+    if (self.resetButton.enabled == NO) {
         return;
     }
+    
     [self.mapView removeAnnotations:self.mapView.annotations];
     [self.mapView removeOverlays:self.mapView.overlays];
     [self.selectedSubRegions removeAllObjects];
-    self.segmentedControl.enabled = NO;
+    
+    [self setToolbarButtonsEnabled:NO];
     [self populateSubregions];
     [self setMapType: nil];
 
@@ -335,7 +308,7 @@
 
 #pragma
 #pragma mark - Private methods (UIActionSheet) impl.
-- (void)showActionSheet {
+- (IBAction)showActionSheet {
     if (self.selectedSubRegions.count == 0) {
         return;
     }
@@ -404,6 +377,10 @@
         _mapView.mapType = MKMapTypeStandard;
     }
     
+}
+
+- (id)bottomLayoutGuide {
+    return [[MapLayoutGuide alloc] initWithLength:40];
 }
 
 
