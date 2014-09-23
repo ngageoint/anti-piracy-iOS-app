@@ -135,7 +135,8 @@ static NSString *CellClassName = @"AsamCustomCell";
     self.navigationItem.titleView = titleLabel;
     if (NSFoundationVersionNumber > NSFoundationVersionNumber_iOS_6_1) { // iOS 7+
         self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
-        self.navigationController.navigationBar.backgroundColor = [UIColor colorWithWhite:(64/255.0f) alpha:0.8f];
+        self.navigationController.navigationBar.backgroundColor = [UIColor darkGrayColor];
+        self.navigationController.navigationBar.translucent = YES;
         self.tableView.backgroundColor = [UIColor blackColor];
     }
     else {

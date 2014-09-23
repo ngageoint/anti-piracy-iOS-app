@@ -46,7 +46,7 @@
 @property (nonatomic, strong) IBOutlet UILabel *asamTotalLabel;
 @property (nonatomic, strong) IBOutlet UILabel *asamLabelDisplayed;
 @property (nonatomic, strong) AsamUtility *asamUtil;
-@property (nonatomic, weak) UIButton *restartButton;
+@property (nonatomic, strong) UIButton *restartButton;
 @property (weak, nonatomic) IBOutlet UIView *statusBarBackground;
 
 - (IBAction)showAsamList:(id)sender;
@@ -500,6 +500,7 @@
     self.asamSearchPopOver = nil;
     self.asamSearchView = nil;
     self.displayAsamInListArray = nil;
+    self.restartButton = nil;
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [super viewDidUnload];
 }
