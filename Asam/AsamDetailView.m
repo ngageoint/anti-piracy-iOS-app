@@ -24,10 +24,7 @@
 #pragma mark - View lifecycle
 - (void)viewDidLoad {
     [super viewDidLoad];
-
-    //causing 7.0+ spacing issues!
-    [self setUpBarTitle];
-    
+    [self setUpBarTitle];    
     CGSize size = CGSizeMake(320, 400); // size of view in popover
     self.contentSizeForViewInPopover = size;
 }
