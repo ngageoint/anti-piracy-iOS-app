@@ -24,7 +24,10 @@
 #pragma mark - View lifecycle
 - (void)viewDidLoad {
     [super viewDidLoad];
+
+    //causing 7.0+ spacing issues!
     [self setUpBarTitle];
+    
     CGSize size = CGSizeMake(320, 400); // size of view in popover
     self.contentSizeForViewInPopover = size;
 }
@@ -168,7 +171,7 @@
 - (void)setUpBarTitle {
     if (NSFoundationVersionNumber > NSFoundationVersionNumber_iOS_6_1) { // iOS 7+
         self.navigationController.navigationBar.backgroundColor = [UIColor darkGrayColor];
-        self.navigationController.navigationBar.translucent = YES;
+        //self.navigationController.navigationBar.translucent = YES;
         self.tableView.backgroundColor = [UIColor blackColor];
     }
     else {
