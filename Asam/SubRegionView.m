@@ -219,23 +219,36 @@
 }
 
 - (void)prepareNavBar {
+    
+    UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 320, 30)];
+    titleLabel.font = [UIFont fontWithName:@"Helvetica-Bold" size:16.0];
+    titleLabel.backgroundColor = [UIColor clearColor];
+    titleLabel.textColor = [UIColor whiteColor];
+    titleLabel.text = @"Subregions";
+    titleLabel.textAlignment = NSTextAlignmentCenter;
+    UIBarButtonItem *title = [[UIBarButtonItem alloc] initWithCustomView:titleLabel];
+    
+    UIBarButtonItem *fixedSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+    fixedSpace.width = 20.0f;
+    
     UIBarButtonItem *flexSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
     UIBarButtonItem *dismissButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(dismissView)];
     self.resetButton = [[UIBarButtonItem alloc]initWithTitle:@"Reset" style:UIBarButtonItemStyleBordered target:self action:@selector(reset)];
     self.queryButton = [[UIBarButtonItem alloc]initWithTitle:@"Query" style:UIBarButtonItemStyleBordered target:self action:@selector(showActionSheet)];
     self.selectedSubregionsButton = [[UIBarButtonItem alloc]initWithTitle:@"Selected Regions" style:UIBarButtonItemStyleBordered target:self action:@selector(filterSubregions)];
-    NSArray *barItems = @[dismissButton, flexSpace, self.resetButton, self.queryButton, self.selectedSubregionsButton];
+    NSArray *barItems = @[dismissButton, flexSpace, title, flexSpace, self.resetButton, fixedSpace, self.queryButton, fixedSpace, self.selectedSubregionsButton];
     [self toggleButtonsVisibility:FALSE];
     self.toolBar.items = barItems;
     if (NSFoundationVersionNumber > NSFoundationVersionNumber_iOS_6_1) { // iOS 7+
         self.toolBar.tintColor = [UIColor whiteColor];
         self.toolBar.barTintColor = [UIColor blackColor];
-        self.toolBar.alpha = .8f;
+        self.toolBar.alpha = .8f;        
     }
     else {
         self.toolBar.barStyle = UIBarStyleBlack;
         self.statusBarBackground.hidden = YES;
     }
+    
 }
 
 - (void)filterSubregions {
