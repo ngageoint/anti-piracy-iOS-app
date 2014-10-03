@@ -127,7 +127,7 @@ static NSString *CellClassName = @"AsamCustomCell";
     [self.navigationController.navigationBar setFrame:frame];
     
     UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, 320, 44)];
-    titleLabel.font = [UIFont fontWithName:@"Helvetica Neue Bold" size:16.0];
+    titleLabel.font = [UIFont fontWithName:@"Helvetica-Bold" size:16.0];
 	titleLabel.backgroundColor = [UIColor clearColor];
 	titleLabel.textColor = [UIColor whiteColor];
     titleLabel.text = [NSString stringWithFormat:@"%lu ASAM(s)", (unsigned long)self.asamArray.count];
