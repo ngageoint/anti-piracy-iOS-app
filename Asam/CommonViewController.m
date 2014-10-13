@@ -17,10 +17,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    if (NSFoundationVersionNumber > NSFoundationVersionNumber_iOS_6_1) { // iOS 7+
-        self.view.backgroundColor = [UIColor blackColor];
-    }
-    else {
+    if (NSFoundationVersionNumber <= NSFoundationVersionNumber_iOS_6_1) { // iOS 7+
         self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"background"]];
     }
     
@@ -50,8 +47,10 @@
     titleLabel.textAlignment = NSTextAlignmentCenter;
     self.navigationItem.titleView = titleLabel;
     
+    self.tableView.separatorColor = [UIColor whiteColor];
     if (NSFoundationVersionNumber > NSFoundationVersionNumber_iOS_6_1) { // iOS 7+
         self.tableView.backgroundColor = [UIColor blackColor];
+        self.navigationController.navigationBar.backgroundColor = [UIColor colorWithWhite:(64/255.0f) alpha:0.8f];
     }
     else {
         UIImageView *backImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"background"]];

@@ -78,18 +78,24 @@
 	titleLabel_.opaque = NO;
 	[self addSubview:titleLabel_];
 	
-	actionPickerView_ = [[UIView alloc] initWithFrame:CGRectZero];
-	actionPickerView_.layer.cornerRadius = 25.0f;
-	actionPickerView_.layer.borderWidth = 1.0f;
-	actionPickerView_.layer.borderColor = [UIColor darkGrayColor].CGColor;
-	actionPickerView_.clipsToBounds = YES;
-	actionPickerGradientLayer_ = [CAGradientLayer layer];
-	actionPickerGradientLayer_.anchorPoint = CGPointMake(0.0f, 0.0f);
-	actionPickerGradientLayer_.position = CGPointMake(0.0f, 0.0f);
-	actionPickerGradientLayer_.startPoint = CGPointZero;
-	actionPickerGradientLayer_.endPoint = CGPointMake(0.0f, 1.0f);
-	actionPickerGradientLayer_.colors = [NSArray arrayWithObjects:(id)[UIColor grayColor].CGColor, (id)[UIColor darkGrayColor].CGColor, nil];
-	[actionPickerView_.layer addSublayer:actionPickerGradientLayer_];
+    actionPickerView_ = [[UIView alloc] initWithFrame:CGRectZero];
+    actionPickerView_.layer.cornerRadius = 25.0f;
+    actionPickerView_.layer.borderWidth = 1.0f;
+    actionPickerView_.layer.borderColor = [UIColor darkGrayColor].CGColor;
+    actionPickerView_.clipsToBounds = YES;
+    
+    if (NSFoundationVersionNumber > NSFoundationVersionNumber_iOS_6_1) { // iOS 7+
+        actionPickerView_.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:.8f];
+    } else {
+
+        actionPickerGradientLayer_ = [CAGradientLayer layer];
+        actionPickerGradientLayer_.anchorPoint = CGPointMake(0.0f, 0.0f);
+        actionPickerGradientLayer_.position = CGPointMake(0.0f, 0.0f);
+        actionPickerGradientLayer_.startPoint = CGPointZero;
+        actionPickerGradientLayer_.endPoint = CGPointMake(0.0f, 1.0f);
+        actionPickerGradientLayer_.colors = [NSArray arrayWithObjects:(id)[UIColor grayColor].CGColor, (id)[UIColor darkGrayColor].CGColor, nil];
+        [actionPickerView_.layer addSublayer:actionPickerGradientLayer_];
+    }
 	
 	[self addSubview:actionPickerView_];
 	

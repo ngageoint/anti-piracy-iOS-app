@@ -1,4 +1,5 @@
 #import <UIKit/UIKit.h>
+#import "CommonViewController.h"
 
 
 @protocol SubRegionDelegate <NSObject>
@@ -10,7 +11,7 @@
 @end
 
 
-@interface SubRegionView : UIViewController
+@interface SubRegionView : CommonViewController
 
 @property (nonatomic, strong) id<SubRegionDelegate> subRegionDelegate;
 

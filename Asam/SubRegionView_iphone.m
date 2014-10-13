@@ -1,4 +1,5 @@
 #import "SubRegionView_iphone.h"
+#import "MapLayoutGuide.h"
 #import "AppDelegate.h"
 #import "AsamUtility.h"
 #import "AsamFetch.h"
@@ -6,12 +7,17 @@
 #import "DSActivityView.h"
 #import <MapKit/MapKit.h>
 #import "Asam.h"
+#import "OfflineMapUtility.h"
+
 
 @interface SubRegionView_iphone() <MKMapViewDelegate, UIActionSheetDelegate>
 
 @property (nonatomic, strong) IBOutlet MKMapView *mapView;
-@property (nonatomic, strong) IBOutlet UISegmentedControl *segmentedControl;
 @property (nonatomic, strong) NSMutableArray *selectedSubRegions;
+@property (weak, nonatomic) IBOutlet UIToolbar *toolBar;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *resetButton;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *queryButton;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *regionsButton;
 
 - (void)filterSubregions;
 - (void)queryAsam:(id)sender;
@@ -20,7 +26,6 @@
 - (void)showActionSheet;
 - (void)populateSubregions;
 - (void)prepareNavBar;
-- (void)segmentAction:(UISegmentedControl*)sender;
 - (void)handleLongPress:(UIGestureRecognizer *)gestureRecognizer;
 
 @end
@@ -34,17 +39,24 @@
     self.selectedSubRegions = [[NSMutableArray alloc] init];
     [self prepareNavBar];
     [self populateSubregions];
+    [self setMapType: nil];
+    
+    if (NSFoundationVersionNumber > NSFoundationVersionNumber_iOS_6_1) { // iOS 7+
+        self.toolBar.tintColor = [UIColor whiteColor];
+    }
+    
     UILongPressGestureRecognizer *lpgr = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleLongPress:)];
     lpgr.numberOfTapsRequired = 0;
     lpgr.numberOfTouchesRequired = 1;
     lpgr.minimumPressDuration = 0.1;
     [self.mapView addGestureRecognizer:lpgr];
+    
+    
 }
 
 - (void)viewDidUnload{
     self.mapView = nil;
     self.selectedSubRegions = nil;
-    self.segmentedControl = nil;
     [super viewDidUnload];
 }
 
@@ -59,6 +71,9 @@
     for (id <MKOverlay> overlay in self.mapView.overlays) {
         if ([overlay isKindOfClass:[MKPolygon class]]) {
             MKPolygon *poly = (MKPolygon*)overlay;
+            if ([poly.title isEqualToString:@"ocean"] || [poly.title isEqualToString:@"feature"]) {
+                break;
+            }
             id view = [self.mapView viewForOverlay:poly];
             if ([view isKindOfClass:[MKPolygonView class]]) {
                 MKPolygonView *polyView = (MKPolygonView*) view;
@@ -87,13 +102,22 @@
                     if (![self.selectedSubRegions containsObject:poly.title]) {
                         [self.selectedSubRegions addObject:poly.title];
                         polyView.strokeColor = [UIColor orangeColor];
-                        polyView.fillColor = [[UIColor greenColor] colorWithAlphaComponent:0.5];
+                        polyView.fillColor = [[UIColor greenColor] colorWithAlphaComponent:0.7];
+                        polyView.opaque = true;
                         break;
                     }
                     else {
                         [self.selectedSubRegions removeObject:poly.title];
                         polyView.strokeColor=[UIColor orangeColor];
-                        polyView.fillColor=[[UIColor yellowColor] colorWithAlphaComponent:0.2];
+                        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+                        NSString *maptype = [defaults stringForKey:@"maptype"];
+                        if ([@"Offline" isEqual:maptype]) {
+                            polyView.fillColor = [[UIColor whiteColor] colorWithAlphaComponent:0.9];
+                        }
+                        else {
+                            polyView.fillColor = [[UIColor yellowColor] colorWithAlphaComponent:0.2];
+                        }
+                        
                         break;
                     }
                 }
@@ -102,15 +126,21 @@
         
     }
     if (self.selectedSubRegions.count > 0) {
-        self.segmentedControl.enabled = YES;
+        [self setToolbarButtonsEnabled:YES];
     }
     else {
-        self.segmentedControl.enabled = NO;
+        [self setToolbarButtonsEnabled:NO];
     }
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
 	return (interfaceOrientation == UIInterfaceOrientationPortrait);
+}
+
+- (void) setToolbarButtonsEnabled:(BOOL)enabled {
+    for (UIBarButtonItem *item in self.toolBar.items) {
+        item.enabled = enabled;
+    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -120,13 +150,37 @@
 #pragma
 #pragma mark - Map Views
 - (MKOverlayView *)mapView:(MKMapView *)mapView viewForOverlay:(id <MKOverlay>)overlay {
-	if ([overlay isKindOfClass:[MKPolygon class]]) {
-		MKPolygonView *polyView = [[MKPolygonView alloc] initWithOverlay:overlay];
-		polyView.lineWidth = 2;
-        polyView.strokeColor = [UIColor orangeColor];
-		polyView.fillColor = [[UIColor yellowColor] colorWithAlphaComponent:0.2];
-        polyView.opaque = TRUE;
-		return polyView;
+
+    MKPolygonView *polygonView = [[MKPolygonView alloc] initWithOverlay:overlay];
+    
+    if ([overlay isKindOfClass:[MKPolygon class]]) {
+
+        if ([overlay.title isEqualToString:@"ocean"]) {
+            polygonView.fillColor = [UIColor colorWithRed:127/255.0 green:153/255.0 blue:171/255.0 alpha:0.8];
+            polygonView.strokeColor = [UIColor clearColor];
+            polygonView.lineWidth = 0.0;
+            polygonView.opaque = TRUE;
+        }
+        else if ([overlay.title isEqualToString:@"feature"]) {
+            polygonView.fillColor = [UIColor colorWithRed:221/255.0 green:221/255.0 blue:221/255.0 alpha:0.7];
+            polygonView.strokeColor = [UIColor clearColor];
+            polygonView.lineWidth = 0.0;
+            polygonView.opaque = TRUE;
+        }
+        else {
+            NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+            NSString *maptype = [defaults stringForKey:@"maptype"];
+            if ([@"Offline" isEqual:maptype]) {
+                polygonView.fillColor = [[UIColor whiteColor] colorWithAlphaComponent:0.9];
+            }
+            else {
+                polygonView.fillColor = [[UIColor yellowColor] colorWithAlphaComponent:0.2];
+            }
+            polygonView.lineWidth = 2;
+            polygonView.strokeColor = [UIColor orangeColor];
+        }
+        
+		return polygonView;
 	}
 	return nil;
 }
@@ -174,33 +228,11 @@
 
 
 - (void)prepareNavBar {
-    NSString *title = @"";
-    if (NSFoundationVersionNumber <= NSFoundationVersionNumber_iOS_6_1) { // < iOS 7
-        title = @"Subregions";
-    }
-    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:title style:UIBarButtonItemStyleBordered target:nil action:nil];
-    backButton.tintColor = [UIColor blackColor];
-    self.navigationItem.backBarButtonItem = backButton;
-    
-    self.segmentedControl = [[UISegmentedControl alloc] initWithItems:@[@"Reset", @"Query", @"Selected Regions"]];
-    self.segmentedControl.tag = 3;
-    [self.segmentedControl addTarget:self action:@selector(segmentAction:) forControlEvents:UIControlEventValueChanged];
-    self.segmentedControl.segmentedControlStyle = UISegmentedControlStyleBar;
-    self.segmentedControl.momentary = YES;
-    self.segmentedControl.opaque = TRUE;
-    [self.segmentedControl sizeToFit];
-    [self.segmentedControl setWidth:110.0 forSegmentAtIndex:2];
-    self.segmentedControl.tintColor = [UIColor blackColor];
-    if (NSFoundationVersionNumber > NSFoundationVersionNumber_iOS_6_1) { // iOS 7+
-        [self.segmentedControl setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]} forState:UIControlStateNormal];
-    }
-    
-    UIBarButtonItem *segmentBarItem = [[UIBarButtonItem alloc] initWithCustomView:self.segmentedControl];
-    self.navigationItem.rightBarButtonItem = segmentBarItem;
-    self.segmentedControl.enabled = NO;
+    self.title = @"Subregions";
+    [self setToolbarButtonsEnabled:NO];
 }
 
-- (void)filterSubregions {
+- (IBAction)filterSubregions {
     if (self.selectedSubRegions.count == 0) {
         return;
     }
@@ -255,34 +287,19 @@
     }
 }
 
-- (void)segmentAction:(UISegmentedControl*)sender {
-    switch ([sender selectedSegmentIndex]) {
-        case 0:
-            [self reset];
-            break;
-            
-        case 1:
-            [self showActionSheet];
-            break;
-            
-        case 2:
-            [self filterSubregions];
-            break;
-            
-        default:
-            break;
-    }
-}
-
-- (void)reset {
-    if (self.segmentedControl.enabled == NO) {
+- (IBAction) reset {
+    if (self.resetButton.enabled == NO) {
         return;
     }
+    
     [self.mapView removeAnnotations:self.mapView.annotations];
     [self.mapView removeOverlays:self.mapView.overlays];
     [self.selectedSubRegions removeAllObjects];
-    self.segmentedControl.enabled = NO;
+    
+    [self setToolbarButtonsEnabled:NO];
     [self populateSubregions];
+    [self setMapType: nil];
+
 }
 
 - (void)dismissView {
@@ -291,7 +308,7 @@
 
 #pragma
 #pragma mark - Private methods (UIActionSheet) impl.
-- (void)showActionSheet {
+- (IBAction)showActionSheet {
     if (self.selectedSubRegions.count == 0) {
         return;
     }
@@ -334,5 +351,37 @@
         });
     });
 }
+
+- (void)setMapType: (NSNotification *)notification {
+    
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSString *maptype = [defaults stringForKey:@"maptype"];
+    
+    //[_mapView removeOverlays:_mapView.overlays];
+    
+    //set the maptype
+    if ([@"Standard" isEqual:maptype]) {
+        _mapView.mapType = MKMapTypeStandard;
+    }
+    else if ([@"Satellite" isEqual:maptype]) {
+        _mapView.mapType = MKMapTypeSatellite;
+    }
+    else if ([@"Hybrid" isEqual:maptype]) {
+        _mapView.mapType = MKMapTypeHybrid;
+    }
+    else if ([@"Offline" isEqual:maptype]) {
+        _mapView.mapType = MKMapTypeStandard;
+        [_mapView addOverlays:[OfflineMapUtility getPolygons]];
+    }
+    else {
+        _mapView.mapType = MKMapTypeStandard;
+    }
+    
+}
+
+- (id)bottomLayoutGuide {
+    return [[MapLayoutGuide alloc] initWithLength:40];
+}
+
 
 @end

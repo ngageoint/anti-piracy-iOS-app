@@ -28,8 +28,8 @@
     self.navigationController.navigationBar.translucent = NO;
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:navigationTitle style:UIBarButtonItemStylePlain target:nil action:nil];
     
-    self.legalTitleArray = @[@"REVClusterMap", @"Reachability", @"DSActivityView", @"DDActionHeaderView"];
-    self.legalFileArray = @[@"revclustermap", @"reachability", @"dsactivityview", @"ddactionheaderview"];
+    self.legalTitleArray = @[@"REVClusterMap", @"Reachability", @"DSActivityView", @"DDActionHeaderView", @"Natural Earth"];
+    self.legalFileArray = @[@"revclustermap", @"reachability", @"dsactivityview", @"ddactionheaderview", @"naturalearth"];
 }
 
 - (void)didReceiveMemoryWarning {

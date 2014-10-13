@@ -4,6 +4,7 @@
 
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *exitButton;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *agreeButton;
+@property (weak, nonatomic) IBOutlet UIToolbar *titleToolbar;
 
 - (IBAction)closeAsamApp:(id)sender;
 - (IBAction)dismissDisclaimer:(id)sender;
@@ -19,9 +20,16 @@
 #pragma mark - View lifecycle
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
     if (NSFoundationVersionNumber > NSFoundationVersionNumber_iOS_6_1) { // iOS 7+
         self.exitButton.tintColor = [UIColor whiteColor];
         self.agreeButton.tintColor = [UIColor whiteColor];
+        
+        self.titleToolbar.tintColor = [UIColor whiteColor];
+        self.titleToolbar.barTintColor = [UIColor blackColor];
+        self.titleToolbar.alpha = .8f;
+        
+//        self.view.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:.80];
     }
 }
 

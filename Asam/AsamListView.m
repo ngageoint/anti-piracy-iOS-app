@@ -14,7 +14,6 @@
 @property (nonatomic, strong) AsamUtility *asamUtil;
 
 - (void)showActionSheet;
-- (void)segmentAction:(UISegmentedControl*)sender;
 - (void)prepareNavBar;
 - (void)sortAsamArrayWithVictimQualifier;
 - (void)sortAsamArrayWithAggressorQualifier;
@@ -45,6 +44,11 @@ static NSString *CellClassName = @"AsamCustomCell";
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.tableView.separatorColor = [UIColor whiteColor];
+}
+
+- (void) viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self.tableView reloadData];
 }
 
 - (void)viewDidUnload {
@@ -89,6 +93,7 @@ static NSString *CellClassName = @"AsamCustomCell";
         }
     }
     cell.asam = [self.asamArray objectAtIndex:indexPath.row];
+    cell.backgroundColor = [UIColor blackColor];
     return cell;
 }
 
@@ -109,32 +114,29 @@ static NSString *CellClassName = @"AsamCustomCell";
 #pragma mark -
 #pragma mark helper methods
 -(void)prepareNavBar {
-    UISegmentedControl *segmentedControl = [[UISegmentedControl alloc] initWithItems:@[@"Sort"]];
-    segmentedControl.frame = CGRectMake(0, 0, 100, 30);
-    segmentedControl.tag = 0;
-    [segmentedControl addTarget:self action:@selector(segmentAction:) forControlEvents:UIControlEventValueChanged];
-    segmentedControl.segmentedControlStyle = UISegmentedControlStyleBar;    
-    segmentedControl.momentary = YES;
-    [segmentedControl sizeToFit];
-    segmentedControl.tintColor = [UIColor blackColor];
-    if (NSFoundationVersionNumber > NSFoundationVersionNumber_iOS_6_1) { // iOS 7+
-        [segmentedControl setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]} forState:UIControlStateNormal];
-    }
+    UIBarButtonItem *listButton = [[UIBarButtonItem alloc]
+                       initWithTitle:@"Sort"
+                       style:UIBarButtonItemStylePlain
+                       target:self
+                       action:@selector(showActionSheet)];
+    
+    self.navigationItem.rightBarButtonItem = listButton;
 
-    UIBarButtonItem *segmentBarItem = [[UIBarButtonItem alloc] initWithCustomView:segmentedControl];
-    self.navigationItem.rightBarButtonItem = segmentBarItem;
-    CGFloat navBarHeight = 44.0f;    
+    CGFloat navBarHeight = 44.0f;
     CGRect frame = CGRectMake(0.0f, 0.0f, 320.0f, navBarHeight);
     [self.navigationController.navigationBar setFrame:frame];
     
     UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, 320, 44)];
-    titleLabel.font = [UIFont fontWithName:@"Helvetica Neue Bold" size:16.0];
+    titleLabel.font = [UIFont fontWithName:@"Helvetica-Bold" size:16.0];
 	titleLabel.backgroundColor = [UIColor clearColor];
 	titleLabel.textColor = [UIColor whiteColor];
     titleLabel.text = [NSString stringWithFormat:@"%lu ASAM(s)", (unsigned long)self.asamArray.count];
     titleLabel.textAlignment = NSTextAlignmentCenter;
     self.navigationItem.titleView = titleLabel;
     if (NSFoundationVersionNumber > NSFoundationVersionNumber_iOS_6_1) { // iOS 7+
+        self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
+        self.navigationController.navigationBar.backgroundColor = [UIColor darkGrayColor];
+        self.navigationController.navigationBar.translucent = YES;
         self.tableView.backgroundColor = [UIColor blackColor];
     }
     else {
@@ -150,16 +152,6 @@ static NSString *CellClassName = @"AsamCustomCell";
     UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:title style:UIBarButtonItemStyleBordered target:nil action:nil];
     backButton.tintColor = [UIColor blackColor];
     self.navigationItem.backBarButtonItem = backButton;
-}
-
-- (void)segmentAction:(UISegmentedControl*)sender {
-    switch ([sender selectedSegmentIndex]) {
-        case 0:
-            [self showActionSheet];
-            break;
-            
-        default:break;
-    }
 }
 
 #pragma 

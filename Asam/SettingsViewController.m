@@ -8,6 +8,7 @@
 #import "AsamDownloader.h"
 #import "AppDelegate.h"
 #import "DSActivityView.h"
+#import <MapKit/MapKit.h>
 
 #define kLastSyncDateKey @"lastsyncdate"
 #define kShowDisclaimer @"showDisclaimer"
@@ -34,7 +35,15 @@
 #pragma mark - View lifecycle
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.settingsArray = @[@"Last Sync Date", @"Show Disclaimer", @"Sync Now"];
+    
+    NSString *deviceType = [UIDevice currentDevice].model;
+    if (![deviceType hasPrefix: @"iPhone"]) {
+        self.settingsArray = @[@"Last Sync Date", @"Show Disclaimer", @"Map Layer", @"Sync Now"];
+    }
+    else {
+        self.settingsArray = @[@"Last Sync Date", @"Show Disclaimer", @"Sync Now"];
+    }
+    
     self.prefs = [NSUserDefaults standardUserDefaults];
     [self setUpSettingsBarTitle];
 }
@@ -53,6 +62,11 @@
     return self.settingsArray.count;
 }
 
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    return 0.1f;
+}
+
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     static NSString *SettingTableIdentifier = @"SettingTableIdentifier";
@@ -61,57 +75,127 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"SettingTableIdentifier"];
 		UIFont *titleFont = [UIFont fontWithName:@"Helvetica-Bold" size:16.0];
         [[cell textLabel] setFont:titleFont];
-        cell.textLabel.textColor = [UIColor blackColor];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         UIButton *button = nil;
-        switch (indexPath.row) {
+
+        NSString *option = [self.settingsArray objectAtIndex:[indexPath row]];
         
-            case 0:
-                self.dateLabel = [[UILabel alloc] initWithFrame:CGRectMake(200, 12, 100, 30)];
-                self.dateLabel.backgroundColor = [UIColor clearColor];
+
+        if ([option isEqualToString:@"Last Sync Date"]) {
+            self.dateLabel = [[UILabel alloc] initWithFrame:CGRectMake(200, 12, 100, 30)];
+            self.dateLabel.backgroundColor = [UIColor clearColor];
+            if (NSFoundationVersionNumber > NSFoundationVersionNumber_iOS_6_1) { // iOS 7+
+                self.dateLabel.textColor = [UIColor whiteColor];
+            } else {
                 self.dateLabel.textColor = [UIColor blackColor];
-                if ([self.prefs objectForKey:kLastSyncDateKey] == nil) {
-                    self.dateLabel.text = [NSString getStringFromDate:[AsamUtility fetchAndFomatLastSyncDate]];
-                }
-                else {
-                    self.dateLabel.text = [self.prefs objectForKey:kLastSyncDateKey];
-                }
-                cell.accessoryView = self.dateLabel;
-                [cell addSubview:self.dateLabel];
-                cell.textLabel.text = [self.settingsArray objectAtIndex:[indexPath row]];
-                break;
+            }
             
-            case 1:
-                self.disclaimerSwitch = [[UISwitch alloc] initWithFrame:CGRectZero];
-                self.disclaimerSwitch.on = ([[self.prefs objectForKey:kShowDisclaimer] isEqualToString:@"Yes"]) ? YES : NO;
-                self.disclaimerSwitch.tag = 1;
-                [self.disclaimerSwitch addTarget:self action:@selector(switchAction:) forControlEvents:UIControlEventValueChanged];
-                cell.accessoryView = self.disclaimerSwitch;
-                [cell addSubview:self.disclaimerSwitch];
-                cell.textLabel.text = [self.settingsArray objectAtIndex:[indexPath row]];
-                break;
-                
-            case 2:
-                button = [UIButton buttonWithType:UIButtonTypeCustom];
-                if ([[UIDevice currentDevice]userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
-                    [button addTarget:self action:@selector(syncNow:) forControlEvents:UIControlEventTouchUpInside];
-                }
-                else {
-                    [button addTarget:self action:@selector(fetchAllAsamsFromLastSyncedDate:) forControlEvents:UIControlEventTouchUpInside];
-                }
-                [button setTitle:@"Sync Now" forState:UIControlStateNormal];
-                [button setTitleColor:[UIColor whiteColor] forState:(UIControlStateSelected | UIControlStateHighlighted)];
-                button.frame =  CGRectMake(20, 10, 280, 30);
-                button.tag = 3;
+            if ([self.prefs objectForKey:kLastSyncDateKey] == nil) {
+                self.dateLabel.text = [NSString getStringFromDate:[AsamUtility fetchAndFomatLastSyncDate]];
+            }
+            else {
+                self.dateLabel.text = [self.prefs objectForKey:kLastSyncDateKey];
+            }
+            cell.accessoryView = self.dateLabel;
+            [cell addSubview:self.dateLabel];
+            cell.textLabel.text = option;
+        }
+        else if ([option isEqualToString:@"Show Disclaimer"]) {
+            self.disclaimerSwitch = [[UISwitch alloc] initWithFrame:CGRectZero];
+            self.disclaimerSwitch.on = ([[self.prefs objectForKey:kShowDisclaimer] isEqualToString:@"Yes"]) ? YES : NO;
+            self.disclaimerSwitch.tag = 1;
+            [self.disclaimerSwitch addTarget:self action:@selector(switchAction:) forControlEvents:UIControlEventValueChanged];
+            cell.accessoryView = self.disclaimerSwitch;
+            [cell addSubview:self.disclaimerSwitch];
+            cell.textLabel.text = option;
+        }
+        else if ([option isEqualToString:@"Map Layer"]) {
+            NSArray *itemArray = [NSArray arrayWithObjects: @"Standard", @"Satellite", @"Hybrid", @"Offline", nil];
+            UISegmentedControl *segmentedControl = [[UISegmentedControl alloc] initWithItems:itemArray];
+            segmentedControl.frame = CGRectMake(110, 7, 280, 30);
+            segmentedControl.segmentedControlStyle = UISegmentedControlStyleBordered;
+            segmentedControl.tintColor = [UIColor whiteColor];
+            [segmentedControl addTarget:self action:@selector(action:) forControlEvents:UIControlEventValueChanged];
+            
+            //set the selected map type.
+            NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+            NSString *maptype = [prefs stringForKey:@"maptype"];
+            
+            if ([@"Standard" isEqual:maptype]) {
+                segmentedControl.selectedSegmentIndex = 0;
+            }
+            else if ([@"Satellite" isEqual:maptype]) {
+                segmentedControl.selectedSegmentIndex = 1;
+            }
+            else if ([@"Hybrid" isEqual:maptype]) {
+                segmentedControl.selectedSegmentIndex = 2;
+            }
+            else if ([@"Offline" isEqual:maptype]) {
+                segmentedControl.selectedSegmentIndex = 3;
+            }
+            else {
+                segmentedControl.selectedSegmentIndex = 0;
+            }
+            
+            [cell addSubview:segmentedControl];
+            cell.textLabel.text = option;
+        }
+        else if ([option isEqualToString:@"Sync Now"]) {
+            button = [UIButton buttonWithType:UIButtonTypeCustom];
+            if ([[UIDevice currentDevice]userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+                [button addTarget:self action:@selector(syncNow:) forControlEvents:UIControlEventTouchUpInside];
+            }
+            else {
+                [button addTarget:self action:@selector(fetchAllAsamsFromLastSyncedDate:) forControlEvents:UIControlEventTouchUpInside];
+            }
+            if (NSFoundationVersionNumber > NSFoundationVersionNumber_iOS_6_1) { // iOS 7+
+                button.tintColor = [UIColor whiteColor];
+            } else {
+                button.tintColor = [UIColor blackColor];
                 [button addGradient:button];
-                [cell addSubview:button];
-                break;
-                
-            default:
-                break;
+            }
+            [button setTitle:@"Sync Now" forState:UIControlStateNormal];
+            [button setTitleColor:[UIColor whiteColor] forState:(UIControlStateSelected | UIControlStateHighlighted)];
+            button.frame =  CGRectMake(170, 7, 150, 30);
+            button.tag = 3;
+            button.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin;
+            [cell addSubview:button];
         }
 	}
+    if (NSFoundationVersionNumber > NSFoundationVersionNumber_iOS_6_1) { // iOS 7+
+        cell.backgroundColor = [UIColor blackColor];
+        cell.textLabel.textColor = [UIColor whiteColor];
+    } else {
+        cell.textLabel.textColor = [UIColor blackColor];
+    }
+    
     return cell;
+}
+
+- (void)action:(id)sender {
+
+    UISegmentedControl *segmentedControl = (UISegmentedControl *) sender;
+    NSInteger selectedSegment = segmentedControl.selectedSegmentIndex;
+    
+    NSUserDefaults * standardUserDefaults = [NSUserDefaults standardUserDefaults];
+    
+    switch (selectedSegment) {
+        case 0:
+            [standardUserDefaults setObject:@"Standard" forKey:@"maptype"];
+            break;
+        case 1:
+            [standardUserDefaults setObject:@"Satellite" forKey:@"maptype"];
+            break;
+        case 2:
+            [standardUserDefaults setObject:@"Hybrid" forKey:@"maptype"];
+            break;
+        case 3:
+            [standardUserDefaults setObject:@"Offline" forKey:@"maptype"];
+            break;
+        default:
+            break;                
+    }
+   
 }
 
 - (void)fetchAllAsamsFromLastSyncedDate:(id)sender {
@@ -155,5 +239,6 @@
 - (IBAction)syncNow:(id)sender {
     [self.asamUpdateDelegate updateAsamFromDate];
 }
+
 
 @end

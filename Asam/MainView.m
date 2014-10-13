@@ -18,6 +18,9 @@
 #import "AsamDownloader.h"
 #import "AsamConstants.h"
 #import "NSString+StringFromDate.h"
+#import "OfflineMapUtility.h"
+#import "MapLayoutGuide.h"
+
 
 @interface MainView() <UIPopoverControllerDelegate, MKMapViewDelegate, AsamSearchDelegate, SubRegionDelegate, AsamUpdateDelegate>
 
@@ -43,7 +46,8 @@
 @property (nonatomic, strong) IBOutlet UILabel *asamTotalLabel;
 @property (nonatomic, strong) IBOutlet UILabel *asamLabelDisplayed;
 @property (nonatomic, strong) AsamUtility *asamUtil;
-@property (nonatomic, weak) UIButton *restartButton;
+@property (nonatomic, strong) UIButton *restartButton;
+@property (weak, nonatomic) IBOutlet UIView *statusBarBackground;
 
 - (IBAction)showAsamList:(id)sender;
 - (IBAction)asamSearchView:(id)sender;
@@ -57,7 +61,8 @@
 - (void)populateMap:(NSArray *)array withNumber:(id)numberOfAsam initializeWithOneYear:(BOOL)oneYear;
 - (void)updateAsamFromDate;
 - (NSInteger)getPositionOfIndexInArrayByDate:(NSArray *)array withNumber:(NSUInteger)numberOfAsam withDate:(NSDate *)targetDate;
-- (void) populateMapWithAsams:(id)sender;
+- (void)populateMapWithAsams:(id)sender;
+- (void)setMapType: (NSNotification *)notification;
 
 @end
 
@@ -78,14 +83,19 @@
     if (![self.asamListPopOver isPopoverVisible]) {
 		AsamListView *asamListView = [[AsamListView alloc] initWithNibName:@"AsamListView" bundle:nil];
         UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:asamListView];
+
+		self.asamListPopOver = [[UIPopoverController alloc] initWithContentViewController:navController];
+        
         if (NSFoundationVersionNumber > NSFoundationVersionNumber_iOS_6_1) { // iOS 7+
             self.asamListView.edgesForExtendedLayout = UIRectEdgeNone;
+            self.asamListPopOver.backgroundColor = [UIColor colorWithWhite:(64/255.0f) alpha:1.0f];
             navController.navigationBar.backgroundColor = [UIColor colorWithRed:0.1f green:0.1f blue:0.1f alpha:1.0f];
             navController.navigationBar.tintColor = [UIColor whiteColor];
         }
-		self.asamListPopOver = [[UIPopoverController alloc] initWithContentViewController:navController];
+        
         [self.asamListPopOver presentPopoverFromBarButtonItem:sender permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
         self.asamListPopOver.delegate = self;
+        
         NSSortDescriptor *dateDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"dateofOccurrence" ascending:NO selector:@selector(compare:)];
         NSArray *sortDescriptors = @[dateDescriptor];
         asamListView.asamArray = [self.displayAsamInListArray sortedArrayUsingDescriptors:sortDescriptors];
@@ -109,18 +119,21 @@
     if (![self.settingsPopOver isPopoverVisible]) {
 		self.asamSettingsView = [[SettingsViewController alloc] initWithNibName:@"SettingsView" bundle:nil];
         UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:self.asamSettingsView];
+        
+        self.settingsPopOver = [[UIPopoverController alloc] initWithContentViewController:navController];
+
         if (NSFoundationVersionNumber > NSFoundationVersionNumber_iOS_6_1) { // iOS 7+
             self.asamSettingsView.edgesForExtendedLayout = UIRectEdgeNone;
-            navController.navigationBar.backgroundColor = [UIColor colorWithRed:0.1f green:0.1f blue:0.1f alpha:1.0f];
-            self.settingsPopOver = [[UIPopoverController alloc] initWithContentViewController:navController];
-            self.settingsPopOver.popoverContentSize = CGSizeMake(320.0f, 250.0f);
+            self.settingsPopOver.backgroundColor = [UIColor colorWithWhite:(64/255.0f) alpha:1.0f];
+            self.settingsPopOver.popoverContentSize = CGSizeMake(400.0f, 235.0f);
+            navController.navigationBar.tintColor = [UIColor whiteColor];
         }
         else {
-            self.settingsPopOver = [[UIPopoverController alloc] initWithContentViewController:navController];
-            self.settingsPopOver.popoverContentSize = CGSizeMake(320.0f, 200.0f);
+            self.settingsPopOver.popoverContentSize = CGSizeMake(400.0f, 250.0f);
         }
+        [self.settingsPopOver presentPopoverFromBarButtonItem:sender permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
         self.asamSettingsView.asamUpdateDelegate = self;
-		[self.settingsPopOver presentPopoverFromBarButtonItem:sender permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+
 	}
     else {
 		[self.settingsPopOver dismissPopoverAnimated:YES];
@@ -184,7 +197,7 @@
     self.asamTotalLabel.text = [NSString stringWithFormat:@"Showing %i out of %lu ASAM(s)", progressAsInt, (unsigned long)[self.asamArray count]];
     NSInteger arg = progressAsInt;
     id withObject = [NSNumber numberWithInt:(int)arg];
-    [DSBezelActivityView activityViewForView:self.view withLabel:@"Fetching Asam(s)..." width:180];
+    [DSBezelActivityView activityViewForView:self.view withLabel:@"Fetching ASAM(s)..." width:180];
     dispatch_queue_t mainQueue = dispatch_get_main_queue();
     dispatch_async(mainQueue, ^{
         if (self.mapView.annotations != nil && self.mapView.annotations.count > 0) {
@@ -358,7 +371,7 @@
         [message show];
         return;
     }
-    [DSBezelActivityView activityViewForView:self.view withLabel:@"Fetching Asam(s)..." width:160];
+    [DSBezelActivityView activityViewForView:self.view withLabel:@"Fetching ASAM(s)..." width:160];
     AsamDownloader *asamDownloader = [[AsamDownloader alloc] init];
     NSString *urlToCall = [NSString stringWithFormat:@"%@%@%@%@", kAsamBaseUrl, [AsamUtility fetchAndFomatLastSyncDate], kAsamPartTwo, [AsamUtility formatTodaysDate]];
     [asamDownloader downloadAndSaveAsamsWithURL:[NSURL URLWithString:urlToCall] completionBlock:^(BOOL success,NSError *error) {
@@ -401,14 +414,16 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    if (NSFoundationVersionNumber > NSFoundationVersionNumber_iOS_6_1) { // iOS 7+
-        self.toolBar.tintColor = [UIColor whiteColor];
-        self.toolBar.barTintColor = [UIColor blackColor];
-        self.asamListButton.tintColor = [UIColor whiteColor];
-        self.settingsButton.tintColor = [UIColor whiteColor];
-        self.subregionsButton.tintColor = [UIColor whiteColor];
-        self.searchButton.tintColor = [UIColor whiteColor];
-    }
+    
+    //listen for changes to map type
+    NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
+    [center addObserver:self
+            selector:@selector(setMapType:)
+            name:NSUserDefaultsDidChangeNotification
+            object:nil];
+    
+    [self setMapType: nil];
+    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(checkRotation:) name:UIApplicationDidChangeStatusBarOrientationNotification object:nil];
     self.asamUtil = [[AsamUtility alloc] init];
 
@@ -446,6 +461,23 @@
     
     self.actionHeaderView.items = @[self.restartButton, self.asamLabelDisplayed, self.slider, self.asamTotalLabel];
     [self populateMapWithAsams:@"90"];
+    
+    if (NSFoundationVersionNumber > NSFoundationVersionNumber_iOS_6_1) { // iOS 7+
+        self.toolBar.tintColor = [UIColor whiteColor];
+        self.toolBar.barTintColor = [UIColor blackColor];
+        self.toolBar.alpha = .8f;
+        self.view.backgroundColor = [UIColor whiteColor];
+        self.asamListButton.tintColor = [UIColor whiteColor];
+        self.settingsButton.tintColor = [UIColor whiteColor];
+        self.subregionsButton.tintColor = [UIColor whiteColor];
+        self.searchButton.tintColor = [UIColor whiteColor];
+        
+        [self.restartButton setTitle:@"Reset" forState:UIControlStateNormal];
+        self.restartButton.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:13.0];
+        [self.restartButton setImage:nil forState:UIControlStateNormal];
+    } else {
+        self.statusBarBackground.hidden = YES;
+    }
 }
 
 - (void)viewDidUnload {
@@ -468,6 +500,8 @@
     self.asamSearchPopOver = nil;
     self.asamSearchView = nil;
     self.displayAsamInListArray = nil;
+    self.restartButton = nil;
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
     [super viewDidUnload];
 }
 
@@ -478,6 +512,19 @@
     [self.callOutPopOver dismissPopoverAnimated:YES];
     [self.asamSearchPopOver dismissPopoverAnimated:YES];
     [[NSNotificationCenter defaultCenter]removeObserver:self];
+}
+
+-(void)viewDidAppear:(BOOL)animated {
+    
+    //listen for changes to map type
+    NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
+    [center addObserver:self
+            selector:@selector(setMapType:)
+            name:NSUserDefaultsDidChangeNotification
+            object:nil];
+    
+    [self setMapType: nil];
+
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
@@ -513,7 +560,7 @@
     REVClusterPin *pin = (REVClusterPin *)annotation;
     MKAnnotationView *annView;
     if (pin.nodeCount > 0) {
-        pin.title = [NSString stringWithFormat:@"%lu Asams", (unsigned long)pin.nodeCount];
+        pin.title = [NSString stringWithFormat:@"%lu ASAM(s)", (unsigned long)pin.nodeCount];
         annView = (REVClusterAnnotationView*)[mapView dequeueReusableAnnotationViewWithIdentifier:@"cluster"];
         if (!annView) {
             annView = (REVClusterAnnotationView*)[[REVClusterAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"cluster"];
@@ -521,7 +568,7 @@
         annView.image = [UIImage imageNamed:@"cluster"];
         [(REVClusterAnnotationView*)annView setClusterText:[NSString stringWithFormat:@"%lu", (unsigned long)pin.nodeCount]];
         annView.rightCalloutAccessoryView = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
-        annView.canShowCallout = YES;
+        annView.canShowCallout = NO;
     }
     else {
         annView = (REVClusterAnnotationView*)[mapView dequeueReusableAnnotationViewWithIdentifier:@"pin"];
@@ -529,75 +576,56 @@
             annView = (REVClusterAnnotationView*)[[REVClusterAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"pin"];
         }
         annView.image = [UIImage imageNamed:@"pirate"];
-        annView.canShowCallout = YES;
+        annView.canShowCallout = NO;
         annView.rightCalloutAccessoryView = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
         annView.calloutOffset = CGPointMake(-6.0, 0.0);
     }
     return annView;
 }
 
-- (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control {
-    
-    // Dismiss the other popovers if visible
-    if ([self.settingsPopOver isPopoverVisible]) {
-        [self.settingsPopOver dismissPopoverAnimated:YES];
-    }
-    if ([self.asamSearchPopOver isPopoverVisible]) {
-        [self.asamSearchPopOver dismissPopoverAnimated:YES];
-    }
+- (void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view
+{
+    [mapView deselectAnnotation:view.annotation animated:YES];
     
     REVClusterPin *selectedObject = (REVClusterPin *)view.annotation;
-    if (![self.callOutPopOver isPopoverVisible]) {
-		self.asamDetailView = [[AsamDetailView alloc] initWithNibName:@"AsamDetailView" bundle:nil];
-        if (selectedObject.nodeCount > 1) {
-            if (![self.asamListPopOver isPopoverVisible]) {
-                AsamListView *asamListView = [[AsamListView alloc] initWithNibName:@"AsamListView" bundle:nil];
-                UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:asamListView];
-                self.asamListPopOver = [[UIPopoverController alloc] initWithContentViewController:navController];
-                self.asamListPopOver.popoverContentSize = CGSizeMake(320.0f, 400.0f);
-                [self.asamListPopOver presentPopoverFromRect:view.bounds inView:view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
-                if (NSFoundationVersionNumber > NSFoundationVersionNumber_iOS_6_1) { // iOS 7+
-                    navController.navigationBar.backgroundColor = [UIColor colorWithRed:0.1f green:0.1f blue:0.1f alpha:1.0f];
-                    navController.navigationBar.tintColor = [UIColor whiteColor];
-                }
-                self.asamListPopOver.delegate = self;
-                NSSortDescriptor *dateDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"dateofOccurrence" ascending:NO selector:@selector(compare:)];
-                NSArray *sortDescriptors = @[dateDescriptor];
-                asamListView.asamArray = [selectedObject.nodes sortedArrayUsingDescriptors:sortDescriptors];
-                [self.navigationController pushViewController:asamListView animated:YES];
-                [self.mapView deselectAnnotation:selectedObject animated:NO];
-            }
-            else {
-                [self.asamListPopOver dismissPopoverAnimated:YES];
-            }
+
+    if (selectedObject.nodeCount > 1) {
+        AsamListView *asamListView = [[AsamListView alloc] initWithNibName:@"AsamListView" bundle:nil];
+        UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:asamListView];
+        self.asamListPopOver = [[UIPopoverController alloc] initWithContentViewController:navController];
+        if (NSFoundationVersionNumber > NSFoundationVersionNumber_iOS_6_1) { // iOS 7+
+            self.asamListPopOver.backgroundColor = [UIColor blackColor];
         }
-        else {
-            AsamDetailView *asamDetail = [[AsamDetailView alloc] initWithNibName:@"AsamDetailView" bundle:nil];
-            asamDetail.asam = selectedObject;
-            UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:asamDetail];
-            self.asamListView.navigationItem.title = @"ASAM Detail";
-            UIPopoverController *popOver = [[UIPopoverController alloc] initWithContentViewController:navController];
-            self.callOutPopOver = popOver;
-            self.callOutPopOver.delegate = self;
-            self.callOutPopOver.popoverContentSize = CGSizeMake(320.0f, 400.0f);
-            [self.callOutPopOver presentPopoverFromRect:view.bounds inView:view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
-            if (NSFoundationVersionNumber > NSFoundationVersionNumber_iOS_6_1) { // iOS 7+
-                navController.navigationBar.backgroundColor = [UIColor colorWithRed:0.1f green:0.1f blue:0.1f alpha:1.0f];
-                navController.navigationBar.tintColor = [UIColor whiteColor];
-            }
-            view.canShowCallout = YES;
-            [self.mapView deselectAnnotation:selectedObject animated:NO];
+        self.asamListPopOver.popoverContentSize = CGSizeMake(320.0f, 400.0f);
+        [self.asamListPopOver presentPopoverFromRect:view.bounds inView:view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+
+        self.asamListPopOver.delegate = self;
+        NSSortDescriptor *dateDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"dateofOccurrence" ascending:NO selector:@selector(compare:)];
+        NSArray *sortDescriptors = @[dateDescriptor];
+        asamListView.asamArray = [selectedObject.nodes sortedArrayUsingDescriptors:sortDescriptors];
+        [self.navigationController pushViewController:asamListView animated:YES];
+    } else {
+        AsamDetailView *asamDetail = [[AsamDetailView alloc] initWithNibName:@"AsamDetailView" bundle:nil];
+        asamDetail.asam = selectedObject;
+        UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:asamDetail];
+        self.asamListView.navigationItem.title = @"ASAM Detail";
+        self.callOutPopOver = [[UIPopoverController alloc] initWithContentViewController:navController];
+        if (NSFoundationVersionNumber > NSFoundationVersionNumber_iOS_6_1) { // iOS 7+
+            self.callOutPopOver.backgroundColor = [UIColor blackColor];
         }
+        
+        self.callOutPopOver.delegate = self;
+        self.callOutPopOver.popoverContentSize = CGSizeMake(320.0f, 400.0f);
+        [self.callOutPopOver presentPopoverFromRect:view.bounds inView:view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+
     }
-    else {
-        [self.callOutPopOver dismissPopoverAnimated:YES];
-    }
+
 }
 
 #pragma
 #pragma mark - Private methods (UIActivityIndicator) impl.
 - (void)populateMapWithAsams:(id)sender {
-    [DSBezelActivityView activityViewForView:self.view withLabel:@"Fetching Asam(s)..." width:180];
+    [DSBezelActivityView activityViewForView:self.view withLabel:@"Fetching ASAM(s)..." width:180];
     if(self.mapView.annotations != nil && self.mapView.annotations.count > 0) {
         [self.mapView removeAnnotations:self.mapView.annotations];
     }
@@ -642,6 +670,55 @@
         }
     }
     return [sorted count];
+}
+
+- (void)setMapType: (NSNotification *)notification {
+
+    //moniters NSUserDefault for changes.
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSString *maptype = [defaults stringForKey:@"maptype"];
+
+    [_mapView removeOverlays:_mapView.overlays];
+    
+    //set the maptype
+    if ([@"Standard" isEqual:maptype]) {
+        _mapView.mapType = MKMapTypeStandard;
+    }
+    else if ([@"Satellite" isEqual:maptype]) {
+        _mapView.mapType = MKMapTypeSatellite;
+    }
+    else if ([@"Hybrid" isEqual:maptype]) {
+        _mapView.mapType = MKMapTypeHybrid;
+    }
+    else if ([@"Offline" isEqual:maptype]) {
+        _mapView.mapType = MKMapTypeStandard;
+        [_mapView addOverlays:[OfflineMapUtility getPolygons]];
+    }
+    else {
+        _mapView.mapType = MKMapTypeStandard;
+    }
+
+}
+
+- (MKOverlayView *)mapView:(MKMapView *)mapView viewForOverlay:(id <MKOverlay>)overlay
+{
+    MKPolygonView *polygonView = [[MKPolygonView alloc] initWithPolygon:overlay];
+    
+    if ([overlay.title isEqualToString:@"ocean"]) {
+        polygonView.fillColor = [UIColor colorWithRed:127/255.0 green:153/255.0 blue:171/255.0 alpha:1];
+        polygonView.strokeColor = [UIColor clearColor];
+        polygonView.lineWidth = 0.0;
+    }
+    else {
+        polygonView.fillColor = [UIColor colorWithRed:221/255.0 green:221/255.0 blue:221/255.0 alpha:1];
+        polygonView.strokeColor = [UIColor clearColor];
+        polygonView.lineWidth = 0.0;
+    }
+    return polygonView;
+}
+
+- (id)bottomLayoutGuide {
+    return [[MapLayoutGuide alloc] initWithLength:55];
 }
 
 @end

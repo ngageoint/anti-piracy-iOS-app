@@ -79,8 +79,12 @@
         int localTileNumberY = floor( localPointY / tileHeight );
         int localTileNumber = localTileNumberX + (localTileNumberY * (BLOCKS+1));
         
-        [(REVClusterBlock *)[clusteredBlocks objectAtIndex:localTileNumber] addAnnotation:pin];
-
+        if(localTileNumber >= 0 && localTileNumber < [clusteredBlocks count]) {
+            [(REVClusterBlock *)[clusteredBlocks objectAtIndex:localTileNumber] addAnnotation:pin];
+        }
+        else {
+            NSLog(@"Incorrect localTileNumber calculated.  Ignoring cluster.");
+        }
         
     }
     

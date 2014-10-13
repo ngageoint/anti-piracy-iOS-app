@@ -7,14 +7,18 @@
 #import "REVClusterMap.h"
 #import "REVClusterAnnotationView.h"
 #import "Asam.h"
+#import "OfflineMapUtility.h"
+
 
 #pragma
 #pragma mark - Private Methods 
 @interface AsamResultViewController_iphone() <MKMapViewDelegate>
 
-@property (nonatomic, strong) REVClusterMapView *mapView;
+@property (nonatomic, weak) IBOutlet REVClusterMapView *mapView;
+@property (nonatomic, weak) IBOutlet UILabel *controlLabel;
 @property (nonatomic, strong) NSMutableArray *asamResults;
 @property (nonatomic, strong) AsamUtility *asamUtil;
+@property (nonatomic, strong) UIBarButtonItem *listButton;
 
 - (void)setUpSegment;
 - (IBAction)viewAsamsAsList;
@@ -31,12 +35,7 @@
     [super viewDidLoad];
     self.asamUtil = [[AsamUtility alloc] init];
     
-    UIScreen *screen = [UIScreen mainScreen];
-    CGRect fullScreenRect = screen.bounds; // implicitly in Portrait orientation.
-    self.mapView = [[REVClusterMapView alloc] initWithFrame:fullScreenRect];
-    self.mapView.delegate = self;
-    [self.view addSubview:self.mapView];
-
+    [self setMapType: nil];
     [self setUpSegment];
     [self startAnimation:nil];
 }
@@ -60,18 +59,14 @@
 
 - (void)setUpSegment {
     
-    // Create top right button
-    UISegmentedControl *segmentedControl = [[UISegmentedControl alloc] initWithItems:@[@"List View"]];
-    segmentedControl.frame = CGRectMake(0, 0, 80, 30);
-    segmentedControl.tag = 0;
-    segmentedControl.segmentedControlStyle = UISegmentedControlStyleBar;
     
-    [segmentedControl addTarget:self action:@selector(segmentAction:) forControlEvents:UIControlEventValueChanged];
-    segmentedControl.momentary = YES;
-    segmentedControl.tintColor = [UIColor blackColor];
+    self.listButton = [[UIBarButtonItem alloc]
+                       initWithTitle:@"List"
+                       style:UIBarButtonItemStylePlain
+                       target:self
+                       action:@selector(viewAsamsAsList)];
     
-    UIBarButtonItem *segmentBarItem = [[UIBarButtonItem alloc] initWithCustomView:segmentedControl];
-    self.navigationItem.rightBarButtonItem = segmentBarItem;
+    self.navigationItem.rightBarButtonItem = self.listButton;
 }
 
 - (void)segmentAction:(UISegmentedControl*)sender {
@@ -111,7 +106,7 @@
         annView.image = [UIImage imageNamed:@"cluster.png"];
         [(REVClusterAnnotationView*)annView setClusterText:[NSString stringWithFormat:@"%lu",(unsigned long)[pin nodeCount]]];
         annView.rightCalloutAccessoryView = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
-        annView.canShowCallout = YES;
+        annView.canShowCallout = NO;
     }
     else {
         annView = (REVClusterAnnotationView*)[mapView dequeueReusableAnnotationViewWithIdentifier:@"pin"];
@@ -119,15 +114,16 @@
             annView = (REVClusterAnnotationView*)[[REVClusterAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"pin"];
         }
         annView.image = [UIImage imageNamed:@"pirate"];
-        annView.canShowCallout = YES;
+        annView.canShowCallout = NO;
         annView.rightCalloutAccessoryView = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
         annView.calloutOffset = CGPointMake(-6.0, 0.0);
     }
     return annView;
 }
 
-- (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control {
-    REVClusterPin *selectedObject = (REVClusterPin *)view.annotation;
+- (void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view {
+        [mapView deselectAnnotation:view.annotation animated:YES];
+        REVClusterPin *selectedObject = (REVClusterPin *)view.annotation;        
     if (selectedObject.nodeCount > 1) {
         AsamListViewController_iphone *asamListView = [[AsamListViewController_iphone alloc] initWithNibName:@"AsamListViewController_iphone" bundle:nil];
         NSSortDescriptor *dateDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"dateofOccurrence" ascending:NO selector:@selector(compare:)];
@@ -196,28 +192,74 @@
         self.mapView.region = MKCoordinateRegionForMapRect(MKMapRectWorld);
     }
     
-    NSString *title = @"";
-    if (NSFoundationVersionNumber <= NSFoundationVersionNumber_iOS_6_1) { // < iOS 7
-        title = @"Back";
-    }
-    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:title style:UIBarButtonItemStyleBordered target:nil action:nil];
-    backButton.tintColor = [UIColor blackColor];
-    self.navigationItem.backBarButtonItem = backButton;
+//    NSString *title = @"";
+//    if (NSFoundationVersionNumber <= NSFoundationVersionNumber_iOS_6_1) { // < iOS 7
+//        title = @"Back";
+//    }
+//    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:title style:UIBarButtonItemStyleBordered target:nil action:nil];
+//    backButton.tintColor = [UIColor blackColor];
+//    self.navigationItem.backBarButtonItem = backButton;
     
-    UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(5, 0, 320, 40)];
-    titleLabel.font = [UIFont fontWithName:@"Helvetica-Bold" size:14.0];
-    titleLabel.backgroundColor = [UIColor clearColor];
-    titleLabel.textColor = [UIColor whiteColor];
-    titleLabel.textAlignment = NSTextAlignmentCenter;
-    
-    titleLabel.text = [NSString stringWithFormat:@"%lu ASAM(s)", (unsigned long)self.asamResults.count];
-    self.navigationItem.titleView = titleLabel;
+//    UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(5, 0, 320, 40)];
+//    titleLabel.font = [UIFont fontWithName:@"Helvetica-Bold" size:14.0];
+//    titleLabel.backgroundColor = [UIColor clearColor];
+//    titleLabel.textColor = [UIColor whiteColor];
+//    titleLabel.textAlignment = NSTextAlignmentCenter;
+//    
+//    titleLabel.text = [NSString stringWithFormat:@"%lu ASAM(s)", (unsigned long)self.asamResults.count];
+//    self.navigationItem.titleView = titleLabel;
+    _controlLabel.text =[NSString stringWithFormat:@"%lu ASAM(s)", (unsigned long)self.asamResults.count];
 }
 
 #pragma
 #pragma mark - Private methods (UIActivityIndicator) impl.
 - (IBAction)startAnimation:(id)sender {
     [self populateAsamPins];
+}
+
+
+- (void)setMapType: (NSNotification *)notification {
+    
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSString *maptype = [defaults stringForKey:@"maptype"];
+    
+    [_mapView removeOverlays:_mapView.overlays];
+    
+    //set the maptype
+    if ([@"Standard" isEqual:maptype]) {
+        _mapView.mapType = MKMapTypeStandard;
+    }
+    else if ([@"Satellite" isEqual:maptype]) {
+        _mapView.mapType = MKMapTypeSatellite;
+    }
+    else if ([@"Hybrid" isEqual:maptype]) {
+        _mapView.mapType = MKMapTypeHybrid;
+    }
+    else if ([@"Offline" isEqual:maptype]) {
+        _mapView.mapType = MKMapTypeStandard;
+        [_mapView addOverlays:[OfflineMapUtility getPolygons]];
+    }
+    else {
+        _mapView.mapType = MKMapTypeStandard;
+    }
+    
+}
+
+- (MKOverlayView *)mapView:(MKMapView *)mapView viewForOverlay:(id <MKOverlay>)overlay
+{
+    MKPolygonView *polygonView = [[MKPolygonView alloc] initWithPolygon:overlay];
+    
+    if ([overlay.title isEqualToString:@"ocean"]) {
+        polygonView.fillColor = [UIColor colorWithRed:127/255.0 green:153/255.0 blue:171/255.0 alpha:1];
+        polygonView.strokeColor = [UIColor clearColor];
+        polygonView.lineWidth = 0.0;
+    }
+    else {
+        polygonView.fillColor = [UIColor colorWithRed:221/255.0 green:221/255.0 blue:221/255.0 alpha:1];
+        polygonView.strokeColor = [UIColor clearColor];
+        polygonView.lineWidth = 0.0;
+    }
+    return polygonView;
 }
 
 - (void)dealloc {

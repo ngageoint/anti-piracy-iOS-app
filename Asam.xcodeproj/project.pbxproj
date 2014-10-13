@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1F03D4A61979B3CF0021BEFC /* ne_50m_land.simplify0.2.geojson in Resources */ = {isa = PBXBuildFile; fileRef = 1F03D4A51979B3CF0021BEFC /* ne_50m_land.simplify0.2.geojson */; };
+		1F4DDDB11970324100670A70 /* OfflineMapUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F4DDDB01970324100670A70 /* OfflineMapUtility.m */; };
+		1FF3F916197EC1F200017F88 /* naturalearth.txt in Resources */ = {isa = PBXBuildFile; fileRef = 1FF3F915197EC1F200017F88 /* naturalearth.txt */; };
 		2400B466167A2C7D00326B57 /* pirate@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2400B465167A2C7D00326B57 /* pirate@2x.png */; };
 		2402DB3A15DE6C00005AAFE4 /* REVAnnotationsCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 2402DB3015DE6C00005AAFE4 /* REVAnnotationsCollection.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		2402DB3B15DE6C00005AAFE4 /* REVClusterBlock.m in Sources */ = {isa = PBXBuildFile; fileRef = 2402DB3215DE6C00005AAFE4 /* REVClusterBlock.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -145,6 +148,7 @@
 		24F14681166FB93B0028E013 /* LegalDetailsViewController_ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 24F1467F166FB93B0028E013 /* LegalDetailsViewController_ipad.xib */; };
 		24F3ABB314DAF60A00223445 /* restart.png in Resources */ = {isa = PBXBuildFile; fileRef = 24F3ABB114DAF60A00223445 /* restart.png */; };
 		24F3ABB414DAF60A00223445 /* restart@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 24F3ABB214DAF60A00223445 /* restart@2x.png */; };
+		2FB364B319C0CC4600EC8DAD /* MapLayoutGuide.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FB364B219C0CC4600EC8DAD /* MapLayoutGuide.m */; };
 		961E27D218C7D18B00B90864 /* icon_iPad _Non_Retina_40x40.png in Resources */ = {isa = PBXBuildFile; fileRef = 961E27C418C7D18B00B90864 /* icon_iPad _Non_Retina_40x40.png */; };
 		961E27D318C7D18B00B90864 /* icon_iPad_Non_Retina_76x76.png in Resources */ = {isa = PBXBuildFile; fileRef = 961E27C518C7D18B00B90864 /* icon_iPad_Non_Retina_76x76.png */; };
 		961E27D418C7D18B00B90864 /* icon_iPad_Retina_58x58.png in Resources */ = {isa = PBXBuildFile; fileRef = 961E27C618C7D18B00B90864 /* icon_iPad_Retina_58x58.png */; };
@@ -165,6 +169,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1F03D4A51979B3CF0021BEFC /* ne_50m_land.simplify0.2.geojson */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ne_50m_land.simplify0.2.geojson; sourceTree = "<group>"; };
+		1F4DDDAF1970324100670A70 /* OfflineMapUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OfflineMapUtility.h; sourceTree = "<group>"; };
+		1F4DDDB01970324100670A70 /* OfflineMapUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OfflineMapUtility.m; sourceTree = "<group>"; };
+		1FF3F915197EC1F200017F88 /* naturalearth.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = naturalearth.txt; sourceTree = "<group>"; };
 		2400B465167A2C7D00326B57 /* pirate@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pirate@2x.png"; sourceTree = "<group>"; };
 		2402DB2F15DE6C00005AAFE4 /* REVAnnotationsCollection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = REVAnnotationsCollection.h; sourceTree = "<group>"; };
 		2402DB3015DE6C00005AAFE4 /* REVAnnotationsCollection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = REVAnnotationsCollection.m; sourceTree = "<group>"; };
@@ -354,6 +362,8 @@
 		24F1467F166FB93B0028E013 /* LegalDetailsViewController_ipad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LegalDetailsViewController_ipad.xib; sourceTree = "<group>"; };
 		24F3ABB114DAF60A00223445 /* restart.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = restart.png; sourceTree = "<group>"; };
 		24F3ABB214DAF60A00223445 /* restart@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "restart@2x.png"; sourceTree = "<group>"; };
+		2FB364B119C0CC4600EC8DAD /* MapLayoutGuide.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapLayoutGuide.h; sourceTree = "<group>"; };
+		2FB364B219C0CC4600EC8DAD /* MapLayoutGuide.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapLayoutGuide.m; sourceTree = "<group>"; };
 		961E27C418C7D18B00B90864 /* icon_iPad _Non_Retina_40x40.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_iPad _Non_Retina_40x40.png"; sourceTree = "<group>"; };
 		961E27C518C7D18B00B90864 /* icon_iPad_Non_Retina_76x76.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_iPad_Non_Retina_76x76.png; sourceTree = "<group>"; };
 		961E27C618C7D18B00B90864 /* icon_iPad_Retina_58x58.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_iPad_Retina_58x58.png; sourceTree = "<group>"; };
@@ -570,10 +580,14 @@
 		24984FD914D74786000CBCBE /* Utility Classes */ = {
 			isa = PBXGroup;
 			children = (
+				2FB364B119C0CC4600EC8DAD /* MapLayoutGuide.h */,
+				2FB364B219C0CC4600EC8DAD /* MapLayoutGuide.m */,
 				24984FDA14D747B2000CBCBE /* KMLParser.h */,
 				24984FDB14D747B2000CBCBE /* KMLParser.m */,
 				24984FDE14D747B2000CBCBE /* AsamUtility.h */,
 				24984FDF14D747B2000CBCBE /* AsamUtility.m */,
+				1F4DDDAF1970324100670A70 /* OfflineMapUtility.h */,
+				1F4DDDB01970324100670A70 /* OfflineMapUtility.m */,
 			);
 			name = "Utility Classes";
 			sourceTree = "<group>";
@@ -609,6 +623,7 @@
 				249993A4166F87F6000F8452 /* reachability.txt */,
 				249993A5166F87F6000F8452 /* revclustermap.txt */,
 				249993A7166F87F6000F8452 /* ddactionheaderview.txt */,
+				1FF3F915197EC1F200017F88 /* naturalearth.txt */,
 			);
 			name = thirdparty_description;
 			sourceTree = "<group>";
@@ -772,6 +787,7 @@
 		24C78D5914D5B35E0027AE3B /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				1F03D4A51979B3CF0021BEFC /* ne_50m_land.simplify0.2.geojson */,
 				96E9CF8D18201D3F004E292C /* Asam.sqlite */,
 				249993A0166F87DB000F8452 /* thirdparty_description */,
 				24C9F3AB14D9718D00172AAC /* images */,
@@ -1012,6 +1028,7 @@
 				24914EA11655D4EA0092E072 /* AsamDetailView.xib in Resources */,
 				242AA52D166E742C0005CFDA /* mapview.png in Resources */,
 				242AA52E166E742C0005CFDA /* query.png in Resources */,
+				1FF3F916197EC1F200017F88 /* naturalearth.txt in Resources */,
 				242AA52F166E742C0005CFDA /* settings.png in Resources */,
 				242AA530166E742C0005CFDA /* subregion.png in Resources */,
 				242AA53B166E74D10005CFDA /* Icon-72.png in Resources */,
@@ -1039,6 +1056,7 @@
 				249993AA166F87F6000F8452 /* reachability.txt in Resources */,
 				249993AB166F87F6000F8452 /* revclustermap.txt in Resources */,
 				249993AD166F87F6000F8452 /* ddactionheaderview.txt in Resources */,
+				1F03D4A61979B3CF0021BEFC /* ne_50m_land.simplify0.2.geojson in Resources */,
 				249993AF166F8821000F8452 /* asamapp.txt in Resources */,
 				24A5FD96166FA2E800C53193 /* ngadisclaimer.txt in Resources */,
 				961E27D818C7D18B00B90864 /* icon_iPhone_Retina_58x58.png in Resources */,
@@ -1078,7 +1096,9 @@
 				24C78D5F14D5B35E0027AE3B /* main.m in Sources */,
 				24C78D6314D5B35E0027AE3B /* AppDelegate.m in Sources */,
 				24C78D6614D5B35E0027AE3B /* Asam.xcdatamodeld in Sources */,
+				1F4DDDB11970324100670A70 /* OfflineMapUtility.m in Sources */,
 				24C78D9B14D5B39D0027AE3B /* MainView.m in Sources */,
+				2FB364B319C0CC4600EC8DAD /* MapLayoutGuide.m in Sources */,
 				24A9704A14D7332900E895B5 /* AsamDetailView.m in Sources */,
 				24984FC414D746EE000CBCBE /* NSManagedObjectContext-EasyFetch.m in Sources */,
 				24984FC514D746EE000CBCBE /* AsamFetch.m in Sources */,

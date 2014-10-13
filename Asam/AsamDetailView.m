@@ -167,6 +167,7 @@
 
 - (void)setUpBarTitle {
     if (NSFoundationVersionNumber > NSFoundationVersionNumber_iOS_6_1) { // iOS 7+
+        self.navigationController.navigationBar.backgroundColor = [UIColor darkGrayColor];
         self.tableView.backgroundColor = [UIColor blackColor];
     }
     else {

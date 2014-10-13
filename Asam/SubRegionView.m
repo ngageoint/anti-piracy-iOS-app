@@ -3,11 +3,13 @@
 #import "AppDelegate.h"
 #import "AsamFetch.h"
 #import "mach/mach.h"
+#import "OfflineMapUtility.h"
 
 
 @interface SubRegionView() <MKMapViewDelegate, UIActionSheetDelegate,UIGestureRecognizerDelegate>
     
 @property (nonatomic, strong) IBOutlet UIToolbar *toolBar;
+@property (weak, nonatomic) IBOutlet UIView *statusBarBackground;
 @property (nonatomic, strong) IBOutlet MKMapView *mapView;
 @property (nonatomic, strong) NSString *subregionQuery;
 @property (nonatomic, strong) UIBarButtonItem *resetButton;
@@ -37,6 +39,8 @@
     self.selectedSubRegions = [[NSMutableArray alloc] init];
     [self prepareNavBar];
     [self populateSubregions];
+    [self setMapType: nil];
+    
     UILongPressGestureRecognizer *lpgr = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleLongPress:)];
     lpgr.numberOfTapsRequired = 0;
     lpgr.numberOfTouchesRequired = 1;
@@ -64,6 +68,9 @@
     for (id <MKOverlay> overlay in self.mapView.overlays) {
         if ([overlay isKindOfClass:[MKPolygon class]]) {
             MKPolygon *poly = (MKPolygon*) overlay;
+            if ([poly.title isEqualToString:@"ocean"] || [poly.title isEqualToString:@"feature"]) {
+                break;
+            }
             id view = [_mapView viewForOverlay:poly];
             if ([view isKindOfClass:[MKPolygonView class]]){
                 MKPolygonView *polyView = (MKPolygonView*)view;
@@ -90,16 +97,25 @@
                     mapCoordinateIsInPolygon = CGPathContainsPoint(polyView.path, NULL, polygonViewPoint, NO);
                 }
                 if (mapCoordinateIsInPolygon ){
-                    if(![self.selectedSubRegions containsObject:poly.title]) {
+                    if (![self.selectedSubRegions containsObject:poly.title]) {
                         [self.selectedSubRegions addObject:poly.title];
                         polyView.strokeColor = [UIColor orangeColor];
-                        polyView.fillColor = [[UIColor greenColor] colorWithAlphaComponent:0.5];
+                        polyView.fillColor = [[UIColor greenColor] colorWithAlphaComponent:0.7];
+                        polyView.opaque = true;
                         break;
                     }
                     else {
                         [self.selectedSubRegions removeObject:poly.title];
-                        polyView.strokeColor = [UIColor orangeColor];
-                        polyView.fillColor = [[UIColor yellowColor] colorWithAlphaComponent:0.3];
+                        polyView.strokeColor=[UIColor orangeColor];
+                        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+                        NSString *maptype = [defaults stringForKey:@"maptype"];
+                        if ([@"Offline" isEqual:maptype]) {
+                            polyView.fillColor = [[UIColor whiteColor] colorWithAlphaComponent:0.9];
+                        }
+                        else {
+                            polyView.fillColor = [[UIColor yellowColor] colorWithAlphaComponent:0.2];
+                        }
+                        
                         break;
                     }
                 }
@@ -124,15 +140,39 @@
 }
 
 #pragma
-#pragma mark - Map View for overlay
+#pragma mark - Map Views
 - (MKOverlayView *)mapView:(MKMapView *)mapView viewForOverlay:(id <MKOverlay>)overlay {
-	if ([overlay isKindOfClass:[MKPolygon class]]) {
-		MKPolygonView *polyView = [[MKPolygonView alloc] initWithOverlay:overlay];
-		polyView.lineWidth = 2;
-        polyView.strokeColor = [UIColor orangeColor];
-		polyView.fillColor = [[UIColor yellowColor] colorWithAlphaComponent:0.3];
-        polyView.opaque = TRUE;
-		return polyView;
+    
+    MKPolygonView *polygonView = [[MKPolygonView alloc] initWithOverlay:overlay];
+    
+    if ([overlay isKindOfClass:[MKPolygon class]]) {
+        
+        if ([overlay.title isEqualToString:@"ocean"]) {
+            polygonView.fillColor = [UIColor colorWithRed:127/255.0 green:153/255.0 blue:171/255.0 alpha:0.8];
+            polygonView.strokeColor = [UIColor clearColor];
+            polygonView.lineWidth = 0.0;
+            polygonView.opaque = TRUE;
+        }
+        else if ([overlay.title isEqualToString:@"feature"]) {
+            polygonView.fillColor = [UIColor colorWithRed:221/255.0 green:221/255.0 blue:221/255.0 alpha:0.7];
+            polygonView.strokeColor = [UIColor clearColor];
+            polygonView.lineWidth = 0.0;
+            polygonView.opaque = TRUE;
+        }
+        else {
+            NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+            NSString *maptype = [defaults stringForKey:@"maptype"];
+            if ([@"Offline" isEqual:maptype]) {
+                polygonView.fillColor = [[UIColor whiteColor] colorWithAlphaComponent:0.9];
+            }
+            else {
+                polygonView.fillColor = [[UIColor yellowColor] colorWithAlphaComponent:0.2];
+            }
+            polygonView.lineWidth = 2;
+            polygonView.strokeColor = [UIColor orangeColor];
+        }
+        
+		return polygonView;
 	}
 	return nil;
 }
@@ -179,21 +219,36 @@
 }
 
 - (void)prepareNavBar {
+    
+    UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 320, 30)];
+    titleLabel.font = [UIFont fontWithName:@"Helvetica-Bold" size:16.0];
+    titleLabel.backgroundColor = [UIColor clearColor];
+    titleLabel.textColor = [UIColor whiteColor];
+    titleLabel.text = @"Subregions";
+    titleLabel.textAlignment = NSTextAlignmentCenter;
+    UIBarButtonItem *title = [[UIBarButtonItem alloc] initWithCustomView:titleLabel];
+    
+    UIBarButtonItem *fixedSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+    fixedSpace.width = 20.0f;
+    
     UIBarButtonItem *flexSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
     UIBarButtonItem *dismissButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(dismissView)];
     self.resetButton = [[UIBarButtonItem alloc]initWithTitle:@"Reset" style:UIBarButtonItemStyleBordered target:self action:@selector(reset)];
     self.queryButton = [[UIBarButtonItem alloc]initWithTitle:@"Query" style:UIBarButtonItemStyleBordered target:self action:@selector(showActionSheet)];
     self.selectedSubregionsButton = [[UIBarButtonItem alloc]initWithTitle:@"Selected Regions" style:UIBarButtonItemStyleBordered target:self action:@selector(filterSubregions)];
-    NSArray *barItems = @[dismissButton, flexSpace, self.resetButton, self.queryButton, self.selectedSubregionsButton];
+    NSArray *barItems = @[dismissButton, flexSpace, title, flexSpace, self.resetButton, fixedSpace, self.queryButton, fixedSpace, self.selectedSubregionsButton];
     [self toggleButtonsVisibility:FALSE];
     self.toolBar.items = barItems;
     if (NSFoundationVersionNumber > NSFoundationVersionNumber_iOS_6_1) { // iOS 7+
-        self.toolBar.barTintColor = [UIColor blackColor];
         self.toolBar.tintColor = [UIColor whiteColor];
+        self.toolBar.barTintColor = [UIColor blackColor];
+        self.toolBar.alpha = .8f;        
     }
     else {
         self.toolBar.barStyle = UIBarStyleBlack;
+        self.statusBarBackground.hidden = YES;
     }
+    
 }
 
 - (void)filterSubregions {
@@ -248,6 +303,8 @@
     [self.selectedSubRegions removeAllObjects];
     [self toggleButtonsVisibility:FALSE];
     [self populateSubregions];
+    [self setMapType: nil];
+
 }
 
 - (void)dismissView {
@@ -312,6 +369,33 @@
         self.selectedSubregionsButton.enabled = NO;
         self.resetButton.enabled = NO;
     }
+}
+
+- (void)setMapType: (NSNotification *)notification {
+    
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSString *maptype = [defaults stringForKey:@"maptype"];
+    
+    //[_mapView removeOverlays:_mapView.overlays];
+    
+    //set the maptype
+    if ([@"Standard" isEqual:maptype]) {
+        _mapView.mapType = MKMapTypeStandard;
+    }
+    else if ([@"Satellite" isEqual:maptype]) {
+        _mapView.mapType = MKMapTypeSatellite;
+    }
+    else if ([@"Hybrid" isEqual:maptype]) {
+        _mapView.mapType = MKMapTypeHybrid;
+    }
+    else if ([@"Offline" isEqual:maptype]) {
+        _mapView.mapType = MKMapTypeStandard;
+        [_mapView addOverlays:[OfflineMapUtility getPolygons]];
+    }
+    else {
+        _mapView.mapType = MKMapTypeStandard;
+    }
+    
 }
 
 @end
