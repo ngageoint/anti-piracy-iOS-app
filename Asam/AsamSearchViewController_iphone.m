@@ -8,13 +8,13 @@
 
 #define kOFFSET_FOR_KEYBOARD 150.0
 
-@interface AsamSearchViewController_iphone() <UIActionSheetDelegate, UITextFieldDelegate, UIPickerViewDelegate, UIPickerViewDataSource>
+@interface AsamSearchViewController_iphone() <UITextFieldDelegate, UIPickerViewDelegate, UIPickerViewDataSource>
 
 @property (nonatomic, strong) NSArray *subRegions;
 @property (nonatomic, assign) NSInteger selectedSubRegionIndex;
 @property (nonatomic, strong) NSDate *selectedDateFrom;
 @property (nonatomic, strong) NSDate *selectedDateTo;
-@property (nonatomic, strong) UIDatePicker *datePickerFromView;
+@property (nonatomic, strong) IBOutlet UIDatePicker *datePickerFromView;
 @property (nonatomic, strong) UIActionSheet *datePickerFromActionSheet;
 @property (nonatomic, strong) UIDatePicker *datePickerToView;
 @property (nonatomic, strong) UIActionSheet *datePickerToActionSheet;
@@ -32,15 +32,10 @@
 @property (nonatomic, strong) UIButton *doneButton;
 @property (nonatomic, weak) IBOutlet UIButton *searchButton;
 @property (nonatomic, weak) IBOutlet UIButton *resetButton;
+@property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 
-- (IBAction)selectDateFromSheet:(id)sender;
-- (IBAction)selectDateToSheet:(id)sender;
-- (IBAction)selectSubRegionSheet:(id)sender;
 - (IBAction)resetSearchFields:(id)sender;
 - (IBAction)prepareQuery:(id)sender;
-- (IBAction)referenceNumberTouched:(id)sender;
-- (IBAction)textFieldDidEndEditing:(id)sender;
-- (IBAction)textFieldDidBeginEditing:(id)sender;
 
 - (void)dateFromWasSelected:(NSDate *)dateFromIndex;
 - (void)cancelButtonPressedFrom:(id)sender;
@@ -50,10 +45,7 @@
 - (void)queryAsam:(id)sender;
 - (void)loadSubregions;
 - (void)setUpBarTitle;
-- (void)addButtonToKeyboard;
-- (void)setViewMovedUp:(BOOL)movedUp;
 - (NSString *)formattedDateAsString:(NSDate *)date;
-- (void)doneButtonClicked:(id)sender;
 
 @end
 
@@ -69,60 +61,40 @@
     [self loadSubregions];
     [self.searchButton addBackgroundToButton:self.searchButton];
     [self.resetButton addBackgroundToButton:self.resetButton];
-}
-
-- (void)viewDidUnload {
-    self.subRegions = nil;
-    self.selectedDateFrom = nil;
-    self.selectedDateTo = nil;
-    self.datePickerFromView = nil;
-    self.datePickerFromActionSheet = nil;
-    self.datePickerToView = nil;
-    self.datePickerToActionSheet = nil;
-    self.subRegionsActionSheet = nil;
-    self.subRegionsPickerView = nil;
-    self.victim = nil;
-    self.aggressor = nil;
-    self.dateTo = nil;
-    self.dateFrom = nil;
-    self.refNumber = nil;
-    self.refNumberYear = nil;
-    self.selectedSubRegion = nil;
-    self.searchButton = nil;
-    self.resetButton = nil;
-    [super viewDidUnload];
-}
-
-- (void)viewDidDisappear:(BOOL)animated {
-    [super viewDidDisappear:animated];
     
-    // Needed for when a user hits the search button instead of the Done button
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-    [self.victim resignFirstResponder];
-    [self.aggressor resignFirstResponder];
+    [self createDateFromView];
+    [self createDateToView];
+    [self createSubregionView];
+    UIToolbar* keyboardDoneButtonView = [[UIToolbar alloc] init];
+    [keyboardDoneButtonView sizeToFit];
+    UIBarButtonItem* doneButton = [[UIBarButtonItem alloc] initWithTitle:@"Done"
+                                                                   style:UIBarButtonItemStyleBordered target:self
+                                                                  action:@selector(doneClicked:)];
+    [keyboardDoneButtonView setItems:[NSArray arrayWithObjects:[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil], doneButton, nil]];
+    self.refNumber.inputAccessoryView = keyboardDoneButtonView;
+    self.refNumberYear.inputAccessoryView = keyboardDoneButtonView;
+    
 }
 
 #pragma mark
 #pragma mark - Memory Mgmt
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
+
+- (IBAction)doneClicked:(id)sender {
+    [self.view endEditing:YES];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
-#pragma mark
-#pragma mark - Date From
-- (IBAction)selectDateFromSheet:(id)sender {
-    const CGFloat toolbarHeight = 44.0f;
-    self.datePickerFromActionSheet = [[UIActionSheet alloc] init];
-    self.datePickerFromView = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, toolbarHeight, 0, 0)];
-    self.datePickerFromView.datePickerMode = UIDatePickerModeDate;
-    self.datePickerFromView.hidden = NO;
+- (void) createDateFromView {
+    self.datePickerFromView = [[UIDatePicker alloc] init];
+    [self.datePickerFromView sizeToFit];
+    self.datePickerFromView.autoresizingMask = (UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight);
+    self.datePickerFromView.backgroundColor = [UIColor whiteColor];
     self.datePickerFromView.date = [NSDate date];
     
-    UIToolbar *pickerToolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, toolbarHeight)];
+    UIToolbar *pickerToolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 44.0f)];
     pickerToolbar.barStyle = UIBarStyleBlackOpaque;
     [pickerToolbar sizeToFit];
     UIBarButtonItem *cancelBtn = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelButtonPressedFrom:)];
@@ -134,15 +106,12 @@
         [cancelBtn setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]} forState:UIControlStateNormal];
         [doneBtn setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]} forState:UIControlStateNormal];
     }
-    
-    [self.datePickerFromActionSheet addSubview:pickerToolbar];
-    [self.datePickerFromActionSheet addSubview:self.datePickerFromView];
-    [self.datePickerFromActionSheet showInView:self.view];
-    self.datePickerFromActionSheet.bounds = CGRectMake(0, 0, self.view.frame.size.width, 464);
+    self.dateFrom.inputAccessoryView = pickerToolbar;
+    self.dateFrom.inputView = self.datePickerFromView;
 }
 
 - (void)cancelButtonPressedFrom:(id)sender {
-    [self.datePickerFromActionSheet dismissWithClickedButtonIndex:1 animated:YES];
+    [self.dateFrom resignFirstResponder];
 }
 
 - (void)dateFromWasSelected:(NSDate *)dateFromIndex {
@@ -152,15 +121,15 @@
 
 #pragma mark
 #pragma mark - Date To
-- (IBAction)selectDateToSheet:(id)sender {
-    const CGFloat toolbarHeight = 44.0f;
-    self.datePickerToActionSheet = [[UIActionSheet alloc] init];
-    self.datePickerToView = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, toolbarHeight, 0, 0)];
-    self.datePickerToView.datePickerMode = UIDatePickerModeDate;
-    self.datePickerToView.hidden = NO;
+- (void)createDateToView {
+    
+    self.datePickerToView = [[UIDatePicker alloc] init];
+    [self.datePickerToView sizeToFit];
+    self.datePickerToView.autoresizingMask = (UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight);
+    self.datePickerToView.backgroundColor = [UIColor whiteColor];
     self.datePickerToView.date = [NSDate date];
     
-    UIToolbar *pickerToolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, toolbarHeight)];
+    UIToolbar *pickerToolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 44.0f)];
     pickerToolbar.barStyle = UIBarStyleBlackOpaque;
     [pickerToolbar sizeToFit];
     UIBarButtonItem *cancelBtn = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelButtonPressedTo:)];
@@ -172,11 +141,8 @@
         [cancelBtn setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]} forState:UIControlStateNormal];
         [doneBtn setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]} forState:UIControlStateNormal];
     }
-    
-    [self.datePickerToActionSheet addSubview:pickerToolbar];
-    [self.datePickerToActionSheet addSubview:self.datePickerToView];
-    [self.datePickerToActionSheet showInView:self.view];
-    self.datePickerToActionSheet.bounds = CGRectMake(0, 0, self.view.frame.size.width, 464);
+    self.dateTo.inputAccessoryView = pickerToolbar;
+    self.dateTo.inputView = self.datePickerToView;
 }
 
 - (void)dateToWasSelected:(NSDate *)dateFromIndex {
@@ -185,15 +151,15 @@
 }
 
 - (void)cancelButtonPressedTo:(id)sender {
-    [self.datePickerToActionSheet dismissWithClickedButtonIndex:1 animated:YES];
+    [self.dateTo resignFirstResponder];
 }
 
 #pragma mark
 #pragma mark - Subregions
-- (IBAction)selectSubRegionSheet:(id)sender {
+- (void)createSubregionView {
     const CGFloat toolbarHeight = 44.0f;
-    self.subRegionsActionSheet = [[UIActionSheet alloc] init];
-    self.subRegionsPickerView = [[UIPickerView alloc] initWithFrame:CGRectMake(0, toolbarHeight, 0, 0)];
+    self.subRegionsPickerView = [[UIPickerView alloc] init];
+    [self.subRegionsPickerView sizeToFit];
 	self.subRegionsPickerView.delegate = self;
 	self.subRegionsPickerView.dataSource = self;
 	self.subRegionsPickerView.showsSelectionIndicator = YES;
@@ -204,7 +170,7 @@
     
     UIBarButtonItem *cancelBtn = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelSubRegionButton:)];
     UIBarButtonItem *flexSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
-    UIBarButtonItem *doneBtn = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(cancelSubRegionButton:)];
+    UIBarButtonItem *doneBtn = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(doneSubRegionButton:)];
     NSArray *barItems = @[cancelBtn, flexSpace, doneBtn];
     [pickerToolbar setItems:barItems animated:YES];
     if (NSFoundationVersionNumber > NSFoundationVersionNumber_iOS_6_1) { // iOS 7+
@@ -212,20 +178,23 @@
         [doneBtn setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]} forState:UIControlStateNormal];
     }
     
-    [self.subRegionsActionSheet addSubview:pickerToolbar];
-    [self.subRegionsActionSheet addSubview:self.subRegionsPickerView];
-    [self.subRegionsActionSheet showInView:self.view];
-    self.subRegionsActionSheet.bounds = CGRectMake(0, 0, self.view.frame.size.width, 464);
+    self.selectedSubRegion.inputView = self.subRegionsPickerView;
+    self.selectedSubRegion.inputAccessoryView = pickerToolbar;
 }
 
 - (void)cancelSubRegionButton:(id)sender {
-    [self.subRegionsActionSheet dismissWithClickedButtonIndex:1 animated:YES];
+    [self.selectedSubRegion resignFirstResponder];
+}
+
+- (void)doneSubRegionButton: (id)sender {
+    self.selectedSubRegion.text = [self.subRegions objectAtIndex:[self.subRegionsPickerView selectedRowInComponent:0]];
+    [self cancelSubRegionButton:sender];
 }
 
 #pragma mark -
 #pragma mark UIPickerViewDelegate
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
-    self.selectedSubRegion.text = [self.subRegions objectAtIndex:row];
+//    self.selectedSubRegion.text = [self.subRegions objectAtIndex:row];
 }
 
 #pragma mark -
@@ -299,28 +268,8 @@
     [self performSelector:@selector(queryAsam:) withObject:finalQueryParam afterDelay:0.01];
 }
 
-- (IBAction)textFieldDidEndEditing:(id)sender {
-    if ([sender isEqual:self.victim]) {
-        [self.victim resignFirstResponder];
-        self.viewMovedUp = NO;
-    }
-    else if ([sender isEqual:self.aggressor]) {
-        [self.aggressor resignFirstResponder];
-        self.viewMovedUp = NO;
-    }
-}
-
-- (IBAction)textFieldDidBeginEditing:(id)sender {
-    if ([sender isEqual:self.aggressor]){
-        if (self.view.frame.origin.y >= 0) {
-            self.viewMovedUp = YES;
-        }
-    }
-    else if ([sender isEqual:self.victim]) {
-        if (self.view.frame.origin.y >= 0) {
-            self.viewMovedUp = YES;
-        }
-    }
+- (IBAction)textFieldFinished:(id)sender {
+    
 }
 
 - (void)queryAsam:(id)sender {
@@ -377,102 +326,11 @@
     self.navigationItem.titleView = titleLabel;
 }
 
-// Method to move the view up/down whenever the keyboard is shown/dismissed.
-- (void)setViewMovedUp:(BOOL)movedUp {
-    [UIView beginAnimations:nil context:NULL];
-    [UIView setAnimationDuration:0.5]; // if you want to slide up the view
-    
-    CGRect rect = self.view.frame;
-    if (movedUp) {
-        
-        // 1. move the view's origin up so that the text field that will be hidden come above the keyboard
-        // 2. increase the size of the view so that the area behind the keyboard is covered up.
-        rect.origin.y -= kOFFSET_FOR_KEYBOARD;
-        rect.size.height += kOFFSET_FOR_KEYBOARD;
-    }
-    else {
-        
-        // Revert back to the normal state.
-        rect.origin.y += kOFFSET_FOR_KEYBOARD;
-        rect.size.height -= kOFFSET_FOR_KEYBOARD;
-    }
-    self.view.frame = rect;
-    [UIView commitAnimations];
-}
-
 - (NSString *)formattedDateAsString:(NSDate *)date {
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     formatter.dateFormat = @"MM/dd/yyyy";
     NSString *str = [formatter stringFromDate:date];
     return  str;
-}
-
-#pragma mark
-#pragma mark - Keyboard Pad Number helper methods
-- (IBAction)referenceNumberTouched:(id)sender {
-    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 3.2) {
-		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidShow:) name:UIKeyboardDidShowNotification object:nil];
-	}
-    else {
-		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
-	}
-}
-
-- (void)addButtonToKeyboard {
-    
-    // create custom button
-	self.doneButton = [UIButton buttonWithType:UIButtonTypeCustom];
-	self.doneButton.frame = CGRectMake(0, 163, 106, 53);
-	self.doneButton.adjustsImageWhenHighlighted = NO;
-    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 3.0) {
-		[self.doneButton setImage:[UIImage imageNamed:@"DoneUp3.png"] forState:UIControlStateNormal];
-		[self.doneButton setImage:[UIImage imageNamed:@"DoneDown3.png"] forState:UIControlStateHighlighted];
-	}
-    else {
-		[self.doneButton setImage:[UIImage imageNamed:@"DoneUp.png"] forState:UIControlStateNormal];
-		[self.doneButton setImage:[UIImage imageNamed:@"DoneDown.png"] forState:UIControlStateHighlighted];
-	}
-	[self.doneButton addTarget:self action:@selector(doneButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
-    
-    // locate keyboard view
-	UIWindow *tempWindow = [[[UIApplication sharedApplication] windows] objectAtIndex:1];
-	UIView *keyboard;
-	for (int i = 0; i < [tempWindow.subviews count]; i++) {
-		keyboard = [tempWindow.subviews objectAtIndex:i];
-        
-        // keyboard found, add the button
-		if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 3.2) {
-			if ([keyboard.description hasPrefix:@"<UIPeripheralHostView"] == YES) {
-				[keyboard addSubview:self.doneButton];
-            }
-		}
-        else {
-			if ([[keyboard description] hasPrefix:@"<UIKeyboard"] == YES) {
-				[keyboard addSubview:self.doneButton];
-            }
-		}
-	}
-}
-
-- (void)keyboardWillShow:(NSNotification *)note {
-    
-    // if clause is just an additional precaution, you could also dismiss it
-	if ([[[UIDevice currentDevice] systemVersion] floatValue] < 3.2) {
-		[self addButtonToKeyboard];
-	}
-}
-
-- (void)keyboardDidShow:(NSNotification *)note {
-    
-    // if clause is just an additional precaution, you could also dismiss it
-	if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 3.2) {
-		[self addButtonToKeyboard];
-    }
-}
-- (void)doneButtonClicked:(id)sender {
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-    [self.refNumberYear resignFirstResponder];
-    [self.refNumber resignFirstResponder];
 }
 
 @end
