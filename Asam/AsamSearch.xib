@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="4514" systemVersion="13B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6249" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
-        <deployment defaultVersion="1552" identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3747"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6243"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="AsamSearch">
@@ -46,7 +46,6 @@
                     <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="14"/>
                     <textInputTraits key="textInputTraits"/>
                     <connections>
-                        <action selector="selectSubRegionSheet:" destination="-1" eventType="touchDown" id="29"/>
                         <outlet property="delegate" destination="-1" id="28"/>
                     </connections>
                 </textField>
@@ -71,9 +70,6 @@
                     <accessibility key="accessibilityConfiguration" label="Date From"/>
                     <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="14"/>
                     <textInputTraits key="textInputTraits"/>
-                    <connections>
-                        <action selector="selectDateFromSheet:" destination="-1" eventType="touchDown" id="35"/>
-                    </connections>
                 </textField>
                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Date to" minimumFontSize="17" id="17">
                     <rect key="frame" x="170" y="131" width="130" height="31"/>
@@ -81,9 +77,6 @@
                     <accessibility key="accessibilityConfiguration" label="Date To"/>
                     <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="14"/>
                     <textInputTraits key="textInputTraits"/>
-                    <connections>
-                        <action selector="selectDateToSheet:" destination="-1" eventType="touchDown" id="36"/>
-                    </connections>
                 </textField>
                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Victim Name" minimumFontSize="17" id="20">
                     <rect key="frame" x="20" y="178" width="280" height="31"/>
@@ -92,8 +85,7 @@
                     <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="14"/>
                     <textInputTraits key="textInputTraits" returnKeyType="done"/>
                     <connections>
-                        <action selector="textFieldDidBeginEditing:" destination="-1" eventType="touchDown" id="L3h-2H-c4u"/>
-                        <action selector="textFieldDidEndEditing:" destination="-1" eventType="editingDidEndOnExit" id="Ht8-Gu-pyS"/>
+                        <action selector="textFieldFinished:" destination="-1" eventType="editingDidEndOnExit" id="HXk-Oc-5WO"/>
                     </connections>
                 </textField>
                 <textField clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Aggressor Name" minimumFontSize="17" id="22">
@@ -103,8 +95,7 @@
                     <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="14"/>
                     <textInputTraits key="textInputTraits" returnKeyType="done"/>
                     <connections>
-                        <action selector="textFieldDidBeginEditing:" destination="-1" eventType="touchDown" id="PhS-LS-uYj"/>
-                        <action selector="textFieldDidEndEditing:" destination="-1" eventType="editingDidEndOnExit" id="RDg-il-ZzF"/>
+                        <action selector="textFieldFinished:" destination="-1" eventType="editingDidEndOnExit" id="ZCZ-fB-stC"/>
                     </connections>
                 </textField>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="-" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" id="24">
@@ -121,7 +112,7 @@
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <textInputTraits key="textInputTraits" keyboardType="numberPad" returnKeyType="done"/>
                     <connections>
-                        <action selector="textFieldDidEndEditing:" destination="-1" eventType="editingDidEndOnExit" id="uv8-TM-3M8"/>
+                        <action selector="textFieldFinished:" destination="-1" eventType="editingDidEndOnExit" id="o8m-ye-KYu"/>
                         <outlet property="delegate" destination="-1" id="53"/>
                     </connections>
                 </textField>
@@ -132,7 +123,7 @@
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <textInputTraits key="textInputTraits" keyboardType="numberPad" returnKeyType="done"/>
                     <connections>
-                        <action selector="textFieldDidEndEditing:" destination="-1" eventType="editingDidEndOnExit" id="0Es-6x-Tnu"/>
+                        <action selector="textFieldFinished:" destination="-1" eventType="editingDidEndOnExit" id="gfc-kN-gVI"/>
                     </connections>
                 </textField>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="-" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" id="49">
@@ -143,9 +134,14 @@
                     <nil key="highlightedColor"/>
                 </label>
             </subviews>
-            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-            <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
+            <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <inset key="insetFor6xAndEarlier" minX="0.0" minY="0.0" maxX="0.0" maxY="50"/>
         </view>
     </objects>
+    <simulatedMetricsContainer key="defaultSimulatedMetrics">
+        <simulatedStatusBarMetrics key="statusBar"/>
+        <simulatedOrientationMetrics key="orientation"/>
+        <simulatedScreenMetrics key="destination" type="retina4"/>
+    </simulatedMetricsContainer>
 </document>

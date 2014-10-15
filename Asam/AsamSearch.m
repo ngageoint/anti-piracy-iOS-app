@@ -5,17 +5,14 @@
 
 # define kOFFSET_FOR_KEYBOARD 150.0
 
-@interface AsamSearch() <UITextFieldDelegate, UIActionSheetDelegate, UIPickerViewDelegate, UIPickerViewDataSource>
+@interface AsamSearch() <UITextFieldDelegate, UIPickerViewDelegate, UIPickerViewDataSource>
 
 @property (nonatomic, strong) NSArray *subRegions;
 @property (nonatomic, assign) NSInteger selectedSubRegionIndex;
 @property (nonatomic, strong) NSDate *selectedDateFrom;
 @property (nonatomic, strong) NSDate *selectedDateTo;
-@property (nonatomic, strong) UIDatePicker *datePickerFromView;
-@property (nonatomic, strong) UIActionSheet *datePickerFromActionSheet;
+@property (nonatomic, strong) IBOutlet UIDatePicker *datePickerFromView;
 @property (nonatomic, strong) UIDatePicker *datePickerToView;
-@property (nonatomic, strong) UIActionSheet *datePickerToActionSheet;
-@property (nonatomic, strong) UIActionSheet *subRegionsActionSheet;
 @property (nonatomic, strong) UIPickerView *subRegionsPickerView;
 @property (nonatomic, strong) IBOutlet UITextField *refNumberYear;
 @property (nonatomic, strong) IBOutlet UITextField *refNumber;
@@ -30,13 +27,8 @@
 @property (nonatomic, weak) IBOutlet UIButton *resetButton;
 @property (nonatomic, weak) IBOutlet UIButton *searchButton;
 
-- (IBAction)selectDateFromSheet:(id)sender;
-- (IBAction)selectDateToSheet:(id)sender;
-- (IBAction)selectSubRegionSheet:(id)sender;
 - (IBAction)resetSearchFields:(id)sender;
 - (IBAction)prepareQuery:(id)sender;
-- (IBAction)textFieldDidEndEditing:(id)sender;
-- (IBAction)textFieldDidBeginEditing:(id)sender;
 
 - (void)dateFromWasSelected:(NSDate *)dateFromIndex;
 - (void)cancelButtonPressedFrom:(id)sender;
@@ -60,6 +52,10 @@
     [self loadSubregions];
     [self.searchButton addBackgroundToButton:self.searchButton];
     [self.resetButton addBackgroundToButton:self.resetButton];
+    
+    [self createDateFromView];
+    [self createDateToView];
+    [self createSubRegionView];
 }
 
 - (void)viewDidUnload {
@@ -67,10 +63,7 @@
     self.selectedDateFrom = nil;
     self.selectedDateTo = nil;
     self.datePickerFromView = nil;
-    self.datePickerFromActionSheet = nil;
     self.datePickerToView = nil;
-    self.datePickerToActionSheet = nil;
-    self.subRegionsActionSheet = nil;
     self.subRegionsPickerView = nil;
     self.victim = nil;
     self.aggressor = nil;
@@ -107,16 +100,14 @@
 
 #pragma mark 
 #pragma mark - Date From
-- (IBAction)selectDateFromSheet:(id)sender {
-    const CGFloat toolbarHeight = 44.0f;
-    self.datePickerFromActionSheet = [[UIActionSheet alloc] init];
-    self.datePickerFromView = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, toolbarHeight, 0, 0)];
-    self.datePickerFromView.datePickerMode = UIDatePickerModeDate;
-    self.datePickerFromView.hidden = NO;
+- (void) createDateFromView {
+    self.datePickerFromView = [[UIDatePicker alloc] init];
+    [self.datePickerFromView sizeToFit];
+    self.datePickerFromView.autoresizingMask = (UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight);
     self.datePickerFromView.backgroundColor = [UIColor whiteColor];
     self.datePickerFromView.date = [NSDate date];
 
-    UIToolbar *pickerToolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, toolbarHeight)];
+    UIToolbar *pickerToolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 44.0f)];
     pickerToolbar.barStyle = UIBarStyleBlackOpaque;
     pickerToolbar.translucent = YES;
     UIBarButtonItem *cancelBtn = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelButtonPressedFrom:)];
@@ -129,14 +120,12 @@
         [doneBtn setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]} forState:UIControlStateNormal];
     }
     
-    [self.datePickerFromActionSheet addSubview:pickerToolbar];
-    [self.datePickerFromActionSheet addSubview:self.datePickerFromView];
-    [self.datePickerFromActionSheet showInView:self.view];
-    self.datePickerFromActionSheet.bounds = CGRectMake(0, 0, 320, 464);
+    self.dateFrom.inputAccessoryView = pickerToolbar;
+    self.dateFrom.inputView = self.datePickerFromView;
 }
 
 - (void)cancelButtonPressedFrom:(id)sender {
-    [self.datePickerFromActionSheet dismissWithClickedButtonIndex:1 animated:YES];
+    [self.dateFrom resignFirstResponder];
 }  
 
 - (void)dateFromWasSelected:(NSDate *)dateFromIndex {
@@ -146,16 +135,14 @@
 
 #pragma mark 
 #pragma mark - Date To
-- (IBAction)selectDateToSheet:(id)sender {
-    const CGFloat toolbarHeight = 44.0f;
-    self.datePickerToActionSheet = [[UIActionSheet alloc] init];
-    self.datePickerToView = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, toolbarHeight, 0, 0)];
-    self.datePickerToView.datePickerMode = UIDatePickerModeDate;
-    self.datePickerToView.hidden = NO;
+- (void ) createDateToView {
+    self.datePickerToView = [[UIDatePicker alloc] init];
+    [self.datePickerToView sizeToFit];
+    self.datePickerToView.autoresizingMask = (UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight);
     self.datePickerToView.backgroundColor = [UIColor whiteColor];
     self.datePickerToView.date = [NSDate date];
     
-    UIToolbar *pickerToolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, toolbarHeight)];
+    UIToolbar *pickerToolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 44.0f)];
     pickerToolbar.barStyle = UIBarStyleBlackOpaque;
     pickerToolbar.translucent = YES;
     UIBarButtonItem *cancelBtn = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelButtonPressedTo:)];
@@ -168,10 +155,8 @@
         [doneBtn setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]} forState:UIControlStateNormal];
     }
     
-    [self.datePickerToActionSheet addSubview:pickerToolbar];
-    [self.datePickerToActionSheet addSubview:self.datePickerToView];
-    [self.datePickerToActionSheet showInView:self.view];
-    self.datePickerToActionSheet.bounds = CGRectMake(0, 0, self.view.frame.size.width, 464);
+    self.dateTo.inputAccessoryView = pickerToolbar;
+    self.dateTo.inputView = self.datePickerToView;
 }
 
 - (void)dateToWasSelected:(NSDate *)dateFromIndex {
@@ -180,26 +165,25 @@
 }
 
 - (void)cancelButtonPressedTo:(id)sender {
-    [self.datePickerToActionSheet dismissWithClickedButtonIndex:1 animated:YES];
-}  
+    [self.dateTo resignFirstResponder];
+}
 
 #pragma mark 
 #pragma mark - Subregions
-- (IBAction)selectSubRegionSheet:(id)sender {
-    const CGFloat toolbarHeight = 44.0f;
-    self.subRegionsActionSheet = [[UIActionSheet alloc] init];
-    self.subRegionsPickerView = [[UIPickerView alloc] initWithFrame:CGRectMake(0, toolbarHeight, 0, 0)];
+- (void) createSubRegionView {
+    self.subRegionsPickerView = [[UIPickerView alloc] init];
+    [self.subRegionsPickerView sizeToFit];
 	self.subRegionsPickerView.delegate = self;
 	self.subRegionsPickerView.dataSource = self;
     self.subRegionsPickerView.backgroundColor = [UIColor whiteColor];
 	self.subRegionsPickerView.showsSelectionIndicator = YES;
     
-    UIToolbar *pickerToolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, toolbarHeight)];
+    UIToolbar *pickerToolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 44.0f)];
     pickerToolbar.barStyle = UIBarStyleBlackOpaque;
     
     UIBarButtonItem *cancelBtn = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelSubRegionButton:)];
     UIBarButtonItem *flexSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
-    UIBarButtonItem *doneBtn = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(cancelSubRegionButton:)];
+    UIBarButtonItem *doneBtn = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(doneSubRegionButton:)];
     NSArray *barItems = @[cancelBtn, flexSpace, doneBtn];
     [pickerToolbar setItems:barItems animated:YES];
     if (NSFoundationVersionNumber > NSFoundationVersionNumber_iOS_6_1) { // iOS 7+
@@ -207,20 +191,16 @@
         [doneBtn setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]} forState:UIControlStateNormal];
     }
     
-    [self.subRegionsActionSheet addSubview:pickerToolbar];
-    [self.subRegionsActionSheet addSubview:self.subRegionsPickerView];
-    [self.subRegionsActionSheet showInView:self.view];
-    self.subRegionsActionSheet.bounds = CGRectMake(0, 0, self.view.frame.size.width, 464);
-}
+    self.selectedSubRegion.inputView = self.subRegionsPickerView;
+    self.selectedSubRegion.inputAccessoryView = pickerToolbar;}
 
 - (void)cancelSubRegionButton:(id)sender {
-    [self.subRegionsActionSheet dismissWithClickedButtonIndex:1 animated:YES];
+    [self.selectedSubRegion resignFirstResponder];
 }
 
-#pragma mark -
-#pragma mark UIPickerViewDelegate
-- (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
-    self.selectedSubRegion.text = [self.subRegions objectAtIndex:row];
+- (void)doneSubRegionButton: (id)sender {
+    self.selectedSubRegion.text = [self.subRegions objectAtIndex:[self.subRegionsPickerView selectedRowInComponent:0]];
+    [self cancelSubRegionButton:sender];
 }
 
 #pragma mark -
@@ -235,6 +215,9 @@
 
 - (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
 	return [self.subRegions objectAtIndex:row];
+}
+
+- (IBAction)textFieldFinished:(id)sender {
 }
 
 #pragma mark -
@@ -290,34 +273,6 @@
     }
 }
 
-- (IBAction)textFieldDidEndEditing:(id)sender {
-    if([sender isEqual:self.victim]) {
-        [self.victim resignFirstResponder];
-    }
-    else if ([sender isEqual:self.aggressor]) {
-        [self.aggressor resignFirstResponder];
-    }
-    else if ([sender isEqual:self.refNumberYear]) {
-        [self.refNumberYear resignFirstResponder];
-    }
-    else if ([sender isEqual:self.refNumber]) {
-        [self.refNumber resignFirstResponder];
-    }
-}
-
-- (IBAction)textFieldDidBeginEditing:(id)sender {
-    if ([sender isEqual:self.aggressor]){
-        if  (self.view.frame.origin.y >= 0) {
-//            [self setViewMovedUp:YES];
-        }
-    }
-    else if ([sender isEqual:self.victim]) {
-        if (self.view.frame.origin.y >= 0) {
-//            [self setViewMovedUp:YES];
-        }
-    }
-}
-
 - (void)loadSubregions {
     AppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
     NSManagedObjectContext *context = [[NSManagedObjectContext alloc] init];	
@@ -345,13 +300,25 @@
 
 - (void)setUpBarTitle {
     UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 320, 30)];
-    titleLabel.font = [UIFont fontWithName:@"Helvetica Neue Bold" size:16.0];
+    titleLabel.font = [UIFont fontWithName:@"Helvetica-Bold" size:16.0];
     titleLabel.backgroundColor = [UIColor clearColor];
     titleLabel.textColor = [UIColor whiteColor];
     titleLabel.text = @"ASAM Query";
     titleLabel.textAlignment = NSTextAlignmentCenter;
     self.navigationItem.titleView = titleLabel;
-    self.navigationController.navigationBar.translucent = YES;
+    
+    if (NSFoundationVersionNumber > NSFoundationVersionNumber_iOS_6_1) { // iOS 7+
+        [self.navigationController.navigationBar setBackgroundImage:[UIImage new]
+                                                      forBarMetrics:UIBarMetricsDefault];
+        self.navigationController.navigationBar.shadowImage = [UIImage new];
+        self.navigationController.navigationBar.translucent = YES;
+        self.navigationController.view.backgroundColor = [UIColor clearColor];
+    }
+    else {
+        UIImageView *backImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"background"]];
+        [backImage setFrame:self.tableView.frame];
+        self.tableView.backgroundView = backImage;
+    }
 }
 
 - (NSString *)formattedDateAsString:(NSDate *)date {
