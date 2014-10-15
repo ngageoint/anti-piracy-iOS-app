@@ -89,7 +89,6 @@
         if (NSFoundationVersionNumber > NSFoundationVersionNumber_iOS_6_1) { // iOS 7+
             self.asamListView.edgesForExtendedLayout = UIRectEdgeNone;
             self.asamListPopOver.backgroundColor = [UIColor colorWithWhite:(64/255.0f) alpha:1.0f];
-            navController.navigationBar.backgroundColor = [UIColor colorWithRed:0.1f green:0.1f blue:0.1f alpha:1.0f];
             navController.navigationBar.tintColor = [UIColor whiteColor];
         }
         
@@ -153,9 +152,13 @@
     if (![self.asamSearchPopOver isPopoverVisible]) {
 		self.asamSearchView = [[AsamSearch alloc] initWithNibName:@"AsamSearch" bundle:nil];
         UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:self.asamSearchView];
+                
+        self.asamSearchPopOver = [[UIPopoverController alloc] initWithContentViewController:navController];
+
         if (NSFoundationVersionNumber > NSFoundationVersionNumber_iOS_6_1) { // iOS 7+
             self.asamSearchView.edgesForExtendedLayout = UIRectEdgeNone;
-            navController.navigationBar.backgroundColor = [UIColor colorWithRed:0.1f green:0.1f blue:0.1f alpha:1.0f];
+            self.asamSearchPopOver.backgroundColor = [UIColor colorWithWhite:(64/255.0f) alpha:1.0f];
+            navController.navigationBar.tintColor = [UIColor whiteColor];
         }
         if ([self.asamSearchView respondsToSelector:@selector(setPreferredContentSize:)]) {
             self.asamSearchView.preferredContentSize = CGSizeMake(320.0f, 400.0f);
@@ -163,7 +166,6 @@
         else {
             self.asamSearchView.contentSizeForViewInPopover = CGSizeMake(320.0f, 400.0f);
         }
-        self.asamSearchPopOver = [[UIPopoverController alloc] initWithContentViewController:navController];
         self.asamSearchView.asamSearchDelegate = self;
 		[self.asamSearchPopOver presentPopoverFromBarButtonItem:sender permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
         self.asamSearchPopOver.delegate = self;
@@ -524,7 +526,12 @@
             object:nil];
     
     [self setMapType: nil];
+}
 
+-(void) viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    [self.navigationController.navigationBar setTranslucent:NO];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {

@@ -28,8 +28,6 @@
         self.titleToolbar.tintColor = [UIColor whiteColor];
         self.titleToolbar.barTintColor = [UIColor blackColor];
         self.titleToolbar.alpha = .8f;
-        
-//        self.view.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:.80];
     }
 }
 

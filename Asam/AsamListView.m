@@ -43,12 +43,13 @@ static NSString *CellClassName = @"AsamCustomCell";
 #pragma mark - View lifecycle
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.tableView.separatorColor = [UIColor whiteColor];
+    [self prepareNavBar];
 }
 
 - (void) viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
     [self.tableView reloadData];
+    
+    [super viewWillAppear:animated];
 }
 
 - (void)viewDidUnload {
@@ -62,8 +63,6 @@ static NSString *CellClassName = @"AsamCustomCell";
 - (void)viewDidAppear:(BOOL)animated {
     CGSize size = CGSizeMake(320, 500); // size of view in popover
     self.contentSizeForViewInPopover = size;
-    [self prepareNavBar];
-    [self.tableView reloadData];
     [super viewDidAppear:animated];
 }
 
@@ -121,10 +120,6 @@ static NSString *CellClassName = @"AsamCustomCell";
                        action:@selector(showActionSheet)];
     
     self.navigationItem.rightBarButtonItem = listButton;
-
-    CGFloat navBarHeight = 44.0f;
-    CGRect frame = CGRectMake(0.0f, 0.0f, 320.0f, navBarHeight);
-    [self.navigationController.navigationBar setFrame:frame];
     
     UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, 320, 44)];
     titleLabel.font = [UIFont fontWithName:@"Helvetica-Bold" size:16.0];
@@ -133,15 +128,20 @@ static NSString *CellClassName = @"AsamCustomCell";
     titleLabel.text = [NSString stringWithFormat:@"%lu ASAM(s)", (unsigned long)self.asamArray.count];
     titleLabel.textAlignment = NSTextAlignmentCenter;
     self.navigationItem.titleView = titleLabel;
+    
+    self.tableView.separatorColor = [UIColor whiteColor];
     if (NSFoundationVersionNumber > NSFoundationVersionNumber_iOS_6_1) { // iOS 7+
-        self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
-        self.navigationController.navigationBar.backgroundColor = [UIColor darkGrayColor];
+        self.tableView.backgroundColor = [UIColor colorWithWhite:(64/255.0f) alpha:1.0f];
+        [self.navigationController.navigationBar setBackgroundImage:[UIImage new]
+                                                      forBarMetrics:UIBarMetricsDefault];
+        self.navigationController.navigationBar.shadowImage = [UIImage new];
         self.navigationController.navigationBar.translucent = YES;
-        self.tableView.backgroundColor = [UIColor blackColor];
+        self.navigationController.view.backgroundColor = [UIColor clearColor];
+        self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
     }
     else {
         UIImageView *backImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"background"]];
-        backImage.frame = self.tableView.frame;
+        [backImage setFrame:self.tableView.frame];
         self.tableView.backgroundView = backImage;
     }
     
