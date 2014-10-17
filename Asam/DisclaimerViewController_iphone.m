@@ -19,6 +19,8 @@
     if (NSFoundationVersionNumber > NSFoundationVersionNumber_iOS_6_1) { // iOS 7+
         self.disclaimerTextView.backgroundColor = [UIColor blackColor];
         self.toolBar.tintColor = [UIColor whiteColor];
+        self.navigationController.navigationBar.translucent = NO;
+        self.navigationController.navigationBar.barTintColor = [UIColor orangeColor];
         [self performSelector:@selector(setNeedsStatusBarAppearanceUpdate)];
     }
     else {
@@ -48,6 +50,11 @@
 
 -(BOOL)prefersStatusBarHidden {
     return YES;
+}
+
+- (UIBarPosition)positionForBar:(id <UIBarPositioning>)bar {
+    
+    return UIBarPositionTopAttached;
 }
 
 @end

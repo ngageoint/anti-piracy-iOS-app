@@ -32,7 +32,7 @@
     [super viewDidLoad];
     if ([self respondsToSelector:@selector(setEdgesForExtendedLayout:)]) { // iOS 7+
         self.edgesForExtendedLayout = UIRectEdgeNone;
-        self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:0.1f green:0.1f blue:0.1f alpha:1.0f];
+        self.navigationController.navigationBar.barTintColor = [UIColor blackColor];
         self.navigationController.navigationBar.titleTextAttributes = [NSDictionary dictionaryWithObject:[UIColor whiteColor] forKey:UITextAttributeTextColor];
     }
     self.wordingLabel.text = @"Anti-Shipping Activity Messages (ASAM) include the locations and descriptive accounts of specific hostile acts against ships and mariners. The reports may be useful for recognition, prevention and avoidance of potential hostile activity.";

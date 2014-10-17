@@ -113,7 +113,6 @@
 - (IBAction)aboutAssam:(id)sender {
     AboutAsam_iphone *aboutAssam = [[AboutAsam_iphone alloc] initWithNibName:nil bundle:nil];
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:aboutAssam];
-    nav.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
     [self presentViewController:nav animated:YES completion:nil];
 }
 

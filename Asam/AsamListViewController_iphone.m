@@ -124,20 +124,14 @@ static NSString *CellClassName = @"AsamCustomCell";
     backButton.tintColor = [UIColor blackColor];
     self.navigationItem.backBarButtonItem = backButton;
 
-    UISegmentedControl *segmentedControl = [[UISegmentedControl alloc] initWithItems:@[@"Sort"]];
-    segmentedControl.frame = CGRectMake(0, 0, 100, 30);
-    segmentedControl.tag = 0;
-    [segmentedControl addTarget:self action:@selector(segmentAction:) forControlEvents:UIControlEventValueChanged];
-    segmentedControl.segmentedControlStyle = UISegmentedControlStyleBar;
-    segmentedControl.momentary = YES;
-    [segmentedControl sizeToFit];
-    segmentedControl.tintColor = [UIColor blackColor];
-    if (NSFoundationVersionNumber > NSFoundationVersionNumber_iOS_6_1) { // iOS 7+
-        [segmentedControl setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]} forState:UIControlStateNormal];
-    }
     
-    UIBarButtonItem *segmentBarItem = [[UIBarButtonItem alloc] initWithCustomView:segmentedControl];
-    self.navigationItem.rightBarButtonItem = segmentBarItem;
+    UIBarButtonItem *sortButton = [[UIBarButtonItem alloc]
+                                   initWithTitle:@"Sort"
+                                   style:UIBarButtonItemStylePlain
+                                   target:self
+                                   action:@selector(showActionSheet)];
+    
+    self.navigationItem.rightBarButtonItem = sortButton;
     
     UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, 320, 40)];
     titleLabel.font = [UIFont fontWithName:@"Helvetica-Bold" size:16.0];
@@ -148,23 +142,11 @@ static NSString *CellClassName = @"AsamCustomCell";
     self.navigationItem.titleView = titleLabel;
 }
 
-- (void)segmentAction:(UISegmentedControl*)sender {
-    switch ([sender selectedSegmentIndex]) {
-        case 0:
-            [self showActionSheet];
-            break;
-            
-        default:
-            break;
-    }
-}
-
 #pragma
 #pragma mark - Private methods (UIActionSheet) impl.
 - (IBAction)showActionSheet {
     UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Sort By:" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Victim", @"Aggressor", @"Date Ascending", @"Date Descending", nil];
     [actionSheet showInView:self.view];
-    
 }
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {

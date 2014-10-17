@@ -86,6 +86,12 @@
     [super viewDidAppear:animated];
 }
 
+-(void) viewWillAppear:(BOOL)animated {
+    self.navigationController.navigationBarHidden = NO;
+    
+    [super viewWillAppear:animated];
+}
+
 - (void)viewDidUnload {
     [super viewDidUnload];
     self.mapView = nil;
