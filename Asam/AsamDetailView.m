@@ -167,7 +167,6 @@
 
 - (void)setUpBarTitle {
     if (NSFoundationVersionNumber > NSFoundationVersionNumber_iOS_6_1) { // iOS 7+
-        self.navigationController.navigationBar.backgroundColor = [UIColor colorWithWhite:(64/255.0f) alpha:1.0f];
         self.tableView.backgroundColor = [UIColor blackColor];
     }
     else {
@@ -175,6 +174,22 @@
         [backImage setFrame:self.tableView.frame];
         self.tableView.backgroundView = backImage;
     }
+    
+//    self.tableView.backgroundColor = [UIColor colorWithWhite:(64/255.0f) alpha:1.0f];
+//    if (NSFoundationVersionNumber > NSFoundationVersionNumber_iOS_6_1) { // iOS 7+
+//        [self.navigationController.navigationBar setBackgroundImage:[UIImage new]
+//                                                      forBarMetrics:UIBarMetricsDefault];
+//        self.navigationController.navigationBar.shadowImage = [UIImage new];
+//        self.navigationController.navigationBar.translucent = YES;
+//        self.navigationController.view.backgroundColor = [UIColor clearColor];
+//    }
+//    else {
+//        UIImageView *backImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"background"]];
+//        [backImage setFrame:self.tableView.frame];
+//        self.tableView.backgroundView = backImage;
+//    }
+    
+    
     self.asamUtil = [[AsamUtility alloc] init];
     UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 120, 30)];
     titleLabel.font = [UIFont fontWithName:@"Helvetica-Bold" size:16.0];

@@ -13,7 +13,7 @@
 @property (nonatomic, strong) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) AsamUtility *asamUtil;
 
-- (void)showActionSheet;
+- (void)showActionSheet:(id) sender;
 - (void)prepareNavBar;
 - (void)sortAsamArrayWithVictimQualifier;
 - (void)sortAsamArrayWithAggressorQualifier;
@@ -117,7 +117,7 @@ static NSString *CellClassName = @"AsamCustomCell";
                        initWithTitle:@"Sort"
                        style:UIBarButtonItemStylePlain
                        target:self
-                       action:@selector(showActionSheet)];
+                        action:@selector(showActionSheet:)];
     
     self.navigationItem.rightBarButtonItem = listButton;
     
@@ -131,13 +131,11 @@ static NSString *CellClassName = @"AsamCustomCell";
     
     self.tableView.separatorColor = [UIColor whiteColor];
     if (NSFoundationVersionNumber > NSFoundationVersionNumber_iOS_6_1) { // iOS 7+
-        self.tableView.backgroundColor = [UIColor colorWithWhite:(64/255.0f) alpha:1.0f];
-        [self.navigationController.navigationBar setBackgroundImage:[UIImage new]
-                                                      forBarMetrics:UIBarMetricsDefault];
-        self.navigationController.navigationBar.shadowImage = [UIImage new];
-        self.navigationController.navigationBar.translucent = YES;
-        self.navigationController.view.backgroundColor = [UIColor clearColor];
+        self.tableView.backgroundColor = [UIColor blackColor];
         self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
+        self.navigationController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
+        self.navigationController.navigationBar.barTintColor = [UIColor colorWithWhite:(64/255.0f) alpha:1.0f];
+        self.navigationController.navigationBar.translucent = NO;
     }
     else {
         UIImageView *backImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"background"]];
@@ -156,7 +154,7 @@ static NSString *CellClassName = @"AsamCustomCell";
 
 #pragma 
 #pragma mark - Private methods (UIActionSheet) impl.
-- (void)showActionSheet {
+- (void)showActionSheet:(id) sender {
     UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Sort By:" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Victim", @"Aggressor", @"Date Ascending", @"Date Descending", nil];
     [actionSheet showInView:self.view];
 }

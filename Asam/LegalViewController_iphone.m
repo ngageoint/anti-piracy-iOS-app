@@ -111,7 +111,8 @@
 - (void)tableView:(UITableView *)tableView willDisplayHeaderView:(UIView *)view forSection:(NSInteger)section {
     if ([view isKindOfClass:[UITableViewHeaderFooterView class]]) {
         UITableViewHeaderFooterView *tableViewHeaderFooterView = (UITableViewHeaderFooterView *)view;
-        tableViewHeaderFooterView.textLabel.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:16.0];
+        tableViewHeaderFooterView.textLabel.font = [UIFont fontWithDescriptor:[UIFontDescriptor fontDescriptorWithFontAttributes:@{@"NSCTFontUIUsageAttribute" : UIFontTextStyleBody,
+                                                                                                                @"NSFontNameAttribute" : @"tableViewHeaderFooterView"}] size:16.0];
         tableViewHeaderFooterView.textLabel.shadowOffset = CGSizeMake(0.0, 0.0);
         tableViewHeaderFooterView.textLabel.textColor = [UIColor whiteColor];
     }

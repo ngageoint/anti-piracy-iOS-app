@@ -82,6 +82,10 @@
     
     if (![self.asamListPopOver isPopoverVisible]) {
 		AsamListView *asamListView = [[AsamListView alloc] initWithNibName:@"AsamListView" bundle:nil];
+        NSSortDescriptor *dateDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"dateofOccurrence" ascending:NO selector:@selector(compare:)];
+        NSArray *sortDescriptors = @[dateDescriptor];
+        asamListView.asamArray = [self.displayAsamInListArray sortedArrayUsingDescriptors:sortDescriptors];
+
         UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:asamListView];
 
 		self.asamListPopOver = [[UIPopoverController alloc] initWithContentViewController:navController];
@@ -91,14 +95,19 @@
             self.asamListPopOver.backgroundColor = [UIColor colorWithWhite:(64/255.0f) alpha:1.0f];
             navController.navigationBar.tintColor = [UIColor whiteColor];
         }
-        
-        [self.asamListPopOver presentPopoverFromBarButtonItem:sender permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
         self.asamListPopOver.delegate = self;
         
-        NSSortDescriptor *dateDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"dateofOccurrence" ascending:NO selector:@selector(compare:)];
-        NSArray *sortDescriptors = @[dateDescriptor];
-        asamListView.asamArray = [self.displayAsamInListArray sortedArrayUsingDescriptors:sortDescriptors];
+        if ([navController respondsToSelector:@selector(setPreferredContentSize:)]) {
+            [navController setPreferredContentSize:CGSizeMake(320.0f, 500.0f)];
+        }
+        else {
+            self.asamListView.contentSizeForViewInPopover = CGSizeMake(320.0f, 500.0f);
+        }
+
         [self.navigationController pushViewController:asamListView animated:YES];
+        
+        [self.asamListPopOver presentPopoverFromBarButtonItem:sender permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+
 	}
     else {
 		[self.asamListPopOver dismissPopoverAnimated:YES];
@@ -125,6 +134,9 @@
             self.asamSettingsView.edgesForExtendedLayout = UIRectEdgeNone;
             self.settingsPopOver.backgroundColor = [UIColor colorWithWhite:(64/255.0f) alpha:1.0f];
             self.settingsPopOver.popoverContentSize = CGSizeMake(400.0f, 235.0f);
+            navController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
+            navController.navigationBar.barTintColor = [UIColor colorWithWhite:(64/255.0f) alpha:1.0f];
+            navController.navigationBar.translucent = NO;
             navController.navigationBar.tintColor = [UIColor whiteColor];
         }
         else {
@@ -598,19 +610,27 @@
 
     if (selectedObject.nodeCount > 1) {
         AsamListView *asamListView = [[AsamListView alloc] initWithNibName:@"AsamListView" bundle:nil];
+        NSSortDescriptor *dateDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"dateofOccurrence" ascending:NO selector:@selector(compare:)];
+        NSArray *sortDescriptors = @[dateDescriptor];
+        
+        asamListView.asamArray = [selectedObject.nodes sortedArrayUsingDescriptors:sortDescriptors];
         UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:asamListView];
         self.asamListPopOver = [[UIPopoverController alloc] initWithContentViewController:navController];
         if (NSFoundationVersionNumber > NSFoundationVersionNumber_iOS_6_1) { // iOS 7+
             self.asamListPopOver.backgroundColor = [UIColor blackColor];
         }
-        self.asamListPopOver.popoverContentSize = CGSizeMake(320.0f, 400.0f);
-        [self.asamListPopOver presentPopoverFromRect:view.bounds inView:view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+        
+        if ([navController respondsToSelector:@selector(setPreferredContentSize:)]) {
+            [navController setPreferredContentSize:CGSizeMake(320.0f, 500.0f)];
+        }
+        else {
+            self.asamListView.contentSizeForViewInPopover = CGSizeMake(320.0f, 500.0f);
+        }
 
         self.asamListPopOver.delegate = self;
-        NSSortDescriptor *dateDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"dateofOccurrence" ascending:NO selector:@selector(compare:)];
-        NSArray *sortDescriptors = @[dateDescriptor];
-        asamListView.asamArray = [selectedObject.nodes sortedArrayUsingDescriptors:sortDescriptors];
+
         [self.navigationController pushViewController:asamListView animated:YES];
+        [self.asamListPopOver presentPopoverFromRect:view.bounds inView:view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
     } else {
         AsamDetailView *asamDetail = [[AsamDetailView alloc] initWithNibName:@"AsamDetailView" bundle:nil];
         asamDetail.asam = selectedObject;
@@ -619,14 +639,15 @@
         self.callOutPopOver = [[UIPopoverController alloc] initWithContentViewController:navController];
         if (NSFoundationVersionNumber > NSFoundationVersionNumber_iOS_6_1) { // iOS 7+
             self.callOutPopOver.backgroundColor = [UIColor blackColor];
+            navController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
+            navController.navigationBar.barTintColor = [UIColor colorWithWhite:(64/255.0f) alpha:1.0f];
+            navController.navigationBar.translucent = NO;
         }
         
         self.callOutPopOver.delegate = self;
         self.callOutPopOver.popoverContentSize = CGSizeMake(320.0f, 400.0f);
         [self.callOutPopOver presentPopoverFromRect:view.bounds inView:view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
-
     }
-
 }
 
 #pragma

@@ -47,7 +47,6 @@
 #pragma mark
 #pragma mark - Life cycle
 - (void)viewDidLoad {
-    [super viewDidLoad];
     [self setUpBarTitle];
     [self loadSubregions];
     [self.searchButton addBackgroundToButton:self.searchButton];
@@ -56,6 +55,8 @@
     [self createDateFromView];
     [self createDateToView];
     [self createSubRegionView];
+    [super viewDidLoad];
+
 }
 
 - (void)viewDidUnload {
@@ -103,7 +104,6 @@
 - (void) createDateFromView {
     self.datePickerFromView = [[UIDatePicker alloc] init];
     [self.datePickerFromView sizeToFit];
-    self.datePickerFromView.autoresizingMask = (UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight);
     self.datePickerFromView.backgroundColor = [UIColor whiteColor];
     self.datePickerFromView.date = [NSDate date];
 
@@ -138,7 +138,6 @@
 - (void ) createDateToView {
     self.datePickerToView = [[UIDatePicker alloc] init];
     [self.datePickerToView sizeToFit];
-    self.datePickerToView.autoresizingMask = (UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight);
     self.datePickerToView.backgroundColor = [UIColor whiteColor];
     self.datePickerToView.date = [NSDate date];
     
@@ -308,11 +307,9 @@
     self.navigationItem.titleView = titleLabel;
     
     if (NSFoundationVersionNumber > NSFoundationVersionNumber_iOS_6_1) { // iOS 7+
-        [self.navigationController.navigationBar setBackgroundImage:[UIImage new]
-                                                      forBarMetrics:UIBarMetricsDefault];
-        self.navigationController.navigationBar.shadowImage = [UIImage new];
-        self.navigationController.navigationBar.translucent = YES;
-        self.navigationController.view.backgroundColor = [UIColor clearColor];
+        self.navigationController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
+        self.navigationController.navigationBar.barTintColor = [UIColor colorWithWhite:(64/255.0f) alpha:1.0f];
+        self.navigationController.navigationBar.translucent = NO;
     }
     else {
         UIImageView *backImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"background"]];
