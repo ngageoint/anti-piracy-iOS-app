@@ -103,6 +103,7 @@
 #pragma mark - Date From
 - (void) createDateFromView {
     self.datePickerFromView = [[UIDatePicker alloc] init];
+    self.datePickerFromView.datePickerMode = UIDatePickerModeDate;
     [self.datePickerFromView sizeToFit];
     self.datePickerFromView.backgroundColor = [UIColor whiteColor];
     self.datePickerFromView.date = [NSDate date];
@@ -137,6 +138,7 @@
 #pragma mark - Date To
 - (void ) createDateToView {
     self.datePickerToView = [[UIDatePicker alloc] init];
+    self.datePickerToView.datePickerMode = UIDatePickerModeDate;
     [self.datePickerToView sizeToFit];
     self.datePickerToView.backgroundColor = [UIColor whiteColor];
     self.datePickerToView.date = [NSDate date];

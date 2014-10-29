@@ -89,6 +89,7 @@
 
 - (void) createDateFromView {
     self.datePickerFromView = [[UIDatePicker alloc] init];
+    self.datePickerFromView.datePickerMode = UIDatePickerModeDate;
     [self.datePickerFromView sizeToFit];
     self.datePickerFromView.autoresizingMask = (UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight);
     self.datePickerFromView.backgroundColor = [UIColor whiteColor];
@@ -124,6 +125,7 @@
 - (void)createDateToView {
     
     self.datePickerToView = [[UIDatePicker alloc] init];
+    self.datePickerToView.datePickerMode = UIDatePickerModeDate;
     [self.datePickerToView sizeToFit];
     self.datePickerToView.autoresizingMask = (UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight);
     self.datePickerToView.backgroundColor = [UIColor whiteColor];
