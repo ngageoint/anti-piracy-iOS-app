@@ -11,7 +11,7 @@
 #import <MapKit/MapKit.h>
 
 #define kLastSyncDateKey @"lastsyncdate"
-#define kShowDisclaimer @"showDisclaimer"
+#define kHideDisclaimer @"hideDisclaimer"
 
 @interface SettingsViewController() <UITableViewDelegate, UITableViewDataSource>
 
@@ -102,7 +102,7 @@
         }
         else if ([option isEqualToString:@"Show Disclaimer"]) {
             self.disclaimerSwitch = [[UISwitch alloc] initWithFrame:CGRectZero];
-            self.disclaimerSwitch.on = ([[self.prefs objectForKey:kShowDisclaimer] isEqualToString:@"Yes"]) ? YES : NO;
+            self.disclaimerSwitch.on = ![self.prefs boolForKey:kHideDisclaimer];
             self.disclaimerSwitch.tag = 1;
             [self.disclaimerSwitch addTarget:self action:@selector(switchAction:) forControlEvents:UIControlEventValueChanged];
             cell.accessoryView = self.disclaimerSwitch;

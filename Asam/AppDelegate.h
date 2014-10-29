@@ -6,7 +6,7 @@
 @class MainView, MainViewController_iphone;
 
 #define kLastSyncDateKey @"lastsyncdate"
-#define kShowDisclaimer @"showDisclaimer"
+#define kHideDisclaimer @"hideDisclaimer"
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 

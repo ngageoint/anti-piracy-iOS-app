@@ -67,9 +67,10 @@
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
-    if ([[prefs objectForKey:kShowDisclaimer] isEqual:@"No"]) {
+    if ([prefs boolForKey:kHideDisclaimer]) {
         return;
     }
+    
     double delayInSeconds = 0.2;
     dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
 
