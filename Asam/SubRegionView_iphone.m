@@ -39,7 +39,7 @@
     self.selectedSubRegions = [[NSMutableArray alloc] init];
     [self prepareNavBar];
     [self populateSubregions];
-    [self setMapType: nil];
+    [self setMapType];
     
     if (NSFoundationVersionNumber > NSFoundationVersionNumber_iOS_6_1) { // iOS 7+
         self.toolBar.tintColor = [UIColor whiteColor];
@@ -298,8 +298,6 @@
     
     [self setToolbarButtonsEnabled:NO];
     [self populateSubregions];
-    [self setMapType: nil];
-
 }
 
 - (void)dismissView {
@@ -351,13 +349,12 @@
         });
     });
 }
-
-- (void)setMapType: (NSNotification *)notification {
+- (void)setMapType {
     
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSString *maptype = [defaults stringForKey:@"maptype"];
     
-    //[_mapView removeOverlays:_mapView.overlays];
+    [_mapView removeOverlays:_mapView.overlays];
     
     //set the maptype
     if ([@"Standard" isEqual:maptype]) {

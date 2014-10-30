@@ -39,7 +39,7 @@
     self.selectedSubRegions = [[NSMutableArray alloc] init];
     [self prepareNavBar];
     [self populateSubregions];
-    [self setMapType: nil];
+    [self setMapType];
     
     UILongPressGestureRecognizer *lpgr = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleLongPress:)];
     lpgr.numberOfTapsRequired = 0;
@@ -303,8 +303,6 @@
     [self.selectedSubRegions removeAllObjects];
     [self toggleButtonsVisibility:FALSE];
     [self populateSubregions];
-    [self setMapType: nil];
-
 }
 
 - (void)dismissView {
@@ -371,12 +369,12 @@
     }
 }
 
-- (void)setMapType: (NSNotification *)notification {
+- (void)setMapType {
     
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSString *maptype = [defaults stringForKey:@"maptype"];
     
-    //[_mapView removeOverlays:_mapView.overlays];
+    [_mapView removeOverlays:_mapView.overlays];
     
     //set the maptype
     if ([@"Standard" isEqual:maptype]) {

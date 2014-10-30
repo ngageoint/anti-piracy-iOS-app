@@ -35,7 +35,7 @@
     [super viewDidLoad];
     self.asamUtil = [[AsamUtility alloc] init];
     
-    [self setMapType: nil];
+    [self setMapType];
     [self setUpSegment];
     [self startAnimation:nil];
 }
@@ -218,7 +218,7 @@
 }
 
 
-- (void)setMapType: (NSNotification *)notification {
+- (void)setMapType {
     
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSString *maptype = [defaults stringForKey:@"maptype"];
