@@ -38,7 +38,7 @@
     
     NSString *deviceType = [UIDevice currentDevice].model;
     if (![deviceType hasPrefix: @"iPhone"]) {
-        self.settingsArray = @[@"Last Sync Date", @"Show Disclaimer", @"Map Layer", @"Sync Now"];
+        self.settingsArray = @[@"Last Sync Date", @"Show Disclaimer", @"Map", @"Sync Now"];
     }
     else {
         self.settingsArray = @[@"Last Sync Date", @"Show Disclaimer", @"Sync Now"];
@@ -109,12 +109,14 @@
             [cell addSubview:self.disclaimerSwitch];
             cell.textLabel.text = option;
         }
-        else if ([option isEqualToString:@"Map Layer"]) {
+        else if ([option isEqualToString:@"Map"]) {
             NSArray *itemArray = [NSArray arrayWithObjects: @"Standard", @"Satellite", @"Hybrid", @"Offline", nil];
             UISegmentedControl *segmentedControl = [[UISegmentedControl alloc] initWithItems:itemArray];
-            segmentedControl.frame = CGRectMake(110, 7, 280, 30);
+            segmentedControl.frame = CGRectMake(80, 7, 300, 30);
             segmentedControl.segmentedControlStyle = UISegmentedControlStyleBordered;
             segmentedControl.tintColor = [UIColor whiteColor];
+            segmentedControl.apportionsSegmentWidthsByContent = true;
+            
             [segmentedControl addTarget:self action:@selector(action:) forControlEvents:UIControlEventValueChanged];
             
             //set the selected map type.
@@ -156,7 +158,7 @@
             }
             [button setTitle:@"Sync Now" forState:UIControlStateNormal];
             [button setTitleColor:[UIColor whiteColor] forState:(UIControlStateSelected | UIControlStateHighlighted)];
-            button.frame =  CGRectMake(170, 7, 150, 30);
+            button.frame =  CGRectMake(160, 7, 150, 30);
             button.tag = 3;
             button.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin;
             [cell addSubview:button];
