@@ -62,10 +62,10 @@
 #pragma mark - UISwitch Action/ControlEventTarget Actions
 - (void)switchAction:(UISwitch*)sender {
     if ([sender isOn]) {
-        [self.prefs setObject:@"Yes" forKey:kShowDisclaimer];
+        [self.prefs setBool:NO forKey:kHideDisclaimer];
     }
     else {
-        [self.prefs setObject:@"No" forKey:kShowDisclaimer];
+        [self.prefs setBool:YES forKey:kHideDisclaimer];
     }
     [self.prefs synchronize];
 }

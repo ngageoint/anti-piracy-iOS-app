@@ -62,7 +62,7 @@
 - (void)updateAsamFromDate;
 - (NSInteger)getPositionOfIndexInArrayByDate:(NSArray *)array withNumber:(NSUInteger)numberOfAsam withDate:(NSDate *)targetDate;
 - (void)populateMapWithAsams:(id)sender;
-- (void)setMapType: (NSNotification *)notification;
+- (void)setMapType: (NSString *)type;
 
 @end
 
@@ -429,14 +429,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    //listen for changes to map type
-    NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
-    [center addObserver:self
-            selector:@selector(setMapType:)
-            name:NSUserDefaultsDidChangeNotification
-            object:nil];
-    
-    [self setMapType: nil];
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSString *mapType = [defaults objectForKey:@"maptype"];
+    [self setMapType:mapType];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(checkRotation:) name:UIApplicationDidChangeStatusBarOrientationNotification object:nil];
     self.asamUtil = [[AsamUtility alloc] init];
@@ -525,19 +520,19 @@
     [self.settingsPopOver dismissPopoverAnimated:YES];
     [self.callOutPopOver dismissPopoverAnimated:YES];
     [self.asamSearchPopOver dismissPopoverAnimated:YES];
-    [[NSNotificationCenter defaultCenter]removeObserver:self];
+    
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults removeObserver:self forKeyPath:@"maptype"];
 }
 
 -(void)viewDidAppear:(BOOL)animated {
     
     //listen for changes to map type
-    NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
-    [center addObserver:self
-            selector:@selector(setMapType:)
-            name:NSUserDefaultsDidChangeNotification
-            object:nil];
-    
-    [self setMapType: nil];
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults addObserver:self
+               forKeyPath:@"maptype"
+                  options:NSKeyValueObservingOptionNew
+                  context:NULL];
 }
 
 -(void) viewWillAppear:(BOOL)animated {
@@ -700,25 +695,26 @@
     return [sorted count];
 }
 
-- (void)setMapType: (NSNotification *)notification {
+-(void)observeValueForKeyPath:(NSString *)keyPath
+                     ofObject:(id)object
+                       change:(NSDictionary *)change
+                      context:(void *)context
+{
+    [self setMapType:[object objectForKey:keyPath]];
+}
 
-    //moniters NSUserDefault for changes.
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    NSString *maptype = [defaults stringForKey:@"maptype"];
+- (void)setMapType:(NSString *) type {
 
     [_mapView removeOverlays:_mapView.overlays];
     
     //set the maptype
-    if ([@"Standard" isEqual:maptype]) {
-        _mapView.mapType = MKMapTypeStandard;
-    }
-    else if ([@"Satellite" isEqual:maptype]) {
+    if ([@"Satellite" isEqual:type]) {
         _mapView.mapType = MKMapTypeSatellite;
     }
-    else if ([@"Hybrid" isEqual:maptype]) {
+    else if ([@"Hybrid" isEqual:type]) {
         _mapView.mapType = MKMapTypeHybrid;
     }
-    else if ([@"Offline" isEqual:maptype]) {
+    else if ([@"Offline" isEqual:type]) {
         _mapView.mapType = MKMapTypeStandard;
         [_mapView addOverlays:[OfflineMapUtility getPolygons]];
     }
