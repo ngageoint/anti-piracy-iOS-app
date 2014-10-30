@@ -373,9 +373,7 @@
     
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSString *maptype = [defaults stringForKey:@"maptype"];
-    
-    [_mapView removeOverlays:_mapView.overlays];
-    
+        
     //set the maptype
     if ([@"Standard" isEqual:maptype]) {
         _mapView.mapType = MKMapTypeStandard;
