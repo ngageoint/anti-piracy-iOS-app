@@ -327,15 +327,15 @@
 		24BDA349167B835700F7E5D9 /* AsamConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AsamConstants.h; sourceTree = "<group>"; };
 		24C1A85914DA0D6800AA7303 /* DDActionHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDActionHeaderView.h; sourceTree = "<group>"; };
 		24C1A85A14DA0D6800AA7303 /* DDActionHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDActionHeaderView.m; sourceTree = "<group>"; };
-		24C78D4C14D5B35E0027AE3B /* Asam.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Asam.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		24C78D4C14D5B35E0027AE3B /* ASAM.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ASAM.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		24C78D5014D5B35E0027AE3B /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		24C78D5214D5B35E0027AE3B /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		24C78D5414D5B35E0027AE3B /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		24C78D5614D5B35E0027AE3B /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
-		24C78D5A14D5B35E0027AE3B /* Asam-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Asam-Info.plist"; sourceTree = "<group>"; };
+		24C78D5A14D5B35E0027AE3B /* ASAM-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ASAM-Info.plist"; sourceTree = "<group>"; };
 		24C78D5C14D5B35E0027AE3B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		24C78D5E14D5B35E0027AE3B /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		24C78D6014D5B35E0027AE3B /* Asam-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Asam-Prefix.pch"; sourceTree = "<group>"; };
+		24C78D6014D5B35E0027AE3B /* ASAM-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ASAM-Prefix.pch"; sourceTree = "<group>"; };
 		24C78D6114D5B35E0027AE3B /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		24C78D6214D5B35E0027AE3B /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		24C78D6514D5B35E0027AE3B /* Asam.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Asam.xcdatamodel; sourceTree = "<group>"; };
@@ -737,7 +737,7 @@
 		24C78D4D14D5B35E0027AE3B /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				24C78D4C14D5B35E0027AE3B /* Asam.app */,
+				24C78D4C14D5B35E0027AE3B /* ASAM.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -792,10 +792,10 @@
 				249993A0166F87DB000F8452 /* thirdparty_description */,
 				24C9F3AB14D9718D00172AAC /* images */,
 				24984FAB14D74660000CBCBE /* subregions.csv */,
-				24C78D5A14D5B35E0027AE3B /* Asam-Info.plist */,
+				24C78D5A14D5B35E0027AE3B /* ASAM-Info.plist */,
 				24C78D5B14D5B35E0027AE3B /* InfoPlist.strings */,
 				24C78D5E14D5B35E0027AE3B /* main.m */,
-				24C78D6014D5B35E0027AE3B /* Asam-Prefix.pch */,
+				24C78D6014D5B35E0027AE3B /* ASAM-Prefix.pch */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -935,9 +935,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		24C78D4B14D5B35E0027AE3B /* Asam */ = {
+		24C78D4B14D5B35E0027AE3B /* ASAM */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 24C78D6914D5B35E0027AE3B /* Build configuration list for PBXNativeTarget "Asam" */;
+			buildConfigurationList = 24C78D6914D5B35E0027AE3B /* Build configuration list for PBXNativeTarget "ASAM" */;
 			buildPhases = (
 				24C78D4814D5B35E0027AE3B /* Sources */,
 				24C78D4914D5B35E0027AE3B /* Frameworks */,
@@ -947,9 +947,9 @@
 			);
 			dependencies = (
 			);
-			name = Asam;
+			name = ASAM;
 			productName = Asam;
-			productReference = 24C78D4C14D5B35E0027AE3B /* Asam.app */;
+			productReference = 24C78D4C14D5B35E0027AE3B /* ASAM.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -965,7 +965,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 24C78D4614D5B35E0027AE3B /* Build configuration list for PBXProject "Asam" */;
+			buildConfigurationList = 24C78D4614D5B35E0027AE3B /* Build configuration list for PBXProject "ASAM" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -977,7 +977,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				24C78D4B14D5B35E0027AE3B /* Asam */,
+				24C78D4B14D5B35E0027AE3B /* ASAM */,
 			);
 		};
 /* End PBXProject section */
@@ -1216,11 +1216,11 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Asam/Asam-Prefix.pch";
+				GCC_PREFIX_HEADER = "Asam/ASAM-Prefix.pch";
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
-				INFOPLIST_FILE = "Asam/Asam-Info.plist";
+				INFOPLIST_FILE = "Asam/ASAM-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = ASAM;
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1234,11 +1234,11 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Asam/Asam-Prefix.pch";
+				GCC_PREFIX_HEADER = "Asam/ASAM-Prefix.pch";
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
-				INFOPLIST_FILE = "Asam/Asam-Info.plist";
+				INFOPLIST_FILE = "Asam/ASAM-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = ASAM;
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1249,7 +1249,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		24C78D4614D5B35E0027AE3B /* Build configuration list for PBXProject "Asam" */ = {
+		24C78D4614D5B35E0027AE3B /* Build configuration list for PBXProject "ASAM" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				24C78D6714D5B35E0027AE3B /* Debug */,
@@ -1258,7 +1258,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
 		};
-		24C78D6914D5B35E0027AE3B /* Build configuration list for PBXNativeTarget "Asam" */ = {
+		24C78D6914D5B35E0027AE3B /* Build configuration list for PBXNativeTarget "ASAM" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				24C78D6A14D5B35E0027AE3B /* Debug */,
