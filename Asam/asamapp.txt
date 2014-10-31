@@ -16,4 +16,4 @@ NGA will collect NO PII or information from your mobile device. NGA neither coll
 
 Links to Third-Party Websites
 
-This App may contain links to websites operated by other organizations. This Policy does not apply to PII collected on any of these third-party websites. When you access third-party websites through a link on this App, please take a few minutes to review the privacy policy posted on that site. This App uses the Google Maps/Google Earth API. It incorporates by reference the Google Privacy Policy, which can be viewed at http://www.google.com/privacy.html, as amended by Google from time to time.
+This App may contain links to websites operated by other organizations. This Policy does not apply to PII collected on any of these third-party websites. When you access third-party websites through a link on this App, please take a few minutes to review the privacy policy posted on that site.
