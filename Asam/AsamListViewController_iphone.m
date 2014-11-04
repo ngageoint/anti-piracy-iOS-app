@@ -14,7 +14,6 @@ UINib *cellLoader;
 @property (nonatomic, strong) AsamDetailView *asamDetailView;
 
 - (void)prepareNavBar;
-- (void)segmentAction:(UISegmentedControl*)sender;
 - (IBAction)showActionSheet;
 - (void)sortAsamArrayWithVictimQualifier;
 - (void)sortAsamArrayWithAggressorQualifier;

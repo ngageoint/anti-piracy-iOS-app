@@ -60,7 +60,7 @@
 
 - (NSString*) description
 {
-    return [NSString stringWithFormat:@"%i annotations",[self count]];
+    return [NSString stringWithFormat:@"%li annotations",(long)[self count]];
 }
 
 #if !__has_feature(objc_arc)
