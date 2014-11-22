@@ -12,6 +12,9 @@ All pull request contributions to this project will be released under the Apache
 
 Software source code previously released under an open source license and then modified by NGA staff is considered a "joint work" (see *17 USC  101*); it is partially copyrighted, partially public domain, and as a whole is protected by the copyrights of the non-government authors and must be released according to the terms of the original open source license.
 
+###In the News
+[Official press release](https://www1.nga.mil/MediaRoom/PressReleases/Pages/2014-22.aspx), NGA first intel agency to the App Store
+
 ###Screenshots
 ![asam1](https://cloud.githubusercontent.com/assets/3793883/3392492/29cab488-fcb5-11e3-91ab-74d9f1d12ca7.PNG)
 ![asam2](https://cloud.githubusercontent.com/assets/3793883/3392491/29ca07cc-fcb5-11e3-9da9-f838f1c21c28.PNG)
