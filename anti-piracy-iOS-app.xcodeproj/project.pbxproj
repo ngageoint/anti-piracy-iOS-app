@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1F3093801A9FB7FB0036F56F /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F30937F1A9FB7FB0036F56F /* MapKit.framework */; };
 		1F6AE5351A9FB4B400B67477 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F6AE5341A9FB4B400B67477 /* AppDelegate.swift */; };
 		1F6AE5381A9FB4B400B67477 /* anti_piracy_iOS_app.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 1F6AE5361A9FB4B400B67477 /* anti_piracy_iOS_app.xcdatamodeld */; };
 		1F6AE53A1A9FB4B400B67477 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F6AE5391A9FB4B400B67477 /* ViewController.swift */; };
@@ -27,6 +28,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1F30937F1A9FB7FB0036F56F /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		1F6AE52F1A9FB4B400B67477 /* anti-piracy-iOS-app.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "anti-piracy-iOS-app.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1F6AE5331A9FB4B400B67477 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1F6AE5341A9FB4B400B67477 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -45,6 +47,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1F3093801A9FB7FB0036F56F /* MapKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -61,6 +64,7 @@
 		1F6AE5261A9FB4B400B67477 = {
 			isa = PBXGroup;
 			children = (
+				1F30937F1A9FB7FB0036F56F /* MapKit.framework */,
 				1F6AE5311A9FB4B400B67477 /* anti-piracy-iOS-app */,
 				1F6AE54A1A9FB4B400B67477 /* anti-piracy-iOS-appTests */,
 				1F6AE5301A9FB4B400B67477 /* Products */,
@@ -411,6 +415,7 @@
 				1F6AE5531A9FB4B400B67477 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		1F6AE5541A9FB4B400B67477 /* Build configuration list for PBXNativeTarget "anti-piracy-iOS-appTests" */ = {
 			isa = XCConfigurationList;
@@ -419,6 +424,7 @@
 				1F6AE5561A9FB4B400B67477 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 
