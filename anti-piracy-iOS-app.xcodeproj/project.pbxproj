@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		1F3093801A9FB7FB0036F56F /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F30937F1A9FB7FB0036F56F /* MapKit.framework */; };
+		1F3093821A9FC2C50036F56F /* OfflineMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F3093811A9FC2C50036F56F /* OfflineMap.swift */; };
+		1F3093851A9FC3BA0036F56F /* ne_50m_land.simplify0.2.geojson in Resources */ = {isa = PBXBuildFile; fileRef = 1F3093841A9FC3BA0036F56F /* ne_50m_land.simplify0.2.geojson */; };
 		1F6AE5351A9FB4B400B67477 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F6AE5341A9FB4B400B67477 /* AppDelegate.swift */; };
 		1F6AE5381A9FB4B400B67477 /* anti_piracy_iOS_app.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 1F6AE5361A9FB4B400B67477 /* anti_piracy_iOS_app.xcdatamodeld */; };
 		1F6AE53A1A9FB4B400B67477 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F6AE5391A9FB4B400B67477 /* ViewController.swift */; };
@@ -29,6 +31,8 @@
 
 /* Begin PBXFileReference section */
 		1F30937F1A9FB7FB0036F56F /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		1F3093811A9FC2C50036F56F /* OfflineMap.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OfflineMap.swift; sourceTree = "<group>"; };
+		1F3093841A9FC3BA0036F56F /* ne_50m_land.simplify0.2.geojson */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ne_50m_land.simplify0.2.geojson; sourceTree = "<group>"; };
 		1F6AE52F1A9FB4B400B67477 /* anti-piracy-iOS-app.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "anti-piracy-iOS-app.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1F6AE5331A9FB4B400B67477 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1F6AE5341A9FB4B400B67477 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -61,9 +65,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1F3093831A9FC2E60036F56F /* map.utils */ = {
+			isa = PBXGroup;
+			children = (
+				1F3093841A9FC3BA0036F56F /* ne_50m_land.simplify0.2.geojson */,
+				1F3093811A9FC2C50036F56F /* OfflineMap.swift */,
+			);
+			name = map.utils;
+			sourceTree = "<group>";
+		};
 		1F6AE5261A9FB4B400B67477 = {
 			isa = PBXGroup;
 			children = (
+				1F3093831A9FC2E60036F56F /* map.utils */,
 				1F30937F1A9FB7FB0036F56F /* MapKit.framework */,
 				1F6AE5311A9FB4B400B67477 /* anti-piracy-iOS-app */,
 				1F6AE54A1A9FB4B400B67477 /* anti-piracy-iOS-appTests */,
@@ -202,6 +216,7 @@
 				1F6AE53D1A9FB4B400B67477 /* Main.storyboard in Resources */,
 				1F6AE5421A9FB4B400B67477 /* LaunchScreen.xib in Resources */,
 				1F6AE53F1A9FB4B400B67477 /* Images.xcassets in Resources */,
+				1F3093851A9FC3BA0036F56F /* ne_50m_land.simplify0.2.geojson in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -219,6 +234,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1F3093821A9FC2C50036F56F /* OfflineMap.swift in Sources */,
 				1F6AE53A1A9FB4B400B67477 /* ViewController.swift in Sources */,
 				1F6AE5381A9FB4B400B67477 /* anti_piracy_iOS_app.xcdatamodeld in Sources */,
 				1F6AE5351A9FB4B400B67477 /* AppDelegate.swift in Sources */,
