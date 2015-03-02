@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1F2561EB1AA4FFC9006CAF1C /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2561EA1AA4FFC9006CAF1C /* StringExtension.swift */; };
 		1F3093801A9FB7FB0036F56F /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F30937F1A9FB7FB0036F56F /* MapKit.framework */; };
 		1F3093821A9FC2C50036F56F /* OfflineMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F3093811A9FC2C50036F56F /* OfflineMap.swift */; };
 		1F3093851A9FC3BA0036F56F /* ne_50m_land.simplify0.2.geojson in Resources */ = {isa = PBXBuildFile; fileRef = 1F3093841A9FC3BA0036F56F /* ne_50m_land.simplify0.2.geojson */; };
@@ -33,6 +34,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1F2561EA1AA4FFC9006CAF1C /* StringExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
 		1F30937F1A9FB7FB0036F56F /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		1F3093811A9FC2C50036F56F /* OfflineMap.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OfflineMap.swift; sourceTree = "<group>"; };
 		1F3093841A9FC3BA0036F56F /* ne_50m_land.simplify0.2.geojson */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ne_50m_land.simplify0.2.geojson; sourceTree = "<group>"; };
@@ -86,6 +88,7 @@
 				1F5B1C871AA11E380039049E /* asam.json */,
 				1F5B1C8A1AA11F030039049E /* AsamJsonParser.swift */,
 				1F5B1C8C1AA11FFF0039049E /* JsonParser.swift */,
+				1F2561EA1AA4FFC9006CAF1C /* StringExtension.swift */,
 			);
 			name = parse.utils;
 			sourceTree = "<group>";
@@ -253,6 +256,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1F3093821A9FC2C50036F56F /* OfflineMap.swift in Sources */,
+				1F2561EB1AA4FFC9006CAF1C /* StringExtension.swift in Sources */,
 				1F5B1C8B1AA11F030039049E /* AsamJsonParser.swift in Sources */,
 				1F5B1C8D1AA11FFF0039049E /* JsonParser.swift in Sources */,
 				1F6AE53A1A9FB4B400B67477 /* ViewController.swift in Sources */,
