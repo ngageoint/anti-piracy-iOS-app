@@ -22,7 +22,7 @@ class AsamJsonParser : JsonParser {
  
         
         super.init()
-        var json:NSDictionary = generateDictionaryFromJson(path!)
+        let json:[String: String] = generateDictionaryFromJson(path!)
         
         
         
@@ -41,9 +41,27 @@ class AsamJsonParser : JsonParser {
             insertIntoManagedObjectContext:managedContext)
         
         //3
-        asam.setValue("123123123", forKey: "reference")
-        asam.setValue("joMama", forKey: "victim")
+        asam.setValue(json["Reference"]!, forKey: "reference")
+        asam.setValue(json["Aggressor"]!, forKey: "aggressor")
+        asam.setValue(json["Victim"]!, forKey: "victim")
+        asam.setValue(json["Description"]!, forKey: "desc")
+        asam.setValue(json["Latitude"]!, forKey: "latitude")
+        asam.setValue(json["Longitude"]!, forKey: "longitude")
         
+        //doubles
+        asam.setValue((json["lat"]! as String).doubleValue, forKey: "lat")
+        asam.setValue((json["lng"]! as String).doubleValue, forKey: "lng")
+
+        //integers
+        asam.setValue((json["Subregion"]! as String).toInt(), forKey: "subregion")
+        
+        //dates
+        let dateString: String = json["Date"]!
+        let formatter = NSDateFormatter()
+        formatter.dateFormat = "dd-MM-yyyy"
+        let date = formatter.dateFromString(dateString)
+        asam.setValue(date, forKey: "date")
+    
         //4
         var error: NSError?
         if !managedContext.save(&error) {
@@ -54,6 +72,7 @@ class AsamJsonParser : JsonParser {
     
     
     }
+    
     
 
 }
