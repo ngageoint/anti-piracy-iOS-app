@@ -8,12 +8,16 @@
 
 import UIKit
 import MapKit
+import CoreData
 
 class ViewController: UIViewController, MKMapViewDelegate {
 
     @IBOutlet weak var mapView: MKMapView!
+    var asams = [NSManagedObject]()
+
     
     let offlineMap:OfflineMap = OfflineMap()
+    let asamJsonParser:AsamJsonParser = AsamJsonParser();
     
     func mapView(mapView: MKMapView!, rendererForOverlay overlay: MKOverlay!) -> MKOverlayRenderer! {
         
@@ -40,6 +44,39 @@ class ViewController: UIViewController, MKMapViewDelegate {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
+    
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        println("************************************************")
+
+        
+        //1
+        let appDelegate =
+        UIApplication.sharedApplication().delegate as AppDelegate
+        
+        let managedContext = appDelegate.managedObjectContext!
+        
+        //2
+        let fetchRequest = NSFetchRequest(entityName:"Asam")
+        
+        //3
+        var error: NSError?
+        
+        let fetchedResults =
+        managedContext.executeFetchRequest(fetchRequest,
+            error: &error) as [NSManagedObject]?
+        
+        if let results = fetchedResults {
+            println("YEAH RESULTS!!")
+            asams = results
+        } else {
+            println("NO RESULTS!!")
+        }
+    }
+    
+    
     
     @IBAction func showLayerActionSheet(sender: UIButton) {
         
