@@ -15,16 +15,9 @@ class AsamJsonParser : JsonParser {
     let path = NSBundle.mainBundle().pathForResource("asam", ofType: "json")
     var asams = [NSManagedObject]()
     
-
-    
     override init()
     {
- 
-        
         super.init()
-        let json:[String: String] = generateDictionaryFromJson(path!)
-        
-        
         
         //1
         let appDelegate =
@@ -37,42 +30,44 @@ class AsamJsonParser : JsonParser {
             inManagedObjectContext:
             managedContext)
         
-        let asam = NSManagedObject(entity: entity!,
-            insertIntoManagedObjectContext:managedContext)
-        
-        //3
-        asam.setValue(json["Reference"]!, forKey: "reference")
-        asam.setValue(json["Aggressor"]!, forKey: "aggressor")
-        asam.setValue(json["Victim"]!, forKey: "victim")
-        asam.setValue(json["Description"]!, forKey: "desc")
-        asam.setValue(json["Latitude"]!, forKey: "latitude")
-        asam.setValue(json["Longitude"]!, forKey: "longitude")
-        
-        //doubles
-        asam.setValue((json["lat"]! as String).doubleValue, forKey: "lat")
-        asam.setValue((json["lng"]! as String).doubleValue, forKey: "lng")
-
-        //integers
-        asam.setValue((json["Subregion"]! as String).toInt(), forKey: "subregion")
-        
-        //dates
-        let dateString: String = json["Date"]!
-        let formatter = NSDateFormatter()
-        formatter.dateFormat = "dd-MM-yyyy"
-        let date = formatter.dateFromString(dateString)
-        asam.setValue(date, forKey: "date")
-    
-        //4
-        var error: NSError?
-        if !managedContext.save(&error) {
-            println("Could not save \(error), \(error?.userInfo)")
-        }  
-        //5
-        asams.append(asam)
-    
+        let json: NSDictionary = generateDictionaryFromJson(path!) as NSDictionary
+        let dataArray = json["asams"] as NSArray;
+        for item in dataArray { // loop through data items
+            let obj = item as NSDictionary
+            let asam = NSManagedObject(entity: entity!,
+                insertIntoManagedObjectContext:managedContext)
+            
+            //3
+            asam.setValue(obj["Reference"]!, forKey: "reference")
+            asam.setValue(obj["Aggressor"]!, forKey: "aggressor")
+            asam.setValue(obj["Victim"]!, forKey: "victim")
+            asam.setValue(obj["Description"]!, forKey: "desc")
+            asam.setValue(obj["Latitude"]!, forKey: "latitude")
+            asam.setValue(obj["Longitude"]!, forKey: "longitude")
+            
+            //doubles
+            asam.setValue((obj["lat"]! as String).doubleValue, forKey: "lat")
+            asam.setValue((obj["lng"]! as String).doubleValue, forKey: "lng")
+            
+            //integers
+            asam.setValue((obj["Subregion"]! as String).toInt(), forKey: "subregion")
+            
+            //dates
+            let formatter = NSDateFormatter()
+            formatter.dateFormat = "MM/dd/yyyy"
+            var date = formatter.dateFromString(obj["Date"] as String)
+            println(date)
+            asam.setValue(date, forKey: "date")
+            
+            //4
+            var error: NSError?
+            if !managedContext.save(&error) {
+                println("Could not save \(error), \(error?.userInfo)")
+            }  
+            //5
+            asams.append(asam)
+        }
     
     }
     
-    
-
 }

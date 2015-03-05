@@ -21,6 +21,7 @@
 		1F6AE53F1A9FB4B400B67477 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1F6AE53E1A9FB4B400B67477 /* Images.xcassets */; };
 		1F6AE5421A9FB4B400B67477 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F6AE5401A9FB4B400B67477 /* LaunchScreen.xib */; };
 		1F6AE54E1A9FB4B400B67477 /* anti_piracy_iOS_appTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F6AE54D1A9FB4B400B67477 /* anti_piracy_iOS_appTests.swift */; };
+		1FB6C56E1AA908DA0047CB4D /* Asam.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB6C56D1AA908DA0047CB4D /* Asam.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,6 +53,7 @@
 		1F6AE5471A9FB4B400B67477 /* anti-piracy-iOS-appTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "anti-piracy-iOS-appTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1F6AE54C1A9FB4B400B67477 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1F6AE54D1A9FB4B400B67477 /* anti_piracy_iOS_appTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = anti_piracy_iOS_appTests.swift; sourceTree = "<group>"; };
+		1FB6C56D1AA908DA0047CB4D /* Asam.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Asam.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -123,6 +125,7 @@
 				1F6AE53E1A9FB4B400B67477 /* Images.xcassets */,
 				1F6AE5401A9FB4B400B67477 /* LaunchScreen.xib */,
 				1F6AE5361A9FB4B400B67477 /* anti_piracy_iOS_app.xcdatamodeld */,
+				1FB6C56D1AA908DA0047CB4D /* Asam.swift */,
 				1F6AE5321A9FB4B400B67477 /* Supporting Files */,
 			);
 			path = "anti-piracy-iOS-app";
@@ -262,6 +265,7 @@
 				1F6AE53A1A9FB4B400B67477 /* ViewController.swift in Sources */,
 				1F6AE5381A9FB4B400B67477 /* anti_piracy_iOS_app.xcdatamodeld in Sources */,
 				1F6AE5351A9FB4B400B67477 /* AppDelegate.swift in Sources */,
+				1FB6C56E1AA908DA0047CB4D /* Asam.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

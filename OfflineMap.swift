@@ -61,7 +61,6 @@ class OfflineMap {
             var geometry = feature["geometry"] as NSDictionary
             var geometryType = geometry["type"]! as String
             
-            
             if "MultiPolygon" == geometryType {
                 var subPolygons = geometry["coordinates"] as NSArray
                 for subPolygon in subPolygons
@@ -71,27 +70,10 @@ class OfflineMap {
                 }
                 
             }
-            else if "Polygon" == geometryType {
-                
-            }
-            
-            
             
         }
         
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
     }
-    
-    
     
     func generatePolygon(coordinates: NSArray) -> MKPolygon {
         
@@ -114,60 +96,4 @@ class OfflineMap {
         
     }
     
-    
 }
-/*
-
-+ (void) generateExteriorPolygons:(NSMutableArray*) featuresArray {
-
-NSMutableArray *polygonsFromFeatures = [[NSMutableArray alloc] init];
-
-//add ocean polygon
-CLLocationCoordinate2D  points[4];
-points[0] = CLLocationCoordinate2DMake(90, 0);
-points[1] = CLLocationCoordinate2DMake(90, -180.0);
-points[2] = CLLocationCoordinate2DMake(-90.0, -180.0);
-points[3] = CLLocationCoordinate2DMake(-90.0, 0);
-MKPolygon* ocean = [MKPolygon polygonWithCoordinates:points count:4];
-ocean.title = @"ocean";
-[polygonsFromFeatures addObject:ocean];
-
-CLLocationCoordinate2D  points2[4];
-points2[0] = CLLocationCoordinate2DMake(90, 0);
-points2[1] = CLLocationCoordinate2DMake(90, 180.0);
-points2[2] = CLLocationCoordinate2DMake(-90.0, 180.0);
-points2[3] = CLLocationCoordinate2DMake(-90.0, 0);
-MKPolygon* ocean2 = [MKPolygon polygonWithCoordinates:points2 count:4];
-ocean2.title = @"ocean";
-
-[polygonsFromFeatures addObject:ocean2];
-
-//add features polygons
-for (id object in featuresArray) {
-
-NSDictionary *element = object;
-NSDictionary *geometry = [element objectForKey:@"geometry"];
-
-if ([[geometry objectForKey:@"type"] isEqualToString:@"Polygon"]) {
-NSMutableArray *coordinates = [geometry objectForKey:@"coordinates"];
-MKPolygon *exteriorPolygon = [OfflineMapUtility generatePolygon:coordinates];
-[polygonsFromFeatures addObject:exteriorPolygon];
-}
-else if ([[geometry objectForKey:@"type"] isEqualToString:@"MultiPolygon"]) {
-NSMutableArray *subPolygons = [geometry objectForKey:@"coordinates"];
-
-for (id subPolygon in subPolygons) {
-NSMutableArray *coordinates = subPolygon;
-MKPolygon *exteriorPolygon = [OfflineMapUtility generatePolygon:coordinates];
-[polygonsFromFeatures addObject:exteriorPolygon];
-}
-
-}
-
-}
-
-polygons = [NSArray arrayWithArray:polygonsFromFeatures];
-}
-
-
-*/

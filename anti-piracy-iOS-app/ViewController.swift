@@ -13,11 +13,11 @@ import CoreData
 class ViewController: UIViewController, MKMapViewDelegate {
 
     @IBOutlet weak var mapView: MKMapView!
-    var asams = [NSManagedObject]()
+    var asams = [Asam]()
 
     
     let offlineMap:OfflineMap = OfflineMap()
-    let asamJsonParser:AsamJsonParser = AsamJsonParser();
+    //let asamJsonParser:AsamJsonParser = AsamJsonParser();
     
     func mapView(mapView: MKMapView!, rendererForOverlay overlay: MKOverlay!) -> MKOverlayRenderer! {
         
@@ -49,31 +49,35 @@ class ViewController: UIViewController, MKMapViewDelegate {
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        println("************************************************")
-
-        
         //1
         let appDelegate =
         UIApplication.sharedApplication().delegate as AppDelegate
         
-        let managedContext = appDelegate.managedObjectContext!
+        let managedObjectContext = appDelegate.managedObjectContext!
         
-        //2
-        let fetchRequest = NSFetchRequest(entityName:"Asam")
         
-        //3
-        var error: NSError?
+        // Create a new fetch request using the LogItem entity
+        let fetchRequest = NSFetchRequest(entityName: "Asam")
         
-        let fetchedResults =
-        managedContext.executeFetchRequest(fetchRequest,
-            error: &error) as [NSManagedObject]?
-        
-        if let results = fetchedResults {
-            println("YEAH RESULTS!!")
-            asams = results
-        } else {
-            println("NO RESULTS!!")
+        // Execute the fetch request, and cast the results to an array of LogItem objects
+        if let fetchResults = managedObjectContext.executeFetchRequest(fetchRequest, error: nil) as? [Asam] {
+            
+            for asam in fetchResults {
+
+                var newLocation = CLLocationCoordinate2DMake(asam.lat as Double, asam.lng as Double)
+
+                // Drop a pin
+                var dropPin = MKPointAnnotation()
+                dropPin.coordinate = newLocation
+                dropPin.title = "ASAM " + asam.reference
+                mapView.addAnnotation(dropPin)
+
+            
+            }
+            
+            
         }
+    
     }
     
     

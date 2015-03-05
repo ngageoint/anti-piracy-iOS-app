@@ -10,12 +10,11 @@ import Foundation
 
 class JsonParser {
         
-    func generateDictionaryFromJson(path: String) -> [String: String]
+    func generateDictionaryFromJson(path: String) -> AnyObject
     {
         let fileContent = NSData(contentsOfFile: path)
-        var error: NSError?
-        var jsonDict: [String: String] = NSJSONSerialization.JSONObjectWithData(fileContent!, options: NSJSONReadingOptions.MutableContainers, error: &error) as [String: String]
-        return jsonDict
+        var jsonDict: AnyObject? = NSJSONSerialization.JSONObjectWithData(fileContent!, options: nil, error: nil)
+        return jsonDict!
     }
     
     
