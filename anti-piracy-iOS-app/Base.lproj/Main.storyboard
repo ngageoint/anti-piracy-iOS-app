@@ -24,6 +24,31 @@
                                     <outlet property="delegate" destination="BYZ-38-t0r" id="z3Q-0J-nM0"/>
                                 </connections>
                             </mapView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="puW-XW-CP2">
+                                <rect key="frame" x="16" y="115" width="35" height="35"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <state key="normal" image="filter"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="3"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.shadowOpacity">
+                                        <integer key="value" value="1"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="size" keyPath="layer.shadowOffset">
+                                        <size key="value" width="0.0" height="1"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.shadowRadius">
+                                        <integer key="value" value="1"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                                <variation key="widthClass=compact" fixedFrame="YES">
+                                    <rect key="frame" x="16" y="72" width="35" height="35"/>
+                                </variation>
+                                <connections>
+                                    <segue destination="k4q-OE-xva" kind="show" id="7Km-sD-dAA"/>
+                                </connections>
+                            </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EdO-Ly-eRW">
                                 <rect key="frame" x="16" y="72" width="35" height="35"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -42,6 +67,9 @@
                                         <integer key="value" value="1"/>
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
+                                <variation key="widthClass=compact" fixedFrame="YES">
+                                    <rect key="frame" x="16" y="115" width="35" height="35"/>
+                                </variation>
                                 <connections>
                                     <action selector="showLayerActionSheet:" destination="BYZ-38-t0r" eventType="touchUpInside" id="nQV-er-RbH"/>
                                 </connections>
@@ -82,8 +110,99 @@
             </objects>
             <point key="canvasLocation" x="237" y="429"/>
         </scene>
+        <!--Filter View Controller-->
+        <scene sceneID="rZ3-ZS-fu4">
+            <objects>
+                <viewController id="k4q-OE-xva" customClass="FilterViewController" customModule="anti_piracy_iOS_app" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="9Us-Qj-ja0"/>
+                        <viewControllerLayoutGuide type="bottom" id="ob4-2q-tgZ"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="ke0-nk-UZ0">
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="v7q-TB-iBQ">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                                <items>
+                                    <navigationItem title="ASAM Filters" id="b71-fd-ram">
+                                        <barButtonItem key="rightBarButtonItem" title="Apply" id="N2X-Pv-pJo"/>
+                                    </navigationItem>
+                                </items>
+                            </navigationBar>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="01/01/1960" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="dHC-1V-ClS">
+                                <rect key="frame" x="0.0" y="-30" width="97" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <action selector="selectStartDate:" destination="k4q-OE-xva" eventType="editingDidEnd" id="Oe2-LT-NcS"/>
+                                </connections>
+                            </textField>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="12/31/2099" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="THd-bd-Uyv">
+                                <rect key="frame" x="0.0" y="-30" width="97" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="dHC-1V-ClS" firstAttribute="trailing" secondItem="THd-bd-Uyv" secondAttribute="trailing" id="4Ol-dO-aYx"/>
+                            <constraint firstItem="THd-bd-Uyv" firstAttribute="top" secondItem="dHC-1V-ClS" secondAttribute="bottom" constant="5" id="5w3-MS-ewk"/>
+                            <constraint firstItem="dHC-1V-ClS" firstAttribute="top" secondItem="9Us-Qj-ja0" secondAttribute="bottom" constant="33" id="63r-zF-CoK"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="v7q-TB-iBQ" secondAttribute="trailing" constant="-11" id="8Jb-nE-6bR"/>
+                            <constraint firstItem="v7q-TB-iBQ" firstAttribute="leading" secondItem="ke0-nk-UZ0" secondAttribute="leadingMargin" constant="-21" id="8hG-2q-D68"/>
+                            <constraint firstItem="dHC-1V-ClS" firstAttribute="trailing" secondItem="ke0-nk-UZ0" secondAttribute="trailingMargin" id="8kV-KE-fLh"/>
+                            <constraint firstItem="dHC-1V-ClS" firstAttribute="leading" secondItem="ke0-nk-UZ0" secondAttribute="leadingMargin" id="BjJ-3h-rhR"/>
+                            <constraint firstItem="v7q-TB-iBQ" firstAttribute="bottom" secondItem="9Us-Qj-ja0" secondAttribute="bottom" id="RXP-Fo-Rqs"/>
+                            <constraint firstItem="dHC-1V-ClS" firstAttribute="leading" secondItem="THd-bd-Uyv" secondAttribute="leading" id="rB3-6X-Y8o"/>
+                        </constraints>
+                        <variation key="default">
+                            <mask key="subviews">
+                                <exclude reference="v7q-TB-iBQ"/>
+                                <exclude reference="dHC-1V-ClS"/>
+                                <exclude reference="THd-bd-Uyv"/>
+                            </mask>
+                            <mask key="constraints">
+                                <exclude reference="8Jb-nE-6bR"/>
+                                <exclude reference="8hG-2q-D68"/>
+                                <exclude reference="RXP-Fo-Rqs"/>
+                                <exclude reference="4Ol-dO-aYx"/>
+                                <exclude reference="63r-zF-CoK"/>
+                                <exclude reference="8kV-KE-fLh"/>
+                                <exclude reference="BjJ-3h-rhR"/>
+                                <exclude reference="rB3-6X-Y8o"/>
+                                <exclude reference="5w3-MS-ewk"/>
+                            </mask>
+                        </variation>
+                        <variation key="widthClass=compact">
+                            <mask key="subviews">
+                                <include reference="v7q-TB-iBQ"/>
+                                <include reference="dHC-1V-ClS"/>
+                                <include reference="THd-bd-Uyv"/>
+                            </mask>
+                            <mask key="constraints">
+                                <include reference="8Jb-nE-6bR"/>
+                                <include reference="8hG-2q-D68"/>
+                                <include reference="RXP-Fo-Rqs"/>
+                                <include reference="4Ol-dO-aYx"/>
+                                <include reference="63r-zF-CoK"/>
+                                <include reference="8kV-KE-fLh"/>
+                                <include reference="BjJ-3h-rhR"/>
+                                <include reference="rB3-6X-Y8o"/>
+                                <include reference="5w3-MS-ewk"/>
+                            </mask>
+                        </variation>
+                    </view>
+                    <connections>
+                        <outlet property="startDate" destination="dHC-1V-ClS" id="Kbi-DS-rdY"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="wF2-J9-r8A" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1116" y="1150"/>
+        </scene>
     </scenes>
     <resources>
+        <image name="filter" width="22" height="22"/>
         <image name="layers" width="22" height="22"/>
     </resources>
 </document>

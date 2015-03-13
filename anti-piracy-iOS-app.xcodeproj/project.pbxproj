@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1F1A39A91AB382F7004E6E93 /* FilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F1A39A81AB382F7004E6E93 /* FilterViewController.swift */; };
 		1F2561EB1AA4FFC9006CAF1C /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2561EA1AA4FFC9006CAF1C /* StringExtension.swift */; };
 		1F3093801A9FB7FB0036F56F /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F30937F1A9FB7FB0036F56F /* MapKit.framework */; };
 		1F3093821A9FC2C50036F56F /* OfflineMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F3093811A9FC2C50036F56F /* OfflineMap.swift */; };
@@ -35,6 +36,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1F1A39A81AB382F7004E6E93 /* FilterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FilterViewController.swift; path = ../FilterViewController.swift; sourceTree = "<group>"; };
 		1F2561EA1AA4FFC9006CAF1C /* StringExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
 		1F30937F1A9FB7FB0036F56F /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		1F3093811A9FC2C50036F56F /* OfflineMap.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OfflineMap.swift; sourceTree = "<group>"; };
@@ -119,6 +121,7 @@
 		1F6AE5311A9FB4B400B67477 /* anti-piracy-iOS-app */ = {
 			isa = PBXGroup;
 			children = (
+				1F1A39A81AB382F7004E6E93 /* FilterViewController.swift */,
 				1F6AE5341A9FB4B400B67477 /* AppDelegate.swift */,
 				1F6AE5391A9FB4B400B67477 /* ViewController.swift */,
 				1F6AE53B1A9FB4B400B67477 /* Main.storyboard */,
@@ -261,6 +264,7 @@
 				1F3093821A9FC2C50036F56F /* OfflineMap.swift in Sources */,
 				1F2561EB1AA4FFC9006CAF1C /* StringExtension.swift in Sources */,
 				1F5B1C8B1AA11F030039049E /* AsamJsonParser.swift in Sources */,
+				1F1A39A91AB382F7004E6E93 /* FilterViewController.swift in Sources */,
 				1F5B1C8D1AA11FFF0039049E /* JsonParser.swift in Sources */,
 				1F6AE53A1A9FB4B400B67477 /* ViewController.swift in Sources */,
 				1F6AE5381A9FB4B400B67477 /* anti_piracy_iOS_app.xcdatamodeld in Sources */,
