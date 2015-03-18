@@ -13,10 +13,10 @@ import CoreData
 class ViewController: UIViewController, MKMapViewDelegate {
 
     @IBOutlet weak var mapView: MKMapView!
+   
     let defaults = NSUserDefaults.standardUserDefaults()
     var asams = [Asam]()
 
- 
     let offlineMap:OfflineMap = OfflineMap()
     //let asamJsonParser:AsamJsonParser = AsamJsonParser();
     
@@ -46,7 +46,10 @@ class ViewController: UIViewController, MKMapViewDelegate {
         defaults.setDouble(mapView.region.center.longitude, forKey: "mapViewLongitude")
         defaults.setDouble(mapView.region.span.latitudeDelta, forKey: "mapViewLatitudeDelta")
         defaults.setDouble(mapView.region.span.latitudeDelta, forKey: "mapViewLongitudeDelta")
-        
+        println("Persisting Map Center (\(mapView.region.center.latitude)," +
+                                       "\(mapView.region.center.longitude))");
+        println("Persisting Map Deltas (lat delta: \(mapView.region.span.latitudeDelta)," +
+                                       "lon delta:\(mapView.region.span.longitudeDelta))");
     }
     
     override func viewDidLoad() {
@@ -55,24 +58,41 @@ class ViewController: UIViewController, MKMapViewDelegate {
         //rebuild map center and map span from persisted user data
         var mapCenterLatitude:  Double = defaults.doubleForKey("mapViewLatitude")
         var mapCenterLongitude: Double = defaults.doubleForKey("mapViewLongitude")
-        
         var mapSpanLatitudeDelta: Double = defaults.doubleForKey("mapViewLatitudeDelta")
         var mapSpanLongitudeDelta: Double = defaults.doubleForKey("mapViewLongitudeDelta")
         
-        
         var mapSpan = MKCoordinateSpanMake(mapSpanLatitudeDelta, mapSpanLongitudeDelta)
         var mapCenter = CLLocationCoordinate2DMake(mapCenterLatitude, mapCenterLongitude)
-        
-        
         var mapRegion =  MKCoordinateRegionMake(mapCenter, mapSpan)
+        
         self.mapView.region = mapRegion
+        
+        //set map type from persisted user data
+        if let mapType = defaults.stringForKey("mapType") {
+            switch mapType {
+                case "Standard":
+                    self.mapView.mapType = MKMapType.Standard
+                    self.mapView.removeOverlays(self.offlineMap.polygons)
+                case "Satellite":
+                    self.mapView.mapType = MKMapType.Satellite
+                    self.mapView.removeOverlays(self.offlineMap.polygons)
+                case "Hybrid":
+                    self.mapView.mapType = MKMapType.Hybrid
+                    self.mapView.removeOverlays(self.offlineMap.polygons)
+                case "Offline":
+                    self.mapView.mapType = MKMapType.Standard
+                    self.mapView.addOverlays(self.offlineMap.polygons)
+                default:
+                    self.mapView.mapType = MKMapType.Standard
+                    self.mapView.removeOverlays(self.offlineMap.polygons)
+            }
+        }
         
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
-    
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
@@ -117,21 +137,26 @@ class ViewController: UIViewController, MKMapViewDelegate {
             (alert: UIAlertAction!) -> Void in
             self.mapView.mapType = MKMapType.Standard
             self.mapView.removeOverlays(self.offlineMap.polygons)
+            self.defaults.setObject("Standard", forKey: "mapType")
         })
         let satelliteMapAction = UIAlertAction(title: "Satellite", style: .Default, handler: {
             (alert: UIAlertAction!) -> Void in
             self.mapView.mapType = MKMapType.Satellite
             self.mapView.removeOverlays(self.offlineMap.polygons)
+            self.defaults.setObject("Satellite", forKey: "mapType")
+
         })
         let hybridMapAction = UIAlertAction(title: "Hybrid", style: .Default, handler: {
             (alert: UIAlertAction!) -> Void in
             self.mapView.mapType = MKMapType.Hybrid
             self.mapView.removeOverlays(self.offlineMap.polygons)
+            self.defaults.setObject("Hybrid", forKey: "mapType")
         })
         let offlineMapAction = UIAlertAction(title: "Offline", style: .Default, handler: {
             (alert: UIAlertAction!) -> Void in
             self.mapView.mapType = MKMapType.Standard
             self.mapView.addOverlays(self.offlineMap.polygons)
+            self.defaults.setObject("Offline", forKey: "mapType")
         })
         
         // Action Sheet Cancel
