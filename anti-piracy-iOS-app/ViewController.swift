@@ -13,9 +13,10 @@ import CoreData
 class ViewController: UIViewController, MKMapViewDelegate {
 
     @IBOutlet weak var mapView: MKMapView!
+    let defaults = NSUserDefaults.standardUserDefaults()
     var asams = [Asam]()
 
-    
+ 
     let offlineMap:OfflineMap = OfflineMap()
     //let asamJsonParser:AsamJsonParser = AsamJsonParser();
     
@@ -37,8 +38,35 @@ class ViewController: UIViewController, MKMapViewDelegate {
         return polygonRenderer
     }
     
+    
+    func  mapView(mapView: MKMapView!, regionDidChangeAnimated animated: Bool) {
+        
+        //persisting map center and span so that the map will return to this location.
+        defaults.setDouble(mapView.region.center.latitude, forKey: "mapViewLatitude")
+        defaults.setDouble(mapView.region.center.longitude, forKey: "mapViewLongitude")
+        defaults.setDouble(mapView.region.span.latitudeDelta, forKey: "mapViewLatitudeDelta")
+        defaults.setDouble(mapView.region.span.latitudeDelta, forKey: "mapViewLongitudeDelta")
+        
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        //rebuild map center and map span from persisted user data
+        var mapCenterLatitude:  Double = defaults.doubleForKey("mapViewLatitude")
+        var mapCenterLongitude: Double = defaults.doubleForKey("mapViewLongitude")
+        
+        var mapSpanLatitudeDelta: Double = defaults.doubleForKey("mapViewLatitudeDelta")
+        var mapSpanLongitudeDelta: Double = defaults.doubleForKey("mapViewLongitudeDelta")
+        
+        
+        var mapSpan = MKCoordinateSpanMake(mapSpanLatitudeDelta, mapSpanLongitudeDelta)
+        var mapCenter = CLLocationCoordinate2DMake(mapCenterLatitude, mapCenterLongitude)
+        
+        
+        var mapRegion =  MKCoordinateRegionMake(mapCenter, mapSpan)
+        self.mapView.region = mapRegion
+        
     }
     
     override func didReceiveMemoryWarning() {
@@ -75,12 +103,9 @@ class ViewController: UIViewController, MKMapViewDelegate {
             
             }
             
-            
         }
     
     }
-    
-    
     
     @IBAction func showLayerActionSheet(sender: UIButton) {
         

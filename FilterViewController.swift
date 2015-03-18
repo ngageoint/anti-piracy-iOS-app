@@ -17,7 +17,6 @@ class FilterViewController: UIViewController {
 
     var dateFormatter = NSDateFormatter()
     let defaults = NSUserDefaults.standardUserDefaults()
-
     
     override func viewDidLoad() {
 
@@ -112,7 +111,6 @@ class FilterViewController: UIViewController {
             println("Date Range Valid")
             errorTextDateRange.hidden = true
         }
-
         
     }
     
