@@ -13,7 +13,8 @@ import CoreData
 class ViewController: UIViewController, MKMapViewDelegate {
 
     @IBOutlet weak var mapView: MKMapView!
-   
+    @IBOutlet weak var asamCountLabel: UILabel!
+    
     let defaults = NSUserDefaults.standardUserDefaults()
     var asams = [Asam]()
 
@@ -97,33 +98,20 @@ class ViewController: UIViewController, MKMapViewDelegate {
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        //1
-        let appDelegate =
-        UIApplication.sharedApplication().delegate as AppDelegate
+        let model = AsamModelFacade()
+        let filteredAsams = model.getAsams()
         
-        let managedObjectContext = appDelegate.managedObjectContext!
-        
-        
-        // Create a new fetch request using the LogItem entity
-        let fetchRequest = NSFetchRequest(entityName: "Asam")
-        
-        // Execute the fetch request, and cast the results to an array of LogItem objects
-        if let fetchResults = managedObjectContext.executeFetchRequest(fetchRequest, error: nil) as? [Asam] {
-            
-            for asam in fetchResults {
+        for asam in filteredAsams {
 
-                var newLocation = CLLocationCoordinate2DMake(asam.lat as Double, asam.lng as Double)
-
-                // Drop a pin
-                var dropPin = MKPointAnnotation()
-                dropPin.coordinate = newLocation
-                dropPin.title = "ASAM " + asam.reference
-                mapView.addAnnotation(dropPin)
-
-            
-            }
-            
+            // Drop a pin
+            var newLocation = CLLocationCoordinate2DMake(asam.lat as Double, asam.lng as Double)
+            var dropPin = MKPointAnnotation()
+            dropPin.coordinate = newLocation
+            dropPin.title = "ASAM " + asam.reference
+            mapView.addAnnotation(dropPin)
         }
+        
+            asamCountLabel.text = "Now Showing \(filteredAsams.count) ASAMS"
     
     }
     
