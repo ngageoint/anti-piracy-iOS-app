@@ -47,15 +47,18 @@ class AsamModelFacade {
         
         //build predicate string
         var predicateString = String()
-        for index in 0...(filterNames.count-1) {
-            predicateString += filterNames[index]
-            if index < filterNames.count-1 {
-                predicateString += " and "
+        if filterNames.count > 0 {
+            for index in 0...(filterNames.count-1) {
+                predicateString += filterNames[index]
+                if index < filterNames.count-1 {
+                    predicateString += " and "
+                }
             }
+            
+            let pred = NSPredicate(format: predicateString, argumentArray: filterValues)
+            fetchRequest.predicate = pred
+            
         }
-        
-        let pred = NSPredicate(format: predicateString, argumentArray: filterValues)
-        fetchRequest.predicate = pred
         
         let fetchResults = managedObjectContext.executeFetchRequest(fetchRequest, error: nil) as? [Asam]
         asams = fetchResults!
@@ -63,7 +66,5 @@ class AsamModelFacade {
         return asams
         
     }
-    
-    
     
 }
