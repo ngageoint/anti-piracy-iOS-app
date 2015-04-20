@@ -103,6 +103,7 @@
 				1F3093811A9FC2C50036F56F /* OfflineMap.swift */,
 			);
 			name = map.utils;
+			path = ..;
 			sourceTree = "<group>";
 		};
 		1F42EDB21AD46D7E001E2071 /* cluster.utils */ = {
@@ -124,13 +125,12 @@
 				1F42EDB21AD46D7E001E2071 /* cluster.utils */,
 			);
 			name = parse.utils;
+			path = ..;
 			sourceTree = "<group>";
 		};
 		1F6AE5261A9FB4B400B67477 = {
 			isa = PBXGroup;
 			children = (
-				1F5B1C891AA11E760039049E /* parse.utils */,
-				1F3093831A9FC2E60036F56F /* map.utils */,
 				1F30937F1A9FB7FB0036F56F /* MapKit.framework */,
 				1F6AE5311A9FB4B400B67477 /* anti-piracy-iOS-app */,
 				1F6AE54A1A9FB4B400B67477 /* anti-piracy-iOS-appTests */,
@@ -152,6 +152,8 @@
 		1F6AE5311A9FB4B400B67477 /* anti-piracy-iOS-app */ = {
 			isa = PBXGroup;
 			children = (
+				1F5B1C891AA11E760039049E /* parse.utils */,
+				1F3093831A9FC2E60036F56F /* map.utils */,
 				1F1A39AB1ABB311C004E6E93 /* AsamModelFacade.swift */,
 				1F9341511ADD9F2A0021AEF0 /* AsamAnnotation.swift */,
 				1F1A39AA1ABB2E3C004E6E93 /* controllers */,

@@ -143,6 +143,40 @@ class ViewController: UIViewController, MKMapViewDelegate {
 
 }
 
+func textToImage(drawText: NSString, inImage: UIImage)->UIImage{
+    
+    //Setup the image context using the passed image.
+    UIGraphicsBeginImageContext(inImage.size)
+    
+    // Setup the font specific variables
+    var textColor: UIColor = UIColor.whiteColor()
+    var textFont: UIFont = UIFont.systemFontOfSize(12.0)
+    
+    
+    let textFontAttributes = [NSFontAttributeName: textFont,
+                              NSForegroundColorAttributeName: textColor]
+    
+    //Put the image into a rectangle as large as the original image.
+    var imageRectangle: CGRect = CGRectMake(0, 0, inImage.size.width, inImage.size.height)
+    inImage.drawInRect(imageRectangle)
+    
+    //center text
+    var size: CGSize = drawText.sizeWithAttributes(textFontAttributes)
+    var rect: CGRect = CGRectMake(imageRectangle.origin.x + (imageRectangle.size.width - size.width)/2.0,
+                                  imageRectangle.origin.y + (imageRectangle.size.height - size.height)/2.0,
+                                  imageRectangle.size.width, imageRectangle.size.height)
+    
+    //Draw the text into an image.
+    drawText.drawInRect(rect, withAttributes: textFontAttributes)
+    
+    // Create a new image out of the images we have created
+    var newImage: UIImage = UIGraphicsGetImageFromCurrentImageContext()
+    UIGraphicsEndImageContext()
+    return newImage
+    
+}
+
+
 extension ViewController : KPClusteringControllerDelegate {
     func clusteringControllerShouldClusterAnnotations(clusteringController: KPClusteringController!) -> Bool {
         return true
@@ -189,7 +223,9 @@ extension ViewController : MKMapViewDelegate {
                     annotationView = MKPinAnnotationView(annotation: a, reuseIdentifier: "cluster")
                 }
                 
-                annotationView!.pinColor = .Purple
+                //annotationView!.pinColor = .Purple
+                annotationView!.image = textToImage(String(a.annotations.count), UIImage(named: "cluster")!)
+                
             }
                 
             else {
@@ -199,7 +235,8 @@ extension ViewController : MKMapViewDelegate {
                     annotationView = MKPinAnnotationView(annotation: a, reuseIdentifier: "pin")
                 }
                 
-                annotationView!.pinColor = .Red
+                //annotationView!.pinColor = .Red
+                annotationView!.image = UIImage(named: "pirate")
             }
             
             annotationView!.canShowCallout = true;

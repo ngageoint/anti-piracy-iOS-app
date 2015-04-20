@@ -182,7 +182,13 @@
                             </mask>
                         </variation>
                     </view>
-                    <navigationItem key="navigationItem" title="Anti-Shipping Activity Messages" id="rpW-8T-jtb"/>
+                    <navigationItem key="navigationItem" title="Anti-Shipping Activity Messages" id="rpW-8T-jtb">
+                        <barButtonItem key="rightBarButtonItem" title="Item" id="PAf-65-IFA">
+                            <connections>
+                                <segue destination="ffh-M9-hmz" kind="show" id="WXF-ix-EJc"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="asamCountLabel" destination="k8g-LM-ST5" id="IIu-M1-TDD"/>
                         <outlet property="mapView" destination="9Xr-SK-pC2" id="cuH-4l-KCg"/>
@@ -190,7 +196,24 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1116" y="429"/>
+            <point key="canvasLocation" x="66" y="114"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="l0c-TH-VnU">
+            <objects>
+                <viewController id="ffh-M9-hmz" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="0gp-sD-3hV"/>
+                        <viewControllerLayoutGuide type="bottom" id="ckL-d1-7MO"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="y4E-54-RC8">
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="wfs-Il-CVW" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="928.5" y="114"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="fvO-VK-9Er">
@@ -208,7 +231,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="XGH-CV-eL5" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="237" y="429"/>
+            <point key="canvasLocation" x="-813" y="114"/>
         </scene>
         <!--Filter View Controller-->
         <scene sceneID="rZ3-ZS-fu4">
@@ -396,7 +419,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wF2-J9-r8A" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1116" y="1252"/>
+            <point key="canvasLocation" x="66" y="936"/>
         </scene>
     </scenes>
     <resources>
