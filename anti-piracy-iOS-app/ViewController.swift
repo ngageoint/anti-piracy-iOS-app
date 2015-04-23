@@ -206,6 +206,7 @@ extension ViewController : MKMapViewDelegate {
 
     //Clustering Annotations
     func mapView(mapView: MKMapView!, viewForAnnotation annotation: MKAnnotation!) -> MKAnnotationView! {
+
         if annotation is MKUserLocation {
             // return nil so map view draws "blue dot" for standard user location
             return nil
@@ -237,6 +238,9 @@ extension ViewController : MKMapViewDelegate {
                 
                 //annotationView!.pinColor = .Red
                 annotationView!.image = UIImage(named: "pirate")
+
+                
+                
             }
             
             annotationView!.canShowCallout = true;

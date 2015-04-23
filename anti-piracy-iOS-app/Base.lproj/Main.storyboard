@@ -183,15 +183,12 @@
                         </variation>
                     </view>
                     <navigationItem key="navigationItem" title="Anti-Shipping Activity Messages" id="rpW-8T-jtb">
-                        <barButtonItem key="rightBarButtonItem" title="Item" id="PAf-65-IFA">
-                            <connections>
-                                <segue destination="ffh-M9-hmz" kind="show" id="WXF-ix-EJc"/>
-                            </connections>
-                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="Item" id="PAf-65-IFA"/>
                     </navigationItem>
                     <connections>
                         <outlet property="asamCountLabel" destination="k8g-LM-ST5" id="IIu-M1-TDD"/>
                         <outlet property="mapView" destination="9Xr-SK-pC2" id="cuH-4l-KCg"/>
+                        <outlet property="view" destination="8bC-Xf-vdC" id="KYd-bi-VEn"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

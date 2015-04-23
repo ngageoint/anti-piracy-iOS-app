@@ -42,13 +42,13 @@
 		03182400511576D4EFE67D28 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		1F1A39A81AB382F7004E6E93 /* FilterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FilterViewController.swift; path = ../FilterViewController.swift; sourceTree = "<group>"; };
 		1F1A39AB1ABB311C004E6E93 /* AsamModelFacade.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AsamModelFacade.swift; sourceTree = "<group>"; };
-		1F2561EA1AA4FFC9006CAF1C /* StringExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
+		1F2561EA1AA4FFC9006CAF1C /* StringExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StringExtension.swift; path = ../StringExtension.swift; sourceTree = "<group>"; };
 		1F30937F1A9FB7FB0036F56F /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
-		1F3093811A9FC2C50036F56F /* OfflineMap.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OfflineMap.swift; sourceTree = "<group>"; };
-		1F3093841A9FC3BA0036F56F /* ne_50m_land.simplify0.2.geojson */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ne_50m_land.simplify0.2.geojson; sourceTree = "<group>"; };
-		1F5B1C871AA11E380039049E /* asam.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = asam.json; sourceTree = "<group>"; };
-		1F5B1C8A1AA11F030039049E /* AsamJsonParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AsamJsonParser.swift; sourceTree = "<group>"; };
-		1F5B1C8C1AA11FFF0039049E /* JsonParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JsonParser.swift; sourceTree = "<group>"; };
+		1F3093811A9FC2C50036F56F /* OfflineMap.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OfflineMap.swift; path = ../OfflineMap.swift; sourceTree = "<group>"; };
+		1F3093841A9FC3BA0036F56F /* ne_50m_land.simplify0.2.geojson */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = ne_50m_land.simplify0.2.geojson; path = ../ne_50m_land.simplify0.2.geojson; sourceTree = "<group>"; };
+		1F5B1C871AA11E380039049E /* asam.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = asam.json; path = ../asam.json; sourceTree = "<group>"; };
+		1F5B1C8A1AA11F030039049E /* AsamJsonParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AsamJsonParser.swift; path = ../AsamJsonParser.swift; sourceTree = "<group>"; };
+		1F5B1C8C1AA11FFF0039049E /* JsonParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = JsonParser.swift; path = ../JsonParser.swift; sourceTree = "<group>"; };
 		1F6AE52F1A9FB4B400B67477 /* anti-piracy-iOS-app.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "anti-piracy-iOS-app.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1F6AE5331A9FB4B400B67477 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1F6AE5341A9FB4B400B67477 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -60,7 +60,7 @@
 		1F6AE5471A9FB4B400B67477 /* anti-piracy-iOS-appTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "anti-piracy-iOS-appTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1F6AE54C1A9FB4B400B67477 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1F6AE54D1A9FB4B400B67477 /* anti_piracy_iOS_appTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = anti_piracy_iOS_appTests.swift; sourceTree = "<group>"; };
-		1F9341501ADD979E0021AEF0 /* kingpin-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "kingpin-Bridging-Header.h"; sourceTree = "<group>"; };
+		1F9341501ADD979E0021AEF0 /* kingpin-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "kingpin-Bridging-Header.h"; path = "../kingpin-Bridging-Header.h"; sourceTree = "<group>"; };
 		1F9341511ADD9F2A0021AEF0 /* AsamAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AsamAnnotation.swift; sourceTree = "<group>"; };
 		1FB6C56D1AA908DA0047CB4D /* Asam.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Asam.swift; sourceTree = "<group>"; };
 		C4D6DF1C10B55563AA8D7A9D /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -96,38 +96,6 @@
 			name = controllers;
 			sourceTree = "<group>";
 		};
-		1F3093831A9FC2E60036F56F /* map.utils */ = {
-			isa = PBXGroup;
-			children = (
-				1F3093841A9FC3BA0036F56F /* ne_50m_land.simplify0.2.geojson */,
-				1F3093811A9FC2C50036F56F /* OfflineMap.swift */,
-			);
-			name = map.utils;
-			path = ..;
-			sourceTree = "<group>";
-		};
-		1F42EDB21AD46D7E001E2071 /* cluster.utils */ = {
-			isa = PBXGroup;
-			children = (
-				1F9341501ADD979E0021AEF0 /* kingpin-Bridging-Header.h */,
-			);
-			name = cluster.utils;
-			sourceTree = "<group>";
-		};
-		1F5B1C891AA11E760039049E /* parse.utils */ = {
-			isa = PBXGroup;
-			children = (
-				1F5B1C871AA11E380039049E /* asam.json */,
-				1F6AE5401A9FB4B400B67477 /* LaunchScreen.xib */,
-				1F5B1C8A1AA11F030039049E /* AsamJsonParser.swift */,
-				1F5B1C8C1AA11FFF0039049E /* JsonParser.swift */,
-				1F2561EA1AA4FFC9006CAF1C /* StringExtension.swift */,
-				1F42EDB21AD46D7E001E2071 /* cluster.utils */,
-			);
-			name = parse.utils;
-			path = ..;
-			sourceTree = "<group>";
-		};
 		1F6AE5261A9FB4B400B67477 = {
 			isa = PBXGroup;
 			children = (
@@ -152,10 +120,7 @@
 		1F6AE5311A9FB4B400B67477 /* anti-piracy-iOS-app */ = {
 			isa = PBXGroup;
 			children = (
-				1F5B1C891AA11E760039049E /* parse.utils */,
-				1F3093831A9FC2E60036F56F /* map.utils */,
-				1F1A39AB1ABB311C004E6E93 /* AsamModelFacade.swift */,
-				1F9341511ADD9F2A0021AEF0 /* AsamAnnotation.swift */,
+				1FB1EA791AE6E67D00944AFC /* utils */,
 				1F1A39AA1ABB2E3C004E6E93 /* controllers */,
 				1F6AE5341A9FB4B400B67477 /* AppDelegate.swift */,
 				1F6AE53B1A9FB4B400B67477 /* Main.storyboard */,
@@ -190,6 +155,55 @@
 				1F6AE54C1A9FB4B400B67477 /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		1FB1EA791AE6E67D00944AFC /* utils */ = {
+			isa = PBXGroup;
+			children = (
+				1FB1EA7D1AE6E70900944AFC /* data */,
+				1FB1EA7C1AE6E6A400944AFC /* cluster */,
+				1FB1EA7B1AE6E69400944AFC /* map */,
+				1FB1EA7A1AE6E68B00944AFC /* parse */,
+			);
+			name = utils;
+			sourceTree = "<group>";
+		};
+		1FB1EA7A1AE6E68B00944AFC /* parse */ = {
+			isa = PBXGroup;
+			children = (
+				1F5B1C871AA11E380039049E /* asam.json */,
+				1F6AE5401A9FB4B400B67477 /* LaunchScreen.xib */,
+				1F5B1C8A1AA11F030039049E /* AsamJsonParser.swift */,
+				1F5B1C8C1AA11FFF0039049E /* JsonParser.swift */,
+				1F2561EA1AA4FFC9006CAF1C /* StringExtension.swift */,
+			);
+			name = parse;
+			sourceTree = "<group>";
+		};
+		1FB1EA7B1AE6E69400944AFC /* map */ = {
+			isa = PBXGroup;
+			children = (
+				1F3093841A9FC3BA0036F56F /* ne_50m_land.simplify0.2.geojson */,
+				1F3093811A9FC2C50036F56F /* OfflineMap.swift */,
+			);
+			name = map;
+			sourceTree = "<group>";
+		};
+		1FB1EA7C1AE6E6A400944AFC /* cluster */ = {
+			isa = PBXGroup;
+			children = (
+				1F9341511ADD9F2A0021AEF0 /* AsamAnnotation.swift */,
+				1F9341501ADD979E0021AEF0 /* kingpin-Bridging-Header.h */,
+			);
+			name = cluster;
+			sourceTree = "<group>";
+		};
+		1FB1EA7D1AE6E70900944AFC /* data */ = {
+			isa = PBXGroup;
+			children = (
+				1F1A39AB1ABB311C004E6E93 /* AsamModelFacade.swift */,
+			);
+			name = data;
 			sourceTree = "<group>";
 		};
 		27C7819759064898379222EE /* Pods */ = {
@@ -393,7 +407,6 @@
 				1F6AE5411A9FB4B400B67477 /* Base */,
 			);
 			name = LaunchScreen.xib;
-			path = "anti-piracy-iOS-app";
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
