@@ -24,6 +24,9 @@
 		1F6AE5421A9FB4B400B67477 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F6AE5401A9FB4B400B67477 /* LaunchScreen.xib */; };
 		1F6AE54E1A9FB4B400B67477 /* anti_piracy_iOS_appTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F6AE54D1A9FB4B400B67477 /* anti_piracy_iOS_appTests.swift */; };
 		1F9341521ADD9F2A0021AEF0 /* AsamAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F9341511ADD9F2A0021AEF0 /* AsamAnnotation.swift */; };
+		1FB1EA811AE99B8900944AFC /* AsamDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB1EA801AE99B8900944AFC /* AsamDetailsViewController.swift */; };
+		1FB1EA831AEA97B900944AFC /* ClusterImageGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB1EA821AEA97B900944AFC /* ClusterImageGenerator.swift */; };
+		1FB1EA851AEAABD600944AFC /* AsamDateFormat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB1EA841AEAABD600944AFC /* AsamDateFormat.swift */; };
 		1FB6C56E1AA908DA0047CB4D /* Asam.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB6C56D1AA908DA0047CB4D /* Asam.swift */; };
 		AA11C0242ABC553F9BC41F73 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C4D6DF1C10B55563AA8D7A9D /* libPods.a */; };
 /* End PBXBuildFile section */
@@ -62,6 +65,9 @@
 		1F6AE54D1A9FB4B400B67477 /* anti_piracy_iOS_appTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = anti_piracy_iOS_appTests.swift; sourceTree = "<group>"; };
 		1F9341501ADD979E0021AEF0 /* kingpin-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "kingpin-Bridging-Header.h"; path = "../kingpin-Bridging-Header.h"; sourceTree = "<group>"; };
 		1F9341511ADD9F2A0021AEF0 /* AsamAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AsamAnnotation.swift; sourceTree = "<group>"; };
+		1FB1EA801AE99B8900944AFC /* AsamDetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AsamDetailsViewController.swift; sourceTree = "<group>"; };
+		1FB1EA821AEA97B900944AFC /* ClusterImageGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClusterImageGenerator.swift; sourceTree = "<group>"; };
+		1FB1EA841AEAABD600944AFC /* AsamDateFormat.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AsamDateFormat.swift; sourceTree = "<group>"; };
 		1FB6C56D1AA908DA0047CB4D /* Asam.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Asam.swift; sourceTree = "<group>"; };
 		C4D6DF1C10B55563AA8D7A9D /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		F535692B65EE2C6EAFF6EA8F /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
@@ -92,6 +98,7 @@
 			children = (
 				1F1A39A81AB382F7004E6E93 /* FilterViewController.swift */,
 				1F6AE5391A9FB4B400B67477 /* ViewController.swift */,
+				1FB1EA801AE99B8900944AFC /* AsamDetailsViewController.swift */,
 			);
 			name = controllers;
 			sourceTree = "<group>";
@@ -194,6 +201,7 @@
 			children = (
 				1F9341511ADD9F2A0021AEF0 /* AsamAnnotation.swift */,
 				1F9341501ADD979E0021AEF0 /* kingpin-Bridging-Header.h */,
+				1FB1EA821AEA97B900944AFC /* ClusterImageGenerator.swift */,
 			);
 			name = cluster;
 			sourceTree = "<group>";
@@ -202,6 +210,7 @@
 			isa = PBXGroup;
 			children = (
 				1F1A39AB1ABB311C004E6E93 /* AsamModelFacade.swift */,
+				1FB1EA841AEAABD600944AFC /* AsamDateFormat.swift */,
 			);
 			name = data;
 			sourceTree = "<group>";
@@ -360,6 +369,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1FB1EA851AEAABD600944AFC /* AsamDateFormat.swift in Sources */,
 				1F3093821A9FC2C50036F56F /* OfflineMap.swift in Sources */,
 				1F1A39AC1ABB311C004E6E93 /* AsamModelFacade.swift in Sources */,
 				1F2561EB1AA4FFC9006CAF1C /* StringExtension.swift in Sources */,
@@ -369,6 +379,8 @@
 				1F6AE53A1A9FB4B400B67477 /* ViewController.swift in Sources */,
 				1F6AE5381A9FB4B400B67477 /* anti_piracy_iOS_app.xcdatamodeld in Sources */,
 				1F6AE5351A9FB4B400B67477 /* AppDelegate.swift in Sources */,
+				1FB1EA811AE99B8900944AFC /* AsamDetailsViewController.swift in Sources */,
+				1FB1EA831AEA97B900944AFC /* ClusterImageGenerator.swift in Sources */,
 				1F9341521ADD9F2A0021AEF0 /* AsamAnnotation.swift in Sources */,
 				1FB6C56E1AA908DA0047CB4D /* Asam.swift in Sources */,
 			);

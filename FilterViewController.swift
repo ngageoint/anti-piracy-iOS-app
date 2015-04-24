@@ -22,7 +22,7 @@ class FilterViewController: UIViewController {
 
         super.viewDidLoad()
         
-        dateFormatter.dateFormat = "MM/dd/yyyy"
+        dateFormatter.dateFormat = AsamDateFormat.dateFormat
         
         //setting user defaults if there are any
         if let userDefaultStartDate: NSDate = defaults.objectForKey("startDate") as? NSDate

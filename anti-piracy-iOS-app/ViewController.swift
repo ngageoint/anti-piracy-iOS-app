@@ -79,7 +79,7 @@ class ViewController: UIViewController, MKMapViewDelegate {
         for asam in filteredAsams {
             // Drop a pin
             var newLocation = CLLocationCoordinate2DMake(asam.lat as Double, asam.lng as Double)
-            var dropPin = AsamAnnotation(coordinate: newLocation)
+            var dropPin = AsamAnnotation(coordinate: newLocation, asam: asam)
             annotations.append(dropPin)
         }
         
@@ -143,38 +143,7 @@ class ViewController: UIViewController, MKMapViewDelegate {
 
 }
 
-func textToImage(drawText: NSString, inImage: UIImage)->UIImage{
-    
-    //Setup the image context using the passed image.
-    UIGraphicsBeginImageContext(inImage.size)
-    
-    // Setup the font specific variables
-    var textColor: UIColor = UIColor.whiteColor()
-    var textFont: UIFont = UIFont.systemFontOfSize(12.0)
-    
-    
-    let textFontAttributes = [NSFontAttributeName: textFont,
-                              NSForegroundColorAttributeName: textColor]
-    
-    //Put the image into a rectangle as large as the original image.
-    var imageRectangle: CGRect = CGRectMake(0, 0, inImage.size.width, inImage.size.height)
-    inImage.drawInRect(imageRectangle)
-    
-    //center text
-    var size: CGSize = drawText.sizeWithAttributes(textFontAttributes)
-    var rect: CGRect = CGRectMake(imageRectangle.origin.x + (imageRectangle.size.width - size.width)/2.0,
-                                  imageRectangle.origin.y + (imageRectangle.size.height - size.height)/2.0,
-                                  imageRectangle.size.width, imageRectangle.size.height)
-    
-    //Draw the text into an image.
-    drawText.drawInRect(rect, withAttributes: textFontAttributes)
-    
-    // Create a new image out of the images we have created
-    var newImage: UIImage = UIGraphicsGetImageFromCurrentImageContext()
-    UIGraphicsEndImageContext()
-    return newImage
-    
-}
+
 
 
 extension ViewController : KPClusteringControllerDelegate {
@@ -225,7 +194,7 @@ extension ViewController : MKMapViewDelegate {
                 }
                 
                 //annotationView!.pinColor = .Purple
-                annotationView!.image = textToImage(String(a.annotations.count), UIImage(named: "cluster")!)
+                annotationView!.image = ClusterImageGenerator.textToImage(String(a.annotations.count), inImage: UIImage(named: "cluster")!)
                 
             }
                 
@@ -243,7 +212,7 @@ extension ViewController : MKMapViewDelegate {
                 
             }
             
-            annotationView!.canShowCallout = true;
+            annotationView!.canShowCallout = false;
         }
         
         return annotationView;
@@ -265,6 +234,7 @@ extension ViewController : MKMapViewDelegate {
     }
     
     func mapView(mapView: MKMapView!, didSelectAnnotationView view: MKAnnotationView!) {
+        
         if view.annotation is KPAnnotation {
             let cluster : KPAnnotation = view.annotation as KPAnnotation
             
@@ -274,9 +244,24 @@ extension ViewController : MKMapViewDelegate {
                     cluster.radius * 2.5)
                 
                 mapView.setRegion(region, animated: true)
+            } else if cluster.annotations.count == 1 {
+                print("PIRATE CLICK!")
+                performSegueWithIdentifier("singleAsamDetails", sender: cluster.annotations.allObjects[0])
             }
+            
         }
     }
+    
+    
+    override func prepareForSegue(segue: UIStoryboardSegue?, sender: AnyObject?) {
+        if (segue?.identifier == "singleAsamDetails") {
+            let viewController: AsamDetailsViewController = segue!.destinationViewController as AsamDetailsViewController
+            viewController.asam = (sender as AsamAnnotation).asam
+
+            
+        }
+    }
+    
     
 }
 
