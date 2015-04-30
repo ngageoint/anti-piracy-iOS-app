@@ -36,7 +36,6 @@ class AsamMapViewDelegate: NSObject, MKMapViewDelegate, KPClusteringControllerDe
         return polygonRenderer
     }
 
-
     //Clustering Annotations
     func mapView(mapView: MKMapView!, viewForAnnotation annotation: MKAnnotation!) -> MKAnnotationView! {
         
