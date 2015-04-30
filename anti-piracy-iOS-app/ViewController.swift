@@ -16,7 +16,6 @@ class ViewController: UIViewController, AsamSelectDelegate {
     @IBOutlet weak var asamCountLabel: UILabel!
     @IBOutlet weak var asamMapViewDelegate: AsamMapViewDelegate!
     
-    
     //let asamJsonParser:AsamJsonParser = AsamJsonParser();
 
     override func viewDidLoad() {
@@ -144,7 +143,6 @@ class ViewController: UIViewController, AsamSelectDelegate {
     func asamSelected(asam: AsamAnnotation) {
         performSegueWithIdentifier("singleAsamDetails", sender: asam)
     }
-
     
     override func prepareForSegue(segue: UIStoryboardSegue?, sender: AnyObject?) {
         if (segue?.identifier == "singleAsamDetails") {

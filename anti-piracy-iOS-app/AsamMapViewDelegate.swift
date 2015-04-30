@@ -10,15 +10,13 @@ import Foundation
 
 
 class AsamMapViewDelegate: NSObject, MKMapViewDelegate, KPClusteringControllerDelegate {
-
     
     var clusteringController : KPClusteringController!
     var asamSelectDelegate : AsamSelectDelegate!
+    
     let defaults = NSUserDefaults.standardUserDefaults()
     let offlineMap:OfflineMap = OfflineMap()
-
     
-
     //Offline Map Polygons
     func mapView(mapView: MKMapView!, rendererForOverlay overlay: MKOverlay!) -> MKOverlayRenderer! {
         
@@ -97,7 +95,6 @@ class AsamMapViewDelegate: NSObject, MKMapViewDelegate, KPClusteringControllerDe
         
     }
     
-    
     func mapView(mapView: MKMapView!, didSelectAnnotationView view: MKAnnotationView!) {
         
         if view.annotation is KPAnnotation {
@@ -115,8 +112,8 @@ class AsamMapViewDelegate: NSObject, MKMapViewDelegate, KPClusteringControllerDe
                 asamSelectDelegate.asamSelected(cluster.annotations.allObjects[0] as AsamAnnotation)
             }
             
-            
         }
+        
     }
     
     func clusteringControllerShouldClusterAnnotations(clusteringController: KPClusteringController!) -> Bool {
