@@ -17,7 +17,7 @@ class OfflineMap {
     init()
     {
         var geoJson: NSDictionary = self.generateDictionaryFromGeoJson()
-        var features: NSArray = geoJson["features"] as NSArray
+        var features: NSArray = geoJson["features"] as! NSArray
         generateExteriorPolygons(features)
     }
     
@@ -25,7 +25,7 @@ class OfflineMap {
     {
         let fileContent = NSData(contentsOfFile: path!)
         var error: NSError?
-        var jsonDict: NSDictionary = NSJSONSerialization.JSONObjectWithData(fileContent!, options: NSJSONReadingOptions.MutableContainers, error: &error) as NSDictionary
+        var jsonDict: NSDictionary = NSJSONSerialization.JSONObjectWithData(fileContent!, options: NSJSONReadingOptions.MutableContainers, error: &error) as! NSDictionary
         return jsonDict
     }
     
@@ -58,14 +58,14 @@ class OfflineMap {
         for feature in features
         {
             
-            var geometry = feature["geometry"] as NSDictionary
-            var geometryType = geometry["type"]! as String
+            var geometry = feature["geometry"] as! NSDictionary
+            var geometryType = geometry["type"]! as! String
             
             if "MultiPolygon" == geometryType {
-                var subPolygons = geometry["coordinates"] as NSArray
+                var subPolygons = geometry["coordinates"] as! NSArray
                 for subPolygon in subPolygons
                 {
-                    var subPolygon = generatePolygon(subPolygon as NSArray)
+                    var subPolygon = generatePolygon(subPolygon as! NSArray)
                     polygons.append(subPolygon)
                 }
                 
@@ -77,13 +77,13 @@ class OfflineMap {
     
     func generatePolygon(coordinates: NSArray) -> MKPolygon {
         
-        var exteriorPolygonCoordinates = coordinates[0] as NSArray;
+        var exteriorPolygonCoordinates = coordinates[0] as! NSArray;
         var exteriorCoordinates: [CLLocationCoordinate2D] = [];
         
         //build out Array of coordinates
         for coordinate in exteriorPolygonCoordinates {
-            var y = coordinate[0] as Double;
-            var x = coordinate[1] as Double;
+            var y = coordinate[0] as! Double;
+            var x = coordinate[1] as! Double;
             var exteriorCoordinate = CLLocationCoordinate2DMake(x, y);
             exteriorCoordinates.append(exteriorCoordinate)
         }

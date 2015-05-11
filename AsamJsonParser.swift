@@ -21,7 +21,7 @@ class AsamJsonParser : JsonParser {
         
         //1
         let appDelegate =
-        UIApplication.sharedApplication().delegate as AppDelegate
+        UIApplication.sharedApplication().delegate as! AppDelegate
         
         let managedContext = appDelegate.managedObjectContext!
         
@@ -30,10 +30,10 @@ class AsamJsonParser : JsonParser {
             inManagedObjectContext:
             managedContext)
         
-        let json: NSDictionary = generateDictionaryFromJson(path!) as NSDictionary
-        let dataArray = json["asams"] as NSArray;
+        let json: NSDictionary = generateDictionaryFromJson(path!) as! NSDictionary
+        let dataArray = json["asams"]as! NSArray;
         for item in dataArray { // loop through data items
-            let obj = item as NSDictionary
+            let obj = item as! NSDictionary
             let asam = NSManagedObject(entity: entity!,
                 insertIntoManagedObjectContext:managedContext)
             
@@ -46,16 +46,16 @@ class AsamJsonParser : JsonParser {
             asam.setValue(obj["Longitude"]!, forKey: "longitude")
             
             //doubles
-            asam.setValue((obj["lat"]! as String).doubleValue, forKey: "lat")
-            asam.setValue((obj["lng"]! as String).doubleValue, forKey: "lng")
+            asam.setValue((obj["lat"]! as! String).doubleValue, forKey: "lat")
+            asam.setValue((obj["lng"]! as! String).doubleValue, forKey: "lng")
             
             //integers
-            asam.setValue((obj["Subregion"]! as String).toInt(), forKey: "subregion")
+            asam.setValue((obj["Subregion"]! as! String).toInt(), forKey: "subregion")
             
             //dates
             let formatter = NSDateFormatter()
             formatter.dateFormat = "MM/dd/yyyy"
-            var date = formatter.dateFromString(obj["Date"] as String)
+            var date = formatter.dateFromString(obj["Date"] as! String)
             println(date)
             asam.setValue(date, forKey: "date")
             

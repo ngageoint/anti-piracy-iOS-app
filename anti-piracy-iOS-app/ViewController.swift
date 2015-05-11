@@ -146,8 +146,8 @@ class ViewController: UIViewController, AsamSelectDelegate {
     
     override func prepareForSegue(segue: UIStoryboardSegue?, sender: AnyObject?) {
         if (segue?.identifier == "singleAsamDetails") {
-            let viewController: AsamDetailsViewController = segue!.destinationViewController as AsamDetailsViewController
-            viewController.asam = (sender as AsamAnnotation).asam
+            let viewController: AsamDetailsViewController = segue!.destinationViewController as! AsamDetailsViewController
+            viewController.asam = (sender as! AsamAnnotation).asam
             
             
         }

@@ -47,7 +47,7 @@ class AsamMapViewDelegate: NSObject, MKMapViewDelegate, KPClusteringControllerDe
         var annotationView : MKPinAnnotationView?
         
         if annotation is KPAnnotation {
-            let a : KPAnnotation = annotation as KPAnnotation
+            let a : KPAnnotation = annotation as! KPAnnotation
             
             if a.isCluster() {
                 annotationView = mapView.dequeueReusableAnnotationViewWithIdentifier("cluster") as? MKPinAnnotationView
@@ -97,7 +97,7 @@ class AsamMapViewDelegate: NSObject, MKMapViewDelegate, KPClusteringControllerDe
     func mapView(mapView: MKMapView!, didSelectAnnotationView view: MKAnnotationView!) {
         
         if view.annotation is KPAnnotation {
-            let cluster : KPAnnotation = view.annotation as KPAnnotation
+            let cluster : KPAnnotation = view.annotation as! KPAnnotation
             
             if cluster.annotations.count > 1 {
                 let region = MKCoordinateRegionMakeWithDistance(cluster.coordinate,
@@ -108,7 +108,7 @@ class AsamMapViewDelegate: NSObject, MKMapViewDelegate, KPClusteringControllerDe
             }
             else if cluster.annotations.count == 1 {
                 //drive to Asam Details page
-                asamSelectDelegate.asamSelected(cluster.annotations.allObjects[0] as AsamAnnotation)
+                asamSelectDelegate.asamSelected(cluster.annotations.first as! AsamAnnotation)
             }
             
         }

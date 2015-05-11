@@ -74,7 +74,7 @@ class AsamDetailsViewController: UIViewController, AsamSelectDelegate {
         
         
         // Drop a pin
-        var newLocation = CLLocationCoordinate2DMake(asam?.lat as Double, asam?.lng as Double)
+        var newLocation = CLLocationCoordinate2DMake(asam?.lat as! Double, asam?.lng as! Double)
         var dropPin = AsamAnnotation(coordinate: newLocation, asam: asam!)
         
         asamMapViewDelegate.clusteringController.setAnnotations([dropPin])
