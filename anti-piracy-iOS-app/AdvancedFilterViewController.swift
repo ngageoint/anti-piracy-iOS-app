@@ -9,9 +9,11 @@
 import Foundation
 
 
-class AdvancedFilterViewController: UIViewController {
+
+class AdvancedFilterViewController: UIViewController, MKMapViewDelegate {
 
     @IBOutlet weak var mapView: MKMapView!
+    @IBOutlet weak var asamMapViewDelegate: AsamMapViewDelegate!
     
 
     override func viewDidLoad() {
@@ -19,7 +21,55 @@ class AdvancedFilterViewController: UIViewController {
         super.viewDidLoad()
      
         let subregionsMap:SubregionMap = SubregionMap();
+        self.mapView.addOverlays(subregionsMap.polygons)
+        
+        var tapGesture = UITapGestureRecognizer(target: self, action: "action:")
+        mapView.addGestureRecognizer(tapGesture)
         
     }
-            
+    
+    //Offline Map Polygons
+    func mapView(mapView: MKMapView!, rendererForOverlay overlay: MKOverlay!) -> MKOverlayRenderer! {
+        
+        var polygonRenderer = MKPolygonRenderer(overlay: overlay);
+        polygonRenderer.fillColor = UIColor(red: 128/255.0, green: 255/255.0, blue: 130/255.0, alpha: 0.5)
+        polygonRenderer.strokeColor = UIColor.blackColor()
+        polygonRenderer.lineWidth = 1.0
+        
+        return polygonRenderer
+    }
+    
+    func action(gestureRecognizer:UIGestureRecognizer) {
+        
+        
+        
+        
+        
+        
+        var touchPoint = gestureRecognizer.locationInView(self.mapView)
+        var tapCoordinate:CLLocationCoordinate2D = mapView.convertPoint(touchPoint, toCoordinateFromView: self.mapView)
+
+        
+        var point = MKMapPointForCoordinate(tapCoordinate)
+
+        var mapRect = MKMapRectMake(point.x, point.y, 0, 0);
+
+        
+        for polygon in mapView.overlays as! [MKPolygon] {
+            if polygon.intersectsMapRect(mapRect) {
+
+                
+                //change the color somehow
+                println("found")
+                break
+            }
+        }
+        
+        
+        
+        
+    }
+
+    
+    
 }
