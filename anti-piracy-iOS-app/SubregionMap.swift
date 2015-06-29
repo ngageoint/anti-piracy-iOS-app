@@ -25,8 +25,7 @@ class SubregionMap {
             position += 2
         }
         
-        var region = MKPolygon(coordinates: &coordinates, count: coordinates.count)
-        return region
+        return MKPolygon(coordinates: &coordinates, count: coordinates.count)
         
     }
     
