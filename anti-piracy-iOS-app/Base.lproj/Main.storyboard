@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="ixS-S1-Ocr">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="ixS-S1-Ocr">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
         <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
@@ -508,15 +508,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aF1-vL-7xS">
-                                <rect key="frame" x="-23" y="-15" width="46" height="30"/>
-                                <state key="normal" title="Cancel">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="cancel:" destination="pEM-iW-54e" eventType="touchUpInside" id="OTm-o9-YtW"/>
-                                </connections>
-                            </button>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="RrD-w6-4bw">
                                 <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
                                 <connections>
@@ -532,47 +523,39 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="trailing" secondItem="RrD-w6-4bw" secondAttribute="trailing" id="7dK-iG-hz0"/>
-                            <constraint firstItem="4lx-U6-Ymg" firstAttribute="baseline" secondItem="aF1-vL-7xS" secondAttribute="baseline" id="KHt-qe-n9Z"/>
-                            <constraint firstItem="W3S-yC-apn" firstAttribute="top" secondItem="aF1-vL-7xS" secondAttribute="bottom" constant="8" symbolic="YES" id="KJd-Xr-QtT"/>
-                            <constraint firstItem="aF1-vL-7xS" firstAttribute="top" secondItem="RrD-w6-4bw" secondAttribute="bottom" constant="8" symbolic="YES" id="OQc-4U-Rnf"/>
-                            <constraint firstItem="4lx-U6-Ymg" firstAttribute="trailing" secondItem="Xgk-zq-Y8F" secondAttribute="trailingMargin" id="XXq-16-TOh"/>
-                            <constraint firstItem="RrD-w6-4bw" firstAttribute="leading" secondItem="Xgk-zq-Y8F" secondAttribute="leading" id="bxv-i9-xWZ"/>
-                            <constraint firstItem="aF1-vL-7xS" firstAttribute="leading" secondItem="Xgk-zq-Y8F" secondAttribute="leadingMargin" id="n2R-Rt-FzV"/>
-                            <constraint firstItem="RrD-w6-4bw" firstAttribute="top" secondItem="Xgk-zq-Y8F" secondAttribute="top" id="xQ8-dZ-xoa"/>
+                            <constraint firstItem="4lx-U6-Ymg" firstAttribute="trailing" secondItem="Xgk-zq-Y8F" secondAttribute="trailingMargin" id="BSN-jo-Lru"/>
+                            <constraint firstItem="RrD-w6-4bw" firstAttribute="leading" secondItem="Xgk-zq-Y8F" secondAttribute="leading" id="EhQ-lb-SqF"/>
+                            <constraint firstAttribute="trailing" secondItem="RrD-w6-4bw" secondAttribute="trailing" id="PHD-Dw-aUP"/>
+                            <constraint firstItem="RrD-w6-4bw" firstAttribute="top" secondItem="Xgk-zq-Y8F" secondAttribute="top" id="boC-m1-KFc"/>
+                            <constraint firstItem="4lx-U6-Ymg" firstAttribute="top" secondItem="RrD-w6-4bw" secondAttribute="bottom" constant="8" symbolic="YES" id="dHD-TF-9sT"/>
+                            <constraint firstItem="W3S-yC-apn" firstAttribute="top" secondItem="4lx-U6-Ymg" secondAttribute="bottom" constant="8" symbolic="YES" id="l4p-pn-jwX"/>
                         </constraints>
                         <variation key="default">
                             <mask key="subviews">
-                                <exclude reference="aF1-vL-7xS"/>
                                 <exclude reference="RrD-w6-4bw"/>
                                 <exclude reference="4lx-U6-Ymg"/>
                             </mask>
                             <mask key="constraints">
-                                <exclude reference="KJd-Xr-QtT"/>
-                                <exclude reference="KHt-qe-n9Z"/>
-                                <exclude reference="XXq-16-TOh"/>
-                                <exclude reference="OQc-4U-Rnf"/>
-                                <exclude reference="n2R-Rt-FzV"/>
-                                <exclude reference="7dK-iG-hz0"/>
-                                <exclude reference="bxv-i9-xWZ"/>
-                                <exclude reference="xQ8-dZ-xoa"/>
+                                <exclude reference="EhQ-lb-SqF"/>
+                                <exclude reference="PHD-Dw-aUP"/>
+                                <exclude reference="boC-m1-KFc"/>
+                                <exclude reference="l4p-pn-jwX"/>
+                                <exclude reference="BSN-jo-Lru"/>
+                                <exclude reference="dHD-TF-9sT"/>
                             </mask>
                         </variation>
                         <variation key="widthClass=compact">
                             <mask key="subviews">
-                                <include reference="aF1-vL-7xS"/>
                                 <include reference="RrD-w6-4bw"/>
                                 <include reference="4lx-U6-Ymg"/>
                             </mask>
                             <mask key="constraints">
-                                <include reference="KJd-Xr-QtT"/>
-                                <include reference="KHt-qe-n9Z"/>
-                                <include reference="XXq-16-TOh"/>
-                                <include reference="OQc-4U-Rnf"/>
-                                <include reference="n2R-Rt-FzV"/>
-                                <include reference="7dK-iG-hz0"/>
-                                <include reference="bxv-i9-xWZ"/>
-                                <include reference="xQ8-dZ-xoa"/>
+                                <include reference="EhQ-lb-SqF"/>
+                                <include reference="PHD-Dw-aUP"/>
+                                <include reference="boC-m1-KFc"/>
+                                <include reference="l4p-pn-jwX"/>
+                                <include reference="BSN-jo-Lru"/>
+                                <include reference="dHD-TF-9sT"/>
                             </mask>
                         </variation>
                     </view>
@@ -659,7 +642,7 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <segue destination="pEM-iW-54e" kind="presentation" id="Snk-UC-6Sb"/>
+                                    <segue destination="pEM-iW-54e" kind="show" id="Snk-UC-6Sb"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="All Regions Selected" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Dyw-bN-4w1">

@@ -57,7 +57,7 @@ class AdvancedFilterViewController: UIViewController, MKMapViewDelegate {
             if polygon.intersectsMapRect(mapRect) {
                 
                 
-                polygon.title = "selected"
+                //polygon.title = "selected"
                 
                 let renderer:MKPolygonRenderer = self.mapView.rendererForOverlay(polygon) as! MKPolygonRenderer
                 renderer.fillColor = UIColor(red: 0.0/255.0, green: 255/255.0, blue: 0.0/255.0, alpha: 0.9)
@@ -67,8 +67,8 @@ class AdvancedFilterViewController: UIViewController, MKMapViewDelegate {
                 //self.mapView.setNeedsDisplay()
                 
                 //change the color somehow
-                println("found")
-                break
+                println("found: " + polygon.title)
+                //break
             }
         
         }

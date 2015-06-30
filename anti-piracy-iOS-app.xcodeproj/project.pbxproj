@@ -33,6 +33,7 @@
 		1FB1EA851AEAABD600944AFC /* AsamDateFormat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB1EA841AEAABD600944AFC /* AsamDateFormat.swift */; };
 		1FB1EA881AEAEBCA00944AFC /* AsamMapViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB1EA871AEAEBCA00944AFC /* AsamMapViewDelegate.swift */; };
 		1FB6C56E1AA908DA0047CB4D /* Asam.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB6C56D1AA908DA0047CB4D /* Asam.swift */; };
+		1FE587BC1B423AD400950044 /* PolygonUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE587BB1B423AD400950044 /* PolygonUtil.swift */; };
 		72ED17B924510387513AE959 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ED6F70F6691FFE4A2215AAAD /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -80,6 +81,7 @@
 		1FB1EA841AEAABD600944AFC /* AsamDateFormat.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AsamDateFormat.swift; sourceTree = "<group>"; };
 		1FB1EA871AEAEBCA00944AFC /* AsamMapViewDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AsamMapViewDelegate.swift; sourceTree = "<group>"; };
 		1FB6C56D1AA908DA0047CB4D /* Asam.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Asam.swift; sourceTree = "<group>"; };
+		1FE587BB1B423AD400950044 /* PolygonUtil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PolygonUtil.swift; sourceTree = "<group>"; };
 		ED6F70F6691FFE4A2215AAAD /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		F535692B65EE2C6EAFF6EA8F /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -180,6 +182,7 @@
 		1FB1EA791AE6E67D00944AFC /* utils */ = {
 			isa = PBXGroup;
 			children = (
+				1FE587BA1B423AB100950044 /* polygon */,
 				1FB1EA7D1AE6E70900944AFC /* data */,
 				1FB1EA7C1AE6E6A400944AFC /* cluster */,
 				1FB1EA7B1AE6E69400944AFC /* map */,
@@ -237,6 +240,14 @@
 				1FACA9AE1AF18D0100ACBC52 /* AsamSelectDelegate.swift */,
 			);
 			name = delegates;
+			sourceTree = "<group>";
+		};
+		1FE587BA1B423AB100950044 /* polygon */ = {
+			isa = PBXGroup;
+			children = (
+				1FE587BB1B423AD400950044 /* PolygonUtil.swift */,
+			);
+			name = polygon;
 			sourceTree = "<group>";
 		};
 		27C7819759064898379222EE /* Pods */ = {
@@ -401,6 +412,7 @@
 				1F2124991B3B067D0055BA7D /* SubregionMap.swift in Sources */,
 				1F1A39AC1ABB311C004E6E93 /* AsamModelFacade.swift in Sources */,
 				1F2561EB1AA4FFC9006CAF1C /* StringExtension.swift in Sources */,
+				1FE587BC1B423AD400950044 /* PolygonUtil.swift in Sources */,
 				1F2124971B39E2650055BA7D /* AdvancedFilterViewController.swift in Sources */,
 				1F5B1C8B1AA11F030039049E /* AsamJsonParser.swift in Sources */,
 				1F1A39A91AB382F7004E6E93 /* FilterViewController.swift in Sources */,
