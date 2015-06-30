@@ -14,7 +14,8 @@ class AdvancedFilterViewController: UIViewController, MKMapViewDelegate {
 
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var asamMapViewDelegate: AsamMapViewDelegate!
-    
+
+    let polygonUtil:PolygonUtil = PolygonUtil()
 
     override func viewDidLoad() {
         
@@ -53,21 +54,33 @@ class AdvancedFilterViewController: UIViewController, MKMapViewDelegate {
         var mapRect = MKMapRectMake(point.x, point.y, 0, 0);
 
         
+
+        
+        
+        
         for polygon in mapView.overlays as! [MKPolygon] {
+
+            
+            //quick check
             if polygon.intersectsMapRect(mapRect) {
                 
+                //comprehensive check
+                if polygonUtil.isPointInPolygon(polygon, point: point) {
+                    let renderer:MKPolygonRenderer = self.mapView.rendererForOverlay(polygon) as! MKPolygonRenderer
+                    renderer.fillColor = UIColor(red: 0.0/255.0, green: 255/255.0, blue: 0.0/255.0, alpha: 0.9)
+                    renderer.strokeColor = UIColor.blackColor()
+                    renderer.lineWidth = 1.0
+                    renderer.setNeedsDisplay()
+                }
+
                 
-                //polygon.title = "selected"
                 
-                let renderer:MKPolygonRenderer = self.mapView.rendererForOverlay(polygon) as! MKPolygonRenderer
-                renderer.fillColor = UIColor(red: 0.0/255.0, green: 255/255.0, blue: 0.0/255.0, alpha: 0.9)
-                renderer.strokeColor = UIColor.blackColor()
-                renderer.lineWidth = 1.0
-                renderer.setNeedsDisplay()
+                
+                
                 //self.mapView.setNeedsDisplay()
                 
                 //change the color somehow
-                println("found: " + polygon.title)
+                //println("found: " + polygon.title)
                 //break
             }
         
