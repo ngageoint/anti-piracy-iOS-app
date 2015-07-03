@@ -9,14 +9,17 @@
 import UIKit
 import CoreData
 
-class FilterViewController: UIViewController {
+class FilterViewController: SubregionDisplayViewController {
     
     @IBOutlet var startDate: UITextField!
     @IBOutlet var endDate: UITextField!
     @IBOutlet var errorTextDateRange: UILabel!
-
+    @IBOutlet weak var regions: UITextField!
+    
     var dateFormatter = NSDateFormatter()
     let defaults = NSUserDefaults.standardUserDefaults()
+    
+    var selectedRegions = Array<String>()
     
     override func viewDidLoad() {
 
@@ -42,8 +45,12 @@ class FilterViewController: UIViewController {
         else {
             println("No default End Date found.")
         }
-        
         checkDateRange()
+        
+        if let selectedRegions:Array<String> = defaults.objectForKey("selectedRegions") as? Array<String> {
+            self.selectedRegions = selectedRegions
+            populateRegionText(selectedRegions, textView: regions)
+        }
         
     }
 
@@ -113,5 +120,5 @@ class FilterViewController: UIViewController {
         }
         
     }
-    
+
 }
