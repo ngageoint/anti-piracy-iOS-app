@@ -1,0 +1,10 @@
+PODS:
+  - kingpin (0.2.5)
+
+DEPENDENCIES:
+  - kingpin
+
+SPEC CHECKSUMS:
+  kingpin: 28ea5a6e16065ee10d078806a6cb0adb4c7c28cd
+
+COCOAPODS: 0.37.2

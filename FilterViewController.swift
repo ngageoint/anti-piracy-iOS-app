@@ -11,11 +11,12 @@ import CoreData
 
 class FilterViewController: SubregionDisplayViewController {
     
-    @IBOutlet var startDate: UITextField!
-    @IBOutlet var endDate: UITextField!
-    @IBOutlet var errorTextDateRange: UILabel!
+    @IBOutlet weak var errorTextDateRange: UILabel!
+    @IBOutlet weak var startDate: UITextField!
+    @IBOutlet weak var endDate: UITextField!
     @IBOutlet weak var regions: UITextField!
-    
+    @IBOutlet weak var keyword: UITextField!
+
     var dateFormatter = NSDateFormatter()
     let defaults = NSUserDefaults.standardUserDefaults()
     
@@ -52,6 +53,24 @@ class FilterViewController: SubregionDisplayViewController {
             populateRegionText(selectedRegions, textView: regions)
         }
         
+        //for swipe down gesture
+        var swipe: UISwipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: "dismissControlWithSwipe")
+        swipe.direction = UISwipeGestureRecognizerDirection.Down
+        self.view.addGestureRecognizer(swipe)
+        
+    }
+    
+    //for swipe down gesture
+    func dismissControlWithSwipe() {
+        self.startDate.resignFirstResponder()
+        self.endDate.resignFirstResponder()
+        self.keyword.resignFirstResponder()
+        self.regions.resignFirstResponder()
+    }
+    
+    //Clicking outside a textbox will close the datepicker or keyboard
+    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
+        self.view.endEditing(true)
     }
 
     override func didReceiveMemoryWarning() {
@@ -60,7 +79,6 @@ class FilterViewController: SubregionDisplayViewController {
     }
     
     @IBAction func selectStartDate(sender: UITextField) {
-
         var datePickerView  : UIDatePicker = UIDatePicker()
         datePickerView.datePickerMode = UIDatePickerMode.Date
         
