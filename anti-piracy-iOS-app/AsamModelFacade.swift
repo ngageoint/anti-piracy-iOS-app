@@ -51,15 +51,17 @@ class AsamModelFacade {
         var dateNames: [String] = []
         var dateValues: [AnyObject] = []
         
-        if let userDefaultStartDate: NSDate = defaults.objectForKey("startDate") as? NSDate {
+        
+         let userDefaultStartDate = NSDate() //{//defaults.objectForKey("startDate") as? NSDate {
             dateNames.append("(date > %@)")
             dateValues.append(userDefaultStartDate)
-        }
+     //   }
         
-        if let userDefaultEndDate: NSDate = defaults.objectForKey("endDate") as? NSDate {
+        //if let userDefaultEndDate: NSDate = NSDate() { //defaults.objectForKey("endDate") as? NSDate {
+        let userDefaultEndDate = NSDate()
             dateNames.append("(date < %@)")
             dateValues.append(userDefaultEndDate)
-        }
+      //  }
         
         //build predicate string
         let datePredicateFormat = buildPredicateFormat(AND_PREDICATE, names: dateNames)
