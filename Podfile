@@ -2,8 +2,3 @@
 
 pod 'kingpin'
 
-#target :InteractiveReports do
-#end
-#
-#target :DICETests, :exclusive => false do
-#end

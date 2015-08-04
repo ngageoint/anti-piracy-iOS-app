@@ -1,15 +1,15 @@
 //
-//  anti_piracy_iOS_appTests.swift
-//  anti-piracy-iOS-appTests
+//  ASAMTests.swift
+//  ASAMTests
 //
-//  Created by Travis Baumgart on 2/26/15.
+//  Created by William Newman on 8/4/15.
 //  Copyright (c) 2015 NGA. All rights reserved.
 //
 
 import UIKit
 import XCTest
 
-class anti_piracy_iOS_appTests: XCTestCase {
+class ASAMTests: XCTestCase {
     
     override func setUp() {
         super.setUp()

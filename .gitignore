@@ -1,3 +1,7 @@
-ASAM.xcodeproj
-anti-piracy-iOS-app.xcodeproj
-anti-piracy-iOS-app.xcworkspace
+.DS_Store
+
+*.xcworkspace
+
+Podfile.lock
+
+Pods
