@@ -9,16 +9,18 @@
 import UIKit
 import CoreData
 
-class FilterViewController: SubregionDisplayViewController {
+class FilterViewController: SubregionDisplayViewController, UIPickerViewDelegate, UIPickerViewDataSource {
     
-    @IBOutlet weak var errorTextDateRange: UILabel!
-    @IBOutlet weak var startDate: UITextField!
-    @IBOutlet weak var endDate: UITextField!
     @IBOutlet weak var regions: UITextField!
     @IBOutlet weak var keyword: UITextField!
+    @IBOutlet weak var dateIntervalPicker: UIPickerView!
+    @IBOutlet weak var selectedInterval: UITextField!
+    @IBOutlet weak var shiftKeyword: NSLayoutConstraint!
 
+    
     var dateFormatter = NSDateFormatter()
     let defaults = NSUserDefaults.standardUserDefaults()
+    let pickerData = ["Last 30 Days", "Last 60 Days", "Last 120 Days", "Last 1 year"]
     
     var selectedRegions = Array<String>()
     
@@ -27,26 +29,6 @@ class FilterViewController: SubregionDisplayViewController {
         super.viewDidLoad()
         
         dateFormatter.dateFormat = AsamDateFormat.dateFormat
-        
-        //setting user defaults if there are any
-        if let userDefaultStartDate: NSDate = defaults.objectForKey("startDate") as? NSDate
-        {
-            println(userDefaultStartDate)
-            startDate.text = dateFormatter.stringFromDate(userDefaultStartDate)
-        }
-        else {
-            println("No default Start Date found.")
-        }
-
-        if let userDefaultEndDate: NSDate = defaults.objectForKey("endDate") as? NSDate
-        {
-            println(userDefaultEndDate)
-            endDate.text = dateFormatter.stringFromDate(userDefaultEndDate)
-        }
-        else {
-            println("No default End Date found.")
-        }
-        checkDateRange()
         
         if let selectedRegions:Array<String> = defaults.objectForKey("selectedRegions") as? Array<String> {
             self.selectedRegions = selectedRegions
@@ -58,12 +40,26 @@ class FilterViewController: SubregionDisplayViewController {
         swipe.direction = UISwipeGestureRecognizerDirection.Down
         self.view.addGestureRecognizer(swipe)
         
+        //for picker
+        hidePicker()
+        dateIntervalPicker.dataSource = self
+        dateIntervalPicker.delegate = self
+        
+        
+    }
+    
+    func hidePicker() {
+        dateIntervalPicker.hidden = true
+        shiftKeyword.priority = 1000
+    }
+    
+    func showPicker() {
+        dateIntervalPicker.hidden = false
+        shiftKeyword.priority = 250
     }
     
     //for swipe down gesture
     func dismissControlWithSwipe() {
-        self.startDate.resignFirstResponder()
-        self.endDate.resignFirstResponder()
         self.keyword.resignFirstResponder()
         self.regions.resignFirstResponder()
     }
@@ -93,12 +89,12 @@ class FilterViewController: SubregionDisplayViewController {
         datePickerView.addTarget(self, action: Selector("handleStartDatePicker:"), forControlEvents: UIControlEvents.ValueChanged)
     }
     
-    func handleStartDatePicker(sender: UIDatePicker) {
-        startDate.text = dateFormatter.stringFromDate(sender.date)
-        let defaults = NSUserDefaults.standardUserDefaults()
-        defaults.setObject(sender.date, forKey: "startDate")
-        checkDateRange()
-    }
+//    func handleStartDatePicker(sender: UIDatePicker) {
+//        startDate.text = dateFormatter.stringFromDate(sender.date)
+//        let defaults = NSUserDefaults.standardUserDefaults()
+//        defaults.setObject(sender.date, forKey: "startDate")
+//        checkDateRange()
+//    }
     
     
     @IBAction func selectEndDate(sender: UITextField) {
@@ -116,27 +112,46 @@ class FilterViewController: SubregionDisplayViewController {
         datePickerView.addTarget(self, action: Selector("handleEndDatePicker:"), forControlEvents: UIControlEvents.ValueChanged)
     }
     
-    func handleEndDatePicker(sender: UIDatePicker) {
-        endDate.text = dateFormatter.stringFromDate(sender.date)
-        let defaults = NSUserDefaults.standardUserDefaults()
-        defaults.setObject(sender.date, forKey: "endDate")
-        checkDateRange()
+//    func handleEndDatePicker(sender: UIDatePicker) {
+//        endDate.text = dateFormatter.stringFromDate(sender.date)
+//        let defaults = NSUserDefaults.standardUserDefaults()
+//        defaults.setObject(sender.date, forKey: "endDate")
+//        checkDateRange()
+//    }
+//    
+//    func checkDateRange() {
+//    
+//        let date1 = dateFormatter.dateFromString(startDate.text)
+//        let date2 =   dateFormatter.dateFromString(endDate.text)
+//        
+//        if date1?.compare(date2!) == NSComparisonResult.OrderedDescending {
+//            println("Date Range Invalid")
+//            errorTextDateRange.hidden = false
+//        }
+//        else {
+//            println("Date Range Valid")
+//            errorTextDateRange.hidden = true
+//        }
+//        
+//    }
+    
+    
+    //MARK: - Delegates and data sources
+    //MARK: Data Sources
+    func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return pickerData.count
+    }
+
+    //MARK: Delegates
+    func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String! {
+        return pickerData[row]
     }
     
-    func checkDateRange() {
-    
-        let date1 = dateFormatter.dateFromString(startDate.text)
-        let date2 =   dateFormatter.dateFromString(endDate.text)
-        
-        if date1?.compare(date2!) == NSComparisonResult.OrderedDescending {
-            println("Date Range Invalid")
-            errorTextDateRange.hidden = false
-        }
-        else {
-            println("Date Range Valid")
-            errorTextDateRange.hidden = true
-        }
-        
+    func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        selectedInterval.text = pickerData[row]
     }
 
 }
