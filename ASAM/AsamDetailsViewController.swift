@@ -27,7 +27,6 @@ class AsamDetailsViewController: UIViewController, AsamSelectDelegate {
         
         super.viewDidLoad()
 
-        //
         asamMapViewDelegate.asamSelectDelegate = self
         
         dateFormatter.dateFormat = AsamDateFormat.dateFormat

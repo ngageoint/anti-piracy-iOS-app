@@ -38,6 +38,7 @@
 		2FC48DC11B7142370007B8C6 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FC48DC01B7142370007B8C6 /* UIKit.framework */; };
 		2FD26C281B714E01001267CA /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FD26C271B714E01001267CA /* ViewController.swift */; };
 		32372BA525D1A8CA1737F593 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C45911953E583357AAD51FA6 /* libPods.a */; };
+		75029C931B73EE71004BD9E2 /* ListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75029C921B73EE71004BD9E2 /* ListTableViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -87,6 +88,7 @@
 		2FC48DC01B7142370007B8C6 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		2FD26C271B714E01001267CA /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		32F47D6FE15E0D17D6A089AE /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		75029C921B73EE71004BD9E2 /* ListTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListTableViewController.swift; sourceTree = "<group>"; };
 		7F5FE9D9DC59AD7F6FA93D00 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		C45911953E583357AAD51FA6 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -204,6 +206,7 @@
 				2FC48DB51B713F2B0007B8C6 /* AdvFilterViewController.swift */,
 				2FC48DB31B713F1D0007B8C6 /* FilterViewController.swift */,
 				2FC48DB11B713F0C0007B8C6 /* SubregionDisplayViewController.swift */,
+				75029C921B73EE71004BD9E2 /* ListTableViewController.swift */,
 			);
 			name = controllers;
 			sourceTree = "<group>";
@@ -433,6 +436,7 @@
 				2FC48D9E1B713EB00007B8C6 /* ClusterImageGenerator.swift in Sources */,
 				2FC48DAE1B713F010007B8C6 /* JsonParser.swift in Sources */,
 				2FD26C281B714E01001267CA /* ViewController.swift in Sources */,
+				75029C931B73EE71004BD9E2 /* ListTableViewController.swift in Sources */,
 				2FC48DBD1B713FB00007B8C6 /* anti_piracy_iOS_app.xcdatamodeld in Sources */,
 				2FC48DB21B713F0C0007B8C6 /* SubregionDisplayViewController.swift in Sources */,
 			);
