@@ -19,6 +19,7 @@ class AsamDetailsViewController: UIViewController, AsamSelectDelegate {
     @IBOutlet weak var asamMapViewDelegate: AsamMapViewDelegate!
     @IBOutlet weak var mapView: MKMapView!
 
+    let MAP_SPAN_DELTA: Double = 30.0
     var dateFormatter = NSDateFormatter()
     
     var asam: Asam?
@@ -54,13 +55,11 @@ class AsamDetailsViewController: UIViewController, AsamSelectDelegate {
             }
         }
         
-        //rebuild map center and map span from persisted user data
-        var mapCenterLatitude:  Double = asamMapViewDelegate.defaults.doubleForKey("mapViewLatitude")
-        var mapCenterLongitude: Double = asamMapViewDelegate.defaults.doubleForKey("mapViewLongitude")
-        var mapSpanLatitudeDelta: Double = asamMapViewDelegate.defaults.doubleForKey("mapViewLatitudeDelta")
-        var mapSpanLongitudeDelta: Double = asamMapViewDelegate.defaults.doubleForKey("mapViewLongitudeDelta")
+        //build map center from passed in ASAM
+        var mapCenterLatitude:  Double = asam?.lat as! Double
+        var mapCenterLongitude: Double = asam?.lng as! Double
         
-        var mapSpan = MKCoordinateSpanMake(mapSpanLatitudeDelta, mapSpanLongitudeDelta)
+        var mapSpan = MKCoordinateSpanMake(MAP_SPAN_DELTA, MAP_SPAN_DELTA)
         var mapCenter = CLLocationCoordinate2DMake(mapCenterLatitude, mapCenterLongitude)
         var mapRegion =  MKCoordinateRegionMake(mapCenter, mapSpan)
         

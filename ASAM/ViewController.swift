@@ -16,13 +16,13 @@ class ViewController: UIViewController, AsamSelectDelegate {
     @IBOutlet weak var asamCountLabel: UILabel!
     @IBOutlet weak var asamMapViewDelegate: AsamMapViewDelegate!
     
+    //Used for local testing, populates ~6K ASAMs
     //let asamJsonParser:AsamJsonParser = AsamJsonParser();
 
     override func viewDidLoad() {
         
         super.viewDidLoad()
         
-        //
         asamMapViewDelegate.asamSelectDelegate = self
         
         //clustering

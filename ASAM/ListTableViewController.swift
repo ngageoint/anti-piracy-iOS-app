@@ -56,10 +56,10 @@ class ListTableViewController: UITableViewController {
         dateFormatter.dateStyle = .MediumStyle
         
         let theDate = dateFormatter.stringFromDate(date)
+        let details = "Aggressor: " + asam.aggressor + "  Victim: " + asam.victim
         
-        
-        cell.textLabel?.text = asam.aggressor
-        cell.detailTextLabel?.text = theDate
+        cell.textLabel?.text = theDate //asam.aggressor
+        cell.detailTextLabel?.text = details
         return cell
     }
     
@@ -99,17 +99,24 @@ class ListTableViewController: UITableViewController {
         return true
     }
     */
-
+    
     
     // MARK: - Navigation
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if (segue.identifier == "singleListAsamDetails") {
-            let viewController: AsamDetailsViewController = segue.destinationViewController as! AsamDetailsViewController
-            viewController.asam = asams[0] as Asam//(sender as! AsamAnnotation).asam
+    override func prepareForSegue(segue: UIStoryboardSegue?, sender: AnyObject?) {
+        if (segue?.identifier == "singleListAsamDetails") {
+            let viewController: AsamDetailsViewController = segue!.destinationViewController as! AsamDetailsViewController
+            let path = self.tableView.indexPathForSelectedRow()!
+            
+            let selectedAsam = asams[path.row]
+            
+            var location = CLLocationCoordinate2DMake(selectedAsam.lat as Double, selectedAsam.lng as Double)
+            var asamAnnot = AsamAnnotation(coordinate: location, asam: selectedAsam)
+            
+            viewController.asam = asamAnnot.asam
         }
     }
 
 
 }
+

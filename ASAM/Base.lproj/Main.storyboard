@@ -53,7 +53,7 @@
                                     </subviews>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <segue destination="Auq-EO-QZm" kind="showDetail" identifier="singleListAsamDetails" id="Zgs-lt-rdA"/>
+                                    <segue destination="Auq-EO-QZm" kind="show" identifier="singleListAsamDetails" id="cui-Zr-YES"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -62,7 +62,7 @@
                             <outlet property="delegate" destination="iRq-HA-7d2" id="xXH-Zb-8Lj"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Displayed ASAMs" id="ZI4-uR-8kX"/>
+                    <navigationItem key="navigationItem" title="ASAMs" id="ZI4-uR-8kX"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="QCL-Yu-DUl" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -902,6 +902,6 @@
         <image name="layers" width="22" height="22"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="Zgs-lt-rdA"/>
+        <segue reference="rAn-I3-oMw"/>
     </inferredMetricsTieBreakers>
 </document>
