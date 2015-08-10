@@ -39,6 +39,7 @@
 		2FD26C281B714E01001267CA /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FD26C271B714E01001267CA /* ViewController.swift */; };
 		32372BA525D1A8CA1737F593 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C45911953E583357AAD51FA6 /* libPods.a */; };
 		75029C931B73EE71004BD9E2 /* ListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75029C921B73EE71004BD9E2 /* ListTableViewController.swift */; };
+		75029C951B78DCB2004BD9E2 /* ListViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75029C941B78DCB2004BD9E2 /* ListViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -89,6 +90,7 @@
 		2FD26C271B714E01001267CA /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		32F47D6FE15E0D17D6A089AE /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		75029C921B73EE71004BD9E2 /* ListTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListTableViewController.swift; sourceTree = "<group>"; };
+		75029C941B78DCB2004BD9E2 /* ListViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListViewCell.swift; sourceTree = "<group>"; };
 		7F5FE9D9DC59AD7F6FA93D00 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		C45911953E583357AAD51FA6 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -222,6 +224,7 @@
 		2FC48D941B713E670007B8C6 /* data */ = {
 			isa = PBXGroup;
 			children = (
+				75029C941B78DCB2004BD9E2 /* ListViewCell.swift */,
 				2FC48D971B713E800007B8C6 /* AsamDateFormat.swift */,
 				2FC48D951B713E780007B8C6 /* AsamModelFacade.swift */,
 			);
@@ -433,6 +436,7 @@
 				2FC48DB41B713F1D0007B8C6 /* FilterViewController.swift in Sources */,
 				2FC48D871B713C8B0007B8C6 /* Asam.swift in Sources */,
 				2FC48D961B713E780007B8C6 /* AsamModelFacade.swift in Sources */,
+				75029C951B78DCB2004BD9E2 /* ListViewCell.swift in Sources */,
 				2FC48D9E1B713EB00007B8C6 /* ClusterImageGenerator.swift in Sources */,
 				2FC48DAE1B713F010007B8C6 /* JsonParser.swift in Sources */,
 				2FD26C281B714E01001267CA /* ViewController.swift in Sources */,

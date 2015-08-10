@@ -46,20 +46,19 @@ class ListTableViewController: UITableViewController {
     
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("asamCell", forIndexPath: indexPath) as! UITableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("asamCell", forIndexPath: indexPath) as! ListViewCell
         
         let asam = asams[indexPath.row] as Asam
         
-        let date = asam.date
-        
         let dateFormatter = NSDateFormatter()
-        dateFormatter.dateStyle = .MediumStyle
+        dateFormatter.dateStyle = .ShortStyle
         
-        let theDate = dateFormatter.stringFromDate(date)
-        let details = "Aggressor: " + asam.aggressor + "  Victim: " + asam.victim
+        let theDate = dateFormatter.stringFromDate(asam.date)
         
-        cell.textLabel?.text = theDate //asam.aggressor
-        cell.detailTextLabel?.text = details
+        cell.aggressor.text = "Aggressor: " + asam.aggressor
+        cell.victim.text = "Victim: " + asam.victim
+        cell.date.text = theDate
+        cell.detail.text = asam.desc
         return cell
     }
     

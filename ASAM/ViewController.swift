@@ -40,6 +40,22 @@ class ViewController: UIViewController, AsamSelectDelegate {
         var mapSpanLatitudeDelta: Double = asamMapViewDelegate.defaults.doubleForKey("mapViewLatitudeDelta")
         var mapSpanLongitudeDelta: Double = asamMapViewDelegate.defaults.doubleForKey("mapViewLongitudeDelta")
         
+        if mapCenterLatitude.isNaN {
+            mapCenterLatitude = 0.0
+        }
+        
+        if mapCenterLongitude.isNaN {
+            mapCenterLongitude = 0.0
+        }
+        
+        if mapSpanLatitudeDelta == 0 {
+            mapSpanLatitudeDelta = 50.0
+        }
+        
+        if mapSpanLongitudeDelta == 0 {
+            mapSpanLongitudeDelta = 50.0
+        }
+        
         var mapSpan = MKCoordinateSpanMake(mapSpanLatitudeDelta, mapSpanLongitudeDelta)
         var mapCenter = CLLocationCoordinate2DMake(mapCenterLatitude, mapCenterLongitude)
         var mapRegion =  MKCoordinateRegionMake(mapCenter, mapSpan)
