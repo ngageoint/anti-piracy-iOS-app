@@ -172,6 +172,16 @@ class ViewController: UIViewController, AsamSelectDelegate {
     @IBAction func unwindFromFilter(segue: UIStoryboardSegue) {
         
     }
+    @IBAction func applyFilters(segue:UIStoryboardSegue) {
+        //        if let mapViewController = segue.sourceViewController as? ViewController {
+        //
+        //        }
+        doStuff()
+    }
+    
+    func doStuff() {
+      //  annotations()
+    }
     
 }
 

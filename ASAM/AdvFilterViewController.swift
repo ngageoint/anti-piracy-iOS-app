@@ -16,14 +16,20 @@ class AdvFilterViewController: SubregionDisplayViewController {
     }
     
     @IBOutlet weak var scrollView: UIScrollView!
-    @IBOutlet weak var activeTextField: UITextField!
-    
+ 
     
     @IBOutlet weak var startDate: UITextField!
     @IBOutlet weak var endDate: UITextField!
     @IBOutlet weak var errorTextDateRange: UILabel!
     @IBOutlet weak var keyword: UITextField!
     @IBOutlet weak var regions: UITextField!
+    @IBOutlet weak var refNumStart: UITextField!
+    @IBOutlet weak var refNumEnd: UITextField!
+    @IBOutlet weak var victim: UITextField!
+    @IBOutlet weak var aggressor: UITextField!
+    
+    
+    
     
     var dateFormatter = NSDateFormatter()
     let defaults = NSUserDefaults.standardUserDefaults()
@@ -36,33 +42,7 @@ class AdvFilterViewController: SubregionDisplayViewController {
         
         dateFormatter.dateFormat = AsamDateFormat.dateFormat
         
-        //setting user defaults if there are any
-        if let userDefaultStartDate: NSDate = defaults.objectForKey("startDate") as? NSDate
-        {
-            println(userDefaultStartDate)
-            startDate.text = dateFormatter.stringFromDate(userDefaultStartDate)
-        }
-        else {
-            println("No default Start Date found.")
-            startDate.text = dateFormatter.stringFromDate(NSDate())
-        }
-        
-        if let userDefaultEndDate: NSDate = defaults.objectForKey("endDate") as? NSDate
-        {
-            println(userDefaultEndDate)
-            endDate.text = dateFormatter.stringFromDate(userDefaultEndDate)
-        }
-        else {
-            println("No default End Date found.")
-            endDate.text = dateFormatter.stringFromDate(NSDate())
-        }
-        
-        checkDateRange()
-        
-        if let selectedRegions:Array<String> = defaults.objectForKey("selectedRegions") as? Array<String> {
-            self.selectedRegions = selectedRegions
-            populateRegionText(selectedRegions, textView: regions)
-        }
+        userAdvancedDefaults()
         
     }
 
@@ -136,6 +116,104 @@ class AdvFilterViewController: SubregionDisplayViewController {
     
     
     
+    
+    
+    
+    func userAdvancedDefaults() {
+        
+        advancedDefaults()
+        
+        //Apply user defaults if available
+        if let userDefaultStartDate: NSDate = defaults.objectForKey(Filter.Advanced.START_DATE) as? NSDate {
+            startDate.text = dateFormatter.stringFromDate(userDefaultStartDate)
+        }
+
+        if let userDefaultEndDate: NSDate = defaults.objectForKey(Filter.Advanced.END_DATE) as? NSDate {
+            println(userDefaultEndDate)
+            endDate.text = dateFormatter.stringFromDate(userDefaultEndDate)
+        }
+
+        checkDateRange()
+
+        if let userDefaultKeyword = defaults.stringForKey(Filter.Advanced.KEYWORD) {
+            keyword.text = userDefaultKeyword
+        }
+        
+        if let userDefaultSelectedRegions:Array<String> = defaults.objectForKey(Filter.Advanced.SELECTED_REGION) as? Array<String> {
+            self.selectedRegions = userDefaultSelectedRegions
+            populateRegionText(userDefaultSelectedRegions, textView: regions)
+        }
+
+        if let userDefaultRefNum = defaults.stringForKey(Filter.Advanced.REFERENCE_NUM) {
+            let refNum = userDefaultRefNum.componentsSeparatedByString(Filter.Advanced.REF_SEPARATER)
+            refNumStart.text = refNum[0]
+            refNumEnd.text = refNum[1]
+        }
+        
+        if let userDefaultVictim = defaults.stringForKey(Filter.Advanced.VICTIM) {
+            victim.text = userDefaultVictim
+        }
+        
+        if let userDefaultAggressor = defaults.stringForKey(Filter.Advanced.AGGRESSOR) {
+            aggressor.text = userDefaultAggressor
+        }
+      
+    }
+
+    
+    
+    
+    
+    func saveAdvancedFilter() {
+        defaults.setObject(startDate.text, forKey: Filter.Advanced.START_DATE)
+        defaults.setObject(endDate.text, forKey: Filter.Advanced.END_DATE)
+        defaults.setObject(keyword.text, forKey: Filter.Advanced.KEYWORD)
+        
+        
+       //Need to move the save regions array logic here instead of in the subregionview
+        
+        
+        defaults.setObject(refNumStart.text + Filter.Advanced.REF_SEPARATER + refNumEnd.text, forKey: Filter.Advanced.REFERENCE_NUM)
+        defaults.setObject(victim.text, forKey: Filter.Advanced.VICTIM)
+        defaults.setObject(aggressor.text, forKey: Filter.Advanced.AGGRESSOR)
+    }
+    
+    @IBAction func clearAdvancedFilters(sender: AnyObject) {
+        advancedDefaults()
+    }
+    
+    
+    func advancedDefaults() {
+        let calendar = NSCalendar.currentCalendar()
+        var today = calendar.startOfDayForDate(NSDate())
+        
+        var approxOneYearAgo = calendar.dateByAddingUnit(.CalendarUnitYear, value: -1, toDate: today, options: nil)!
+        
+        let dateFormatter = NSDateFormatter()
+        dateFormatter.dateStyle = .ShortStyle
+        
+        let theDate = dateFormatter.stringFromDate(approxOneYearAgo)
+
+        startDate.text = theDate
+        endDate.text = dateFormatter.stringFromDate(NSDate())
+        keyword.text = String()
+        regions.text = String()
+        refNumStart.text = String()
+        refNumEnd.text = String()
+        victim.text = String()
+        aggressor.text = String()
+    }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "applyAdvancedFilter" {
+            saveAdvancedFilter()
+        }
+    }
+
+    
+    
+    
+    
     //MARK: - Keyboard Management Methods
     
     // Call this method somewhere in your view controller setup code.
@@ -150,7 +228,7 @@ class AdvFilterViewController: SubregionDisplayViewController {
             name: UIKeyboardWillHideNotification,
             object: nil)
     }
-    
+
     // Called when the UIKeyboardDidShowNotification is sent.
     func keyboardWillBeShown(sender: NSNotification) {
         let info: NSDictionary = sender.userInfo!
@@ -164,7 +242,7 @@ class AdvFilterViewController: SubregionDisplayViewController {
         // Your app might not need or want this behavior.
         var aRect: CGRect = self.view.frame
         aRect.size.height -= keyboardSize.height
-        let activeTextFieldRect: CGRect? = activeTextField?.frame
+        let activeTextFieldRect: CGRect? = aggressor?.frame
         let activeTextFieldOrigin: CGPoint? = activeTextFieldRect?.origin
         if (!CGRectContainsPoint(aRect, activeTextFieldOrigin!)) {
             scrollView.scrollRectToVisible(activeTextFieldRect!, animated:true)
@@ -178,21 +256,17 @@ class AdvFilterViewController: SubregionDisplayViewController {
         scrollView.scrollIndicatorInsets = contentInsets
     }
     
-    
     //MARK: - UITextField Delegate Methods
     
     func textFieldDidBeginEditing(textField: UITextField!) {
-        activeTextField = textField
+        aggressor = textField
         scrollView.scrollEnabled = true
     }
     
     func textFieldDidEndEditing(textField: UITextField!) {
-        activeTextField = nil
+        aggressor = nil
         scrollView.scrollEnabled = false
     }
-    
-    
-    
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)

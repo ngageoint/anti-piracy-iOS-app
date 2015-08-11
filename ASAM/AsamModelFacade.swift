@@ -87,7 +87,7 @@ class AsamModelFacade {
         var regionNames = [String]()
         var regionValues = [AnyObject]()
         
-        if let userDefaultSubRegion: Array<String> = defaults.objectForKey("selectedRegions") as? Array<String> {
+        if let userDefaultSubRegion: Array<String> = defaults.objectForKey(Filter.Advanced.SELECTED_REGION) as? Array<String> {
             if userDefaultSubRegion.count > 0 {
                 for (region) in userDefaultSubRegion {
                     regionNames.append("(subregion == %i)")

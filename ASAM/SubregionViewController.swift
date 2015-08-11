@@ -27,7 +27,7 @@ class SubregionViewController: SubregionDisplayViewController, MKMapViewDelegate
         super.viewDidLoad()
      
         //populate selected regions
-        if let selectedRegions: Array<String> = defaults.objectForKey("selectedRegions") as? Array<String> {
+        if let selectedRegions: Array<String> = defaults.objectForKey(Filter.Advanced.SELECTED_REGION) as? Array<String> {
             self.selectedRegions = selectedRegions
             populateRegionText(selectedRegions, textView: regionsText)
         }
@@ -90,7 +90,7 @@ class SubregionViewController: SubregionDisplayViewController, MKMapViewDelegate
                     renderer.setNeedsDisplay()
                     
                     sort(&selectedRegions)
-                    defaults.setObject(selectedRegions, forKey: "selectedRegions")
+                    defaults.setObject(selectedRegions, forKey: Filter.Advanced.SELECTED_REGION)
                     populateRegionText(selectedRegions, textView: regionsText)
                 }
 

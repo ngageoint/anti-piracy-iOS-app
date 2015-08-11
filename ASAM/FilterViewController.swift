@@ -10,19 +10,20 @@ import UIKit
 import CoreData
 
 class FilterViewController: SubregionDisplayViewController, UIPickerViewDelegate, UIPickerViewDataSource {
+    @IBAction func hideKeyboard(sender: AnyObject) {
+         scrollView.endEditing(true)
+    }
     
-    @IBOutlet weak var regions: UITextField!
     @IBOutlet weak var keyword: UITextField!
-    @IBOutlet weak var dateIntervalPicker: UIPickerView!
     @IBOutlet weak var selectedInterval: UITextField!
     @IBOutlet weak var shiftKeyword: NSLayoutConstraint!
+    @IBOutlet weak var currentSubregionEnabled: UISwitch!
 
-    
+    @IBOutlet weak var scrollView: UIScrollView!
+    var dateIntervalPicker: UIPickerView!
     var dateFormatter = NSDateFormatter()
+    let pickerData = [DateInterval.DAYS_30, DateInterval.DAYS_60, DateInterval.DAYS_120, DateInterval.YEARS_1]
     let defaults = NSUserDefaults.standardUserDefaults()
-    let pickerData = ["Last 30 Days", "Last 60 Days", "Last 120 Days", "Last 1 year"]
-    
-    var selectedRegions = Array<String>()
     
     override func viewDidLoad() {
 
@@ -30,43 +31,31 @@ class FilterViewController: SubregionDisplayViewController, UIPickerViewDelegate
         
         dateFormatter.dateFormat = AsamDateFormat.dateFormat
         
-        if let selectedRegions:Array<String> = defaults.objectForKey("selectedRegions") as? Array<String> {
-            self.selectedRegions = selectedRegions
-            populateRegionText(selectedRegions, textView: regions)
-        }
-        
-        //for swipe down gesture
-        var swipe: UISwipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: "dismissControlWithSwipe")
-        swipe.direction = UISwipeGestureRecognizerDirection.Down
-        self.view.addGestureRecognizer(swipe)
-        
-        //for picker
-        hidePicker()
+        dateIntervalPicker = UIPickerView()
         dateIntervalPicker.dataSource = self
         dateIntervalPicker.delegate = self
+        selectedInterval.inputView = dateIntervalPicker
+
+        userBasicDefaults()
+    }
+    
+    func userBasicDefaults() {
         
+        if let userDefaultInterval = defaults.stringForKey(Filter.Basic.DATE_INTERVAL) {
+            selectedInterval.text = userDefaultInterval
+        } else {
+            selectedInterval.text = pickerData[DateInterval.DEFAULT]
+        }
+
+        if let userDefaultKeyword = defaults.stringForKey(Filter.Basic.KEYWORD) {
+            keyword.text = userDefaultKeyword
+        } else {
+            keyword.text = String()
+        }
         
-    }
-    
-    func hidePicker() {
-        dateIntervalPicker.hidden = true
-        shiftKeyword.priority = 1000
-    }
-    
-    func showPicker() {
-        dateIntervalPicker.hidden = false
-        shiftKeyword.priority = 250
-    }
-    
-    //for swipe down gesture
-    func dismissControlWithSwipe() {
-        self.keyword.resignFirstResponder()
-        self.regions.resignFirstResponder()
-    }
-    
-    //Clicking outside a textbox will close the datepicker or keyboard
-    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
-        self.view.endEditing(true)
+        let userDefaultCurrentEnabled = defaults.boolForKey(Filter.Basic.CURRENT_SUBREGION)
+        currentSubregionEnabled.setOn(userDefaultCurrentEnabled, animated: false)
+
     }
 
     override func didReceiveMemoryWarning() {
@@ -74,67 +63,28 @@ class FilterViewController: SubregionDisplayViewController, UIPickerViewDelegate
         // Dispose of any resources that can be recreated.
     }
     
-    @IBAction func selectStartDate(sender: UITextField) {
-        var datePickerView  : UIDatePicker = UIDatePicker()
-        datePickerView.datePickerMode = UIDatePickerMode.Date
-        
-        
-        //set date picker if user default exists
-        if let userDefaultStartDate: NSDate = defaults.objectForKey("startDate") as? NSDate
-        {
-            datePickerView.date = userDefaultStartDate
-        }
-        
-        sender.inputView = datePickerView
-        datePickerView.addTarget(self, action: Selector("handleStartDatePicker:"), forControlEvents: UIControlEvents.ValueChanged)
+    func saveBasicFilter() {
+        defaults.setObject(selectedInterval.text, forKey: Filter.Basic.DATE_INTERVAL)
+        defaults.setObject(keyword.text, forKey: Filter.Basic.KEYWORD)
+        defaults.setBool(currentSubregionEnabled.on, forKey: Filter.Basic.CURRENT_SUBREGION)
+    }
+
+    @IBAction func clearBasicFilters(sender: AnyObject) {
+        basicDefaults()
     }
     
-//    func handleStartDatePicker(sender: UIDatePicker) {
-//        startDate.text = dateFormatter.stringFromDate(sender.date)
-//        let defaults = NSUserDefaults.standardUserDefaults()
-//        defaults.setObject(sender.date, forKey: "startDate")
-//        checkDateRange()
-//    }
     
-    
-    @IBAction func selectEndDate(sender: UITextField) {
-        
-        var datePickerView  : UIDatePicker = UIDatePicker()
-        datePickerView.datePickerMode = UIDatePickerMode.Date
-        
-        //set date picker if user default exists
-        if let userDefaultEndDate: NSDate = defaults.objectForKey("endDate") as? NSDate
-        {
-            datePickerView.date = userDefaultEndDate
-        }
-        
-        sender.inputView = datePickerView
-        datePickerView.addTarget(self, action: Selector("handleEndDatePicker:"), forControlEvents: UIControlEvents.ValueChanged)
+    func basicDefaults() {
+        selectedInterval.text = pickerData[DateInterval.DEFAULT]
+        keyword.text = String()
+        currentSubregionEnabled.setOn(false, animated: false)
     }
     
-//    func handleEndDatePicker(sender: UIDatePicker) {
-//        endDate.text = dateFormatter.stringFromDate(sender.date)
-//        let defaults = NSUserDefaults.standardUserDefaults()
-//        defaults.setObject(sender.date, forKey: "endDate")
-//        checkDateRange()
-//    }
-//    
-//    func checkDateRange() {
-//    
-//        let date1 = dateFormatter.dateFromString(startDate.text)
-//        let date2 =   dateFormatter.dateFromString(endDate.text)
-//        
-//        if date1?.compare(date2!) == NSComparisonResult.OrderedDescending {
-//            println("Date Range Invalid")
-//            errorTextDateRange.hidden = false
-//        }
-//        else {
-//            println("Date Range Valid")
-//            errorTextDateRange.hidden = true
-//        }
-//        
-//    }
-    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "applyBasicFilter" {
+            saveBasicFilter()
+        }
+    }
     
     //MARK: - Delegates and data sources
     //MARK: Data Sources
@@ -154,4 +104,5 @@ class FilterViewController: SubregionDisplayViewController, UIPickerViewDelegate
         selectedInterval.text = pickerData[row]
     }
 
+    
 }
