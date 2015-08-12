@@ -24,7 +24,9 @@ struct Filter {
         static let KEYWORD = "keyword"
         static let CURRENT_SUBREGION = "currentSubregion"
     }
-    
+    static let BOTH = 3
+    static let ADVANCED = 2
+    static let BASIC = 1
 }
 
 struct DateInterval {

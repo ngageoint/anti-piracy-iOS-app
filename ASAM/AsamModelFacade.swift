@@ -20,13 +20,13 @@ class AsamModelFacade {
     let defaults = NSUserDefaults.standardUserDefaults()
 
     
-    func getAsams()-> Array<Asam> {
+    func getAsams(filterType: Int = Filter.BOTH)-> Array<Asam> {
         let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         let managedObjectContext = appDelegate.managedObjectContext!
         // Create a new fetch request using the LogItem entity
         let fetchRequest = NSFetchRequest(entityName: "Asam")
         
-        fetchRequest.predicate = getFilterPredicate()
+        fetchRequest.predicate = getFilterPredicate(filterType: filterType)
         
         let fetchResults = managedObjectContext.executeFetchRequest(fetchRequest, error: nil) as? [Asam]
         asams = fetchResults!
@@ -35,8 +35,39 @@ class AsamModelFacade {
     }
     
     
-    func getFilterPredicate() -> NSPredicate {
+    func getFilterPredicate(filterType: Int = Filter.BOTH) -> NSPredicate {
         
+        var returnFilterPredicate
+        let basicFilterPredicate = getBasicFilterPredicate()
+        let advancedFilterPredicate = getAdvancedFilterPredicate()
+        
+        if filterType == Filter.BOTH {
+            returnFilterPredicate = NSCompoundPredicate(type: NSCompoundPredicateType.AndPredicateType, subpredicates: [basicFilterPredicate, advancedFilterPredicate])
+        } else if filterType == Filter.BASIC {
+            returnFilterPredicate = basicFilterPredicate
+        } else if filterType == Filter.ADVANCED {
+            returnFilterPredicate = advancedFilterPredicate
+        }
+        
+        return returnFilterPredicate
+    }
+    
+    func getBasicFilterPredicate() -> NSPredicate {
+        var filterPredicate = getDateIntervalPredicate()
+        
+        if let keywordPredicate = getKeywordPredicate() {
+            filterPredicate = NSCompoundPredicate(type: NSCompoundPredicateType.AndPredicateType, subpredicates: [filterPredicate, keywordPredicate])
+        }
+        
+        if let subregionPredicate = getSubregionPredicate() {
+            filterPredicate = NSCompoundPredicate(type: NSCompoundPredicateType.AndPredicateType, subpredicates: [filterPredicate, subregionPredicate])
+        }
+        
+        return filterPredicate
+    }
+    
+    
+    func getAdvancedFilterPredicate() -> NSPredicate {
         var filterPredicate = getDatePredicate()
 
         if let subregionPredicate = getSubregionPredicate() {

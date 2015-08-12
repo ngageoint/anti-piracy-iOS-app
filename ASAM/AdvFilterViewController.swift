@@ -30,8 +30,7 @@ class AdvFilterViewController: SubregionDisplayViewController {
     
     
     
-    
-    var dateFormatter = NSDateFormatter()
+    let dateFormatter = NSDateFormatter()
     let defaults = NSUserDefaults.standardUserDefaults()
     
     var selectedRegions = Array<String>()
@@ -165,10 +164,10 @@ class AdvFilterViewController: SubregionDisplayViewController {
     
     
     func saveAdvancedFilter() {
-        defaults.setObject(startDate.text, forKey: Filter.Advanced.START_DATE)
-        defaults.setObject(endDate.text, forKey: Filter.Advanced.END_DATE)
+        defaults.setObject(dateFormatter.dateFromString(startDate.text), forKey: Filter.Advanced.START_DATE)
+        defaults.setObject(dateFormatter.dateFromString(endDate.text), forKey: Filter.Advanced.END_DATE)
         defaults.setObject(keyword.text, forKey: Filter.Advanced.KEYWORD)
-        
+
         
        //Need to move the save regions array logic here instead of in the subregionview
         
@@ -189,7 +188,6 @@ class AdvFilterViewController: SubregionDisplayViewController {
         
         var approxOneYearAgo = calendar.dateByAddingUnit(.CalendarUnitYear, value: -1, toDate: today, options: nil)!
         
-        let dateFormatter = NSDateFormatter()
         dateFormatter.dateStyle = .ShortStyle
         
         let theDate = dateFormatter.stringFromDate(approxOneYearAgo)

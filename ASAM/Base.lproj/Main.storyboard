@@ -43,7 +43,7 @@
                                                 <constraint firstAttribute="width" relation="lessThanOrEqual" constant="70" id="Bxm-Ud-J6i"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                             <variation key="default">
                                                 <mask key="constraints">
@@ -54,7 +54,7 @@
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Detail" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lAz-wN-c3G">
                                             <rect key="frame" x="8" y="67" width="551" height="15"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Date" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fkf-78-xSo">
@@ -63,13 +63,13 @@
                                                 <constraint firstAttribute="width" constant="70" id="qJO-1c-fq1"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Victim" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uOh-hX-RdS">
                                             <rect key="frame" x="8" y="41" width="43" height="18"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
@@ -455,11 +455,11 @@
                         <viewControllerLayoutGuide type="bottom" id="yV2-4c-rbo"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="26Y-kj-sDz">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" keyboardDismissMode="onDrag" translatesAutoresizingMaskIntoConstraints="NO" id="M6t-eg-kBM">
-                                <rect key="frame" x="0.0" y="64" width="600" height="492"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="492"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="R7U-UA-wM7" userLabel="contentView">
                                         <rect key="frame" x="0.0" y="0.0" width="600" height="423"/>
@@ -529,7 +529,7 @@
                                 </connections>
                             </scrollView>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1xC-4n-Ff5">
-                                <rect key="frame" x="0.0" y="556" width="600" height="44"/>
+                                <rect key="frame" x="0.0" y="492" width="600" height="44"/>
                                 <items>
                                     <barButtonItem title="Clear" id="0KN-ow-zKm">
                                         <connections>
@@ -557,6 +557,7 @@
                             <constraint firstItem="M6t-eg-kBM" firstAttribute="leading" secondItem="26Y-kj-sDz" secondAttribute="leading" id="v4L-L0-Wie"/>
                         </constraints>
                     </view>
+                    <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
                     <navigationItem key="navigationItem" title="Basic" id="Mde-94-EDv">
                         <barButtonItem key="leftBarButtonItem" title="Cancel" id="IFg-H4-g3q">
                             <connections>
@@ -829,8 +830,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="activeTextField" destination="2zW-rI-XgR" id="DL3-be-00K"/>
-                        <outlet property="aggressor" destination="LfK-k3-RjP" id="sXQ-Wd-S7f"/>
+                        <outlet property="aggressor" destination="2zW-rI-XgR" id="qZU-GX-vS4"/>
                         <outlet property="endDate" destination="AHT-0B-skC" id="fBa-wF-1E3"/>
                         <outlet property="errorTextDateRange" destination="cT5-gI-uSr" id="6Ki-D5-39H"/>
                         <outlet property="keyword" destination="WDi-nM-PY3" id="M5S-K4-dD6"/>
@@ -927,6 +927,6 @@
         <image name="layers" width="22" height="22"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="cui-Zr-YES"/>
+        <segue reference="rAn-I3-oMw"/>
     </inferredMetricsTieBreakers>
 </document>

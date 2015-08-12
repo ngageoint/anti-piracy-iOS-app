@@ -32,7 +32,7 @@ class ViewController: UIViewController, AsamSelectDelegate {
         algorithm.clusteringStrategy = KPGridClusteringAlgorithmStrategy.TwoPhase;
         asamMapViewDelegate.clusteringController = KPClusteringController(mapView: self.mapView)
         //asamMapViewDelegate.clusteringController.delegate = self
-        asamMapViewDelegate.clusteringController.setAnnotations(annotations())
+        asamMapViewDelegate.clusteringController.setAnnotations(retrieveAnnotations())
         
         //rebuild map center and map span from persisted user data
         var mapCenterLatitude:  Double = asamMapViewDelegate.defaults.doubleForKey("mapViewLatitude")
@@ -85,12 +85,12 @@ class ViewController: UIViewController, AsamSelectDelegate {
         
     }
     
-    func annotations() -> [AsamAnnotation] {
+    func retrieveAnnotations(filterType: Int = Filter.BOTH) -> [AsamAnnotation] {
         
         var annotations: [AsamAnnotation] = []
         
         let model = AsamModelFacade()
-        let filteredAsams = model.getAsams()
+        let filteredAsams = model.getAsams(filterType)
         for asam in filteredAsams {
             // Drop a pin
             var newLocation = CLLocationCoordinate2DMake(asam.lat as Double, asam.lng as Double)
@@ -164,23 +164,22 @@ class ViewController: UIViewController, AsamSelectDelegate {
         if (segue?.identifier == "singleAsamDetails") {
             let viewController: AsamDetailsViewController = segue!.destinationViewController as! AsamDetailsViewController
             viewController.asam = (sender as! AsamAnnotation).asam
-            
-            
         }
     }
     
     @IBAction func unwindFromFilter(segue: UIStoryboardSegue) {
         
     }
-    @IBAction func applyFilters(segue:UIStoryboardSegue) {
-        //        if let mapViewController = segue.sourceViewController as? ViewController {
-        //
-        //        }
-        doStuff()
-    }
     
-    func doStuff() {
-      //  annotations()
+    @IBAction func applyFilters(segue:UIStoryboardSegue) {
+        var filterType = Filter.BOTH
+        if let mapViewController = segue.sourceViewController as? FilterViewController {
+            filterType = Filter.BASIC
+        }
+        if let mapViewController = segue.sourceViewController as? AdvFilterViewController {
+            filterType = Filter.ADVANCED
+        }
+        retrieveAnnotations(filterType)
     }
     
 }
