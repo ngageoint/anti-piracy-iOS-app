@@ -35,7 +35,7 @@ class AsamDetailsViewController: UIViewController, AsamSelectDelegate {
         asamMapViewDelegate.clusteringController = KPClusteringController(mapView: self.mapView)
 
         //set map type from persisted user data
-        if let mapType = asamMapViewDelegate.defaults.stringForKey("mapType") {
+        if let mapType = asamMapViewDelegate.defaults.stringForKey(MapView.MAP_TYPE) {
             switch mapType {
             case "Standard":
                 self.mapView.mapType = MKMapType.Standard

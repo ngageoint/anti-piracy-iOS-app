@@ -22,7 +22,7 @@ class FilterViewController: SubregionDisplayViewController, UIPickerViewDelegate
     @IBOutlet weak var scrollView: UIScrollView!
     var dateIntervalPicker: UIPickerView!
     var dateFormatter = NSDateFormatter()
-    let pickerData = [DateInterval.DAYS_30, DateInterval.DAYS_60, DateInterval.DAYS_120, DateInterval.YEARS_1]
+    let pickerData = [DateInterval.ALL, DateInterval.DAYS_30, DateInterval.DAYS_60, DateInterval.DAYS_120, DateInterval.YEARS_1]
     let defaults = NSUserDefaults.standardUserDefaults()
     
     override func viewDidLoad() {
@@ -36,10 +36,14 @@ class FilterViewController: SubregionDisplayViewController, UIPickerViewDelegate
         dateIntervalPicker.delegate = self
         selectedInterval.inputView = dateIntervalPicker
 
-        userBasicDefaults()
+        userBasicFilters()
     }
     
-    func userBasicDefaults() {
+    @IBAction func dateIntervalEditBegin(sender: AnyObject) {
+            selectedInterval.text = pickerData[DateInterval.DEFAULT]
+    }
+    
+    func userBasicFilters() {
         
         if let userDefaultInterval = defaults.stringForKey(Filter.Basic.DATE_INTERVAL) {
             selectedInterval.text = userDefaultInterval

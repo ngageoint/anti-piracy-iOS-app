@@ -11,7 +11,7 @@ import Foundation
 class SubregionDisplayViewController: UIViewController {
     
     func populateRegionText(regions: Array<String>, textView: UITextField) {
-        var regionsText = ""
+        var regionsText = String()
         
         for region in regions {
             regionsText += region + ","
@@ -21,7 +21,7 @@ class SubregionDisplayViewController: UIViewController {
             textView.text = regionsText.substringToIndex(regionsText.endIndex.predecessor())
         }
         else {
-            textView.text = ""
+            textView.text = String()
         }
     
     }

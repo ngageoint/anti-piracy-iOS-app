@@ -12,7 +12,7 @@ struct Filter {
     struct Advanced {
         static let START_DATE = "startDate"
         static let END_DATE = "endDate"
-        static let KEYWORD = "keyword"
+        static let KEYWORD = "advancedKeyword"
         static let SELECTED_REGION = "selectedRegions"
         static let REFERENCE_NUM = "referenceNum"
         static let VICTIM = "victim"
@@ -21,7 +21,7 @@ struct Filter {
     }
     struct Basic {
         static let DATE_INTERVAL = "dateInterval"
-        static let KEYWORD = "keyword"
+        static let KEYWORD = "basicKeyword"
         static let CURRENT_SUBREGION = "currentSubregion"
     }
     static let BOTH = 3
@@ -30,9 +30,18 @@ struct Filter {
 }
 
 struct DateInterval {
+    static let ALL = "All"
     static let DAYS_30 = "Last 30 Days"
     static let DAYS_60 = "Last 60 Days"
     static let DAYS_120 = "Last 120 Days"
     static let YEARS_1 = "Last 1 Year"
-    static let DEFAULT = 3
+    static let DEFAULT = 0
+}
+
+struct MapView {
+    static let MAP_TYPE = "mapType"
+    static let LATITUDE = "mapViewLatitude"
+    static let LONGITUDE = "mapViewLongitude"
+    static let LAT_DELTA = "mapViewLatitudeDelta"
+    static let LON_DELTA = "mapViewLongitudeDelta"
 }

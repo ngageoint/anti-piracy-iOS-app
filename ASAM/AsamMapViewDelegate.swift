@@ -47,17 +47,17 @@ class AsamMapViewDelegate: NSObject, MKMapViewDelegate, KPClusteringControllerDe
         var annotationView : MKPinAnnotationView?
         
         if annotation is KPAnnotation {
-            let a : KPAnnotation = annotation as! KPAnnotation
+            let kpAnnon : KPAnnotation = annotation as! KPAnnotation
             
-            if a.isCluster() {
+            if kpAnnon.isCluster() {
                 annotationView = mapView.dequeueReusableAnnotationViewWithIdentifier("cluster") as? MKPinAnnotationView
                 
                 if (annotationView == nil) {
-                    annotationView = MKPinAnnotationView(annotation: a, reuseIdentifier: "cluster")
+                    annotationView = MKPinAnnotationView(annotation: kpAnnon, reuseIdentifier: "cluster")
                 }
                 
                 //annotationView!.pinColor = .Purple
-                annotationView!.image = ClusterImageGenerator.textToImage(String(a.annotations.count), inImage: UIImage(named: "cluster")!)
+                annotationView!.image = ClusterImageGenerator.textToImage(String(kpAnnon.annotations.count), inImage: UIImage(named: "cluster")!)
                 
             }
                 
@@ -65,7 +65,7 @@ class AsamMapViewDelegate: NSObject, MKMapViewDelegate, KPClusteringControllerDe
                 annotationView = mapView.dequeueReusableAnnotationViewWithIdentifier("pin") as? MKPinAnnotationView
                 
                 if (annotationView == nil) {
-                    annotationView = MKPinAnnotationView(annotation: a, reuseIdentifier: "pin")
+                    annotationView = MKPinAnnotationView(annotation: kpAnnon, reuseIdentifier: "pin")
                 }
                 
                 //annotationView!.pinColor = .Red
@@ -83,10 +83,11 @@ class AsamMapViewDelegate: NSObject, MKMapViewDelegate, KPClusteringControllerDe
         clusteringController.refresh(true)
         
         //persisting map center and span so that the map will return to this location.
-        defaults.setDouble(mapView.region.center.latitude, forKey: "mapViewLatitude")
-        defaults.setDouble(mapView.region.center.longitude, forKey: "mapViewLongitude")
-        defaults.setDouble(mapView.region.span.latitudeDelta, forKey: "mapViewLatitudeDelta")
-        defaults.setDouble(mapView.region.span.latitudeDelta, forKey: "mapViewLongitudeDelta")
+        defaults.setDouble(mapView.region.center.latitude, forKey: MapView.LATITUDE)
+        defaults.setDouble(mapView.region.center.longitude, forKey: MapView.LONGITUDE)
+        defaults.setDouble(mapView.region.span.latitudeDelta, forKey: MapView.LAT_DELTA)
+        defaults.setDouble(mapView.region.span.latitudeDelta, forKey: MapView.LON_DELTA)
+        
         println("Persisting Map Center (\(mapView.region.center.latitude)," +
             "\(mapView.region.center.longitude))");
         println("Persisting Map Deltas (lat delta: \(mapView.region.span.latitudeDelta)," +

@@ -41,7 +41,10 @@ class AdvFilterViewController: SubregionDisplayViewController {
         
         dateFormatter.dateFormat = AsamDateFormat.dateFormat
         
-        userAdvancedDefaults()
+        refNumStart.keyboardType = UIKeyboardType.NumberPad
+        refNumEnd.keyboardType = UIKeyboardType.NumberPad
+        
+        userAdvancedFilters()
         
     }
 
@@ -57,7 +60,7 @@ class AdvFilterViewController: SubregionDisplayViewController {
         
         
         //set date picker if user default exists
-        if let userDefaultStartDate: NSDate = defaults.objectForKey("startDate") as? NSDate
+        if let userDefaultStartDate: NSDate = defaults.objectForKey(Filter.Advanced.START_DATE) as? NSDate
         {
             datePickerView.date = userDefaultStartDate
         }
@@ -69,7 +72,7 @@ class AdvFilterViewController: SubregionDisplayViewController {
     func handleStartDatePicker(sender: UIDatePicker) {
         startDate.text = dateFormatter.stringFromDate(sender.date)
         let defaults = NSUserDefaults.standardUserDefaults()
-        defaults.setObject(sender.date, forKey: "startDate")
+        defaults.setObject(sender.date, forKey: Filter.Advanced.START_DATE)
         checkDateRange()
     }
     
@@ -80,7 +83,7 @@ class AdvFilterViewController: SubregionDisplayViewController {
         datePickerView.datePickerMode = UIDatePickerMode.Date
         
         //set date picker if user default exists
-        if let userDefaultEndDate: NSDate = defaults.objectForKey("endDate") as? NSDate
+        if let userDefaultEndDate: NSDate = defaults.objectForKey(Filter.Advanced.END_DATE) as? NSDate
         {
             datePickerView.date = userDefaultEndDate
         }
@@ -93,7 +96,7 @@ class AdvFilterViewController: SubregionDisplayViewController {
     func handleEndDatePicker(sender: UIDatePicker) {
         endDate.text = dateFormatter.stringFromDate(sender.date)
         let defaults = NSUserDefaults.standardUserDefaults()
-        defaults.setObject(sender.date, forKey: "endDate")
+        defaults.setObject(sender.date, forKey: Filter.Advanced.END_DATE)
         checkDateRange()
     }
     
@@ -118,7 +121,7 @@ class AdvFilterViewController: SubregionDisplayViewController {
     
     
     
-    func userAdvancedDefaults() {
+    func userAdvancedFilters() {
         
         advancedDefaults()
         
@@ -276,5 +279,11 @@ class AdvFilterViewController: SubregionDisplayViewController {
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
     
+    @IBAction func unwindSubregionFilters(segue:UIStoryboardSegue) {
+        if let controller = segue.sourceViewController as? SubregionViewController {
+            regions.text = controller.regionsText.text
+        }
+       
+    }
     
 }

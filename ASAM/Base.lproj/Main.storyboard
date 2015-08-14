@@ -290,7 +290,7 @@
                     <navigationItem key="navigationItem" title="Anti-Shipping Activity Messages" id="Qkf-ou-D7f">
                         <barButtonItem key="rightBarButtonItem" title="List All" id="3XY-lX-2Xk">
                             <connections>
-                                <segue destination="cgk-w4-Uwx" kind="show" id="np2-sL-JRn"/>
+                                <segue destination="cgk-w4-Uwx" kind="show" identifier="listDisplayedAsams" id="np2-sL-JRn"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -494,6 +494,9 @@
                                                 <rect key="frame" x="20" y="49" width="568" height="30"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits"/>
+                                                <connections>
+                                                    <action selector="dateIntervalEditBegin:" destination="50Q-gk-cyJ" eventType="editingDidBegin" id="62W-h0-Qa6"/>
+                                                </connections>
                                             </textField>
                                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="BtW-Lm-wVZ">
                                                 <rect key="frame" x="539" y="166" width="51" height="31"/>
@@ -892,7 +895,11 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Basic" id="lYf-Qh-C4P">
-                        <barButtonItem key="rightBarButtonItem" title="Ok" id="EHz-CL-LDr"/>
+                        <barButtonItem key="rightBarButtonItem" title="Ok" id="EHz-CL-LDr">
+                            <connections>
+                                <segue destination="Wda-US-8jv" kind="unwind" unwindAction="unwindSubregionFilters:" id="VsG-g8-sSY"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="mapView" destination="zTH-pT-xPP" id="wNw-4F-RrF"/>
@@ -900,6 +907,7 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="CMl-ET-Bvh" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="Wda-US-8jv" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="66" y="1676"/>
         </scene>

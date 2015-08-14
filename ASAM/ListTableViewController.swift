@@ -11,12 +11,13 @@ import UIKit
 class ListTableViewController: UITableViewController {
     
     let model = AsamModelFacade()
-    var asams = [Asam]()
+    var asams = [AsamAnnotation]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        asams = model.getAsams()
+//        asams = model.getAsams()
+        
         
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -48,7 +49,7 @@ class ListTableViewController: UITableViewController {
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("asamCell", forIndexPath: indexPath) as! ListViewCell
         
-        let asam = asams[indexPath.row] as Asam
+        let asam = asams[indexPath.row].asam// as Asam
         
         let dateFormatter = NSDateFormatter()
         dateFormatter.dateStyle = .ShortStyle
@@ -105,12 +106,12 @@ class ListTableViewController: UITableViewController {
             let viewController: AsamDetailsViewController = segue!.destinationViewController as! AsamDetailsViewController
             let path = self.tableView.indexPathForSelectedRow()!
             
-            let selectedAsam = asams[path.row]
+            let selectedAsam = asams[path.row] as AsamAnnotation
             
-            var location = CLLocationCoordinate2DMake(selectedAsam.lat as Double, selectedAsam.lng as Double)
-            var asamAnnot = AsamAnnotation(coordinate: location, asam: selectedAsam)
+           // var location = CLLocationCoordinate2DMake(selectedAsam.lat as Double, selectedAsam.lng as Double)
+           // var asamAnnot = AsamAnnotation(coordinate: location, asam: selectedAsam)
             
-            viewController.asam = asamAnnot.asam
+            viewController.asam = selectedAsam.asam//asamAnnot.asam
         }
     }
 

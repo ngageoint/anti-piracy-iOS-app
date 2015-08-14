@@ -16,6 +16,8 @@ class ViewController: UIViewController, AsamSelectDelegate {
     @IBOutlet weak var asamCountLabel: UILabel!
     @IBOutlet weak var asamMapViewDelegate: AsamMapViewDelegate!
     
+    var asams = [AsamAnnotation]()
+    
     //Used for local testing, populates ~6K ASAMs
     //let asamJsonParser:AsamJsonParser = AsamJsonParser();
 
@@ -32,13 +34,14 @@ class ViewController: UIViewController, AsamSelectDelegate {
         algorithm.clusteringStrategy = KPGridClusteringAlgorithmStrategy.TwoPhase;
         asamMapViewDelegate.clusteringController = KPClusteringController(mapView: self.mapView)
         //asamMapViewDelegate.clusteringController.delegate = self
-        asamMapViewDelegate.clusteringController.setAnnotations(retrieveAnnotations())
+        asams = retrieveAnnotations()
+        asamMapViewDelegate.clusteringController.setAnnotations(asams)
         
         //rebuild map center and map span from persisted user data
-        var mapCenterLatitude:  Double = asamMapViewDelegate.defaults.doubleForKey("mapViewLatitude")
-        var mapCenterLongitude: Double = asamMapViewDelegate.defaults.doubleForKey("mapViewLongitude")
-        var mapSpanLatitudeDelta: Double = asamMapViewDelegate.defaults.doubleForKey("mapViewLatitudeDelta")
-        var mapSpanLongitudeDelta: Double = asamMapViewDelegate.defaults.doubleForKey("mapViewLongitudeDelta")
+        var mapCenterLatitude:  Double = asamMapViewDelegate.defaults.doubleForKey(MapView.LATITUDE)
+        var mapCenterLongitude: Double = asamMapViewDelegate.defaults.doubleForKey(MapView.LONGITUDE)
+        var mapSpanLatitudeDelta: Double = asamMapViewDelegate.defaults.doubleForKey(MapView.LAT_DELTA)
+        var mapSpanLongitudeDelta: Double = asamMapViewDelegate.defaults.doubleForKey(MapView.LON_DELTA)
         
         if mapCenterLatitude.isNaN {
             mapCenterLatitude = 0.0
@@ -55,6 +58,10 @@ class ViewController: UIViewController, AsamSelectDelegate {
         if mapSpanLongitudeDelta == 0 {
             mapSpanLongitudeDelta = 50.0
         }
+        println("Retrieving Map Center (\(mapCenterLatitude)," +
+            "\(mapCenterLongitude))");
+        println("Retrieving Map Deltas (lat delta: \(mapSpanLatitudeDelta)," +
+            "lon delta:\(mapSpanLongitudeDelta))");
         
         var mapSpan = MKCoordinateSpanMake(mapSpanLatitudeDelta, mapSpanLongitudeDelta)
         var mapCenter = CLLocationCoordinate2DMake(mapCenterLatitude, mapCenterLongitude)
@@ -63,7 +70,7 @@ class ViewController: UIViewController, AsamSelectDelegate {
         self.mapView.region = mapRegion
         
         //set map type from persisted user data
-        if let mapType = asamMapViewDelegate.defaults.stringForKey("mapType") {
+        if let mapType = asamMapViewDelegate.defaults.stringForKey(MapView.MAP_TYPE) {
             switch mapType {
                 case "Standard":
                     self.mapView.mapType = MKMapType.Standard
@@ -90,7 +97,7 @@ class ViewController: UIViewController, AsamSelectDelegate {
         var annotations: [AsamAnnotation] = []
         
         let model = AsamModelFacade()
-        let filteredAsams = model.getAsams(filterType)
+        let filteredAsams = model.getAsams(filterType: filterType)
         for asam in filteredAsams {
             // Drop a pin
             var newLocation = CLLocationCoordinate2DMake(asam.lat as Double, asam.lng as Double)
@@ -116,26 +123,26 @@ class ViewController: UIViewController, AsamSelectDelegate {
             (alert: UIAlertAction!) -> Void in
             self.mapView.mapType = MKMapType.Standard
             self.mapView.removeOverlays(self.asamMapViewDelegate.offlineMap.polygons)
-            self.asamMapViewDelegate.defaults.setObject("Standard", forKey: "mapType")
+            self.asamMapViewDelegate.defaults.setObject("Standard", forKey: MapView.MAP_TYPE)
         })
         let satelliteMapAction = UIAlertAction(title: "Satellite", style: .Default, handler: {
             (alert: UIAlertAction!) -> Void in
             self.mapView.mapType = MKMapType.Satellite
             self.mapView.removeOverlays(self.asamMapViewDelegate.offlineMap.polygons)
-            self.asamMapViewDelegate.defaults.setObject("Satellite", forKey: "mapType")
+            self.asamMapViewDelegate.defaults.setObject("Satellite", forKey: MapView.MAP_TYPE)
 
         })
         let hybridMapAction = UIAlertAction(title: "Hybrid", style: .Default, handler: {
             (alert: UIAlertAction!) -> Void in
             self.mapView.mapType = MKMapType.Hybrid
             self.mapView.removeOverlays(self.asamMapViewDelegate.offlineMap.polygons)
-            self.asamMapViewDelegate.defaults.setObject("Hybrid", forKey: "mapType")
+            self.asamMapViewDelegate.defaults.setObject("Hybrid", forKey: MapView.MAP_TYPE)
         })
         let offlineMapAction = UIAlertAction(title: "Offline", style: .Default, handler: {
             (alert: UIAlertAction!) -> Void in
             self.mapView.mapType = MKMapType.Standard
             self.mapView.addOverlays(self.asamMapViewDelegate.offlineMap.polygons)
-            self.asamMapViewDelegate.defaults.setObject("Offline", forKey: "mapType")
+            self.asamMapViewDelegate.defaults.setObject("Offline", forKey: MapView.MAP_TYPE)
         })
         
         // Action Sheet Cancel
@@ -164,6 +171,11 @@ class ViewController: UIViewController, AsamSelectDelegate {
         if (segue?.identifier == "singleAsamDetails") {
             let viewController: AsamDetailsViewController = segue!.destinationViewController as! AsamDetailsViewController
             viewController.asam = (sender as! AsamAnnotation).asam
+        } else if (segue?.identifier == "listDisplayedAsams") {
+            let navController = segue!.destinationViewController as! UINavigationController
+            let listController = navController.topViewController as! ListTableViewController
+//            let viewController: ListTableViewController = segue!.destinationViewController as! ListTableViewController
+            listController.asams = asams
         }
     }
     
@@ -179,7 +191,8 @@ class ViewController: UIViewController, AsamSelectDelegate {
         if let mapViewController = segue.sourceViewController as? AdvFilterViewController {
             filterType = Filter.ADVANCED
         }
-        retrieveAnnotations(filterType)
+        asams = retrieveAnnotations(filterType: filterType)
+        asamMapViewDelegate.clusteringController.setAnnotations(asams)
     }
     
 }

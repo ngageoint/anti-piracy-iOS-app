@@ -17,6 +17,7 @@ class AsamModelFacade {
     
     let AND_PREDICATE = " and "
     let OR_PREDICATE = " or "
+    let dateFormatter = NSDateFormatter()
     let defaults = NSUserDefaults.standardUserDefaults()
 
     
@@ -34,49 +35,143 @@ class AsamModelFacade {
         return asams
     }
     
-    
     func getFilterPredicate(filterType: Int = Filter.BOTH) -> NSPredicate {
         
-        var returnFilterPredicate
+        var filterPredicate = NSPredicate()
         let basicFilterPredicate = getBasicFilterPredicate()
         let advancedFilterPredicate = getAdvancedFilterPredicate()
         
         if filterType == Filter.BOTH {
-            returnFilterPredicate = NSCompoundPredicate(type: NSCompoundPredicateType.AndPredicateType, subpredicates: [basicFilterPredicate, advancedFilterPredicate])
+            filterPredicate = NSCompoundPredicate(type: NSCompoundPredicateType.AndPredicateType, subpredicates: [basicFilterPredicate, advancedFilterPredicate])
         } else if filterType == Filter.BASIC {
-            returnFilterPredicate = basicFilterPredicate
+            filterPredicate = basicFilterPredicate
         } else if filterType == Filter.ADVANCED {
-            returnFilterPredicate = advancedFilterPredicate
+            filterPredicate = advancedFilterPredicate
         }
         
-        return returnFilterPredicate
+        return filterPredicate
     }
     
     func getBasicFilterPredicate() -> NSPredicate {
-        var filterPredicate = getDateIntervalPredicate()
+        var basicFilterPredicate = getDateIntervalPredicate()
         
-        if let keywordPredicate = getKeywordPredicate() {
-            filterPredicate = NSCompoundPredicate(type: NSCompoundPredicateType.AndPredicateType, subpredicates: [filterPredicate, keywordPredicate])
+        if let keywordPredicate = getKeywordPredicate(Filter.Basic.KEYWORD) {
+            basicFilterPredicate = NSCompoundPredicate(type: NSCompoundPredicateType.AndPredicateType, subpredicates: [basicFilterPredicate, keywordPredicate])
         }
         
-        if let subregionPredicate = getSubregionPredicate() {
-            filterPredicate = NSCompoundPredicate(type: NSCompoundPredicateType.AndPredicateType, subpredicates: [filterPredicate, subregionPredicate])
+        if let subregionPredicate = getCurrentSubregionPredicate() {
+            basicFilterPredicate = NSCompoundPredicate(type: NSCompoundPredicateType.AndPredicateType, subpredicates: [basicFilterPredicate, subregionPredicate])
         }
         
-        return filterPredicate
+        return basicFilterPredicate
     }
-    
     
     func getAdvancedFilterPredicate() -> NSPredicate {
-        var filterPredicate = getDatePredicate()
+        var advancedFilterPredicate = getDatePredicate()
+        
+        if let keywordPredicate = getKeywordPredicate(Filter.Advanced.KEYWORD) {
+            advancedFilterPredicate = NSCompoundPredicate(type: NSCompoundPredicateType.AndPredicateType, subpredicates: [advancedFilterPredicate, keywordPredicate])
+        }
 
         if let subregionPredicate = getSubregionPredicate() {
-            filterPredicate = NSCompoundPredicate(type: NSCompoundPredicateType.AndPredicateType, subpredicates: [filterPredicate, subregionPredicate])
+            advancedFilterPredicate = NSCompoundPredicate(type: NSCompoundPredicateType.AndPredicateType, subpredicates: [advancedFilterPredicate, subregionPredicate])
         }
-       
-        return filterPredicate
+        
+        if let refNumPredicate = getRefNumPredicate() {
+            advancedFilterPredicate = NSCompoundPredicate(type: NSCompoundPredicateType.AndPredicateType, subpredicates: [advancedFilterPredicate, refNumPredicate])
+        }
+        
+        if let victimPredicate = getVictimPredicate() {
+            advancedFilterPredicate = NSCompoundPredicate(type: NSCompoundPredicateType.AndPredicateType, subpredicates: [advancedFilterPredicate, victimPredicate])
+        }
+
+        if let aggressorPredicate = getAggressorPredicate() {
+            advancedFilterPredicate = NSCompoundPredicate(type: NSCompoundPredicateType.AndPredicateType, subpredicates: [advancedFilterPredicate, aggressorPredicate])
+        }
+        
+        return advancedFilterPredicate
     }
     
+    func getDateIntervalPredicate() -> NSPredicate {
+        
+        let interval = defaults.stringForKey(Filter.Basic.DATE_INTERVAL)
+        let calendar = NSCalendar.currentCalendar()
+        var today = calendar.startOfDayForDate(NSDate())
+        
+        //Default to 100 years, an approximate of ALL
+        var intervalDate = calendar.dateByAddingUnit(.CalendarUnitYear, value: -100, toDate: today, options: nil)!
+        
+        switch interval! {
+        case DateInterval.DAYS_30:
+            intervalDate = calendar.dateByAddingUnit(.CalendarUnitDay, value: -30, toDate: today, options: nil)!
+        case DateInterval.DAYS_60:
+            intervalDate = calendar.dateByAddingUnit(.CalendarUnitDay, value: -60, toDate: today, options: nil)!
+        case DateInterval.DAYS_120:
+            intervalDate = calendar.dateByAddingUnit(.CalendarUnitDay, value: -120, toDate: today, options: nil)!
+        case DateInterval.YEARS_1:
+            intervalDate = calendar.dateByAddingUnit(.CalendarUnitYear, value: -1, toDate: today, options: nil)!
+        default:
+            break
+        }
+        
+        let intervalPredicate = NSPredicate(format: "(date > %@)", intervalDate )
+        
+        return intervalPredicate
+        
+    }
+    
+    func getKeywordPredicate(keywordType: String) -> NSPredicate? {
+        var keywordPredicate: NSPredicate? = nil
+        var keyword = String()
+        if let userKeyword: String = defaults.stringForKey(keywordType) {
+            keyword = userKeyword
+        }
+        
+        if !keyword.isEmpty {
+            var intervalNames: [String] = []
+            var intervalValues: [String] = []
+            
+            intervalNames.append("(aggressor CONTAINS[c] %@)")
+            intervalValues.append(keyword)
+            intervalNames.append("(date CONTAINS %@)")
+            intervalValues.append(keyword)
+            intervalNames.append("(desc CONTAINS %@)")
+            intervalValues.append(keyword)
+            intervalNames.append("(lat CONTAINS %@)")
+            intervalValues.append(keyword)
+            intervalNames.append("(latitude CONTAINS %@)")
+            intervalValues.append(keyword)
+            intervalNames.append("(lng CONTAINS %@)")
+            intervalValues.append(keyword)
+            intervalNames.append("(longitude CONTAINS %@)")
+            intervalValues.append(keyword)
+            intervalNames.append("(reference CONTAINS %@)")
+            intervalValues.append(keyword)
+            intervalNames.append("(subregion CONTAINS %@)")
+            intervalValues.append(keyword)
+            intervalNames.append("(victim CONTAINS[c] %@)")
+            intervalValues.append(keyword)
+            
+            let keywordFormat = buildPredicateFormat(OR_PREDICATE, names: intervalNames)
+            
+            keywordPredicate = NSPredicate(format: keywordFormat, argumentArray: intervalValues)
+        }
+        return keywordPredicate
+    }
+    
+    
+    func getCurrentSubregionPredicate() -> NSPredicate? {
+        var currentPredicate: NSPredicate? = nil
+        
+        
+        
+        
+        
+        
+        
+        
+        return currentPredicate
+    }
     
     func getDatePredicate() -> NSPredicate {
         var dateNames: [String] = []
@@ -104,10 +199,8 @@ class AsamModelFacade {
             dateValues.append(NSDate())
         }
         
-        //build predicate string
         let datePredicateFormat = buildPredicateFormat(AND_PREDICATE, names: dateNames)
-        
-        var datePredicate = NSPredicate(format: datePredicateFormat, argumentArray: dateValues)
+        let datePredicate = NSPredicate(format: datePredicateFormat, argumentArray: dateValues)
 
         return datePredicate
     }
@@ -133,7 +226,58 @@ class AsamModelFacade {
         return subregionPredicate
     }
     
+    func getRefNumPredicate() -> NSPredicate? {
+        var refNumPredicate: NSPredicate? = nil
+        
+        if let userDefaultRefNum = defaults.stringForKey(Filter.Advanced.REFERENCE_NUM) {
+            var refNumNames = String()
+            var refNumValues = String()
+            
+            let refNum = userDefaultRefNum.componentsSeparatedByString(Filter.Advanced.REF_SEPARATER)
+        
+            if !refNum[0].isEmpty || !refNum[1].isEmpty {
+                if !refNum[0].isEmpty && !refNum[1].isEmpty {
+                    refNumNames = "(reference CONTAINS %@)"
+                    refNumValues = refNum[0] + Filter.Advanced.REF_SEPARATER + refNum[1]
+                } else if !refNum[0].isEmpty && refNum[1].isEmpty {
+                    refNumNames = "(reference CONTAINS %@)"
+                    refNumValues = refNum[0] + Filter.Advanced.REF_SEPARATER
+                } else if refNum[0].isEmpty && !refNum[1].isEmpty {
+                    refNumNames = "(reference CONTAINS %@)"
+                    refNumValues = Filter.Advanced.REF_SEPARATER + refNum[1]
+                }
+                
+                refNumPredicate = NSPredicate(format: refNumNames, refNumValues)
+            }
+        }
+
+        return refNumPredicate
+    }
     
+    func getVictimPredicate() -> NSPredicate? {
+        var victimPredicate: NSPredicate? = nil
+        
+        if let userDefaultVictim = defaults.stringForKey(Filter.Advanced.VICTIM) {
+            if !userDefaultVictim.isEmpty {
+                victimPredicate = NSPredicate(format: "(victim CONTAINS[c] %@)", userDefaultVictim)
+            }
+        }
+        
+        return victimPredicate
+    }
+    
+    func getAggressorPredicate() -> NSPredicate? {
+        var aggressorPredicate: NSPredicate? = nil
+        
+        if let userDefaultAggressor = defaults.stringForKey(Filter.Advanced.AGGRESSOR) {
+            if !userDefaultAggressor.isEmpty {
+                aggressorPredicate = NSPredicate(format: "(aggressor CONTAINS[c] %@)", userDefaultAggressor)
+            }
+        }
+        
+        return aggressorPredicate
+    }
+  
     func buildPredicateFormat(predicateType: String, names: [String]) -> String {
         var predicateFormat = String()
         if names.count > 0 {
