@@ -29,7 +29,6 @@ class AdvFilterViewController: SubregionDisplayViewController {
     @IBOutlet weak var aggressor: UITextField!
     
     
-    
     let dateFormatter = NSDateFormatter()
     let defaults = NSUserDefaults.standardUserDefaults()
     
@@ -40,9 +39,6 @@ class AdvFilterViewController: SubregionDisplayViewController {
         super.viewDidLoad()
         
         dateFormatter.dateFormat = AsamDateFormat.dateFormat
-        
-        refNumStart.keyboardType = UIKeyboardType.NumberPad
-        refNumEnd.keyboardType = UIKeyboardType.NumberPad
         
         userAdvancedFilters()
         
@@ -117,10 +113,6 @@ class AdvFilterViewController: SubregionDisplayViewController {
     }
     
     
-    
-    
-    
-    
     func userAdvancedFilters() {
         
         advancedDefaults()
@@ -162,19 +154,12 @@ class AdvFilterViewController: SubregionDisplayViewController {
       
     }
 
-    
-    
-    
-    
+
     func saveAdvancedFilter() {
         defaults.setObject(dateFormatter.dateFromString(startDate.text), forKey: Filter.Advanced.START_DATE)
         defaults.setObject(dateFormatter.dateFromString(endDate.text), forKey: Filter.Advanced.END_DATE)
         defaults.setObject(keyword.text, forKey: Filter.Advanced.KEYWORD)
-
-        
-       //Need to move the save regions array logic here instead of in the subregionview
-        
-        
+        defaults.setObject(selectedRegions, forKey: Filter.Advanced.SELECTED_REGION)
         defaults.setObject(refNumStart.text + Filter.Advanced.REF_SEPARATER + refNumEnd.text, forKey: Filter.Advanced.REFERENCE_NUM)
         defaults.setObject(victim.text, forKey: Filter.Advanced.VICTIM)
         defaults.setObject(aggressor.text, forKey: Filter.Advanced.AGGRESSOR)
@@ -205,14 +190,15 @@ class AdvFilterViewController: SubregionDisplayViewController {
         aggressor.text = String()
     }
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if segue.identifier == "applyAdvancedFilter" {
+    override func prepareForSegue(segue: UIStoryboardSegue?, sender: AnyObject?) {
+        if segue?.identifier == "applyAdvancedFilter" {
             saveAdvancedFilter()
+        } else if (segue?.identifier == "changeSubregions") {
+            let viewController: SubregionViewController = segue!.destinationViewController as! SubregionViewController
+            viewController.regions = regions.text
+            viewController.selectedRegions = selectedRegions
         }
     }
-
-    
-    
     
     
     //MARK: - Keyboard Management Methods
@@ -240,7 +226,6 @@ class AdvFilterViewController: SubregionDisplayViewController {
         scrollView.scrollIndicatorInsets = contentInsets
         
         // If active text field is hidden by keyboard, scroll it so it's visible
-        // Your app might not need or want this behavior.
         var aRect: CGRect = self.view.frame
         aRect.size.height -= keyboardSize.height
         let activeTextFieldRect: CGRect? = aggressor?.frame
@@ -279,11 +264,13 @@ class AdvFilterViewController: SubregionDisplayViewController {
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
     
+    
     @IBAction func unwindSubregionFilters(segue:UIStoryboardSegue) {
         if let controller = segue.sourceViewController as? SubregionViewController {
-            regions.text = controller.regionsText.text
+            regions.text = controller.regions
+            selectedRegions = controller.selectedRegions
         }
-       
     }
+    
     
 }

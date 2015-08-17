@@ -668,8 +668,8 @@
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits"/>
                                             </textField>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Regions Selected" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sEM-bZ-i92">
-                                                <rect key="frame" x="9" y="150" width="135" height="21"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Subregions Selected" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sEM-bZ-i92">
+                                                <rect key="frame" x="9" y="150" width="160" height="21"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
@@ -688,7 +688,7 @@
                                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                 </state>
                                                 <connections>
-                                                    <segue destination="daH-Wy-vR8" kind="show" id="yU6-Vf-Fcb"/>
+                                                    <segue destination="daH-Wy-vR8" kind="show" identifier="changeSubregions" id="yU6-Vf-Fcb"/>
                                                 </connections>
                                             </button>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Reference Number" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KAs-KH-Txv">
@@ -700,7 +700,7 @@
                                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="LfK-k3-RjP">
                                                 <rect key="frame" x="9" y="244" width="275" height="30"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                <textInputTraits key="textInputTraits"/>
+                                                <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                                             </textField>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="-" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DZR-Au-Csc">
                                                 <rect key="frame" x="297" y="248" width="7" height="21"/>
@@ -714,7 +714,7 @@
                                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="dQI-FA-6Jy">
                                                 <rect key="frame" x="316" y="244" width="276" height="30"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                <textInputTraits key="textInputTraits"/>
+                                                <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                                             </textField>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Victim" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9Yo-TM-7sQ">
                                                 <rect key="frame" x="8" y="282" width="48" height="21"/>
@@ -874,23 +874,39 @@
                                 </connections>
                             </mapView>
                             <textField opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="qvw-T7-1ci">
-                                <rect key="frame" x="16" y="562" width="568" height="30"/>
+                                <rect key="frame" x="16" y="562" width="492" height="30"/>
                                 <accessibility key="accessibilityConfiguration">
                                     <accessibilityTraits key="traits" none="YES" notEnabled="YES"/>
                                 </accessibility>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="w2s-up-HTC">
+                                <rect key="frame" x="538" y="562" width="37" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="a9e-sG-t8H"/>
+                                    <constraint firstAttribute="width" constant="37" id="g57-31-NaG"/>
+                                </constraints>
+                                <state key="normal" title="Clear">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="clearSelected:" destination="daH-Wy-vR8" eventType="touchUpInside" id="H6x-jZ-kvg"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="trailing" secondItem="qvw-T7-1ci" secondAttribute="trailing" constant="16" id="AOa-2O-jXI"/>
                             <constraint firstItem="zTH-pT-xPP" firstAttribute="top" secondItem="Tsr-dK-rfG" secondAttribute="bottom" id="Cil-aN-V2y"/>
                             <constraint firstItem="qvw-T7-1ci" firstAttribute="leading" secondItem="siN-Kf-SMo" secondAttribute="leading" constant="16" id="JjV-Jh-L5x"/>
                             <constraint firstItem="zTH-pT-xPP" firstAttribute="leading" secondItem="siN-Kf-SMo" secondAttribute="leading" id="KrU-B5-zoi"/>
                             <constraint firstAttribute="trailing" secondItem="zTH-pT-xPP" secondAttribute="trailing" id="Mmn-JZ-Z5R"/>
                             <constraint firstItem="qvw-T7-1ci" firstAttribute="top" secondItem="zTH-pT-xPP" secondAttribute="bottom" constant="8" id="NWd-FB-2ls"/>
+                            <constraint firstItem="w2s-up-HTC" firstAttribute="top" secondItem="zTH-pT-xPP" secondAttribute="bottom" constant="8" id="OZe-HI-qnX"/>
+                            <constraint firstItem="KfK-2D-ChR" firstAttribute="top" secondItem="w2s-up-HTC" secondAttribute="bottom" constant="8" id="Pux-bg-3yi"/>
                             <constraint firstItem="qvw-T7-1ci" firstAttribute="top" secondItem="zTH-pT-xPP" secondAttribute="bottom" constant="8" id="V8x-Ay-gVU"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="w2s-up-HTC" secondAttribute="trailing" constant="9" id="Zsz-FN-m22"/>
+                            <constraint firstItem="w2s-up-HTC" firstAttribute="leading" secondItem="qvw-T7-1ci" secondAttribute="trailing" constant="30" id="hR5-6Q-s8u"/>
                             <constraint firstItem="KfK-2D-ChR" firstAttribute="top" secondItem="qvw-T7-1ci" secondAttribute="bottom" constant="8" id="yfR-OV-Nuk"/>
                         </constraints>
                     </view>

@@ -94,14 +94,17 @@ class AsamModelFacade {
     
     func getDateIntervalPredicate() -> NSPredicate {
         
-        let interval = defaults.stringForKey(Filter.Basic.DATE_INTERVAL)
+        var interval = DateInterval.ALL
+        if let userInterval = defaults.stringForKey(Filter.Basic.DATE_INTERVAL) {
+            interval = userInterval
+        }
         let calendar = NSCalendar.currentCalendar()
         var today = calendar.startOfDayForDate(NSDate())
         
         //Default to 100 years, an approximate of ALL
         var intervalDate = calendar.dateByAddingUnit(.CalendarUnitYear, value: -100, toDate: today, options: nil)!
         
-        switch interval! {
+        switch interval {
         case DateInterval.DAYS_30:
             intervalDate = calendar.dateByAddingUnit(.CalendarUnitDay, value: -30, toDate: today, options: nil)!
         case DateInterval.DAYS_60:

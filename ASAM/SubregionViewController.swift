@@ -18,19 +18,32 @@ class SubregionViewController: SubregionDisplayViewController, MKMapViewDelegate
     
     let polygonUtil:PolygonUtil = PolygonUtil()
     var selectedRegions = Array<String>()
-    
+    var regions = String()
     let unselectedColor:UIColor = UIColor(red: 128/255.0, green: 255/255.0, blue: 130/255.0, alpha: 0.5)
     let selectedColor:UIColor   = UIColor(red: 0.0/255.0, green: 255/255.0, blue: 0.0/255.0, alpha: 0.9)
+    
+    @IBAction func clearSelected(sender: AnyObject) {
+        regionsText.text = String()
+        
+        for polygon in mapView.overlays as! [MKPolygon] {
+            let renderer:MKPolygonRenderer = self.mapView.rendererForOverlay(polygon) as! MKPolygonRenderer
+            
+            if contains(selectedRegions, polygon.title) {
+                selectedRegions.removeAtIndex(find(selectedRegions, polygon.title)!)
+            }
+            
+            renderer.fillColor = unselectedColor
+        }
+    }
     
     override func viewDidLoad() {
         
         super.viewDidLoad()
      
+        regionsText.text = regions
+        
         //populate selected regions
-        if let selectedRegions: Array<String> = defaults.objectForKey(Filter.Advanced.SELECTED_REGION) as? Array<String> {
-            self.selectedRegions = selectedRegions
-            populateRegionText(selectedRegions, textView: regionsText)
-        }
+        populateRegionText(selectedRegions, textView: regionsText)
         
         let subregionsMap:SubregionMap = SubregionMap();
         self.mapView.addOverlays(subregionsMap.polygons)
@@ -90,8 +103,8 @@ class SubregionViewController: SubregionDisplayViewController, MKMapViewDelegate
                     renderer.setNeedsDisplay()
                     
                     sort(&selectedRegions)
-                    defaults.setObject(selectedRegions, forKey: Filter.Advanced.SELECTED_REGION)
                     populateRegionText(selectedRegions, textView: regionsText)
+                    regions = regionsText.text
                 }
 
             }

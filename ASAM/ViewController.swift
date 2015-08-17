@@ -174,7 +174,6 @@ class ViewController: UIViewController, AsamSelectDelegate {
         } else if (segue?.identifier == "listDisplayedAsams") {
             let navController = segue!.destinationViewController as! UINavigationController
             let listController = navController.topViewController as! ListTableViewController
-//            let viewController: ListTableViewController = segue!.destinationViewController as! ListTableViewController
             listController.asams = asams
         }
     }
