@@ -41,6 +41,7 @@
 		75029C931B73EE71004BD9E2 /* ListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75029C921B73EE71004BD9E2 /* ListTableViewController.swift */; };
 		75029C951B78DCB2004BD9E2 /* ListViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75029C941B78DCB2004BD9E2 /* ListViewCell.swift */; };
 		75029C971B7A5124004BD9E2 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75029C961B7A5124004BD9E2 /* Constants.swift */; };
+		750AD0831B824620006F7C28 /* CurrentSubregion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 750AD0821B824620006F7C28 /* CurrentSubregion.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -93,6 +94,7 @@
 		75029C921B73EE71004BD9E2 /* ListTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListTableViewController.swift; sourceTree = "<group>"; };
 		75029C941B78DCB2004BD9E2 /* ListViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListViewCell.swift; sourceTree = "<group>"; };
 		75029C961B7A5124004BD9E2 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		750AD0821B824620006F7C28 /* CurrentSubregion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CurrentSubregion.swift; sourceTree = "<group>"; };
 		7F5FE9D9DC59AD7F6FA93D00 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		C45911953E583357AAD51FA6 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -251,6 +253,7 @@
 				2FC48DA41B713ED70007B8C6 /* OfflineMap.swift */,
 				2FC48DA21B713ECD0007B8C6 /* ne_50m_land.simplify0.2.geojson */,
 				2FC48DA01B713EC60007B8C6 /* subregions.csv */,
+				750AD0821B824620006F7C28 /* CurrentSubregion.swift */,
 			);
 			name = map;
 			sourceTree = "<group>";
@@ -437,6 +440,7 @@
 				2FC48DB01B713F060007B8C6 /* StringExtension.swift in Sources */,
 				2FC48D981B713E800007B8C6 /* AsamDateFormat.swift in Sources */,
 				2FC48DB41B713F1D0007B8C6 /* FilterViewController.swift in Sources */,
+				750AD0831B824620006F7C28 /* CurrentSubregion.swift in Sources */,
 				2FC48D871B713C8B0007B8C6 /* Asam.swift in Sources */,
 				2FC48D961B713E780007B8C6 /* AsamModelFacade.swift in Sources */,
 				75029C951B78DCB2004BD9E2 /* ListViewCell.swift in Sources */,

@@ -68,11 +68,26 @@ class FilterViewController: SubregionDisplayViewController, UIPickerViewDelegate
     }
     
     func saveBasicFilter() {
+        defaults.setObject(Filter.BASIC_TYPE, forKey: Filter.FILTER_TYPE)
         defaults.setObject(selectedInterval.text, forKey: Filter.Basic.DATE_INTERVAL)
         defaults.setObject(keyword.text, forKey: Filter.Basic.KEYWORD)
         defaults.setBool(currentSubregionEnabled.on, forKey: Filter.Basic.CURRENT_SUBREGION)
     }
 
+    @IBAction func switchCurrentSubregion(sender: AnyObject) {
+        var currSub = CurrentSubregion()
+        if currentSubregionEnabled.on {
+            if currSub.askPermission(self) {
+                currSub.calculateSubregion()
+                currSub.stopLocating()
+            } else {
+                currentSubregionEnabled.setOn(false, animated: false)
+            }
+        } else {
+            currSub.stopLocating()
+        }
+    }
+    
     @IBAction func clearBasicFilters(sender: AnyObject) {
         basicDefaults()
     }

@@ -17,6 +17,7 @@ class ViewController: UIViewController, AsamSelectDelegate {
     @IBOutlet weak var asamMapViewDelegate: AsamMapViewDelegate!
     
     var asams = [AsamAnnotation]()
+    var filterType = Filter.BASIC_TYPE
     
     //Used for local testing, populates ~6K ASAMs
     //let asamJsonParser:AsamJsonParser = AsamJsonParser();
@@ -34,7 +35,13 @@ class ViewController: UIViewController, AsamSelectDelegate {
         algorithm.clusteringStrategy = KPGridClusteringAlgorithmStrategy.TwoPhase;
         asamMapViewDelegate.clusteringController = KPClusteringController(mapView: self.mapView)
         //asamMapViewDelegate.clusteringController.delegate = self
-        asams = retrieveAnnotations()
+        if let userDefaultFilterType = asamMapViewDelegate.defaults.stringForKey(Filter.FILTER_TYPE) {
+            filterType = userDefaultFilterType
+        }
+        asams = retrieveAnnotations(filterType)
+        
+        
+        
         asamMapViewDelegate.clusteringController.setAnnotations(asams)
         
         //rebuild map center and map span from persisted user data
@@ -92,12 +99,12 @@ class ViewController: UIViewController, AsamSelectDelegate {
         
     }
     
-    func retrieveAnnotations(filterType: Int = Filter.BOTH) -> [AsamAnnotation] {
+    func retrieveAnnotations(filterType: String) -> [AsamAnnotation] {
         
         var annotations: [AsamAnnotation] = []
         
         let model = AsamModelFacade()
-        let filteredAsams = model.getAsams(filterType: filterType)
+        let filteredAsams = model.getAsams(filterType)
         for asam in filteredAsams {
             // Drop a pin
             var newLocation = CLLocationCoordinate2DMake(asam.lat as Double, asam.lng as Double)
@@ -163,6 +170,14 @@ class ViewController: UIViewController, AsamSelectDelegate {
         
     }
 
+    @IBAction func setupSegueToFilter(sender: AnyObject) {
+        if filterType == Filter.ADVANCED_TYPE {
+            performSegueWithIdentifier("advancedFilter", sender: self)
+        } else {
+            performSegueWithIdentifier("basicFilter", sender: self)
+        }
+    }
+    
     func asamSelected(asam: AsamAnnotation) {
         performSegueWithIdentifier("singleAsamDetails", sender: asam)
     }
@@ -183,14 +198,13 @@ class ViewController: UIViewController, AsamSelectDelegate {
     }
     
     @IBAction func applyFilters(segue:UIStoryboardSegue) {
-        var filterType = Filter.BOTH
         if let mapViewController = segue.sourceViewController as? FilterViewController {
-            filterType = Filter.BASIC
+            filterType = Filter.BASIC_TYPE
         }
         if let mapViewController = segue.sourceViewController as? AdvFilterViewController {
-            filterType = Filter.ADVANCED
+            filterType = mapViewController.filterType
         }
-        asams = retrieveAnnotations(filterType: filterType)
+        asams = retrieveAnnotations(filterType)
         asamMapViewDelegate.clusteringController.setAnnotations(asams)
     }
     

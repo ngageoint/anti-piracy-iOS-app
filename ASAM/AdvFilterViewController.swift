@@ -33,6 +33,7 @@ class AdvFilterViewController: SubregionDisplayViewController {
     let defaults = NSUserDefaults.standardUserDefaults()
     
     var selectedRegions = Array<String>()
+    var filterType = Filter.BASIC_TYPE
     
     override func viewDidLoad() {
         
@@ -156,6 +157,13 @@ class AdvFilterViewController: SubregionDisplayViewController {
 
 
     func saveAdvancedFilter() {
+        if checkForClearedFilter() {
+            defaults.setObject(Filter.BASIC_TYPE, forKey: Filter.FILTER_TYPE)
+            filterType = Filter.BASIC_TYPE
+        } else {
+            defaults.setObject(Filter.ADVANCED_TYPE, forKey: Filter.FILTER_TYPE)
+            filterType = Filter.ADVANCED_TYPE
+        }
         defaults.setObject(dateFormatter.dateFromString(startDate.text), forKey: Filter.Advanced.START_DATE)
         defaults.setObject(dateFormatter.dateFromString(endDate.text), forKey: Filter.Advanced.END_DATE)
         defaults.setObject(keyword.text, forKey: Filter.Advanced.KEYWORD)
@@ -165,6 +173,30 @@ class AdvFilterViewController: SubregionDisplayViewController {
         defaults.setObject(aggressor.text, forKey: Filter.Advanced.AGGRESSOR)
     }
     
+    func checkForClearedFilter() -> Bool {
+        var isCleared = false;
+        let calendar = NSCalendar.currentCalendar()
+        let today = calendar.startOfDayForDate(NSDate())
+        let approxOneYearAgo = calendar.dateByAddingUnit(.CalendarUnitYear, value: -1, toDate: today, options: nil)!
+        
+        dateFormatter.dateStyle = .ShortStyle
+        
+        let theDate = dateFormatter.stringFromDate(approxOneYearAgo)
+
+        if startDate.text == theDate &&
+            endDate.text == dateFormatter.stringFromDate(NSDate()) &&
+            keyword.text == String() &&
+            regions.text == String() &&
+            refNumStart.text == String() &&
+            refNumEnd.text == String() &&
+            victim.text == String() &&
+            aggressor.text == String() {
+                isCleared = true
+        }
+
+        return isCleared
+    }
+    
     @IBAction func clearAdvancedFilters(sender: AnyObject) {
         advancedDefaults()
     }
@@ -172,9 +204,8 @@ class AdvFilterViewController: SubregionDisplayViewController {
     
     func advancedDefaults() {
         let calendar = NSCalendar.currentCalendar()
-        var today = calendar.startOfDayForDate(NSDate())
-        
-        var approxOneYearAgo = calendar.dateByAddingUnit(.CalendarUnitYear, value: -1, toDate: today, options: nil)!
+        let today = calendar.startOfDayForDate(NSDate())
+        let approxOneYearAgo = calendar.dateByAddingUnit(.CalendarUnitYear, value: -1, toDate: today, options: nil)!
         
         dateFormatter.dateStyle = .ShortStyle
         

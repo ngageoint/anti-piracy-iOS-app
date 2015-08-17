@@ -21,13 +21,13 @@ class AsamModelFacade {
     let defaults = NSUserDefaults.standardUserDefaults()
 
     
-    func getAsams(filterType: Int = Filter.BOTH)-> Array<Asam> {
+    func getAsams(filterType: String)-> Array<Asam> {
         let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         let managedObjectContext = appDelegate.managedObjectContext!
         // Create a new fetch request using the LogItem entity
         let fetchRequest = NSFetchRequest(entityName: "Asam")
         
-        fetchRequest.predicate = getFilterPredicate(filterType: filterType)
+        fetchRequest.predicate = getFilterPredicate(filterType)
         
         let fetchResults = managedObjectContext.executeFetchRequest(fetchRequest, error: nil) as? [Asam]
         asams = fetchResults!
@@ -35,17 +35,18 @@ class AsamModelFacade {
         return asams
     }
     
-    func getFilterPredicate(filterType: Int = Filter.BOTH) -> NSPredicate {
+    func getFilterPredicate(filterType: String) -> NSPredicate {
         
         var filterPredicate = NSPredicate()
         let basicFilterPredicate = getBasicFilterPredicate()
         let advancedFilterPredicate = getAdvancedFilterPredicate()
-        
-        if filterType == Filter.BOTH {
-            filterPredicate = NSCompoundPredicate(type: NSCompoundPredicateType.AndPredicateType, subpredicates: [basicFilterPredicate, advancedFilterPredicate])
-        } else if filterType == Filter.BASIC {
+        //Filters are currently isolated
+//        if filterType == Filter.BOTH {
+//            filterPredicate = NSCompoundPredicate(type: NSCompoundPredicateType.AndPredicateType, subpredicates: [basicFilterPredicate, advancedFilterPredicate])
+//        } else
+        if filterType == Filter.BASIC_TYPE {
             filterPredicate = basicFilterPredicate
-        } else if filterType == Filter.ADVANCED {
+        } else if filterType == Filter.ADVANCED_TYPE {
             filterPredicate = advancedFilterPredicate
         }
         

@@ -178,7 +178,7 @@
                                     </mask>
                                 </variation>
                                 <connections>
-                                    <segue destination="50Q-gk-cyJ" kind="show" id="3vt-yi-x7z"/>
+                                    <action selector="setupSegueToFilter:" destination="Pmx-ja-8gp" eventType="touchUpInside" id="QQo-P8-ROO"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="S98-uS-N99">
@@ -300,6 +300,8 @@
                         <outlet property="mapView" destination="oMw-iL-NWc" id="fKD-fr-NOJ"/>
                         <outlet property="view" destination="cKv-zM-v9R" id="qb9-CB-1QC"/>
                         <segue destination="Auq-EO-QZm" kind="show" identifier="singleAsamDetails" id="rAn-I3-oMw"/>
+                        <segue destination="sUZ-LI-tKp" kind="show" identifier="advancedFilter" id="JqH-ar-H42"/>
+                        <segue destination="50Q-gk-cyJ" kind="show" identifier="basicFilter" id="wf3-58-iWW"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="W0R-jc-xfJ" sceneMemberID="firstResponder"/>
@@ -500,6 +502,9 @@
                                             </textField>
                                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="BtW-Lm-wVZ">
                                                 <rect key="frame" x="539" y="166" width="51" height="31"/>
+                                                <connections>
+                                                    <action selector="switchCurrentSubregion:" destination="50Q-gk-cyJ" eventType="valueChanged" id="wns-1Q-n4F"/>
+                                                </connections>
                                             </switch>
                                         </subviews>
                                         <constraints>
@@ -952,5 +957,6 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="rAn-I3-oMw"/>
+        <segue reference="Mr8-om-dMD"/>
     </inferredMetricsTieBreakers>
 </document>
