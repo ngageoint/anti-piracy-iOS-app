@@ -187,6 +187,7 @@ class AdvFilterViewController: SubregionDisplayViewController {
             endDate.text == dateFormatter.stringFromDate(NSDate()) &&
             keyword.text == String() &&
             regions.text == String() &&
+            selectedRegions.isEmpty &&
             refNumStart.text == String() &&
             refNumEnd.text == String() &&
             victim.text == String() &&
@@ -215,6 +216,7 @@ class AdvFilterViewController: SubregionDisplayViewController {
         endDate.text = dateFormatter.stringFromDate(NSDate())
         keyword.text = String()
         regions.text = String()
+        selectedRegions = Array<String>()
         refNumStart.text = String()
         refNumEnd.text = String()
         victim.text = String()

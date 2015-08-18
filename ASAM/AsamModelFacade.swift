@@ -165,16 +165,18 @@ class AsamModelFacade {
     
     
     func getCurrentSubregionPredicate() -> NSPredicate? {
-        var currentPredicate: NSPredicate? = nil
+        var currentSubregionPredicate: NSPredicate? = nil
         
         
+        let userDefaultCurrentEnabled = defaults.boolForKey(Filter.Basic.CURRENT_SUBREGION_ENABLED)
         
+        if userDefaultCurrentEnabled {
+            if let userDefaultCurrentSubregion = defaults.stringForKey(Filter.Basic.CURRENT_SUBREGION) {
+                currentSubregionPredicate = NSPredicate(format: "(subregion = %@)", userDefaultCurrentSubregion )
+            }
+        }
         
-        
-        
-        
-        
-        return currentPredicate
+        return currentSubregionPredicate
     }
     
     func getDatePredicate() -> NSPredicate {
@@ -218,8 +220,8 @@ class AsamModelFacade {
         if let userDefaultSubRegion: Array<String> = defaults.objectForKey(Filter.Advanced.SELECTED_REGION) as? Array<String> {
             if userDefaultSubRegion.count > 0 {
                 for (region) in userDefaultSubRegion {
-                    regionNames.append("(subregion == %i)")
-                    regionValues.append(region.toInt()!)
+                    regionNames.append("(subregion = %@)")
+                    regionValues.append(region)
                 }
                 
                 let subregionPredicateFormat = buildPredicateFormat(OR_PREDICATE, names: regionNames)

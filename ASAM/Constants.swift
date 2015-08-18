@@ -22,7 +22,9 @@ struct Filter {
     struct Basic {
         static let DATE_INTERVAL = "dateInterval"
         static let KEYWORD = "basicKeyword"
+        static let CURRENT_SUBREGION_ENABLED = "currentSubregionEnabled"
         static let CURRENT_SUBREGION = "currentSubregion"
+        static let DEFAULT_SUBREGION = "57" //Subregion of coord (0.0, 0.0)
     }
     static let FILTER_TYPE = "filterType"
     static let ADVANCED_TYPE = "advancedFilter"

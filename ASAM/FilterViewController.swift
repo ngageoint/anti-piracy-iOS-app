@@ -20,6 +20,7 @@ class FilterViewController: SubregionDisplayViewController, UIPickerViewDelegate
     @IBOutlet weak var currentSubregionEnabled: UISwitch!
 
     @IBOutlet weak var scrollView: UIScrollView!
+    var currentSubregion = Filter.Basic.DEFAULT_SUBREGION
     var dateIntervalPicker: UIPickerView!
     var dateFormatter = NSDateFormatter()
     let pickerData = [DateInterval.ALL, DateInterval.DAYS_30, DateInterval.DAYS_60, DateInterval.DAYS_120, DateInterval.YEARS_1]
@@ -57,8 +58,13 @@ class FilterViewController: SubregionDisplayViewController, UIPickerViewDelegate
             keyword.text = String()
         }
         
-        let userDefaultCurrentEnabled = defaults.boolForKey(Filter.Basic.CURRENT_SUBREGION)
+        let userDefaultCurrentEnabled = defaults.boolForKey(Filter.Basic.CURRENT_SUBREGION_ENABLED)
         currentSubregionEnabled.setOn(userDefaultCurrentEnabled, animated: false)
+        if userDefaultCurrentEnabled {
+            if let userDefaultCurrentSubregion = defaults.stringForKey(Filter.Basic.CURRENT_SUBREGION) {
+                currentSubregion = userDefaultCurrentSubregion
+            }
+        }
 
     }
 
@@ -71,14 +77,18 @@ class FilterViewController: SubregionDisplayViewController, UIPickerViewDelegate
         defaults.setObject(Filter.BASIC_TYPE, forKey: Filter.FILTER_TYPE)
         defaults.setObject(selectedInterval.text, forKey: Filter.Basic.DATE_INTERVAL)
         defaults.setObject(keyword.text, forKey: Filter.Basic.KEYWORD)
-        defaults.setBool(currentSubregionEnabled.on, forKey: Filter.Basic.CURRENT_SUBREGION)
+        defaults.setBool(currentSubregionEnabled.on, forKey: Filter.Basic.CURRENT_SUBREGION_ENABLED)
+        defaults.setObject(currentSubregion, forKey: Filter.Basic.CURRENT_SUBREGION)
     }
 
     @IBAction func switchCurrentSubregion(sender: AnyObject) {
         var currSub = CurrentSubregion()
         if currentSubregionEnabled.on {
             if currSub.askPermission(self) {
-                currSub.calculateSubregion()
+                currSub.startLocating()
+                //Assumes location is found immediately, otherwise will default current subregion
+                currentSubregion = currSub.calculateSubregion()
+                //Stop immediately to conserve battery
                 currSub.stopLocating()
             } else {
                 currentSubregionEnabled.setOn(false, animated: false)
@@ -97,6 +107,7 @@ class FilterViewController: SubregionDisplayViewController, UIPickerViewDelegate
         selectedInterval.text = pickerData[DateInterval.DEFAULT]
         keyword.text = String()
         currentSubregionEnabled.setOn(false, animated: false)
+        currentSubregion = Filter.Basic.DEFAULT_SUBREGION
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {

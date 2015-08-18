@@ -10,23 +10,24 @@ import Foundation
 import CoreLocation
 
 class CurrentSubregion: NSObject, CLLocationManagerDelegate {
+    
     let locationManager = CLLocationManager()
     var currentLocation: CLLocation? = nil
     var currentSubregion = 11
+    
     
     override init() {
         super.init()
         
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyThreeKilometers
-        if CLLocationManager.locationServicesEnabled() {
-            locationManager.startUpdatingLocation()
-        }
     }
+    
     
     func locationManager(manager: CLLocationManager!, didFailWithError error: NSError!) {
         println("Error while updating location " + error.localizedDescription)
     }
+    
 
     func askPermission(filterView: UIViewController) -> Bool {
         var hasPermission = false
@@ -66,32 +67,58 @@ class CurrentSubregion: NSObject, CLLocationManagerDelegate {
     }
 
     
+    func startLocating() {
+        if CLLocationManager.locationServicesEnabled() {
+            locationManager.startUpdatingLocation()
+        }
+    }
+    
+    
     func stopLocating() {
         if CLLocationManager.locationServicesEnabled() {
             locationManager.stopUpdatingLocation()
         }
     }
     
+    
     func getLocation() -> CLLocation? {
         currentLocation = locationManager.location
         return currentLocation
     }
     
-    func calculateSubregion() -> Int {
+    
+    func calculateSubregion() -> String {
+        var currentSubregion = Filter.Basic.DEFAULT_SUBREGION
         let subregionPolygons = SubregionMap()
-        
-        var foundPolygon = MKPolygon()
+
+        var mapCoordinate: CLLocationCoordinate2D = CLLocationCoordinate2DMake(0.0, 0.0)
+        if let aMapCoordinate: CLLocationCoordinate2D = getLocation()?.coordinate {
+            mapCoordinate = aMapCoordinate
+        }
 
         for polygon in subregionPolygons.polygons {
+            var pathRef: CGMutablePathRef = CGPathCreateMutable()
+            let polygonPoints = polygon.points()
             
-            //pseudo-code
-//            var path = CGPathCreateMutable()
-//            let point = CGPoint()
-//            
-//            if CGPathContainsPoint(path, nil, point, true) {
-//                foundPolygon = polygon
-//                break
-//            }
+            for var count = 0; count < polygon.pointCount; count++ {
+                var mp: MKMapPoint = polygonPoints[count]
+                if count == 0 {
+                    CGPathMoveToPoint(pathRef, nil, CGFloat(mp.x), CGFloat(mp.y))
+                } else {
+                    CGPathAddLineToPoint(pathRef, nil, CGFloat(mp.x), CGFloat(mp.y))
+                }
+            }
+            
+            let mapPoint: MKMapPoint  = MKMapPointForCoordinate(mapCoordinate);
+            let mapPointAsCGP: CGPoint = CGPointMake(CGFloat(mapPoint.x), CGFloat(mapPoint.y))
+            
+            var pointIsInPolygon: Bool = CGPathContainsPoint(pathRef, nil, mapPointAsCGP, false)
+            
+            if pointIsInPolygon {
+                currentSubregion = polygon.title
+                println("Point found in region: \(polygon.title)")
+                break
+            }
         }
         
         return currentSubregion
