@@ -14,26 +14,28 @@ class CurrentSubregion: NSObject, CLLocationManagerDelegate {
     let locationManager = CLLocationManager()
     var currentLocation: CLLocation? = nil
     var currentSubregion = 11
+    var locationFixAchieved = false
+    var filterView: UIViewController!
     
-    
-    override init() {
+    init(view: UIViewController) {
         super.init()
-        
+        filterView = view
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyThreeKilometers
     }
     
     
     func locationManager(manager: CLLocationManager!, didFailWithError error: NSError!) {
+        locationManager.stopUpdatingLocation()
         println("Error while updating location " + error.localizedDescription)
     }
-    
 
-    func askPermission(filterView: UIViewController) -> Bool {
-        var hasPermission = false
-        if CLLocationManager.authorizationStatus() == .NotDetermined {
+    
+    func locationManager(manager: CLLocationManager!, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
+        
+        if status == .NotDetermined {
             locationManager.requestWhenInUseAuthorization()
-        } else if CLLocationManager.authorizationStatus() != .AuthorizedWhenInUse {
+        } else if status != .AuthorizedWhenInUse {
             let alertController = UIAlertController(
                 title: "Location Access Disabled",
                 message: "To enabled Current Subregion, please open this app's settings and set location access to 'While Using the App'.",
@@ -52,24 +54,23 @@ class CurrentSubregion: NSObject, CLLocationManagerDelegate {
             filterView.presentViewController(alertController, animated: true, completion: nil)
         }
         
-        if CLLocationManager.authorizationStatus() == .AuthorizedWhenInUse {
-            hasPermission = true
-        }
-        
-        return hasPermission
-    }
-    
-    
-    func locationManager(manager: CLLocationManager!, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
-        if status == .AuthorizedAlways || status == .AuthorizedWhenInUse {
+        if status == .AuthorizedWhenInUse && !locationFixAchieved {
             locationManager.startUpdatingLocation()
         }
     }
 
     
-    func startLocating() {
-        if CLLocationManager.locationServicesEnabled() {
-            locationManager.startUpdatingLocation()
+    func hasPermission() -> Bool {
+        return CLLocationManager.authorizationStatus() == .AuthorizedWhenInUse
+    }
+    
+    func locationManager(manager: CLLocationManager!, didUpdateLocations locations: [AnyObject]!) {
+        if (locationFixAchieved == false) {
+            locationFixAchieved = true
+            var locationArray = locations as NSArray
+            currentLocation = locationArray.lastObject as? CLLocation
+            //Found a location, stop updating
+            locationManager.stopUpdatingLocation()
         }
     }
     
@@ -81,18 +82,12 @@ class CurrentSubregion: NSObject, CLLocationManagerDelegate {
     }
     
     
-    func getLocation() -> CLLocation? {
-        currentLocation = locationManager.location
-        return currentLocation
-    }
-    
-    
     func calculateSubregion() -> String {
         var currentSubregion = Filter.Basic.DEFAULT_SUBREGION
         let subregionPolygons = SubregionMap()
 
         var mapCoordinate: CLLocationCoordinate2D = CLLocationCoordinate2DMake(0.0, 0.0)
-        if let aMapCoordinate: CLLocationCoordinate2D = getLocation()?.coordinate {
+        if let aMapCoordinate: CLLocationCoordinate2D = currentLocation?.coordinate {
             mapCoordinate = aMapCoordinate
         }
 

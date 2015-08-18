@@ -23,6 +23,8 @@ class FilterViewController: SubregionDisplayViewController, UIPickerViewDelegate
     var currentSubregion = Filter.Basic.DEFAULT_SUBREGION
     var dateIntervalPicker: UIPickerView!
     var dateFormatter = NSDateFormatter()
+    var subregionLocation: CurrentSubregion!
+    var subregionInitialized = false
     let pickerData = [DateInterval.ALL, DateInterval.DAYS_30, DateInterval.DAYS_60, DateInterval.DAYS_120, DateInterval.YEARS_1]
     let defaults = NSUserDefaults.standardUserDefaults()
     
@@ -82,19 +84,22 @@ class FilterViewController: SubregionDisplayViewController, UIPickerViewDelegate
     }
 
     @IBAction func switchCurrentSubregion(sender: AnyObject) {
-        var currSub = CurrentSubregion()
+        if !subregionInitialized {
+            subregionInitialized = true
+            subregionLocation = CurrentSubregion(view: self)
+        }
         if currentSubregionEnabled.on {
-            if currSub.askPermission(self) {
-                currSub.startLocating()
+            if subregionLocation.hasPermission() {
+                
                 //Assumes location is found immediately, otherwise will default current subregion
-                currentSubregion = currSub.calculateSubregion()
+                currentSubregion = subregionLocation.calculateSubregion()
                 //Stop immediately to conserve battery
-                currSub.stopLocating()
+                subregionLocation.stopLocating()
             } else {
                 currentSubregionEnabled.setOn(false, animated: false)
             }
         } else {
-            currSub.stopLocating()
+            subregionLocation.stopLocating()
         }
     }
     
