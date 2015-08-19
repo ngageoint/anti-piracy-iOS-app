@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 
-class FilterViewController: SubregionDisplayViewController, UIPickerViewDelegate, UIPickerViewDataSource {
+class FilterViewController: SubregionDisplayViewController, UIPickerViewDelegate, UIPickerViewDataSource, CLLocationManagerDelegate {
     @IBAction func hideKeyboard(sender: AnyObject) {
          scrollView.endEditing(true)
     }
@@ -23,10 +23,19 @@ class FilterViewController: SubregionDisplayViewController, UIPickerViewDelegate
     var currentSubregion = Filter.Basic.DEFAULT_SUBREGION
     var dateIntervalPicker: UIPickerView!
     var dateFormatter = NSDateFormatter()
-    var subregionLocation: CurrentSubregion!
+    var subregionLocation = CurrentSubregion()
+
+
+
+    var locationManager: CLLocationManager!
+    var currentLocation: CLLocation? = nil
+    var locationFixAchieved = false
+    var isInitialAuthorizationCheck = false
+
     var subregionInitialized = false
     let pickerData = [DateInterval.ALL, DateInterval.DAYS_30, DateInterval.DAYS_60, DateInterval.DAYS_120, DateInterval.YEARS_1]
     let defaults = NSUserDefaults.standardUserDefaults()
+    
     
     override func viewDidLoad() {
 
@@ -42,9 +51,12 @@ class FilterViewController: SubregionDisplayViewController, UIPickerViewDelegate
         userBasicFilters()
     }
     
+
+    
     @IBAction func dateIntervalEditBegin(sender: AnyObject) {
             selectedInterval.text = pickerData[DateInterval.DEFAULT]
     }
+    
     
     func userBasicFilters() {
         
@@ -75,6 +87,7 @@ class FilterViewController: SubregionDisplayViewController, UIPickerViewDelegate
         // Dispose of any resources that can be recreated.
     }
     
+    
     func saveBasicFilter() {
         defaults.setObject(Filter.BASIC_TYPE, forKey: Filter.FILTER_TYPE)
         defaults.setObject(selectedInterval.text, forKey: Filter.Basic.DATE_INTERVAL)
@@ -83,24 +96,25 @@ class FilterViewController: SubregionDisplayViewController, UIPickerViewDelegate
         defaults.setObject(currentSubregion, forKey: Filter.Basic.CURRENT_SUBREGION)
     }
     
+    
     @IBAction func switchCurrentSubregion(sender: AnyObject) {
-        var askForPermission = true
+        var canAskPermission = true
         
         if currentSubregionEnabled.on {
-            
             if !subregionInitialized {
                 subregionInitialized = true
-                askForPermission = false
+                canAskPermission = false
                 //First time: initialize a new CurrentSubregion,
                 //  this will automatically trigger didChangeAuthorizationStatus
-                subregionLocation = CurrentSubregion(view: self)
+                //subregionLocation = CurrentSubregion(view: self)
+                initLocationManager()
             }
             
-            if !subregionLocation.hasPermission() {
-                if askForPermission {
-                    subregionLocation.askPermission()
+            if !hasPermission() {
+                if canAskPermission {
+                    askPermission()
                 }
-                currentSubregionEnabled.setOn(false, animated: false)
+                currentSubregionEnabled.setOn(false, animated: true)
             }
             
         }
@@ -108,11 +122,12 @@ class FilterViewController: SubregionDisplayViewController, UIPickerViewDelegate
     
     
     func checkForCurrentSubregion() {
-        if currentSubregionEnabled.on && subregionInitialized && subregionLocation.hasPermission() {
+        if currentSubregionEnabled.on && subregionInitialized && hasPermission() {
             //Assumes location is found, otherwise will use a default
-            currentSubregion = subregionLocation.calculateSubregion()
+            currentSubregion = subregionLocation.calculateSubregion(currentLocation)
         }
     }
+    
     
     @IBAction func clearBasicFilters(sender: AnyObject) {
         basicDefaults()
@@ -126,6 +141,7 @@ class FilterViewController: SubregionDisplayViewController, UIPickerViewDelegate
         currentSubregion = Filter.Basic.DEFAULT_SUBREGION
     }
     
+    
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "applyBasicFilter" {
             checkForCurrentSubregion()
@@ -133,23 +149,102 @@ class FilterViewController: SubregionDisplayViewController, UIPickerViewDelegate
         }
     }
     
+    
     //MARK: - Delegates and data sources
     //MARK: Data Sources
+    
     func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int {
         return 1
     }
+    
+    
     func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         return pickerData.count
     }
 
     //MARK: Delegates
+    
     func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String! {
         return pickerData[row]
     }
+    
     
     func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         selectedInterval.text = pickerData[row]
     }
 
+
+    //MARK: - Location Delegates and Functions
+    //MARK: Location Functions
     
+    func initLocationManager() {
+        locationManager = CLLocationManager()
+        locationManager.delegate = self
+        locationManager.desiredAccuracy = kCLLocationAccuracyThreeKilometers
+    }
+    
+    
+    func askPermission() {
+        let alertController = UIAlertController(
+            title: "Location Access Disabled",
+            message: "To enable Current Subregion, please open this app's settings and set location access to 'While Using the App'.",
+            preferredStyle: .Alert)
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel, handler: nil)
+        alertController.addAction(cancelAction)
+        
+        let openAction = UIAlertAction(title: "Open Settings", style: .Default) { (action) in
+            if let url = NSURL(string:UIApplicationOpenSettingsURLString) {
+                UIApplication.sharedApplication().openURL(url)
+            }
+        }
+        alertController.addAction(openAction)
+        
+        self.presentViewController(alertController, animated: true, completion: nil)
+    }
+    
+    
+    func hasPermission() -> Bool {
+        return CLLocationManager.authorizationStatus() == .AuthorizedWhenInUse
+    }
+    
+
+    //MARK: Location Delegates
+    
+    func locationManager(manager: CLLocationManager!, didFailWithError error: NSError!) {
+        locationManager.stopUpdatingLocation()
+        println("Error while updating location " + error.localizedDescription)
+    }
+
+    
+    func locationManager(manager: CLLocationManager!, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
+
+        if status == .NotDetermined {
+            isInitialAuthorizationCheck = true
+            locationManager.requestWhenInUseAuthorization()
+        } else if status != .AuthorizedWhenInUse {
+            if !isInitialAuthorizationCheck {
+                askPermission()
+            }
+            isInitialAuthorizationCheck = false
+        }
+        
+        if status == .AuthorizedWhenInUse && !locationFixAchieved {
+            currentSubregionEnabled.setOn(true, animated: true)
+            locationManager.startUpdatingLocation()
+        }
+    }
+
+    
+    func locationManager(manager: CLLocationManager!, didUpdateLocations locations: [AnyObject]!) {
+        if (locationFixAchieved == false) {
+            locationFixAchieved = true
+            var locationArray = locations as NSArray
+            currentLocation = locationArray.lastObject as? CLLocation
+            //Found a location, stop updating
+            locationManager.stopUpdatingLocation()
+        }
+    }
+
+   
 }
