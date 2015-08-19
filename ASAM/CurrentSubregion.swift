@@ -32,26 +32,11 @@ class CurrentSubregion: NSObject, CLLocationManagerDelegate {
 
     
     func locationManager(manager: CLLocationManager!, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
-        
+
         if status == .NotDetermined {
             locationManager.requestWhenInUseAuthorization()
         } else if status != .AuthorizedWhenInUse {
-            let alertController = UIAlertController(
-                title: "Location Access Disabled",
-                message: "To enabled Current Subregion, please open this app's settings and set location access to 'While Using the App'.",
-                preferredStyle: .Alert)
-            
-            let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel, handler: nil)
-            alertController.addAction(cancelAction)
-            
-            let openAction = UIAlertAction(title: "Open Settings", style: .Default) { (action) in
-                if let url = NSURL(string:UIApplicationOpenSettingsURLString) {
-                    UIApplication.sharedApplication().openURL(url)
-                }
-            }
-            alertController.addAction(openAction)
-            
-            filterView.presentViewController(alertController, animated: true, completion: nil)
+            askPermission()
         }
         
         if status == .AuthorizedWhenInUse && !locationFixAchieved {
@@ -59,6 +44,25 @@ class CurrentSubregion: NSObject, CLLocationManagerDelegate {
         }
     }
 
+    
+    func askPermission() {
+        let alertController = UIAlertController(
+            title: "Location Access Disabled",
+            message: "To enable Current Subregion, please open this app's settings and set location access to 'While Using the App'.",
+            preferredStyle: .Alert)
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel, handler: nil)
+        alertController.addAction(cancelAction)
+        
+        let openAction = UIAlertAction(title: "Open Settings", style: .Default) { (action) in
+            if let url = NSURL(string:UIApplicationOpenSettingsURLString) {
+                UIApplication.sharedApplication().openURL(url)
+            }
+        }
+        alertController.addAction(openAction)
+        
+        filterView.presentViewController(alertController, animated: true, completion: nil)
+    }
     
     func hasPermission() -> Bool {
         return CLLocationManager.authorizationStatus() == .AuthorizedWhenInUse

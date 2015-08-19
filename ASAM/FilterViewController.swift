@@ -82,24 +82,35 @@ class FilterViewController: SubregionDisplayViewController, UIPickerViewDelegate
         defaults.setBool(currentSubregionEnabled.on, forKey: Filter.Basic.CURRENT_SUBREGION_ENABLED)
         defaults.setObject(currentSubregion, forKey: Filter.Basic.CURRENT_SUBREGION)
     }
-
+    
     @IBAction func switchCurrentSubregion(sender: AnyObject) {
-        if !subregionInitialized {
-            subregionInitialized = true
-            subregionLocation = CurrentSubregion(view: self)
-        }
+        var askForPermission = true
+        
         if currentSubregionEnabled.on {
-            if subregionLocation.hasPermission() {
-                
-                //Assumes location is found immediately, otherwise will default current subregion
-                currentSubregion = subregionLocation.calculateSubregion()
-                //Stop immediately to conserve battery
-                subregionLocation.stopLocating()
-            } else {
+            
+            if !subregionInitialized {
+                subregionInitialized = true
+                askForPermission = false
+                //First time: initialize a new CurrentSubregion,
+                //  this will automatically trigger didChangeAuthorizationStatus
+                subregionLocation = CurrentSubregion(view: self)
+            }
+            
+            if !subregionLocation.hasPermission() {
+                if askForPermission {
+                    subregionLocation.askPermission()
+                }
                 currentSubregionEnabled.setOn(false, animated: false)
             }
-        } else {
-            subregionLocation.stopLocating()
+            
+        }
+    }
+    
+    
+    func checkForCurrentSubregion() {
+        if currentSubregionEnabled.on && subregionInitialized && subregionLocation.hasPermission() {
+            //Assumes location is found, otherwise will use a default
+            currentSubregion = subregionLocation.calculateSubregion()
         }
     }
     
@@ -117,6 +128,7 @@ class FilterViewController: SubregionDisplayViewController, UIPickerViewDelegate
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "applyBasicFilter" {
+            checkForCurrentSubregion()
             saveBasicFilter()
         }
     }

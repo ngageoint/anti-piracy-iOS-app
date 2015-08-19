@@ -19,7 +19,7 @@ class ViewController: UIViewController, AsamSelectDelegate {
     var asams = [AsamAnnotation]()
     var filterType = Filter.BASIC_TYPE
     
-    //Used for local testing, populates ~6K ASAMs
+    //Used for local testing, populates ~6.8K ASAMs
     //let asamJsonParser:AsamJsonParser = AsamJsonParser();
 
     override func viewDidLoad() {
@@ -33,8 +33,10 @@ class ViewController: UIViewController, AsamSelectDelegate {
         
         algorithm.annotationSize = CGSizeMake(25, 50)
         algorithm.clusteringStrategy = KPGridClusteringAlgorithmStrategy.TwoPhase;
+        
         asamMapViewDelegate.clusteringController = KPClusteringController(mapView: self.mapView)
         //asamMapViewDelegate.clusteringController.delegate = self
+        
         if let userDefaultFilterType = asamMapViewDelegate.defaults.stringForKey(Filter.FILTER_TYPE) {
             filterType = userDefaultFilterType
         }

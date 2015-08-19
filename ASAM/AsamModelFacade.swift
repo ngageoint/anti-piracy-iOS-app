@@ -22,6 +22,7 @@ class AsamModelFacade {
 
     
     func getAsams(filterType: String)-> Array<Asam> {
+        
         let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         let managedObjectContext = appDelegate.managedObjectContext!
         // Create a new fetch request using the LogItem entity
@@ -41,9 +42,9 @@ class AsamModelFacade {
         let basicFilterPredicate = getBasicFilterPredicate()
         let advancedFilterPredicate = getAdvancedFilterPredicate()
         //Filters are currently isolated
-//        if filterType == Filter.BOTH {
-//            filterPredicate = NSCompoundPredicate(type: NSCompoundPredicateType.AndPredicateType, subpredicates: [basicFilterPredicate, advancedFilterPredicate])
-//        } else
+        //        if filterType == Filter.BOTH {
+        //            filterPredicate = NSCompoundPredicate(type: NSCompoundPredicateType.AndPredicateType, subpredicates: [basicFilterPredicate, advancedFilterPredicate])
+        //        } else
         if filterType == Filter.BASIC_TYPE {
             filterPredicate = basicFilterPredicate
         } else if filterType == Filter.ADVANCED_TYPE {
