@@ -42,6 +42,7 @@
 		75029C951B78DCB2004BD9E2 /* ListViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75029C941B78DCB2004BD9E2 /* ListViewCell.swift */; };
 		75029C971B7A5124004BD9E2 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75029C961B7A5124004BD9E2 /* Constants.swift */; };
 		750AD0831B824620006F7C28 /* CurrentSubregion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 750AD0821B824620006F7C28 /* CurrentSubregion.swift */; };
+		75B314391B84EBF200122B09 /* WebService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75B314381B84EBF200122B09 /* WebService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -95,6 +96,7 @@
 		75029C941B78DCB2004BD9E2 /* ListViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListViewCell.swift; sourceTree = "<group>"; };
 		75029C961B7A5124004BD9E2 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		750AD0821B824620006F7C28 /* CurrentSubregion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CurrentSubregion.swift; sourceTree = "<group>"; };
+		75B314381B84EBF200122B09 /* WebService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebService.swift; sourceTree = "<group>"; };
 		7F5FE9D9DC59AD7F6FA93D00 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		C45911953E583357AAD51FA6 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -232,6 +234,7 @@
 				75029C941B78DCB2004BD9E2 /* ListViewCell.swift */,
 				2FC48D971B713E800007B8C6 /* AsamDateFormat.swift */,
 				2FC48D951B713E780007B8C6 /* AsamModelFacade.swift */,
+				75B314381B84EBF200122B09 /* WebService.swift */,
 			);
 			name = data;
 			sourceTree = "<group>";
@@ -426,6 +429,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				75B314391B84EBF200122B09 /* WebService.swift in Sources */,
 				2FC48DA51B713ED70007B8C6 /* OfflineMap.swift in Sources */,
 				2FC48DB61B713F2B0007B8C6 /* AdvFilterViewController.swift in Sources */,
 				2FC48DBA1B713F370007B8C6 /* AsamDetailsViewController.swift in Sources */,

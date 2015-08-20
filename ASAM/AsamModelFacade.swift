@@ -19,7 +19,75 @@ class AsamModelFacade {
     let OR_PREDICATE = " or "
     let dateFormatter = NSDateFormatter()
     let defaults = NSUserDefaults.standardUserDefaults()
+    var allAsams: NSArray!
+    
+    
+    func populateEntity(data: NSArray) {
+        allAsams = data
+        
+        clearEntity()
+        setupEntity()
+    }
+    
+    
+    func clearEntity() {
+        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        let managedContext = appDelegate.managedObjectContext!
+  
+        var request = NSFetchRequest(entityName: "Asam")
+        request.returnsObjectsAsFaults = false
 
+        var deleteRequest = managedContext.executeFetchRequest(request, error: nil)!
+        
+        if deleteRequest.count > 0 {
+            
+            for result: AnyObject in deleteRequest {
+                managedContext.deleteObject(result as! NSManagedObject)
+            }
+            
+            saveContext(managedContext)
+        }
+    }
+    
+    
+    func setupEntity() {
+
+        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        let managedContext = appDelegate.managedObjectContext!
+        let entity = NSEntityDescription.entityForName("Asam", inManagedObjectContext: managedContext)
+        
+        for item in allAsams {
+            let retrievedAsam = item as! NSDictionary
+            let asam = NSManagedObject(entity: entity!, insertIntoManagedObjectContext:managedContext)
+            
+            asam.setValue(retrievedAsam["Reference"]!, forKey: "reference")
+            asam.setValue(retrievedAsam["Aggressor"]!, forKey: "aggressor")
+            asam.setValue(retrievedAsam["Victim"]!, forKey: "victim")
+            asam.setValue(retrievedAsam["Description"]!, forKey: "desc")
+            asam.setValue(retrievedAsam["Latitude"]!, forKey: "latitude")
+            asam.setValue(retrievedAsam["Longitude"]!, forKey: "longitude")
+            asam.setValue((retrievedAsam["lat"]! as! String).doubleValue, forKey: "lat")
+            asam.setValue((retrievedAsam["lng"]! as! String).doubleValue, forKey: "lng")
+            asam.setValue((retrievedAsam["Subregion"]! as! String).toInt(), forKey: "subregion")
+            
+            let formatter = NSDateFormatter()
+            formatter.dateFormat = "MM/dd/yyyy"
+            var date = formatter.dateFromString(retrievedAsam["Date"] as! String)
+
+            asam.setValue(date, forKey: "date")
+            
+            saveContext(managedContext)
+        }
+    }
+    
+    
+    func saveContext(managedContext: NSManagedObjectContext) {
+        var error: NSError?
+        if !managedContext.save(&error) {
+            println("Could not save \(error), \(error?.userInfo)")
+        }
+    }
+    
     
     func getAsams(filterType: String)-> Array<Asam> {
         
@@ -35,6 +103,7 @@ class AsamModelFacade {
         
         return asams
     }
+    
     
     func getFilterPredicate(filterType: String) -> NSPredicate {
         
@@ -54,6 +123,7 @@ class AsamModelFacade {
         return filterPredicate
     }
     
+    
     func getBasicFilterPredicate() -> NSPredicate {
         var basicFilterPredicate = getDateIntervalPredicate()
         
@@ -67,6 +137,7 @@ class AsamModelFacade {
         
         return basicFilterPredicate
     }
+    
     
     func getAdvancedFilterPredicate() -> NSPredicate {
         var advancedFilterPredicate = getDatePredicate()
@@ -93,6 +164,7 @@ class AsamModelFacade {
         
         return advancedFilterPredicate
     }
+    
     
     func getDateIntervalPredicate() -> NSPredicate {
         
@@ -124,6 +196,7 @@ class AsamModelFacade {
         return intervalPredicate
         
     }
+    
     
     func getKeywordPredicate(keywordType: String) -> NSPredicate? {
         var keywordPredicate: NSPredicate? = nil
@@ -161,6 +234,7 @@ class AsamModelFacade {
             
             keywordPredicate = NSPredicate(format: keywordFormat, argumentArray: intervalValues)
         }
+        
         return keywordPredicate
     }
     
@@ -179,6 +253,7 @@ class AsamModelFacade {
         
         return currentSubregionPredicate
     }
+    
     
     func getDatePredicate() -> NSPredicate {
         var dateNames: [String] = []
@@ -233,6 +308,7 @@ class AsamModelFacade {
         return subregionPredicate
     }
     
+    
     func getRefNumPredicate() -> NSPredicate? {
         var refNumPredicate: NSPredicate? = nil
         
@@ -261,6 +337,7 @@ class AsamModelFacade {
         return refNumPredicate
     }
     
+    
     func getVictimPredicate() -> NSPredicate? {
         var victimPredicate: NSPredicate? = nil
         
@@ -273,6 +350,7 @@ class AsamModelFacade {
         return victimPredicate
     }
     
+    
     func getAggressorPredicate() -> NSPredicate? {
         var aggressorPredicate: NSPredicate? = nil
         
@@ -284,6 +362,7 @@ class AsamModelFacade {
         
         return aggressorPredicate
     }
+    
   
     func buildPredicateFormat(predicateType: String, names: [String]) -> String {
         var predicateFormat = String()
