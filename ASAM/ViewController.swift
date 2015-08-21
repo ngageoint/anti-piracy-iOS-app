@@ -32,24 +32,28 @@ class ViewController: UIViewController, AsamSelectDelegate, WebService {
             filterType = userDefaultFilterType
         }
         
-        var startDate = "20150425"
-        var endDate = "20150505"
-        
-        if filterType == Filter.ADVANCED_TYPE {
-            //TODO
-            
-        } else if filterType == Filter.BASIC_TYPE {
-            //TODO
-            
-        }
-        asamRetrieval.delegate = self
-        asamRetrieval.searchForAsams(startDate, endDate: endDate)
-        
         asamMapViewDelegate.asamSelectDelegate = self
-        
+
         //clustering
         asamMapViewDelegate.clusteringController = KPClusteringController(mapView: self.mapView)
         
+        //Display existing Asams
+        asams = retrieveAnnotations(filterType)
+        asamMapViewDelegate.clusteringController.setAnnotations(asams)
+
+        //temp vars while developing
+        var startDate = "19870821"
+        var endDate = "19870831"
+        
+        asamRetrieval.delegate = self
+        
+        if !asamMapViewDelegate.defaults.boolForKey(Application.FIRST_LAUNCH){
+            asamMapViewDelegate.setValue(true, forKey: Application.FIRST_LAUNCH)
+            asamRetrieval.searchAllAsams()
+        } else {
+            //last 6 months?
+            asamRetrieval.searchForAsams(startDate, endDate: endDate)
+        }
         configureMap()
         
     }
@@ -113,7 +117,7 @@ class ViewController: UIViewController, AsamSelectDelegate, WebService {
     
     
     func didReceiveResponse(results: NSArray) {
-        println("success!")
+        println("Success! Response was received.")
 
         model.populateEntity(results)
         

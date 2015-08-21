@@ -18,7 +18,19 @@ class AsamRetrieval: NSObject {
     var data: NSMutableData = NSMutableData()
     var delegate: WebService?
     
+    func searchAllAsams() {
+        
+        var urlPath = "http://msi.nga.mil/MSI_JWS/ASAM_JSON/getJSON"
+        var url: NSURL = NSURL(string: urlPath)!
+        var request: NSURLRequest = NSURLRequest(URL: url)
+        var connection: NSURLConnection = NSURLConnection(request: request, delegate: self, startImmediately: false)!
+        
+        println("Searching: \(url)")
+        
+        connection.start()
+    }
 
+    
     func searchForAsams(startDate: String, endDate: String) {
         
         //Dateformate yyyMMdd
@@ -45,17 +57,34 @@ class AsamRetrieval: NSObject {
     
     
     func connection(connection: NSURLConnection!, didReceiveData data: NSData!) {
-        self.data.appendData(data)
+        
+        //Perform data manipulation to remove tabs
+        var stringData = NSString(data: data!, encoding: NSUTF8StringEncoding)
+        let newString: NSString = stringData!.stringByReplacingOccurrencesOfString("\t", withString: " ")
+        
+        let utf8str = newString.dataUsingEncoding(NSUTF8StringEncoding)
+        
+        // fromRaw(0) is equivalent to objc 'base64EncodedStringWithOptions:0'
+        let base64Encoded = utf8str!.base64EncodedStringWithOptions(NSDataBase64EncodingOptions(rawValue: 0))
+        var newData = NSData(base64EncodedString: base64Encoded, options:   NSDataBase64DecodingOptions(rawValue: 0))
+        
+        self.data.appendData(newData!)
     }
     
     
     func connectionDidFinishLoading(connection: NSURLConnection!) {
-        var err: NSErrorPointer = nil
-        var jsonArray: NSArray = NSJSONSerialization.JSONObjectWithData(data, options:NSJSONReadingOptions.MutableContainers, error: err) as! NSArray
-        if err != nil {
-            println("Error: \(err.debugDescription)")
+        
+        var error:NSError? = nil
+        if let jsonObject: AnyObject = NSJSONSerialization.JSONObjectWithData(data, options: nil, error:&error) {
+            if let jsonArray = jsonObject as? NSArray {
+                delegate?.didReceiveResponse(jsonArray)
+            } else {
+                println("Not an Array")
+            }
+        } else {
+            println("Could not parse JSON: \(error!)")
         }
-        delegate?.didReceiveResponse(jsonArray)
+        
     }
 
 

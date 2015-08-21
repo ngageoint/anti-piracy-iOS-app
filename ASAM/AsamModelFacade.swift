@@ -13,28 +13,34 @@ import UIKit
 
 class AsamModelFacade {
 
-    var asams = [Asam]()
+    var filteredAsams = [Asam]()
     
     let AND_PREDICATE = " and "
     let OR_PREDICATE = " or "
+    let ASAM_ENTITY = "Asam"
     let dateFormatter = NSDateFormatter()
     let defaults = NSUserDefaults.standardUserDefaults()
     var allAsams: NSArray!
     
+    var managedContext: NSManagedObjectContext {
+        return (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext!
+    }
     
     func populateEntity(data: NSArray) {
         allAsams = data
         
+        //compare to whats stored
+        //add any new ones
+        
+        //doing clear and setup to bring in all asams for development
         clearEntity()
         setupEntity()
     }
     
     
     func clearEntity() {
-        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-        let managedContext = appDelegate.managedObjectContext!
-  
-        var request = NSFetchRequest(entityName: "Asam")
+
+        var request = NSFetchRequest(entityName: ASAM_ENTITY)
         request.returnsObjectsAsFaults = false
 
         var deleteRequest = managedContext.executeFetchRequest(request, error: nil)!
@@ -52,9 +58,7 @@ class AsamModelFacade {
     
     func setupEntity() {
 
-        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-        let managedContext = appDelegate.managedObjectContext!
-        let entity = NSEntityDescription.entityForName("Asam", inManagedObjectContext: managedContext)
+        let entity = NSEntityDescription.entityForName(ASAM_ENTITY, inManagedObjectContext: managedContext)
         
         for item in allAsams {
             let retrievedAsam = item as! NSDictionary
@@ -82,26 +86,35 @@ class AsamModelFacade {
     
     
     func saveContext(managedContext: NSManagedObjectContext) {
+        
         var error: NSError?
         if !managedContext.save(&error) {
-            println("Could not save \(error), \(error?.userInfo)")
+            logError("Could not save", error: error)
         }
     }
     
     
+    func logError(message: String, error: NSError?) {
+        
+        println(message + " \(error): \(error?.userInfo)")
+    }
+    
+    
     func getAsams(filterType: String)-> Array<Asam> {
-        
-        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-        let managedObjectContext = appDelegate.managedObjectContext!
-        // Create a new fetch request using the LogItem entity
-        let fetchRequest = NSFetchRequest(entityName: "Asam")
-        
+
+        let fetchRequest = NSFetchRequest(entityName: ASAM_ENTITY)
         fetchRequest.predicate = getFilterPredicate(filterType)
         
-        let fetchResults = managedObjectContext.executeFetchRequest(fetchRequest, error: nil) as? [Asam]
-        asams = fetchResults!
+        var error: NSError?
+        let fetchResults = managedContext.executeFetchRequest(fetchRequest, error: &error) as? [Asam]
         
-        return asams
+        if let results = fetchResults {
+            filteredAsams = fetchResults!
+        } else {
+            logError("Could not fetch", error: error)
+        }
+        
+        return filteredAsams
     }
     
     
@@ -260,7 +273,7 @@ class AsamModelFacade {
         var dateValues: [AnyObject] = []
         
         
-        if let userDefaultStartDate: NSDate = defaults.objectForKey("startDate") as? NSDate {
+        if let userDefaultStartDate: NSDate = defaults.objectForKey(Filter.Advanced.START_DATE) as? NSDate {
             dateNames.append("(date > %@)")
             dateValues.append(userDefaultStartDate)
         } else {
@@ -273,7 +286,7 @@ class AsamModelFacade {
             dateValues.append(approxOneYearAgo)
         }
         
-        if let userDefaultEndDate: NSDate = defaults.objectForKey("endDate") as? NSDate {
+        if let userDefaultEndDate: NSDate = defaults.objectForKey(Filter.Advanced.END_DATE) as? NSDate {
             dateNames.append("(date < %@)")
             dateValues.append(userDefaultEndDate)
         } else {

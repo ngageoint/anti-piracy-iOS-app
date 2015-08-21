@@ -47,3 +47,7 @@ struct MapView {
     static let LAT_DELTA = "mapViewLatitudeDelta"
     static let LON_DELTA = "mapViewLongitudeDelta"
 }
+
+struct Application {
+    static let FIRST_LAUNCH = "firstApplicationLaunch"
+}
