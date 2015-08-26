@@ -21,20 +21,19 @@ class AsamRetrieval: NSObject {
     func searchAllAsams() {
         
         var urlPath = "http://msi.nga.mil/MSI_JWS/ASAM_JSON/getJSON"
-        var url: NSURL = NSURL(string: urlPath)!
-        var request: NSURLRequest = NSURLRequest(URL: url)
-        var connection: NSURLConnection = NSURLConnection(request: request, delegate: self, startImmediately: false)!
-        
-        println("Searching: \(url)")
-        
-        connection.start()
+        searchAsams(urlPath)
     }
 
     
     func searchForAsams(startDate: String, endDate: String) {
         
-        //Dateformate yyyMMdd
+        //Dateformate yyyyMMdd
         var urlPath = "http://msi.nga.mil/MSI_JWS/ASAM_JSON/getJSON?typename=DateRange_AllRefNumbers&fromDate=" + startDate + "&toDate=" + endDate
+        searchAsams(urlPath)
+    }
+    
+    
+    func searchAsams(urlPath: String) {
         var url: NSURL = NSURL(string: urlPath)!
         var request: NSURLRequest = NSURLRequest(URL: url)
         var connection: NSURLConnection = NSURLConnection(request: request, delegate: self, startImmediately: false)!
@@ -58,11 +57,11 @@ class AsamRetrieval: NSObject {
     
     func connection(connection: NSURLConnection!, didReceiveData data: NSData!) {
         
-        //Perform data manipulation to remove tabs
+        //Perform data manipulation to remove extra whitespace
         var stringData = NSString(data: data!, encoding: NSUTF8StringEncoding)
-        let newString: NSString = stringData!.stringByReplacingOccurrencesOfString("\t", withString: " ")
-        
-        let utf8str = newString.dataUsingEncoding(NSUTF8StringEncoding)
+        let nonTrimData: NSString = stringData!.stringByReplacingOccurrencesOfString("[\\s+]", withString: "  ", options: NSStringCompareOptions.RegularExpressionSearch, range: NSRange(location: 0, length: stringData!.length))
+        let trimData: NSString = nonTrimData.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+        let utf8str = trimData.dataUsingEncoding(NSUTF8StringEncoding)
         
         // fromRaw(0) is equivalent to objc 'base64EncodedStringWithOptions:0'
         let base64Encoded = utf8str!.base64EncodedStringWithOptions(NSDataBase64EncodingOptions(rawValue: 0))
@@ -75,14 +74,18 @@ class AsamRetrieval: NSObject {
     func connectionDidFinishLoading(connection: NSURLConnection!) {
         
         var error:NSError? = nil
-        if let jsonObject: AnyObject = NSJSONSerialization.JSONObjectWithData(data, options: nil, error:&error) {
-            if let jsonArray = jsonObject as? NSArray {
-                delegate?.didReceiveResponse(jsonArray)
+        if data.length > 0 {
+            if let jsonObject: AnyObject = NSJSONSerialization.JSONObjectWithData(data, options: nil, error:&error) {
+                if let jsonArray = jsonObject as? NSArray {
+                    delegate?.didReceiveResponse(jsonArray)
+                } else {
+                    println("Not an Array")
+                }
             } else {
-                println("Not an Array")
+                println("Could not parse JSON: \(error!)")
             }
         } else {
-            println("Could not parse JSON: \(error!)")
+            println("No data returned")
         }
         
     }

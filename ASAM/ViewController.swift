@@ -41,19 +41,20 @@ class ViewController: UIViewController, AsamSelectDelegate, WebService {
         asams = retrieveAnnotations(filterType)
         asamMapViewDelegate.clusteringController.setAnnotations(asams)
 
-        //temp vars while developing
-        var startDate = "19870821"
-        var endDate = "19870831"
-        
         asamRetrieval.delegate = self
         
-        if !asamMapViewDelegate.defaults.boolForKey(Application.FIRST_LAUNCH){
-            asamMapViewDelegate.setValue(true, forKey: Application.FIRST_LAUNCH)
+        var firstLaunch = asamMapViewDelegate.defaults.boolForKey(AppSettings.FIRST_LAUNCH)
+        if !firstLaunch {
             asamRetrieval.searchAllAsams()
+            asamMapViewDelegate.defaults.setValue(true, forKey: AppSettings.FIRST_LAUNCH)
         } else {
-            //last 6 months?
+            let formatter = NSDateFormatter()
+            formatter.dateFormat = "yyyyMMdd" //ex: "20150221"
+            let startDate = formatter.stringFromDate(model.getLatestAsamDate())
+            let endDate = formatter.stringFromDate(NSDate())
             asamRetrieval.searchForAsams(startDate, endDate: endDate)
         }
+        
         configureMap()
         
     }

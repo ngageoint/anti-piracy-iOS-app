@@ -20,21 +20,25 @@ class AsamModelFacade {
     let ASAM_ENTITY = "Asam"
     let dateFormatter = NSDateFormatter()
     let defaults = NSUserDefaults.standardUserDefaults()
-    var allAsams: NSArray!
     
     var managedContext: NSManagedObjectContext {
         return (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext!
     }
     
-    func populateEntity(data: NSArray) {
-        allAsams = data
-        
+    
+    func populateEntity(newAsams: NSArray) {
+
+        if newAsams.count == 0 {
+            return
+        }
+
         //compare to whats stored
-        //add any new ones
+        var toAddAsams = removeDuplicates(newAsams)
+
+        if toAddAsams.count > 0 {
+            addAsams(toAddAsams)
+        }
         
-        //doing clear and setup to bring in all asams for development
-        clearEntity()
-        setupEntity()
     }
     
     
@@ -56,11 +60,11 @@ class AsamModelFacade {
     }
     
     
-    func setupEntity() {
+    func addAsams(addAsams: NSArray) {
 
         let entity = NSEntityDescription.entityForName(ASAM_ENTITY, inManagedObjectContext: managedContext)
         
-        for item in allAsams {
+        for item in addAsams {
             let retrievedAsam = item as! NSDictionary
             let asam = NSManagedObject(entity: entity!, insertIntoManagedObjectContext:managedContext)
             
@@ -100,6 +104,101 @@ class AsamModelFacade {
     }
     
     
+    func removeDuplicates(toCheckAsams: NSArray) -> [Asam] {
+        let fetchRequest = NSFetchRequest(entityName: ASAM_ENTITY)
+        let sortDescriptor = NSSortDescriptor(key: "reference", ascending: false)
+
+        var toAddAsams = NSMutableArray()
+
+        let sortedAsams = toCheckAsams.sortedArrayUsingComparator( { item1, item2 in
+            let ref1 = item1["Reference"] as! String
+            let ref2 = item2["Reference"] as! String
+            if  ref1 < ref2 {
+                return NSComparisonResult.OrderedDescending
+            } else if ref1 > ref2 {
+                return NSComparisonResult.OrderedAscending
+            } else {
+                return NSComparisonResult.OrderedSame
+            }
+        })
+        
+        var refNumToCheck = [String]()
+        for item in sortedAsams {
+            let refNum = item as! NSDictionary
+            if let ref = refNum["Reference"] as? String {
+                refNumToCheck.append(ref)
+            }
+        }
+        
+        fetchRequest.predicate = NSPredicate(format: "(reference IN %@)", refNumToCheck)
+        fetchRequest.sortDescriptors = [sortDescriptor]
+
+        var error: NSError?
+        var fetchResults = [Asam]()
+        fetchResults = (managedContext.executeFetchRequest(fetchRequest, error: &error) as? [Asam])!
+        println("Number of results: \(fetchResults.count)")
+        
+        if fetchResults.count > 0 {
+            var iterator = 0
+            if fetchResults.count <= sortedAsams.count {
+            for item in sortedAsams {
+                let anAsam = item as! NSDictionary
+                if (iterator < fetchResults.count) &&
+                    (anAsam["Reference"] as! String == fetchResults[iterator].reference) {
+                        iterator++
+                } else {
+                    toAddAsams.addObject(anAsam)
+                }
+            }
+            } else {
+                println("Error: Duplicates in the database, resetting values")
+                //Duplicates should not be allowed in the database, if any are found it was the result
+                //of an error. Clear out the database and reload all ASAMs
+                clearEntity()
+                defaults.setValue(false, forKey: AppSettings.FIRST_LAUNCH)
+                //TODO: App will need to get restarted to load ASAMs
+                //Might want to reload Asams here instead
+            }
+            
+        } else {
+            toAddAsams = toCheckAsams as! NSMutableArray
+        }
+        
+        return toAddAsams as NSArray as! [Asam]
+    }
+    
+    
+    func getLatestAsamDate() -> NSDate {
+        var latestDate: NSDate!
+        let fetchRequest = NSFetchRequest(entityName: ASAM_ENTITY)
+        let sortDescriptor = NSSortDescriptor(key: "date", ascending: false)
+
+        fetchRequest.sortDescriptors = [sortDescriptor]
+        let calendar = NSCalendar.currentCalendar()
+        
+        var error: NSError?
+        let fetchResults = managedContext.executeFetchRequest(fetchRequest, error: &error) as? [Asam]
+        
+        if let results = fetchResults {
+            if results.count > 0 {
+                var latestResults = fetchResults!
+                let latestAsam = latestResults[0]
+                let asamDate = calendar.startOfDayForDate(latestAsam.date)
+                //Set back 60 days to grab any Asams input late
+                latestDate = calendar.dateByAddingUnit(.CalendarUnitDay, value: -60, toDate: asamDate, options: nil)!
+            } else {
+                //Default to 1 year if no Asam found
+                let asamDate = calendar.startOfDayForDate(NSDate())
+                latestDate = calendar.dateByAddingUnit(.CalendarUnitYear, value: -1, toDate: asamDate, options: nil)!
+            }
+        } else {
+            logError("Could not fetch latest ASAM", error: error)
+        }
+        
+        return latestDate
+    }
+    
+    
     func getAsams(filterType: String)-> Array<Asam> {
 
         let fetchRequest = NSFetchRequest(entityName: ASAM_ENTITY)
@@ -111,7 +210,7 @@ class AsamModelFacade {
         if let results = fetchResults {
             filteredAsams = fetchResults!
         } else {
-            logError("Could not fetch", error: error)
+            logError("Could not fetch filtered ASAMs", error: error)
         }
         
         return filteredAsams
@@ -186,7 +285,7 @@ class AsamModelFacade {
             interval = userInterval
         }
         let calendar = NSCalendar.currentCalendar()
-        var today = calendar.startOfDayForDate(NSDate())
+        let today = calendar.startOfDayForDate(NSDate())
         
         //Default to 100 years, an approximate of ALL
         var intervalDate = calendar.dateByAddingUnit(.CalendarUnitYear, value: -100, toDate: today, options: nil)!
