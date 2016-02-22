@@ -22,7 +22,7 @@ class ViewController: UIViewController, AsamSelectDelegate, WebService {
     var model = AsamModelFacade()
     
     //Used for local testing, populates ~6.8K ASAMs
-    let asamJsonParser:AsamJsonParser = AsamJsonParser();
+    //let asamJsonParser:AsamJsonParser = AsamJsonParser();
 
     override func viewDidLoad() {
         
