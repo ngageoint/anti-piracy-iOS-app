@@ -101,7 +101,7 @@ class ListTableViewController: UITableViewController {
     override func prepareForSegue(segue: UIStoryboardSegue?, sender: AnyObject?) {
         if (segue?.identifier == "singleListAsamDetails") {
             let viewController: AsamDetailsViewController = segue!.destinationViewController as! AsamDetailsViewController
-            let path = self.tableView.indexPathForSelectedRow()!
+            let path = self.tableView.indexPathForSelectedRow!
             
             let selectedAsam = asams[path.row] as AsamAnnotation
             

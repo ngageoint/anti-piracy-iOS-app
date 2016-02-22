@@ -18,11 +18,11 @@ class AsamMapViewDelegate: NSObject, MKMapViewDelegate, KPClusteringControllerDe
     let offlineMap:OfflineMap = OfflineMap()
     
     //Offline Map Polygons
-    func mapView(mapView: MKMapView!, rendererForOverlay overlay: MKOverlay!) -> MKOverlayRenderer! {
+    func mapView(mapView: MKMapView, rendererForOverlay overlay: MKOverlay) -> MKOverlayRenderer {
         
         var polygonRenderer = MKPolygonRenderer(overlay: overlay);
         
-        if "ocean" == overlay.title {
+        if "ocean" == overlay.title! {
             polygonRenderer.fillColor = UIColor(red: 127/255.0, green: 153/255.0, blue: 171/255.0, alpha: 1.0)
             polygonRenderer.strokeColor = UIColor.clearColor()
             polygonRenderer.lineWidth = 0.0
@@ -37,7 +37,7 @@ class AsamMapViewDelegate: NSObject, MKMapViewDelegate, KPClusteringControllerDe
     }
 
     //Clustering Annotations
-    func mapView(mapView: MKMapView!, viewForAnnotation annotation: MKAnnotation!) -> MKAnnotationView! {
+    func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
         
         if annotation is MKUserLocation {
             // return nil so map view draws "blue dot" for standard user location
@@ -73,13 +73,13 @@ class AsamMapViewDelegate: NSObject, MKMapViewDelegate, KPClusteringControllerDe
                 
             }
             
-            annotationView!.canShowCallout = false;
+            annotationView!.canShowCallout = true;
         }
         
         return annotationView;
     }
 
-    func mapView(mapView: MKMapView!, regionDidChangeAnimated animated: Bool) {
+    func mapView(mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
         clusteringController.refresh(true)
         
         //persisting map center and span so that the map will return to this location.
@@ -88,14 +88,14 @@ class AsamMapViewDelegate: NSObject, MKMapViewDelegate, KPClusteringControllerDe
         defaults.setDouble(mapView.region.span.latitudeDelta, forKey: MapView.LAT_DELTA)
         defaults.setDouble(mapView.region.span.latitudeDelta, forKey: MapView.LON_DELTA)
         
-        println("Persisting Map Center (\(mapView.region.center.latitude)," +
+        print("Persisting Map Center (\(mapView.region.center.latitude)," +
             "\(mapView.region.center.longitude))");
-        println("Persisting Map Deltas (lat delta: \(mapView.region.span.latitudeDelta)," +
+        print("Persisting Map Deltas (lat delta: \(mapView.region.span.latitudeDelta)," +
             "lon delta:\(mapView.region.span.longitudeDelta))");
         
     }
     
-    func mapView(mapView: MKMapView!, didSelectAnnotationView view: MKAnnotationView!) {
+    func mapView(mapView: MKMapView, didSelectAnnotationView view: MKAnnotationView) {
         
         if view.annotation is KPAnnotation {
             let cluster : KPAnnotation = view.annotation as! KPAnnotation
@@ -110,6 +110,7 @@ class AsamMapViewDelegate: NSObject, MKMapViewDelegate, KPClusteringControllerDe
             else if cluster.annotations.count == 1 {
                 //drive to Asam Details page
                 asamSelectDelegate.asamSelected(cluster.annotations.first as! AsamAnnotation)
+                
             }
             
         }

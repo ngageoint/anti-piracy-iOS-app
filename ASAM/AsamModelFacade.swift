@@ -33,7 +33,7 @@ class AsamModelFacade {
         }
 
         //compare to whats stored
-        var toAddAsams = removeDuplicates(newAsams)
+        let toAddAsams = removeDuplicates(newAsams)
 
         if toAddAsams.count > 0 {
             addAsams(toAddAsams)
@@ -44,18 +44,22 @@ class AsamModelFacade {
     
     func clearEntity() {
 
-        var request = NSFetchRequest(entityName: ASAM_ENTITY)
+        let request = NSFetchRequest(entityName: ASAM_ENTITY)
         request.returnsObjectsAsFaults = false
-
-        var deleteRequest = managedContext.executeFetchRequest(request, error: nil)!
         
-        if deleteRequest.count > 0 {
+        do {
+            let deleteRequest = try managedContext.executeFetchRequest(request)
             
-            for result: AnyObject in deleteRequest {
-                managedContext.deleteObject(result as! NSManagedObject)
+            if deleteRequest.count > 0 {
+                
+                for result: AnyObject in deleteRequest {
+                    managedContext.deleteObject(result as! NSManagedObject)
+                }
+                
+                saveContext(managedContext)
             }
-            
-            saveContext(managedContext)
+        } catch _ {
+            //Do nothing
         }
     }
     
@@ -76,11 +80,11 @@ class AsamModelFacade {
             asam.setValue(retrievedAsam["Longitude"]!, forKey: "longitude")
             asam.setValue((retrievedAsam["lat"]! as! String).doubleValue, forKey: "lat")
             asam.setValue((retrievedAsam["lng"]! as! String).doubleValue, forKey: "lng")
-            asam.setValue((retrievedAsam["Subregion"]! as! String).toInt(), forKey: "subregion")
+            asam.setValue(Int((retrievedAsam["Subregion"]! as! String)), forKey: "subregion")
             
             let formatter = NSDateFormatter()
             formatter.dateFormat = "MM/dd/yyyy"
-            var date = formatter.dateFromString(retrievedAsam["Date"] as! String)
+            let date = formatter.dateFromString(retrievedAsam["Date"] as! String)
 
             asam.setValue(date, forKey: "date")
             
@@ -91,8 +95,9 @@ class AsamModelFacade {
     
     func saveContext(managedContext: NSManagedObjectContext) {
         
-        var error: NSError?
-        if !managedContext.save(&error) {
+        do {
+            try managedContext.save()
+        } catch let error as NSError {
             logError("Could not save", error: error)
         }
     }
@@ -100,7 +105,7 @@ class AsamModelFacade {
     
     func logError(message: String, error: NSError?) {
         
-        println(message + " \(error): \(error?.userInfo)")
+        print(message + " \(error): \(error?.userInfo)")
     }
     
     
@@ -133,10 +138,14 @@ class AsamModelFacade {
         fetchRequest.predicate = NSPredicate(format: "(reference IN %@)", refNumToCheck)
         fetchRequest.sortDescriptors = [sortDescriptor]
 
-        var error: NSError?
+        //var error: NSError?
         var fetchResults = [Asam]()
-        fetchResults = (managedContext.executeFetchRequest(fetchRequest, error: &error) as? [Asam])!
-        println("Number of results: \(fetchResults.count)")
+        do {
+            try fetchResults = (managedContext.executeFetchRequest(fetchRequest) as? [Asam])!
+        } catch _ {
+            //No results returned.
+        }
+        print("Number of results: \(fetchResults.count)")
         
         if fetchResults.count > 0 {
             var iterator = 0
@@ -151,7 +160,7 @@ class AsamModelFacade {
                 }
             }
             } else {
-                println("Error: Duplicates in the database, resetting values")
+                print("Error: Duplicates in the database, resetting values")
                 //Duplicates should not be allowed in the database, if any are found it was the result
                 //of an error. Clear out the database and reload all ASAMs
                 clearEntity()
@@ -176,25 +185,28 @@ class AsamModelFacade {
         fetchRequest.sortDescriptors = [sortDescriptor]
         let calendar = NSCalendar.currentCalendar()
         
-        var error: NSError?
-        let fetchResults = managedContext.executeFetchRequest(fetchRequest, error: &error) as? [Asam]
-        
-        if let results = fetchResults {
-            if results.count > 0 {
-                var latestResults = fetchResults!
-                let latestAsam = latestResults[0]
-                let asamDate = calendar.startOfDayForDate(latestAsam.date)
-                //Set back 60 days to grab any Asams input late
-                latestDate = calendar.dateByAddingUnit(.CalendarUnitDay, value: -60, toDate: asamDate, options: nil)!
+        let error: NSError? = nil
+        do {
+            let fetchResults = try managedContext.executeFetchRequest(fetchRequest) as? [Asam]
+            
+            if let results = fetchResults {
+                if results.count > 0 {
+                    var latestResults = fetchResults!
+                    let latestAsam = latestResults[0]
+                    let asamDate = calendar.startOfDayForDate(latestAsam.date)
+                    //Set back 60 days to grab any Asams input late
+                    latestDate = calendar.dateByAddingUnit(.Day, value: -60, toDate: asamDate, options: [])!
+                } else {
+                    //Default to 1 year if no Asam found
+                    let asamDate = calendar.startOfDayForDate(NSDate())
+                    latestDate = calendar.dateByAddingUnit(.Year, value: -1, toDate: asamDate, options: [])!
+                }
             } else {
-                //Default to 1 year if no Asam found
-                let asamDate = calendar.startOfDayForDate(NSDate())
-                latestDate = calendar.dateByAddingUnit(.CalendarUnitYear, value: -1, toDate: asamDate, options: nil)!
+                logError("Could not fetch latest ASAM", error: error)
             }
-        } else {
-            logError("Could not fetch latest ASAM", error: error)
+        } catch _ {
+            //No results returned.
         }
-        
         return latestDate
     }
     
@@ -204,15 +216,19 @@ class AsamModelFacade {
         let fetchRequest = NSFetchRequest(entityName: ASAM_ENTITY)
         fetchRequest.predicate = getFilterPredicate(filterType)
         
-        var error: NSError?
-        let fetchResults = managedContext.executeFetchRequest(fetchRequest, error: &error) as? [Asam]
-        
-        if let results = fetchResults {
-            filteredAsams = fetchResults!
-        } else {
-            logError("Could not fetch filtered ASAMs", error: error)
+        let error: NSError? = nil
+        do {
+            let fetchResults = try managedContext.executeFetchRequest(fetchRequest) as? [Asam]
+            
+            if let _ = fetchResults {
+                filteredAsams = fetchResults!
+            } else {
+                logError("Could not fetch filtered ASAMs", error: error)
+            }
+            
+        } catch _ {
+            //No results returned.
         }
-        
         return filteredAsams
     }
     
@@ -288,17 +304,17 @@ class AsamModelFacade {
         let today = calendar.startOfDayForDate(NSDate())
         
         //Default to 100 years, an approximate of ALL
-        var intervalDate = calendar.dateByAddingUnit(.CalendarUnitYear, value: -100, toDate: today, options: nil)!
+        var intervalDate = calendar.dateByAddingUnit(.Year, value: -100, toDate: today, options: [])!
         
         switch interval {
         case DateInterval.DAYS_30:
-            intervalDate = calendar.dateByAddingUnit(.CalendarUnitDay, value: -30, toDate: today, options: nil)!
+            intervalDate = calendar.dateByAddingUnit(.Day, value: -30, toDate: today, options: [])!
         case DateInterval.DAYS_60:
-            intervalDate = calendar.dateByAddingUnit(.CalendarUnitDay, value: -60, toDate: today, options: nil)!
+            intervalDate = calendar.dateByAddingUnit(.Day, value: -60, toDate: today, options: [])!
         case DateInterval.DAYS_120:
-            intervalDate = calendar.dateByAddingUnit(.CalendarUnitDay, value: -120, toDate: today, options: nil)!
+            intervalDate = calendar.dateByAddingUnit(.Day, value: -120, toDate: today, options: [])!
         case DateInterval.YEARS_1:
-            intervalDate = calendar.dateByAddingUnit(.CalendarUnitYear, value: -1, toDate: today, options: nil)!
+            intervalDate = calendar.dateByAddingUnit(.Year, value: -1, toDate: today, options: [])!
         default:
             break
         }
@@ -377,9 +393,9 @@ class AsamModelFacade {
             dateValues.append(userDefaultStartDate)
         } else {
             let calendar = NSCalendar.currentCalendar()
-            var today = calendar.startOfDayForDate(NSDate())
+            let today = calendar.startOfDayForDate(NSDate())
 
-            var approxOneYearAgo = calendar.dateByAddingUnit(.CalendarUnitYear, value: -1, toDate: today, options: nil)!
+            let approxOneYearAgo = calendar.dateByAddingUnit(.Year, value: -1, toDate: today, options: [])!
                 
             dateNames.append("(date > %@)")
             dateValues.append(approxOneYearAgo)

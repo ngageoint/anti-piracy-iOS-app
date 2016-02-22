@@ -56,12 +56,12 @@ class AsamDetailsViewController: UIViewController, AsamSelectDelegate {
         }
         
         //build map center from passed in ASAM
-        var mapCenterLatitude:  Double = asam?.lat as! Double
-        var mapCenterLongitude: Double = asam?.lng as! Double
+        let mapCenterLatitude:  Double = asam?.lat as! Double
+        let mapCenterLongitude: Double = asam?.lng as! Double
         
-        var mapSpan = MKCoordinateSpanMake(MAP_SPAN_DELTA, MAP_SPAN_DELTA)
-        var mapCenter = CLLocationCoordinate2DMake(mapCenterLatitude, mapCenterLongitude)
-        var mapRegion =  MKCoordinateRegionMake(mapCenter, mapSpan)
+        let mapSpan = MKCoordinateSpanMake(MAP_SPAN_DELTA, MAP_SPAN_DELTA)
+        let mapCenter = CLLocationCoordinate2DMake(mapCenterLatitude, mapCenterLongitude)
+        let mapRegion =  MKCoordinateRegionMake(mapCenter, mapSpan)
         
         self.mapView.region = mapRegion
       
@@ -72,8 +72,8 @@ class AsamDetailsViewController: UIViewController, AsamSelectDelegate {
         
         
         // Drop a pin
-        var newLocation = CLLocationCoordinate2DMake(asam?.lat as! Double, asam?.lng as! Double)
-        var dropPin = AsamAnnotation(coordinate: newLocation, asam: asam!)
+        let newLocation = CLLocationCoordinate2DMake(asam?.lat as! Double, asam?.lng as! Double)
+        let dropPin = AsamAnnotation(coordinate: newLocation, asam: asam!)
         
         asamMapViewDelegate.clusteringController.setAnnotations([dropPin])
         

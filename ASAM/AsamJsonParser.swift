@@ -50,19 +50,20 @@ class AsamJsonParser : JsonParser {
             asam.setValue((obj["lng"]! as! String).doubleValue, forKey: "lng")
             
             //integers
-            asam.setValue((obj["Subregion"]! as! String).toInt(), forKey: "subregion")
+            asam.setValue(Int((obj["Subregion"]! as! String)), forKey: "subregion")
             
             //dates
             let formatter = NSDateFormatter()
             formatter.dateFormat = "MM/dd/yyyy"
-            var date = formatter.dateFromString(obj["Date"] as! String)
-            println(date)
+            let date = formatter.dateFromString(obj["Date"] as! String)
+            print(date)
             asam.setValue(date, forKey: "date")
             
             //4
-            var error: NSError?
-            if !managedContext.save(&error) {
-                println("Could not save \(error), \(error?.userInfo)")
+            do {
+                try managedContext.save()
+            } catch let error as NSError {
+                print("Could not save \(error), \(error.userInfo)")
             }  
             //5
             asams.append(asam)

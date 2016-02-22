@@ -21,11 +21,11 @@ class CurrentSubregion: NSObject {
         }
 
         for polygon in subregionPolygons.polygons {
-            var pathRef: CGMutablePathRef = CGPathCreateMutable()
+            let pathRef: CGMutablePathRef = CGPathCreateMutable()
             let polygonPoints = polygon.points()
             
             for var count = 0; count < polygon.pointCount; count++ {
-                var mp: MKMapPoint = polygonPoints[count]
+                let mp: MKMapPoint = polygonPoints[count]
                 if count == 0 {
                     CGPathMoveToPoint(pathRef, nil, CGFloat(mp.x), CGFloat(mp.y))
                 } else {
@@ -36,11 +36,11 @@ class CurrentSubregion: NSObject {
             let mapPoint: MKMapPoint  = MKMapPointForCoordinate(mapCoordinate);
             let mapPointAsCGP: CGPoint = CGPointMake(CGFloat(mapPoint.x), CGFloat(mapPoint.y))
             
-            var pointIsInPolygon: Bool = CGPathContainsPoint(pathRef, nil, mapPointAsCGP, false)
+            let pointIsInPolygon: Bool = CGPathContainsPoint(pathRef, nil, mapPointAsCGP, false)
             
             if pointIsInPolygon {
-                currentSubregion = polygon.title
-                println("Point found in region: \(polygon.title)")
+                currentSubregion = polygon.title!
+                print("Point found in region: \(polygon.title)")
                 break
             }
         }

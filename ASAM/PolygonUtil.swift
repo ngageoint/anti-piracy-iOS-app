@@ -28,7 +28,7 @@ class PolygonUtil {
         var i = 0
         var j = verty.count-1
         var c:Bool = false
-        var nvert = vertx.count
+        let nvert = vertx.count
         
         while i < nvert {
             if (verty[i]>testy) != (verty[j]>testy) {

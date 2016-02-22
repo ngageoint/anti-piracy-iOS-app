@@ -16,16 +16,20 @@ class OfflineMap {
     
     init()
     {
-        var geoJson: NSDictionary = self.generateDictionaryFromGeoJson()
-        var features: NSArray = geoJson["features"] as! NSArray
+        let geoJson: NSDictionary = self.generateDictionaryFromGeoJson()
+        let features: NSArray = geoJson["features"] as! NSArray
         generateExteriorPolygons(features)
     }
     
     func generateDictionaryFromGeoJson() -> NSDictionary
     {
+        var jsonDict: NSDictionary = ["empty":"empty"]
         let fileContent = NSData(contentsOfFile: path!)
-        var error: NSError?
-        var jsonDict: NSDictionary = NSJSONSerialization.JSONObjectWithData(fileContent!, options: NSJSONReadingOptions.MutableContainers, error: &error) as! NSDictionary
+        do {
+            jsonDict = (try NSJSONSerialization.JSONObjectWithData(fileContent!, options: NSJSONReadingOptions.MutableContainers)) as! NSDictionary
+        } catch _ {
+            //Do nothing
+        }
         return jsonDict
     }
     
@@ -45,8 +49,8 @@ class OfflineMap {
             CLLocationCoordinate2DMake(-90.0, 0)
         ]
         
-        var ocean1 = MKPolygon(coordinates: &ocean1Coordinates, count: ocean1Coordinates.count)
-        var ocean2 = MKPolygon(coordinates: &ocean2Coordinates, count: ocean2Coordinates.count)
+        let ocean1 = MKPolygon(coordinates: &ocean1Coordinates, count: ocean1Coordinates.count)
+        let ocean2 = MKPolygon(coordinates: &ocean2Coordinates, count: ocean2Coordinates.count)
         
         ocean1.title = "ocean"
         ocean2.title = "ocean"
@@ -58,14 +62,14 @@ class OfflineMap {
         for feature in features
         {
             
-            var geometry = feature["geometry"] as! NSDictionary
-            var geometryType = geometry["type"]! as! String
+            let geometry = feature["geometry"] as! NSDictionary
+            let geometryType = geometry["type"]! as! String
             
             if "MultiPolygon" == geometryType {
-                var subPolygons = geometry["coordinates"] as! NSArray
+                let subPolygons = geometry["coordinates"] as! NSArray
                 for subPolygon in subPolygons
                 {
-                    var subPolygon = generatePolygon(subPolygon as! NSArray)
+                    let subPolygon = generatePolygon(subPolygon as! NSArray)
                     polygons.append(subPolygon)
                 }
                 
@@ -77,19 +81,19 @@ class OfflineMap {
     
     func generatePolygon(coordinates: NSArray) -> MKPolygon {
         
-        var exteriorPolygonCoordinates = coordinates[0] as! NSArray;
+        let exteriorPolygonCoordinates = coordinates[0] as! NSArray;
         var exteriorCoordinates: [CLLocationCoordinate2D] = [];
         
         //build out Array of coordinates
         for coordinate in exteriorPolygonCoordinates {
-            var y = coordinate[0] as! Double;
-            var x = coordinate[1] as! Double;
-            var exteriorCoordinate = CLLocationCoordinate2DMake(x, y);
+            let y = coordinate[0] as! Double;
+            let x = coordinate[1] as! Double;
+            let exteriorCoordinate = CLLocationCoordinate2DMake(x, y);
             exteriorCoordinates.append(exteriorCoordinate)
         }
         
         //build Polygon
-        var exteriorPolygon = MKPolygon(coordinates: &exteriorCoordinates, count: exteriorCoordinates.count)
+        let exteriorPolygon = MKPolygon(coordinates: &exteriorCoordinates, count: exteriorCoordinates.count)
         exteriorPolygon.title = "land"
         
         return exteriorPolygon

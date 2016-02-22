@@ -52,7 +52,7 @@ class AdvFilterViewController: SubregionDisplayViewController {
     }
     
     @IBAction func selectStartDate(sender: UITextField) {
-        var datePickerView  : UIDatePicker = UIDatePicker()
+        let datePickerView  : UIDatePicker = UIDatePicker()
         datePickerView.datePickerMode = UIDatePickerMode.Date
         
         
@@ -76,7 +76,7 @@ class AdvFilterViewController: SubregionDisplayViewController {
     
     @IBAction func selectEndDate(sender: UITextField) {
         
-        var datePickerView  : UIDatePicker = UIDatePicker()
+        let datePickerView  : UIDatePicker = UIDatePicker()
         datePickerView.datePickerMode = UIDatePickerMode.Date
         
         //set date picker if user default exists
@@ -99,15 +99,15 @@ class AdvFilterViewController: SubregionDisplayViewController {
     
     func checkDateRange() {
         
-        let date1 = dateFormatter.dateFromString(startDate.text)
-        let date2 =   dateFormatter.dateFromString(endDate.text)
+        let date1 = dateFormatter.dateFromString(startDate.text!)
+        let date2 = dateFormatter.dateFromString(endDate.text!)
         
         if date1?.compare(date2!) == NSComparisonResult.OrderedDescending {
-            println("Date Range Invalid")
+            print("Date Range Invalid")
             errorTextDateRange.hidden = false
         }
         else {
-            println("Date Range Valid")
+            print("Date Range Valid")
             errorTextDateRange.hidden = true
         }
         
@@ -124,7 +124,7 @@ class AdvFilterViewController: SubregionDisplayViewController {
         }
 
         if let userDefaultEndDate: NSDate = defaults.objectForKey(Filter.Advanced.END_DATE) as? NSDate {
-            println(userDefaultEndDate)
+            print(userDefaultEndDate)
             endDate.text = dateFormatter.stringFromDate(userDefaultEndDate)
         }
 
@@ -164,11 +164,11 @@ class AdvFilterViewController: SubregionDisplayViewController {
             defaults.setObject(Filter.ADVANCED_TYPE, forKey: Filter.FILTER_TYPE)
             filterType = Filter.ADVANCED_TYPE
         }
-        defaults.setObject(dateFormatter.dateFromString(startDate.text), forKey: Filter.Advanced.START_DATE)
-        defaults.setObject(dateFormatter.dateFromString(endDate.text), forKey: Filter.Advanced.END_DATE)
+        defaults.setObject(dateFormatter.dateFromString(startDate.text!), forKey: Filter.Advanced.START_DATE)
+        defaults.setObject(dateFormatter.dateFromString(endDate.text!), forKey: Filter.Advanced.END_DATE)
         defaults.setObject(keyword.text, forKey: Filter.Advanced.KEYWORD)
         defaults.setObject(selectedRegions, forKey: Filter.Advanced.SELECTED_REGION)
-        defaults.setObject(refNumStart.text + Filter.Advanced.REF_SEPARATER + refNumEnd.text, forKey: Filter.Advanced.REFERENCE_NUM)
+        defaults.setObject(refNumStart.text! + Filter.Advanced.REF_SEPARATER + refNumEnd.text!, forKey: Filter.Advanced.REFERENCE_NUM)
         defaults.setObject(victim.text, forKey: Filter.Advanced.VICTIM)
         defaults.setObject(aggressor.text, forKey: Filter.Advanced.AGGRESSOR)
     }
@@ -177,7 +177,7 @@ class AdvFilterViewController: SubregionDisplayViewController {
         var isCleared = false;
         let calendar = NSCalendar.currentCalendar()
         let today = calendar.startOfDayForDate(NSDate())
-        let approxOneYearAgo = calendar.dateByAddingUnit(.CalendarUnitYear, value: -1, toDate: today, options: nil)!
+        let approxOneYearAgo = calendar.dateByAddingUnit(.Year, value: -1, toDate: today, options: [])!
         
         dateFormatter.dateStyle = .ShortStyle
         
@@ -206,7 +206,7 @@ class AdvFilterViewController: SubregionDisplayViewController {
     func advancedDefaults() {
         let calendar = NSCalendar.currentCalendar()
         let today = calendar.startOfDayForDate(NSDate())
-        let approxOneYearAgo = calendar.dateByAddingUnit(.CalendarUnitYear, value: -1, toDate: today, options: nil)!
+        let approxOneYearAgo = calendar.dateByAddingUnit(.Year, value: -1, toDate: today, options: [])!
         
         dateFormatter.dateStyle = .ShortStyle
         
@@ -228,7 +228,7 @@ class AdvFilterViewController: SubregionDisplayViewController {
             saveAdvancedFilter()
         } else if (segue?.identifier == "changeSubregions") {
             let viewController: SubregionViewController = segue!.destinationViewController as! SubregionViewController
-            viewController.regions = regions.text
+            viewController.regions = regions.text!
             viewController.selectedRegions = selectedRegions
         }
     }

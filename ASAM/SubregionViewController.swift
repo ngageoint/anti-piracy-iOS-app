@@ -28,8 +28,8 @@ class SubregionViewController: SubregionDisplayViewController, MKMapViewDelegate
         for polygon in mapView.overlays as! [MKPolygon] {
             let renderer:MKPolygonRenderer = self.mapView.rendererForOverlay(polygon) as! MKPolygonRenderer
             
-            if contains(selectedRegions, polygon.title) {
-                selectedRegions.removeAtIndex(find(selectedRegions, polygon.title)!)
+            if selectedRegions.contains(polygon.title!) {
+                selectedRegions.removeAtIndex(selectedRegions.indexOf(polygon.title!)!)
             }
             
             renderer.fillColor = unselectedColor
@@ -48,18 +48,18 @@ class SubregionViewController: SubregionDisplayViewController, MKMapViewDelegate
         let subregionsMap:SubregionMap = SubregionMap();
         self.mapView.addOverlays(subregionsMap.polygons)
         
-        var tapGesture = UITapGestureRecognizer(target: self, action: "action:")
+        let tapGesture = UITapGestureRecognizer(target: self, action: "action:")
         mapView.addGestureRecognizer(tapGesture)
     }
     
     //Offline Map Polygons
-    func mapView(mapView: MKMapView!, rendererForOverlay overlay: MKOverlay!) -> MKOverlayRenderer! {
+    func mapView(mapView: MKMapView, rendererForOverlay overlay: MKOverlay) -> MKOverlayRenderer {
         
-        var polygonRenderer = MKPolygonRenderer(overlay: overlay);
+        let polygonRenderer = MKPolygonRenderer(overlay: overlay);
 
         if let title = overlay.title {
             
-            if contains(selectedRegions,overlay.title!)  {
+            if selectedRegions.contains(title!)  {
                 polygonRenderer.fillColor = selectedColor
             }
             else {
@@ -74,10 +74,10 @@ class SubregionViewController: SubregionDisplayViewController, MKMapViewDelegate
     func action(gestureRecognizer:UIGestureRecognizer) {
 
         //where did the user click
-        var touchPoint = gestureRecognizer.locationInView(self.mapView)
-        var tapCoordinate:CLLocationCoordinate2D = mapView.convertPoint(touchPoint, toCoordinateFromView: self.mapView)
-        var point = MKMapPointForCoordinate(tapCoordinate)
-        var mapRect = MKMapRectMake(point.x, point.y, 0, 0);
+        let touchPoint = gestureRecognizer.locationInView(self.mapView)
+        let tapCoordinate:CLLocationCoordinate2D = mapView.convertPoint(touchPoint, toCoordinateFromView: self.mapView)
+        let point = MKMapPointForCoordinate(tapCoordinate)
+        let mapRect = MKMapRectMake(point.x, point.y, 0, 0);
         
         //check overlays to see if polygon was pressed.
         for polygon in mapView.overlays as! [MKPolygon] {
@@ -89,12 +89,12 @@ class SubregionViewController: SubregionDisplayViewController, MKMapViewDelegate
                 if polygonUtil.isPointInPolygon(polygon, point: point) {
 
                     let renderer:MKPolygonRenderer = self.mapView.rendererForOverlay(polygon) as! MKPolygonRenderer
-                    if contains(selectedRegions, polygon.title) {
-                        selectedRegions.removeAtIndex(find(selectedRegions, polygon.title)!)
+                    if selectedRegions.contains(polygon.title!) {
+                        selectedRegions.removeAtIndex(selectedRegions.indexOf(polygon.title!)!)
                         renderer.fillColor = unselectedColor
                     }
                     else {
-                        selectedRegions.append(polygon.title)
+                        selectedRegions.append(polygon.title!)
                         renderer.fillColor = selectedColor
 
                     }
@@ -102,9 +102,9 @@ class SubregionViewController: SubregionDisplayViewController, MKMapViewDelegate
                     renderer.lineWidth = 1.0
                     renderer.setNeedsDisplay()
                     
-                    sort(&selectedRegions)
+                    selectedRegions.sortInPlace()
                     populateRegionText(selectedRegions, textView: regionsText)
-                    regions = regionsText.text
+                    regions = regionsText.text!
                 }
 
             }

@@ -22,7 +22,7 @@ class ViewController: UIViewController, AsamSelectDelegate, WebService {
     var model = AsamModelFacade()
     
     //Used for local testing, populates ~6.8K ASAMs
-    //let asamJsonParser:AsamJsonParser = AsamJsonParser();
+    let asamJsonParser:AsamJsonParser = AsamJsonParser();
 
     override func viewDidLoad() {
         
@@ -43,7 +43,7 @@ class ViewController: UIViewController, AsamSelectDelegate, WebService {
 
         asamRetrieval.delegate = self
         
-        var firstLaunch = asamMapViewDelegate.defaults.boolForKey(AppSettings.FIRST_LAUNCH)
+        let firstLaunch = asamMapViewDelegate.defaults.boolForKey(AppSettings.FIRST_LAUNCH)
         if !firstLaunch {
             asamRetrieval.searchAllAsams()
             asamMapViewDelegate.defaults.setValue(true, forKey: AppSettings.FIRST_LAUNCH)
@@ -82,14 +82,14 @@ class ViewController: UIViewController, AsamSelectDelegate, WebService {
         if mapSpanLongitudeDelta == 0 {
             mapSpanLongitudeDelta = 50.0
         }
-        println("Retrieving Map Center (\(mapCenterLatitude)," +
+        print("Retrieving Map Center (\(mapCenterLatitude)," +
             "\(mapCenterLongitude))");
-        println("Retrieving Map Deltas (lat delta: \(mapSpanLatitudeDelta)," +
+        print("Retrieving Map Deltas (lat delta: \(mapSpanLatitudeDelta)," +
             "lon delta:\(mapSpanLongitudeDelta))");
         
-        var mapSpan = MKCoordinateSpanMake(mapSpanLatitudeDelta, mapSpanLongitudeDelta)
-        var mapCenter = CLLocationCoordinate2DMake(mapCenterLatitude, mapCenterLongitude)
-        var mapRegion =  MKCoordinateRegionMake(mapCenter, mapSpan)
+        let mapSpan = MKCoordinateSpanMake(mapSpanLatitudeDelta, mapSpanLongitudeDelta)
+        let mapCenter = CLLocationCoordinate2DMake(mapCenterLatitude, mapCenterLongitude)
+        let mapRegion =  MKCoordinateRegionMake(mapCenter, mapSpan)
         
         self.mapView.region = mapRegion
         
@@ -118,7 +118,7 @@ class ViewController: UIViewController, AsamSelectDelegate, WebService {
     
     
     func didReceiveResponse(results: NSArray) {
-        println("Success! Response was received.")
+        print("Success! Response was received.")
 
         model.populateEntity(results)
         
@@ -135,8 +135,8 @@ class ViewController: UIViewController, AsamSelectDelegate, WebService {
         let filteredAsams = model.getAsams(filterType)
         for asam in filteredAsams {
             // Drop a pin
-            var newLocation = CLLocationCoordinate2DMake(asam.lat as Double, asam.lng as Double)
-            var dropPin = AsamAnnotation(coordinate: newLocation, asam: asam)
+            let newLocation = CLLocationCoordinate2DMake(asam.lat as Double, asam.lng as Double)
+            let dropPin = AsamAnnotation(coordinate: newLocation, asam: asam)
             annotations.append(dropPin)
         }
         
@@ -157,26 +157,26 @@ class ViewController: UIViewController, AsamSelectDelegate, WebService {
         
         // Action Sheet Options
         let standardMapAction = UIAlertAction(title: "Standard", style: .Default, handler: {
-            (alert: UIAlertAction!) -> Void in
+            (alert: UIAlertAction) -> Void in
             self.mapView.mapType = MKMapType.Standard
             self.mapView.removeOverlays(self.asamMapViewDelegate.offlineMap.polygons)
             self.asamMapViewDelegate.defaults.setObject("Standard", forKey: MapView.MAP_TYPE)
         })
         let satelliteMapAction = UIAlertAction(title: "Satellite", style: .Default, handler: {
-            (alert: UIAlertAction!) -> Void in
+            (alert: UIAlertAction) -> Void in
             self.mapView.mapType = MKMapType.Satellite
             self.mapView.removeOverlays(self.asamMapViewDelegate.offlineMap.polygons)
             self.asamMapViewDelegate.defaults.setObject("Satellite", forKey: MapView.MAP_TYPE)
 
         })
         let hybridMapAction = UIAlertAction(title: "Hybrid", style: .Default, handler: {
-            (alert: UIAlertAction!) -> Void in
+            (alert: UIAlertAction) -> Void in
             self.mapView.mapType = MKMapType.Hybrid
             self.mapView.removeOverlays(self.asamMapViewDelegate.offlineMap.polygons)
             self.asamMapViewDelegate.defaults.setObject("Hybrid", forKey: MapView.MAP_TYPE)
         })
         let offlineMapAction = UIAlertAction(title: "Offline", style: .Default, handler: {
-            (alert: UIAlertAction!) -> Void in
+            (alert: UIAlertAction) -> Void in
             self.mapView.mapType = MKMapType.Standard
             self.mapView.addOverlays(self.asamMapViewDelegate.offlineMap.polygons)
             self.asamMapViewDelegate.defaults.setObject("Offline", forKey: MapView.MAP_TYPE)
@@ -184,8 +184,8 @@ class ViewController: UIViewController, AsamSelectDelegate, WebService {
         
         // Action Sheet Cancel
         let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel, handler: {
-            (alert: UIAlertAction!) -> Void in
-            println("Cancelled")
+            (alert: UIAlertAction) -> Void in
+            print("Cancelled")
         })
         
         // Build Menu
@@ -233,7 +233,7 @@ class ViewController: UIViewController, AsamSelectDelegate, WebService {
     
     
     @IBAction func applyFilters(segue:UIStoryboardSegue) {
-        if let mapViewController = segue.sourceViewController as? FilterViewController {
+        if segue.sourceViewController.isKindOfClass(FilterViewController) {
             filterType = Filter.BASIC_TYPE
         }
         if let mapViewController = segue.sourceViewController as? AdvFilterViewController {

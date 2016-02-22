@@ -13,7 +13,7 @@ class JsonParser {
     func generateDictionaryFromJson(path: String) -> AnyObject
     {
         let fileContent = NSData(contentsOfFile: path)
-        var jsonDict: AnyObject? = NSJSONSerialization.JSONObjectWithData(fileContent!, options: nil, error: nil)
+        let jsonDict: AnyObject? = try? NSJSONSerialization.JSONObjectWithData(fileContent!, options: [])
         return jsonDict!
     }
     

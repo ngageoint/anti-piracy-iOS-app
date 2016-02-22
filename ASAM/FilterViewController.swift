@@ -164,7 +164,7 @@ class FilterViewController: SubregionDisplayViewController, UIPickerViewDelegate
 
     //MARK: Delegates
     
-    func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String! {
+    func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         return pickerData[row]
     }
     
@@ -211,13 +211,13 @@ class FilterViewController: SubregionDisplayViewController, UIPickerViewDelegate
 
     //MARK: Location Delegates
     
-    func locationManager(manager: CLLocationManager!, didFailWithError error: NSError!) {
+    func locationManager(manager: CLLocationManager, didFailWithError error: NSError) {
         locationManager.stopUpdatingLocation()
-        println("Error while updating location " + error.localizedDescription)
+        print("Error while updating location " + error.localizedDescription)
     }
 
     
-    func locationManager(manager: CLLocationManager!, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
+    func locationManager(manager: CLLocationManager, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
 
         if status == .NotDetermined {
             isInitialAuthorizationCheck = true
@@ -236,10 +236,10 @@ class FilterViewController: SubregionDisplayViewController, UIPickerViewDelegate
     }
 
     
-    func locationManager(manager: CLLocationManager!, didUpdateLocations locations: [AnyObject]!) {
+    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if (locationFixAchieved == false) {
             locationFixAchieved = true
-            var locationArray = locations as NSArray
+            let locationArray = locations as NSArray
             currentLocation = locationArray.lastObject as? CLLocation
             //Found a location, stop updating
             locationManager.stopUpdatingLocation()
