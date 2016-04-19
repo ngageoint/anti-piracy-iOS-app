@@ -63,7 +63,7 @@ class AdvFilterViewController: SubregionDisplayViewController {
         }
         
         sender.inputView = datePickerView
-        datePickerView.addTarget(self, action: Selector("handleStartDatePicker:"), forControlEvents: UIControlEvents.ValueChanged)
+        datePickerView.addTarget(self, action: #selector(AdvFilterViewController.handleStartDatePicker(_:)), forControlEvents: UIControlEvents.ValueChanged)
     }
     
     func handleStartDatePicker(sender: UIDatePicker) {
@@ -86,7 +86,7 @@ class AdvFilterViewController: SubregionDisplayViewController {
         }
         
         sender.inputView = datePickerView
-        datePickerView.addTarget(self, action: Selector("handleEndDatePicker:"), forControlEvents: UIControlEvents.ValueChanged)
+        datePickerView.addTarget(self, action: #selector(AdvFilterViewController.handleEndDatePicker(_:)), forControlEvents: UIControlEvents.ValueChanged)
     }
     
     
@@ -240,11 +240,11 @@ class AdvFilterViewController: SubregionDisplayViewController {
     func registerForKeyboardNotifications() {
         let notificationCenter = NSNotificationCenter.defaultCenter()
         notificationCenter.addObserver(self,
-            selector: "keyboardWillBeShown:",
+            selector: #selector(AdvFilterViewController.keyboardWillBeShown(_:)),
             name: UIKeyboardWillShowNotification,
             object: nil)
         notificationCenter.addObserver(self,
-            selector: "keyboardWillBeHidden:",
+            selector: #selector(AdvFilterViewController.keyboardWillBeHidden(_:)),
             name: UIKeyboardWillHideNotification,
             object: nil)
     }

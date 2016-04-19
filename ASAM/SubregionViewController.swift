@@ -48,7 +48,7 @@ class SubregionViewController: SubregionDisplayViewController, MKMapViewDelegate
         let subregionsMap:SubregionMap = SubregionMap();
         self.mapView.addOverlays(subregionsMap.polygons)
         
-        let tapGesture = UITapGestureRecognizer(target: self, action: "action:")
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(SubregionViewController.action(_:)))
         mapView.addGestureRecognizer(tapGesture)
     }
     

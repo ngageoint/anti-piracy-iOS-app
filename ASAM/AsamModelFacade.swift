@@ -154,7 +154,7 @@ class AsamModelFacade {
                 let anAsam = item as! NSDictionary
                 if (iterator < fetchResults.count) &&
                     (anAsam["Reference"] as! String == fetchResults[iterator].reference) {
-                        iterator++
+                        iterator = iterator + 1
                 } else {
                     toAddAsams.addObject(anAsam)
                 }

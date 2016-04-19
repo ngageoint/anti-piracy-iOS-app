@@ -18,15 +18,14 @@ class AsamRetrieval: NSObject {
     var data: NSMutableData = NSMutableData()
     var delegate: WebService?
     
+
     func searchAllAsams() {
-        
         let urlPath = "http://msi.nga.mil/MSI_JWS/ASAM_JSON/getJSON"
         searchAsams(urlPath)
     }
 
     
     func searchForAsams(startDate: String, endDate: String) {
-        
         //Dateformate yyyyMMdd
         let urlPath = "http://msi.nga.mil/MSI_JWS/ASAM_JSON/getJSON?typename=DateRange_AllRefNumbers&fromDate=" + startDate + "&toDate=" + endDate
         searchAsams(urlPath)

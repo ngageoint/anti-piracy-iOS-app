@@ -20,7 +20,7 @@ class AsamMapViewDelegate: NSObject, MKMapViewDelegate, KPClusteringControllerDe
     //Offline Map Polygons
     func mapView(mapView: MKMapView, rendererForOverlay overlay: MKOverlay) -> MKOverlayRenderer {
         
-        var polygonRenderer = MKPolygonRenderer(overlay: overlay);
+        let polygonRenderer = MKPolygonRenderer(overlay: overlay);
         
         if "ocean" == overlay.title! {
             polygonRenderer.fillColor = UIColor(red: 127/255.0, green: 153/255.0, blue: 171/255.0, alpha: 1.0)
@@ -88,10 +88,8 @@ class AsamMapViewDelegate: NSObject, MKMapViewDelegate, KPClusteringControllerDe
         defaults.setDouble(mapView.region.span.latitudeDelta, forKey: MapView.LAT_DELTA)
         defaults.setDouble(mapView.region.span.latitudeDelta, forKey: MapView.LON_DELTA)
         
-        print("Persisting Map Center (\(mapView.region.center.latitude)," +
-            "\(mapView.region.center.longitude))");
-        print("Persisting Map Deltas (lat delta: \(mapView.region.span.latitudeDelta)," +
-            "lon delta:\(mapView.region.span.longitudeDelta))");
+        //print("Persisting Map Center (\(mapView.region.center.latitude), \(mapView.region.center.longitude))");
+        //print("Persisting Map Deltas (lat delta: \(mapView.region.span.latitudeDelta), lon delta:\(mapView.region.span.longitudeDelta))");
         
     }
     

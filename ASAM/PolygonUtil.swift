@@ -12,33 +12,28 @@ class PolygonUtil {
 
     //Ray casting algorithm
     func isPointInPolygon(polygon:MKPolygon, point:MKMapPoint) -> Bool {
-    
-        var vertx:[Double] = [];
-        var verty:[Double] = [];
+        var isInPolygon = false
+        var xVertex:[Double] = [];
+        var yVertex:[Double] = [];
         
-        let testx:Double = point.x
-        let testy:Double = point.y
-        
-        //create arrays for x and y points
-        for point in UnsafeBufferPointer(start: polygon.points(), count: polygon.pointCount) {
-            vertx.append(point.x)
-            verty.append(point.y)
+        for polygonPoint in UnsafeBufferPointer(start: polygon.points(), count: polygon.pointCount) {
+            xVertex.append(polygonPoint.x)
+            yVertex.append(polygonPoint.y)
         }
         
-        var i = 0
-        var j = verty.count-1
-        var c:Bool = false
-        let nvert = vertx.count
+        var row = 0
+        var column = yVertex.count - 1
         
-        while i < nvert {
-            if (verty[i]>testy) != (verty[j]>testy) {
-                if (testx < (vertx[j]-vertx[i]) * (testy-verty[i]) / (verty[j]-verty[i]) + vertx[i]) {
-                    c = !c
+        while row < xVertex.count {
+            if (yVertex[row] > point.y) != (yVertex[column] > point.y) {
+                if (point.x < (xVertex[column]-xVertex[row]) * (point.y - yVertex[row]) / (yVertex[column] - xVertex[row]) + xVertex[row]) {
+                    isInPolygon = !isInPolygon
                 }
             }
-            j = i++
+            row = row + 1
+            column = row
         }
-        return c
+        return isInPolygon
     }
 
 }

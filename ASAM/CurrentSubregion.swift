@@ -24,7 +24,7 @@ class CurrentSubregion: NSObject {
             let pathRef: CGMutablePathRef = CGPathCreateMutable()
             let polygonPoints = polygon.points()
             
-            for var count = 0; count < polygon.pointCount; count++ {
+            for count in 0..<polygon.pointCount {
                 let mp: MKMapPoint = polygonPoints[count]
                 if count == 0 {
                     CGPathMoveToPoint(pathRef, nil, CGFloat(mp.x), CGFloat(mp.y))

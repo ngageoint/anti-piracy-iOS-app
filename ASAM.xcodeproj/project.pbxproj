@@ -145,12 +145,13 @@
 		2F37A66A1B71387100953AC0 /* ASAM */ = {
 			isa = PBXGroup;
 			children = (
-				2FC48D881B713C980007B8C6 /* delegates */,
-				2FC48D891B713C9E0007B8C6 /* utils */,
-				2FC48D8A1B713CA20007B8C6 /* controllers */,
-				2FC48D861B713C8B0007B8C6 /* Asam.swift */,
+				2FC48D941B713E670007B8C6 /* Sample Data */,
+				75B1D7E61CC65CD20095A98E /* Models */,
+				75B1D7E71CC65F770095A98E /* Views */,
+				2FC48D8A1B713CA20007B8C6 /* Controllers */,
 				2FC48D8B1B713CBD0007B8C6 /* AppDelegate.swift */,
 				75029C961B7A5124004BD9E2 /* Constants.swift */,
+				2FC48D9C1B713EA90007B8C6 /* kingpin-Bridging-Header.h */,
 				2F37A6711B71387100953AC0 /* Main.storyboard */,
 				2F37A6741B71387100953AC0 /* Images.xcassets */,
 				2F37A6761B71387100953AC0 /* LaunchScreen.xib */,
@@ -185,28 +186,7 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		2FC48D881B713C980007B8C6 /* delegates */ = {
-			isa = PBXGroup;
-			children = (
-				2FC48D8F1B713E4E0007B8C6 /* AsamSelectDelegate.swift */,
-				2FC48D8D1B713E450007B8C6 /* AsamMapViewDelegate.swift */,
-			);
-			name = delegates;
-			sourceTree = "<group>";
-		};
-		2FC48D891B713C9E0007B8C6 /* utils */ = {
-			isa = PBXGroup;
-			children = (
-				2FC48D911B713E590007B8C6 /* polygon */,
-				2FC48D941B713E670007B8C6 /* data */,
-				2FC48D991B713E910007B8C6 /* cluster */,
-				2FC48D9F1B713EB40007B8C6 /* map */,
-				2FC48DA81B713EE10007B8C6 /* parse */,
-			);
-			name = utils;
-			sourceTree = "<group>";
-		};
-		2FC48D8A1B713CA20007B8C6 /* controllers */ = {
+		2FC48D8A1B713CA20007B8C6 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
 				2FD26C271B714E01001267CA /* ViewController.swift */,
@@ -217,59 +197,47 @@
 				2FC48DB11B713F0C0007B8C6 /* SubregionDisplayViewController.swift */,
 				75029C921B73EE71004BD9E2 /* ListTableViewController.swift */,
 			);
-			name = controllers;
+			name = Controllers;
 			sourceTree = "<group>";
 		};
-		2FC48D911B713E590007B8C6 /* polygon */ = {
+		2FC48D941B713E670007B8C6 /* Sample Data */ = {
 			isa = PBXGroup;
 			children = (
-				2FC48D921B713E630007B8C6 /* PolygonUtil.swift */,
-			);
-			name = polygon;
-			sourceTree = "<group>";
-		};
-		2FC48D941B713E670007B8C6 /* data */ = {
-			isa = PBXGroup;
-			children = (
-				75029C941B78DCB2004BD9E2 /* ListViewCell.swift */,
-				2FC48D971B713E800007B8C6 /* AsamDateFormat.swift */,
-				2FC48D951B713E780007B8C6 /* AsamModelFacade.swift */,
-				75B314381B84EBF200122B09 /* WebService.swift */,
-			);
-			name = data;
-			sourceTree = "<group>";
-		};
-		2FC48D991B713E910007B8C6 /* cluster */ = {
-			isa = PBXGroup;
-			children = (
-				2FC48D9D1B713EB00007B8C6 /* ClusterImageGenerator.swift */,
-				2FC48D9C1B713EA90007B8C6 /* kingpin-Bridging-Header.h */,
-				2FC48D9A1B713EA00007B8C6 /* AsamAnnotation.swift */,
-			);
-			name = cluster;
-			sourceTree = "<group>";
-		};
-		2FC48D9F1B713EB40007B8C6 /* map */ = {
-			isa = PBXGroup;
-			children = (
-				2FC48DA61B713EDD0007B8C6 /* SubregionMap.swift */,
-				2FC48DA41B713ED70007B8C6 /* OfflineMap.swift */,
+				2FC48DA91B713EEC0007B8C6 /* asam.json */,
 				2FC48DA21B713ECD0007B8C6 /* ne_50m_land.simplify0.2.geojson */,
 				2FC48DA01B713EC60007B8C6 /* subregions.csv */,
-				750AD0821B824620006F7C28 /* CurrentSubregion.swift */,
 			);
-			name = map;
+			name = "Sample Data";
 			sourceTree = "<group>";
 		};
-		2FC48DA81B713EE10007B8C6 /* parse */ = {
+		75B1D7E61CC65CD20095A98E /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				2FC48DAF1B713F060007B8C6 /* StringExtension.swift */,
-				2FC48DAD1B713F010007B8C6 /* JsonParser.swift */,
+				2FC48D861B713C8B0007B8C6 /* Asam.swift */,
+				2FC48D9A1B713EA00007B8C6 /* AsamAnnotation.swift */,
+				2FC48D971B713E800007B8C6 /* AsamDateFormat.swift */,
+				2FC48D951B713E780007B8C6 /* AsamModelFacade.swift */,
 				2FC48DAB1B713EFA0007B8C6 /* AsamJsonParser.swift */,
-				2FC48DA91B713EEC0007B8C6 /* asam.json */,
+				2FC48DAD1B713F010007B8C6 /* JsonParser.swift */,
+				75029C941B78DCB2004BD9E2 /* ListViewCell.swift */,
+				75B314381B84EBF200122B09 /* WebService.swift */,
+				2FC48D921B713E630007B8C6 /* PolygonUtil.swift */,
+				2FC48DAF1B713F060007B8C6 /* StringExtension.swift */,
 			);
-			name = parse;
+			name = Models;
+			sourceTree = "<group>";
+		};
+		75B1D7E71CC65F770095A98E /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				2FC48D8D1B713E450007B8C6 /* AsamMapViewDelegate.swift */,
+				2FC48D8F1B713E4E0007B8C6 /* AsamSelectDelegate.swift */,
+				2FC48D9D1B713EB00007B8C6 /* ClusterImageGenerator.swift */,
+				750AD0821B824620006F7C28 /* CurrentSubregion.swift */,
+				2FC48DA41B713ED70007B8C6 /* OfflineMap.swift */,
+				2FC48DA61B713EDD0007B8C6 /* SubregionMap.swift */,
+			);
+			name = Views;
 			sourceTree = "<group>";
 		};
 		BE02B5BAC5F25B717FAAEC56 /* Frameworks */ = {
@@ -303,6 +271,7 @@
 				2F37A6651B71387100953AC0 /* Frameworks */,
 				2F37A6661B71387100953AC0 /* Resources */,
 				EC9B8266C5FB5717B4966FC2 /* Copy Pods Resources */,
+				D6AC4DBDF57AA1E3C792BA3B /* Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -407,6 +376,21 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		D6AC4DBDF57AA1E3C792BA3B /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		EC9B8266C5FB5717B4966FC2 /* Copy Pods Resources */ = {
