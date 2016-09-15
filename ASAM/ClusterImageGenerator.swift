@@ -2,15 +2,14 @@
 //  ClusterImageGenerator.swift
 //  anti-piracy-iOS-app
 //
-//  Created by Travis Baumgart on 4/24/15.
-//  Copyright (c) 2015 NGA. All rights reserved.
-//
+
 
 import Foundation
+import UIKit
 
 struct ClusterImageGenerator {
 
-    static func textToImage(drawText: NSString, inImage: UIImage)->UIImage{
+    static func textToImage(drawText: NSString, inImage: UIImage) -> UIImage{
         
         //Setup the image context using the passed image.
         UIGraphicsBeginImageContext(inImage.size)

@@ -2,9 +2,7 @@
 //  AsamModelFacade.swift
 //  anti-piracy-iOS-app
 //
-//  Created by Travis Baumgart on 3/19/15.
-//  Copyright (c) 2015 NGA. All rights reserved.
-//
+
 
 import Foundation
 import CoreData
@@ -78,8 +76,8 @@ class AsamModelFacade {
             asam.setValue(retrievedAsam["Description"]!, forKey: "desc")
             asam.setValue(retrievedAsam["Latitude"]!, forKey: "latitude")
             asam.setValue(retrievedAsam["Longitude"]!, forKey: "longitude")
-            asam.setValue((retrievedAsam["lat"]! as! String).doubleValue, forKey: "lat")
-            asam.setValue((retrievedAsam["lng"]! as! String).doubleValue, forKey: "lng")
+            asam.setValue((retrievedAsam["lat"]! as! String).getDouble, forKey: "lat")
+            asam.setValue((retrievedAsam["lng"]! as! String).getDouble, forKey: "lng")
             asam.setValue(Int((retrievedAsam["Subregion"]! as! String)), forKey: "subregion")
             
             let formatter = NSDateFormatter()
@@ -296,7 +294,7 @@ class AsamModelFacade {
     
     func getDateIntervalPredicate() -> NSPredicate {
         
-        var interval = DateInterval.ALL
+        var interval = Date.ALL
         if let userInterval = defaults.stringForKey(Filter.Basic.DATE_INTERVAL) {
             interval = userInterval
         }
@@ -307,13 +305,13 @@ class AsamModelFacade {
         var intervalDate = calendar.dateByAddingUnit(.Year, value: -100, toDate: today, options: [])!
         
         switch interval {
-        case DateInterval.DAYS_30:
+        case Date.DAYS_30:
             intervalDate = calendar.dateByAddingUnit(.Day, value: -30, toDate: today, options: [])!
-        case DateInterval.DAYS_60:
+        case Date.DAYS_60:
             intervalDate = calendar.dateByAddingUnit(.Day, value: -60, toDate: today, options: [])!
-        case DateInterval.DAYS_120:
+        case Date.DAYS_120:
             intervalDate = calendar.dateByAddingUnit(.Day, value: -120, toDate: today, options: [])!
-        case DateInterval.YEARS_1:
+        case Date.YEARS_1:
             intervalDate = calendar.dateByAddingUnit(.Year, value: -1, toDate: today, options: [])!
         default:
             break

@@ -2,23 +2,18 @@
 //  AsamJsonParser.swift
 //  anti-piracy-iOS-app
 //
-//  Created by Travis Baumgart on 2/27/15.
-//  Copyright (c) 2015 NGA. All rights reserved.
-//
+
 
 import Foundation
 import UIKit
 import CoreData
 
-class AsamJsonParser : JsonParser {
+class AsamJsonParser {
     
     let path = NSBundle.mainBundle().pathForResource("asam", ofType: "json")
     var asams = [NSManagedObject]()
     
-    override init()
-    {
-        super.init()
-        
+    init() {
         //1
         let appDelegate =
         UIApplication.sharedApplication().delegate as! AppDelegate
@@ -32,7 +27,7 @@ class AsamJsonParser : JsonParser {
         
         let json: NSDictionary = generateDictionaryFromJson(path!) as! NSDictionary
         let dataArray = json["asams"]as! NSArray;
-        for item in dataArray { // loop through data items
+        for item in dataArray { 
             let obj = item as! NSDictionary
             let asam = NSManagedObject(entity: entity!,
                 insertIntoManagedObjectContext:managedContext)
@@ -46,8 +41,8 @@ class AsamJsonParser : JsonParser {
             asam.setValue(obj["Longitude"]!, forKey: "longitude")
             
             //doubles
-            asam.setValue((obj["lat"]! as! String).doubleValue, forKey: "lat")
-            asam.setValue((obj["lng"]! as! String).doubleValue, forKey: "lng")
+            asam.setValue((obj["lat"]! as! String).getDouble, forKey: "lat")
+            asam.setValue((obj["lng"]! as! String).getDouble, forKey: "lng")
             
             //integers
             asam.setValue(Int((obj["Subregion"]! as! String)), forKey: "subregion")
@@ -68,7 +63,13 @@ class AsamJsonParser : JsonParser {
             //5
             asams.append(asam)
         }
+    }
     
+    func generateDictionaryFromJson(path: String) -> AnyObject
+    {
+        let fileContent = NSData(contentsOfFile: path)
+        let jsonDict: AnyObject? = try? NSJSONSerialization.JSONObjectWithData(fileContent!, options: [])
+        return jsonDict!
     }
     
 }

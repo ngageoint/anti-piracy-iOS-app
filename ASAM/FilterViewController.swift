@@ -2,12 +2,11 @@
 //  FilterViewController.swift
 //  anti-piracy-iOS-app
 //
-//  Created by Travis Baumgart on 3/13/15.
-//  Copyright (c) 2015 NGA. All rights reserved.
-//
+
 
 import UIKit
 import CoreData
+import MapKit
 
 class FilterViewController: SubregionDisplayViewController, UIPickerViewDelegate, UIPickerViewDataSource, CLLocationManagerDelegate {
     @IBAction func hideKeyboard(sender: AnyObject) {
@@ -33,7 +32,7 @@ class FilterViewController: SubregionDisplayViewController, UIPickerViewDelegate
     var isInitialAuthorizationCheck = false
 
     var subregionInitialized = false
-    let pickerData = [DateInterval.ALL, DateInterval.DAYS_30, DateInterval.DAYS_60, DateInterval.DAYS_120, DateInterval.YEARS_1]
+    let pickerData = [Date.ALL, Date.DAYS_30, Date.DAYS_60, Date.DAYS_120, Date.YEARS_1]
     let defaults = NSUserDefaults.standardUserDefaults()
     
     
@@ -41,7 +40,7 @@ class FilterViewController: SubregionDisplayViewController, UIPickerViewDelegate
 
         super.viewDidLoad()
         
-        dateFormatter.dateFormat = AsamDateFormat.dateFormat
+        dateFormatter.dateFormat = Date.FORMAT
         
         dateIntervalPicker = UIPickerView()
         dateIntervalPicker.dataSource = self
@@ -54,7 +53,7 @@ class FilterViewController: SubregionDisplayViewController, UIPickerViewDelegate
 
     
     @IBAction func dateIntervalEditBegin(sender: AnyObject) {
-            selectedInterval.text = pickerData[DateInterval.DEFAULT]
+            selectedInterval.text = pickerData[Date.DEFAULT]
     }
     
     
@@ -63,7 +62,7 @@ class FilterViewController: SubregionDisplayViewController, UIPickerViewDelegate
         if let userDefaultInterval = defaults.stringForKey(Filter.Basic.DATE_INTERVAL) {
             selectedInterval.text = userDefaultInterval
         } else {
-            selectedInterval.text = pickerData[DateInterval.DEFAULT]
+            selectedInterval.text = pickerData[Date.DEFAULT]
         }
 
         if let userDefaultKeyword = defaults.stringForKey(Filter.Basic.KEYWORD) {
@@ -135,7 +134,7 @@ class FilterViewController: SubregionDisplayViewController, UIPickerViewDelegate
     
     
     func basicDefaults() {
-        selectedInterval.text = pickerData[DateInterval.DEFAULT]
+        selectedInterval.text = pickerData[Date.DEFAULT]
         keyword.text = String()
         currentSubregionEnabled.setOn(false, animated: false)
         currentSubregion = Filter.Basic.DEFAULT_SUBREGION

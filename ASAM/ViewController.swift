@@ -2,9 +2,7 @@
 //  ViewController.swift
 //  anti-piracy-iOS-app
 //
-//  Created by Travis Baumgart on 2/26/15.
-//  Copyright (c) 2015 NGA. All rights reserved.
-//
+
 
 import UIKit
 import MapKit
@@ -220,8 +218,8 @@ class ViewController: UIViewController, AsamSelectDelegate, WebService {
             let viewController: AsamDetailsViewController = segue!.destinationViewController as! AsamDetailsViewController
             viewController.asam = (sender as! AsamAnnotation).asam
         } else if (segue?.identifier == "listDisplayedAsams") {
-            let navController = segue!.destinationViewController as! UINavigationController
-            let listController = navController.topViewController as! ListTableViewController
+            let listController = segue!.destinationViewController as! ListTableViewController
+           // let listController = navController.topViewController as! ListTableViewController
             listController.asams = asams
         }
     }

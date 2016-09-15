@@ -2,12 +2,10 @@
 //  AsamDetailsViewController.swift
 //  anti-piracy-iOS-app
 //
-//  Created by Travis Baumgart on 4/23/15.
-//  Copyright (c) 2015 NGA. All rights reserved.
-//
 
 import Foundation
-
+import UIKit
+import MapKit
 
 class AsamDetailsViewController: UIViewController, AsamSelectDelegate {
 
@@ -30,7 +28,7 @@ class AsamDetailsViewController: UIViewController, AsamSelectDelegate {
 
         asamMapViewDelegate.asamSelectDelegate = self
         
-        dateFormatter.dateFormat = AsamDateFormat.dateFormat
+        dateFormatter.dateFormat = Date.FORMAT
 
         asamMapViewDelegate.clusteringController = KPClusteringController(mapView: self.mapView)
 

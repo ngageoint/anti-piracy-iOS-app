@@ -1,14 +1,12 @@
 //
-//  PolygonUtil.swift
+//  Polygon.swift
 //  anti-piracy-iOS-app
-//
-//  Created by Travis Baumgart on 6/29/15.
-//  Copyright (c) 2015 NGA. All rights reserved.
 //
 
 import Foundation
+import MapKit
 
-class PolygonUtil {
+class Polygon {
 
     //Ray casting algorithm
     func isPointInPolygon(polygon:MKPolygon, point:MKMapPoint) -> Bool {

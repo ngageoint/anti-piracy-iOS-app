@@ -2,9 +2,6 @@
 //  ASAMTests.swift
 //  ASAMTests
 //
-//  Created by William Newman on 8/4/15.
-//  Copyright (c) 2015 NGA. All rights reserved.
-//
 
 import UIKit
 import XCTest

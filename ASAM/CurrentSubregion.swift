@@ -2,12 +2,11 @@
 //  CurrentSubregion.swift
 //  ASAM
 //
-//  Created by Chris Wasko on 8/17/15.
-//  Copyright (c) 2015 NGA. All rights reserved.
-//
+
 
 import Foundation
 import CoreLocation
+import MapKit
 
 class CurrentSubregion: NSObject {
     

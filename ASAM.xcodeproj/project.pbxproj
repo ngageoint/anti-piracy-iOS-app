@@ -15,9 +15,8 @@
 		2FC48D8C1B713CBD0007B8C6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FC48D8B1B713CBD0007B8C6 /* AppDelegate.swift */; };
 		2FC48D8E1B713E450007B8C6 /* AsamMapViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FC48D8D1B713E450007B8C6 /* AsamMapViewDelegate.swift */; };
 		2FC48D901B713E4E0007B8C6 /* AsamSelectDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FC48D8F1B713E4E0007B8C6 /* AsamSelectDelegate.swift */; };
-		2FC48D931B713E630007B8C6 /* PolygonUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FC48D921B713E630007B8C6 /* PolygonUtil.swift */; };
+		2FC48D931B713E630007B8C6 /* Polygon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FC48D921B713E630007B8C6 /* Polygon.swift */; };
 		2FC48D961B713E780007B8C6 /* AsamModelFacade.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FC48D951B713E780007B8C6 /* AsamModelFacade.swift */; };
-		2FC48D981B713E800007B8C6 /* AsamDateFormat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FC48D971B713E800007B8C6 /* AsamDateFormat.swift */; };
 		2FC48D9B1B713EA00007B8C6 /* AsamAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FC48D9A1B713EA00007B8C6 /* AsamAnnotation.swift */; };
 		2FC48D9E1B713EB00007B8C6 /* ClusterImageGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FC48D9D1B713EB00007B8C6 /* ClusterImageGenerator.swift */; };
 		2FC48DA11B713EC60007B8C6 /* subregions.csv in Resources */ = {isa = PBXBuildFile; fileRef = 2FC48DA01B713EC60007B8C6 /* subregions.csv */; };
@@ -26,7 +25,6 @@
 		2FC48DA71B713EDD0007B8C6 /* SubregionMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FC48DA61B713EDD0007B8C6 /* SubregionMap.swift */; };
 		2FC48DAA1B713EEC0007B8C6 /* asam.json in Resources */ = {isa = PBXBuildFile; fileRef = 2FC48DA91B713EEC0007B8C6 /* asam.json */; };
 		2FC48DAC1B713EFA0007B8C6 /* AsamJsonParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FC48DAB1B713EFA0007B8C6 /* AsamJsonParser.swift */; };
-		2FC48DAE1B713F010007B8C6 /* JsonParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FC48DAD1B713F010007B8C6 /* JsonParser.swift */; };
 		2FC48DB01B713F060007B8C6 /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FC48DAF1B713F060007B8C6 /* StringExtension.swift */; };
 		2FC48DB21B713F0C0007B8C6 /* SubregionDisplayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FC48DB11B713F0C0007B8C6 /* SubregionDisplayViewController.swift */; };
 		2FC48DB41B713F1D0007B8C6 /* FilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FC48DB31B713F1D0007B8C6 /* FilterViewController.swift */; };
@@ -68,9 +66,8 @@
 		2FC48D8B1B713CBD0007B8C6 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2FC48D8D1B713E450007B8C6 /* AsamMapViewDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AsamMapViewDelegate.swift; sourceTree = "<group>"; };
 		2FC48D8F1B713E4E0007B8C6 /* AsamSelectDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AsamSelectDelegate.swift; sourceTree = "<group>"; };
-		2FC48D921B713E630007B8C6 /* PolygonUtil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PolygonUtil.swift; sourceTree = "<group>"; };
+		2FC48D921B713E630007B8C6 /* Polygon.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Polygon.swift; sourceTree = "<group>"; };
 		2FC48D951B713E780007B8C6 /* AsamModelFacade.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AsamModelFacade.swift; sourceTree = "<group>"; };
-		2FC48D971B713E800007B8C6 /* AsamDateFormat.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AsamDateFormat.swift; sourceTree = "<group>"; };
 		2FC48D9A1B713EA00007B8C6 /* AsamAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AsamAnnotation.swift; sourceTree = "<group>"; };
 		2FC48D9C1B713EA90007B8C6 /* kingpin-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "kingpin-Bridging-Header.h"; sourceTree = "<group>"; };
 		2FC48D9D1B713EB00007B8C6 /* ClusterImageGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClusterImageGenerator.swift; sourceTree = "<group>"; };
@@ -80,7 +77,6 @@
 		2FC48DA61B713EDD0007B8C6 /* SubregionMap.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SubregionMap.swift; sourceTree = "<group>"; };
 		2FC48DA91B713EEC0007B8C6 /* asam.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = asam.json; sourceTree = "<group>"; };
 		2FC48DAB1B713EFA0007B8C6 /* AsamJsonParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AsamJsonParser.swift; sourceTree = "<group>"; };
-		2FC48DAD1B713F010007B8C6 /* JsonParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JsonParser.swift; sourceTree = "<group>"; };
 		2FC48DAF1B713F060007B8C6 /* StringExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
 		2FC48DB11B713F0C0007B8C6 /* SubregionDisplayViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SubregionDisplayViewController.swift; sourceTree = "<group>"; };
 		2FC48DB31B713F1D0007B8C6 /* FilterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterViewController.swift; sourceTree = "<group>"; };
@@ -134,7 +130,7 @@
 		2F37A65F1B71387100953AC0 = {
 			isa = PBXGroup;
 			children = (
-				2F37A66A1B71387100953AC0 /* ASAM */,
+				2F37A66A1B71387100953AC0 /* Asam */,
 				2F37A6801B71387100953AC0 /* ASAMTests */,
 				2F37A6691B71387100953AC0 /* Products */,
 				BE02B5BAC5F25B717FAAEC56 /* Frameworks */,
@@ -151,22 +147,22 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		2F37A66A1B71387100953AC0 /* ASAM */ = {
+		2F37A66A1B71387100953AC0 /* Asam */ = {
 			isa = PBXGroup;
 			children = (
 				2FC48D941B713E670007B8C6 /* Sample Data */,
 				75B1D7E61CC65CD20095A98E /* Models */,
 				75B1D7E71CC65F770095A98E /* Views */,
 				2FC48D8A1B713CA20007B8C6 /* Controllers */,
+				757C75C11D8B19EB00549054 /* Utilities */,
 				2FC48D8B1B713CBD0007B8C6 /* AppDelegate.swift */,
-				75029C961B7A5124004BD9E2 /* Constants.swift */,
-				2FC48D9C1B713EA90007B8C6 /* kingpin-Bridging-Header.h */,
 				2F37A6711B71387100953AC0 /* Main.storyboard */,
-				2F37A6741B71387100953AC0 /* Images.xcassets */,
 				2F37A6761B71387100953AC0 /* LaunchScreen.xib */,
-				2FC48DBB1B713FB00007B8C6 /* anti_piracy_iOS_app.xcdatamodeld */,
+				2FC48D9C1B713EA90007B8C6 /* kingpin-Bridging-Header.h */,
+				2F37A6741B71387100953AC0 /* Images.xcassets */,
 				2F37A66B1B71387100953AC0 /* Supporting Files */,
 			);
+			name = Asam;
 			path = ASAM;
 			sourceTree = "<group>";
 		};
@@ -219,19 +215,26 @@
 			name = "Sample Data";
 			sourceTree = "<group>";
 		};
+		757C75C11D8B19EB00549054 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				2FC48D921B713E630007B8C6 /* Polygon.swift */,
+				2FC48DAF1B713F060007B8C6 /* StringExtension.swift */,
+				2FC48DAB1B713EFA0007B8C6 /* AsamJsonParser.swift */,
+				75029C961B7A5124004BD9E2 /* Constants.swift */,
+			);
+			name = Utilities;
+			sourceTree = "<group>";
+		};
 		75B1D7E61CC65CD20095A98E /* Models */ = {
 			isa = PBXGroup;
 			children = (
 				2FC48D861B713C8B0007B8C6 /* Asam.swift */,
 				2FC48D9A1B713EA00007B8C6 /* AsamAnnotation.swift */,
-				2FC48D971B713E800007B8C6 /* AsamDateFormat.swift */,
 				2FC48D951B713E780007B8C6 /* AsamModelFacade.swift */,
-				2FC48DAB1B713EFA0007B8C6 /* AsamJsonParser.swift */,
-				2FC48DAD1B713F010007B8C6 /* JsonParser.swift */,
 				75029C941B78DCB2004BD9E2 /* ListViewCell.swift */,
 				75B314381B84EBF200122B09 /* WebService.swift */,
-				2FC48D921B713E630007B8C6 /* PolygonUtil.swift */,
-				2FC48DAF1B713F060007B8C6 /* StringExtension.swift */,
+				2FC48DBB1B713FB00007B8C6 /* anti_piracy_iOS_app.xcdatamodeld */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -422,20 +425,18 @@
 				2FC48D901B713E4E0007B8C6 /* AsamSelectDelegate.swift in Sources */,
 				2FC48DB81B713F310007B8C6 /* SubregionViewController.swift in Sources */,
 				2FC48DA71B713EDD0007B8C6 /* SubregionMap.swift in Sources */,
-				2FC48D931B713E630007B8C6 /* PolygonUtil.swift in Sources */,
+				2FC48D931B713E630007B8C6 /* Polygon.swift in Sources */,
 				2FC48DAC1B713EFA0007B8C6 /* AsamJsonParser.swift in Sources */,
 				2FC48D8C1B713CBD0007B8C6 /* AppDelegate.swift in Sources */,
 				2FC48D8E1B713E450007B8C6 /* AsamMapViewDelegate.swift in Sources */,
 				2FC48D9B1B713EA00007B8C6 /* AsamAnnotation.swift in Sources */,
 				2FC48DB01B713F060007B8C6 /* StringExtension.swift in Sources */,
-				2FC48D981B713E800007B8C6 /* AsamDateFormat.swift in Sources */,
 				2FC48DB41B713F1D0007B8C6 /* FilterViewController.swift in Sources */,
 				750AD0831B824620006F7C28 /* CurrentSubregion.swift in Sources */,
 				2FC48D871B713C8B0007B8C6 /* Asam.swift in Sources */,
 				2FC48D961B713E780007B8C6 /* AsamModelFacade.swift in Sources */,
 				75029C951B78DCB2004BD9E2 /* ListViewCell.swift in Sources */,
 				2FC48D9E1B713EB00007B8C6 /* ClusterImageGenerator.swift in Sources */,
-				2FC48DAE1B713F010007B8C6 /* JsonParser.swift in Sources */,
 				2FD26C281B714E01001267CA /* ViewController.swift in Sources */,
 				75029C931B73EE71004BD9E2 /* ListTableViewController.swift in Sources */,
 				2FC48DBD1B713FB00007B8C6 /* anti_piracy_iOS_app.xcdatamodeld in Sources */,

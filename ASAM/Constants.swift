@@ -2,9 +2,7 @@
 //  Constants.swift
 //  ASAM
 //
-//  Created by Chris Wasko on 8/11/15.
-//  Copyright (c) 2015 NGA. All rights reserved.
-//
+
 
 import Foundation
 
@@ -31,13 +29,14 @@ struct Filter {
     static let BASIC_TYPE = "basicFilter"
 }
 
-struct DateInterval {
+struct Date {
     static let ALL = "All"
     static let DAYS_30 = "Last 30 Days"
     static let DAYS_60 = "Last 60 Days"
     static let DAYS_120 = "Last 120 Days"
     static let YEARS_1 = "Last 1 Year"
     static let DEFAULT = 0
+    static var FORMAT:String = "MM/dd/yyyy"
 }
 
 struct MapView {

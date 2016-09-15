@@ -2,11 +2,9 @@
 //  AdvancedFilterViewController.swift
 //  anti-piracy-iOS-app
 //
-//  Created by Travis Baumgart on 6/23/15.
-//  Copyright (c) 2015 NGA. All rights reserved.
-//
 
 import Foundation
+import MapKit
 
 
 class SubregionViewController: SubregionDisplayViewController, MKMapViewDelegate {
@@ -16,7 +14,7 @@ class SubregionViewController: SubregionDisplayViewController, MKMapViewDelegate
 
     let defaults = NSUserDefaults.standardUserDefaults()
     
-    let polygonUtil:PolygonUtil = PolygonUtil()
+    let polygonIntersection:Polygon = Polygon()
     var selectedRegions = Array<String>()
     var regions = String()
     let unselectedColor:UIColor = UIColor(red: 128/255.0, green: 255/255.0, blue: 130/255.0, alpha: 0.5)
@@ -86,7 +84,7 @@ class SubregionViewController: SubregionDisplayViewController, MKMapViewDelegate
             if polygon.intersectsMapRect(mapRect) {
                 
                 //comprehensive check
-                if polygonUtil.isPointInPolygon(polygon, point: point) {
+                if self.polygonIntersection.isPointInPolygon(polygon, point: point) {
 
                     let renderer:MKPolygonRenderer = self.mapView.rendererForOverlay(polygon) as! MKPolygonRenderer
                     if selectedRegions.contains(polygon.title!) {
