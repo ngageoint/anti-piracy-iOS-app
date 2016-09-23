@@ -39,6 +39,9 @@
 		75029C951B78DCB2004BD9E2 /* ListViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75029C941B78DCB2004BD9E2 /* ListViewCell.swift */; };
 		75029C971B7A5124004BD9E2 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75029C961B7A5124004BD9E2 /* Constants.swift */; };
 		750AD0831B824620006F7C28 /* CurrentSubregion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 750AD0821B824620006F7C28 /* CurrentSubregion.swift */; };
+		751782D01D95BD440084E357 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 751782CD1D95BD440084E357 /* LICENSE */; };
+		751782D11D95BD440084E357 /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = 751782CE1D95BD440084E357 /* Podfile */; };
+		751782D21D95BD440084E357 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 751782CF1D95BD440084E357 /* README.md */; };
 		75B314391B84EBF200122B09 /* WebService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75B314381B84EBF200122B09 /* WebService.swift */; };
 		C13F85B765C99AB6944C65CF /* Pods_ASAM.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4013090EA3D7C955840FB612 /* Pods_ASAM.framework */; };
 /* End PBXBuildFile section */
@@ -92,6 +95,9 @@
 		75029C941B78DCB2004BD9E2 /* ListViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListViewCell.swift; sourceTree = "<group>"; };
 		75029C961B7A5124004BD9E2 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		750AD0821B824620006F7C28 /* CurrentSubregion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CurrentSubregion.swift; sourceTree = "<group>"; };
+		751782CD1D95BD440084E357 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		751782CE1D95BD440084E357 /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = "<group>"; };
+		751782CF1D95BD440084E357 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		75B314381B84EBF200122B09 /* WebService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebService.swift; sourceTree = "<group>"; };
 		B99B59F9BBB3BED9F872E7AF /* Pods-ASAM.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ASAM.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ASAM/Pods-ASAM.debug.xcconfig"; sourceTree = "<group>"; };
 		C9397BBCD91F5B672117DD2D /* Pods-ASAM.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ASAM.release.xcconfig"; path = "Pods/Target Support Files/Pods-ASAM/Pods-ASAM.release.xcconfig"; sourceTree = "<group>"; };
@@ -130,6 +136,8 @@
 		2F37A65F1B71387100953AC0 = {
 			isa = PBXGroup;
 			children = (
+				751782CD1D95BD440084E357 /* LICENSE */,
+				751782CF1D95BD440084E357 /* README.md */,
 				2F37A66A1B71387100953AC0 /* Asam */,
 				2F37A6801B71387100953AC0 /* ASAMTests */,
 				2F37A6691B71387100953AC0 /* Products */,
@@ -169,6 +177,7 @@
 		2F37A66B1B71387100953AC0 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				751782CE1D95BD440084E357 /* Podfile */,
 				2F37A66C1B71387100953AC0 /* Info.plist */,
 			);
 			name = "Supporting Files";
@@ -349,7 +358,9 @@
 			files = (
 				2F37A6731B71387100953AC0 /* Main.storyboard in Resources */,
 				2FC48DAA1B713EEC0007B8C6 /* asam.json in Resources */,
+				751782D11D95BD440084E357 /* Podfile in Resources */,
 				2FC48DA11B713EC60007B8C6 /* subregions.csv in Resources */,
+				751782D01D95BD440084E357 /* LICENSE in Resources */,
 				2F37A6781B71387100953AC0 /* LaunchScreen.xib in Resources */,
 				2FC48DA31B713ECD0007B8C6 /* ne_50m_land.simplify0.2.geojson in Resources */,
 				2F37A6751B71387100953AC0 /* Images.xcassets in Resources */,
@@ -430,6 +441,7 @@
 				2FC48D8C1B713CBD0007B8C6 /* AppDelegate.swift in Sources */,
 				2FC48D8E1B713E450007B8C6 /* AsamMapViewDelegate.swift in Sources */,
 				2FC48D9B1B713EA00007B8C6 /* AsamAnnotation.swift in Sources */,
+				751782D21D95BD440084E357 /* README.md in Sources */,
 				2FC48DB01B713F060007B8C6 /* StringExtension.swift in Sources */,
 				2FC48DB41B713F1D0007B8C6 /* FilterViewController.swift in Sources */,
 				750AD0831B824620006F7C28 /* CurrentSubregion.swift in Sources */,
