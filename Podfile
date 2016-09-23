@@ -4,4 +4,5 @@ use_frameworks!
 
 target 'ASAM' do
     pod 'kingpin'
+    pod 'EZLoadingActivity', '~> 0.8'
 end

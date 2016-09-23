@@ -1,12 +1,15 @@
 PODS:
+  - EZLoadingActivity (0.8)
   - kingpin (0.2.5)
 
 DEPENDENCIES:
+  - EZLoadingActivity (~> 0.8)
   - kingpin
 
 SPEC CHECKSUMS:
+  EZLoadingActivity: 6fd75a05765a4085f4b6fef6f62edf9f144b3139
   kingpin: 28ea5a6e16065ee10d078806a6cb0adb4c7c28cd
 
-PODFILE CHECKSUM: 4b10cdca476768254ddb1500f50140631ac043c1
+PODFILE CHECKSUM: 12f0aebe92f6ca69e1645a7d14bb4a0dd3e23997
 
 COCOAPODS: 1.0.1

@@ -96,7 +96,7 @@
 		75029C961B7A5124004BD9E2 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		750AD0821B824620006F7C28 /* CurrentSubregion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CurrentSubregion.swift; sourceTree = "<group>"; };
 		751782CD1D95BD440084E357 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
-		751782CE1D95BD440084E357 /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = "<group>"; };
+		751782CE1D95BD440084E357 /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		751782CF1D95BD440084E357 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		75B314381B84EBF200122B09 /* WebService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebService.swift; sourceTree = "<group>"; };
 		B99B59F9BBB3BED9F872E7AF /* Pods-ASAM.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ASAM.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ASAM/Pods-ASAM.debug.xcconfig"; sourceTree = "<group>"; };
@@ -139,7 +139,7 @@
 				751782CD1D95BD440084E357 /* LICENSE */,
 				751782CF1D95BD440084E357 /* README.md */,
 				2F37A66A1B71387100953AC0 /* Asam */,
-				2F37A6801B71387100953AC0 /* ASAMTests */,
+				2F37A6801B71387100953AC0 /* AsamTests */,
 				2F37A6691B71387100953AC0 /* Products */,
 				BE02B5BAC5F25B717FAAEC56 /* Frameworks */,
 				06A76CF14F6F7A49B1DEDE50 /* Pods */,
@@ -183,12 +183,13 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		2F37A6801B71387100953AC0 /* ASAMTests */ = {
+		2F37A6801B71387100953AC0 /* AsamTests */ = {
 			isa = PBXGroup;
 			children = (
 				2F37A6831B71387100953AC0 /* ASAMTests.swift */,
 				2F37A6811B71387100953AC0 /* Supporting Files */,
 			);
+			name = AsamTests;
 			path = ASAMTests;
 			sourceTree = "<group>";
 		};

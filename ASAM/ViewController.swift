@@ -3,10 +3,10 @@
 //  anti-piracy-iOS-app
 //
 
-
 import UIKit
 import MapKit
 import CoreData
+import EZLoadingActivity
 
 class ViewController: UIViewController, AsamSelectDelegate, WebService {
 
@@ -42,6 +42,7 @@ class ViewController: UIViewController, AsamSelectDelegate, WebService {
         asamRetrieval.delegate = self
         
         let firstLaunch = asamMapViewDelegate.defaults.boolForKey(AppSettings.FIRST_LAUNCH)
+        EZLoadingActivity.show("Retrieving ASAMs", disableUI: false)
         if !firstLaunch {
             asamRetrieval.searchAllAsams()
             asamMapViewDelegate.defaults.setValue(true, forKey: AppSettings.FIRST_LAUNCH)
@@ -52,7 +53,7 @@ class ViewController: UIViewController, AsamSelectDelegate, WebService {
             let endDate = formatter.stringFromDate(NSDate())
             asamRetrieval.searchForAsams(startDate, endDate: endDate)
         }
-        
+
         configureMap()
         
     }
@@ -123,6 +124,7 @@ class ViewController: UIViewController, AsamSelectDelegate, WebService {
         asams = retrieveAnnotations(filterType)
         
         asamMapViewDelegate.clusteringController.setAnnotations(asams)
+        EZLoadingActivity.hide()
     }
     
     
