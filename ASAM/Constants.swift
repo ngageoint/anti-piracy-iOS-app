@@ -36,7 +36,7 @@ struct Date {
     static let DAYS_120 = "Last 120 Days"
     static let YEARS_1 = "Last 1 Year"
     static let DEFAULT = 0
-    static var FORMAT:String = "MM/dd/yyyy"
+    static var FORMAT:String = "dd MMM yyyy"
 }
 
 struct MapView {

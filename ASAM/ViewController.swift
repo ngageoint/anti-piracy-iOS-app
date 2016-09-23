@@ -209,16 +209,16 @@ class ViewController: UIViewController, AsamSelectDelegate, WebService {
     
     
     func asamSelected(asam: AsamAnnotation) {
-        performSegueWithIdentifier("singleAsamDetails", sender: asam)
+        performSegueWithIdentifier("singleAsamDetails", sender: asam.asam)
     }
     
     
-    override func prepareForSegue(segue: UIStoryboardSegue?, sender: AnyObject?) {
-        if (segue?.identifier == "singleAsamDetails") {
-            let viewController: AsamDetailsViewController = segue!.destinationViewController as! AsamDetailsViewController
-            viewController.asam = (sender as! AsamAnnotation).asam
-        } else if (segue?.identifier == "listDisplayedAsams") {
-            let listController = segue!.destinationViewController as! ListTableViewController
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if (segue.identifier == "singleAsamDetails") {
+            let viewController: AsamDetailsViewController = segue.destinationViewController as! AsamDetailsViewController
+            viewController.asam = sender as! Asam?
+        } else if (segue.identifier == "listDisplayedAsams") {
+            let listController = segue.destinationViewController as! ListTableViewController
            // let listController = navController.topViewController as! ListTableViewController
             listController.asams = asams
         }
