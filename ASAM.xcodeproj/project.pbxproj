@@ -134,6 +134,7 @@
 		24F14681166FB93B0028E013 /* LegalDetailsViewController_ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 24F1467F166FB93B0028E013 /* LegalDetailsViewController_ipad.xib */; };
 		24F3ABB314DAF60A00223445 /* restart.png in Resources */ = {isa = PBXBuildFile; fileRef = 24F3ABB114DAF60A00223445 /* restart.png */; };
 		24F3ABB414DAF60A00223445 /* restart@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 24F3ABB214DAF60A00223445 /* restart@2x.png */; };
+		2F4DFEBD209CA7E8002292C2 /* trustid_server_ca_a52.cer in Resources */ = {isa = PBXBuildFile; fileRef = 2F4DFEBC209CA7E8002292C2 /* trustid_server_ca_a52.cer */; };
 		2FB364B319C0CC4600EC8DAD /* MapLayoutGuide.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FB364B219C0CC4600EC8DAD /* MapLayoutGuide.m */; };
 		966D740D1880BDAD00D269C1 /* MainViewController_iphone.m in Sources */ = {isa = PBXBuildFile; fileRef = 966D740C1880BDAD00D269C1 /* MainViewController_iphone.m */; };
 		96E9CF8E18201D3F004E292C /* Asam.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 96E9CF8D18201D3F004E292C /* Asam.sqlite */; };
@@ -318,6 +319,7 @@
 		24F1467F166FB93B0028E013 /* LegalDetailsViewController_ipad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LegalDetailsViewController_ipad.xib; sourceTree = "<group>"; };
 		24F3ABB114DAF60A00223445 /* restart.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = restart.png; sourceTree = "<group>"; };
 		24F3ABB214DAF60A00223445 /* restart@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "restart@2x.png"; sourceTree = "<group>"; };
+		2F4DFEBC209CA7E8002292C2 /* trustid_server_ca_a52.cer */ = {isa = PBXFileReference; lastKnownFileType = file; path = trustid_server_ca_a52.cer; sourceTree = "<group>"; };
 		2FB364B119C0CC4600EC8DAD /* MapLayoutGuide.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapLayoutGuide.h; sourceTree = "<group>"; };
 		2FB364B219C0CC4600EC8DAD /* MapLayoutGuide.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapLayoutGuide.m; sourceTree = "<group>"; };
 		966D740C1880BDAD00D269C1 /* MainViewController_iphone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController_iphone.m; sourceTree = "<group>"; };
@@ -731,6 +733,7 @@
 		24C78D5914D5B35E0027AE3B /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				2F4DFEBC209CA7E8002292C2 /* trustid_server_ca_a52.cer */,
 				1F03D4A51979B3CF0021BEFC /* ne_50m_land.simplify0.2.geojson */,
 				96E9CF8D18201D3F004E292C /* Asam.sqlite */,
 				249993A0166F87DB000F8452 /* thirdparty_description */,
@@ -872,10 +875,10 @@
 		24C78D4314D5B35E0027AE3B /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0510;
+				LastUpgradeCheck = 0930;
 				TargetAttributes = {
 					24C78D4B14D5B35E0027AE3B = {
-						DevelopmentTeam = A8EK924J35;
+						DevelopmentTeam = ZL8G5D9G2H;
 					};
 				};
 			};
@@ -949,6 +952,7 @@
 				1F03D4A61979B3CF0021BEFC /* ne_50m_land.simplify0.2.geojson in Resources */,
 				249993AF166F8821000F8452 /* asamapp.txt in Resources */,
 				24A5FD96166FA2E800C53193 /* ngadisclaimer.txt in Resources */,
+				2F4DFEBD209CA7E8002292C2 /* trustid_server_ca_a52.cer in Resources */,
 				24A5FD9D166FA9BA00C53193 /* LegalDetailsViewController_iPhone.xib in Resources */,
 				24F1467B166FB9200028E013 /* LegalViewController_ipad.xib in Resources */,
 				24F14681166FB93B0028E013 /* LegalDetailsViewController_ipad.xib in Resources */,
@@ -1052,6 +1056,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer: Hicham Laoudi (GR9V2Y6GUF)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Hicham Laoudi (GR9V2Y6GUF)";
 				COPY_PHASE_STRIP = NO;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -1064,7 +1069,7 @@
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				ONLY_ACTIVE_ARCH = YES;
 				PROVISIONING_PROFILE = "29BB4F5B-BD7E-43CE-9EAB-3C5A5E80FACC";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "EBF680BC-F8D4-46F8-B695-38B25AF95151";
@@ -1086,7 +1091,7 @@
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				PROVISIONING_PROFILE = "29BB4F5B-BD7E-43CE-9EAB-3C5A5E80FACC";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "EBF680BC-F8D4-46F8-B695-38B25AF95151";
@@ -1103,11 +1108,13 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = ZL8G5D9G2H;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Asam/ASAM-Prefix.pch";
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = "Asam/ASAM-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				PRODUCT_BUNDLE_IDENTIFIER = "mil.nga.giat.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = ASAM;
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
@@ -1123,11 +1130,13 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = ZL8G5D9G2H;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Asam/ASAM-Prefix.pch";
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = "Asam/ASAM-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				PRODUCT_BUNDLE_IDENTIFIER = "mil.nga.giat.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = ASAM;
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";

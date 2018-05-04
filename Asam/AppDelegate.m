@@ -40,6 +40,28 @@
     [OfflineMapUtility generateExteriorPolygons:featuresArray];
     
     [self.window makeKeyAndVisible];
+    
+    // msi.nga.mil has an untrusted certificate
+    // until they fix that lets add the missing untrusted CA
+    NSString *rootCertPath = [[NSBundle mainBundle] pathForResource:@"trustid_server_ca_a52" ofType:@"cer"];
+    NSData *rootCertData = [NSData dataWithContentsOfFile:rootCertPath];
+    OSStatus err = noErr;
+    SecCertificateRef rootCert = SecCertificateCreateWithData(kCFAllocatorDefault, (CFDataRef) rootCertData);
+    CFTypeRef result;
+    NSDictionary* dict = [NSDictionary dictionaryWithObjectsAndKeys:
+                          (id)kSecClassCertificate, kSecClass,
+                          rootCert, kSecValueRef,
+                          nil];
+    
+    err = SecItemAdd((CFDictionaryRef)dict, &result);
+    if( err == noErr) {
+        NSLog(@"Install root certificate success");
+    } else if( err == errSecDuplicateItem ) {
+        NSLog(@"duplicate root certificate entry");
+    } else {
+        NSLog(@"install root certificate failure");
+    }
+    
     return YES;
 }
 
