@@ -134,11 +134,13 @@
 		24F14681166FB93B0028E013 /* LegalDetailsViewController_ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 24F1467F166FB93B0028E013 /* LegalDetailsViewController_ipad.xib */; };
 		24F3ABB314DAF60A00223445 /* restart.png in Resources */ = {isa = PBXBuildFile; fileRef = 24F3ABB114DAF60A00223445 /* restart.png */; };
 		24F3ABB414DAF60A00223445 /* restart@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 24F3ABB214DAF60A00223445 /* restart@2x.png */; };
+		2F02D1F2209CC55C007BA2B1 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2F02D1F1209CC55B007BA2B1 /* Images.xcassets */; };
+		2F02D1F4209DF2D1007BA2B1 /* launch.png in Resources */ = {isa = PBXBuildFile; fileRef = 2F02D1F3209DF2D1007BA2B1 /* launch.png */; };
 		2F4DFEBD209CA7E8002292C2 /* trustid_server_ca_a52.cer in Resources */ = {isa = PBXBuildFile; fileRef = 2F4DFEBC209CA7E8002292C2 /* trustid_server_ca_a52.cer */; };
+		2F8DBD35209CC20D00838176 /* Launch.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2F8DBD34209CC20D00838176 /* Launch.xib */; };
 		2FB364B319C0CC4600EC8DAD /* MapLayoutGuide.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FB364B219C0CC4600EC8DAD /* MapLayoutGuide.m */; };
 		966D740D1880BDAD00D269C1 /* MainViewController_iphone.m in Sources */ = {isa = PBXBuildFile; fileRef = 966D740C1880BDAD00D269C1 /* MainViewController_iphone.m */; };
 		96E9CF8E18201D3F004E292C /* Asam.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 96E9CF8D18201D3F004E292C /* Asam.sqlite */; };
-		F7F5045B1A092629002551D5 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F7F5045A1A092629002551D5 /* Images.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -319,12 +321,14 @@
 		24F1467F166FB93B0028E013 /* LegalDetailsViewController_ipad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LegalDetailsViewController_ipad.xib; sourceTree = "<group>"; };
 		24F3ABB114DAF60A00223445 /* restart.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = restart.png; sourceTree = "<group>"; };
 		24F3ABB214DAF60A00223445 /* restart@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "restart@2x.png"; sourceTree = "<group>"; };
+		2F02D1F1209CC55B007BA2B1 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = Asam/Images.xcassets; sourceTree = "<group>"; };
+		2F02D1F3209DF2D1007BA2B1 /* launch.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = launch.png; sourceTree = "<group>"; };
 		2F4DFEBC209CA7E8002292C2 /* trustid_server_ca_a52.cer */ = {isa = PBXFileReference; lastKnownFileType = file; path = trustid_server_ca_a52.cer; sourceTree = "<group>"; };
+		2F8DBD34209CC20D00838176 /* Launch.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = Launch.xib; sourceTree = "<group>"; };
 		2FB364B119C0CC4600EC8DAD /* MapLayoutGuide.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapLayoutGuide.h; sourceTree = "<group>"; };
 		2FB364B219C0CC4600EC8DAD /* MapLayoutGuide.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapLayoutGuide.m; sourceTree = "<group>"; };
 		966D740C1880BDAD00D269C1 /* MainViewController_iphone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController_iphone.m; sourceTree = "<group>"; };
 		96E9CF8D18201D3F004E292C /* Asam.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = Asam.sqlite; sourceTree = "<group>"; };
-		F7F5045A1A092629002551D5 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = ASAM/Images.xcassets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -428,6 +432,7 @@
 				240B73971651592400D59CC8 /* CommonViewController.m */,
 				24D5345E171C63760076BCF7 /* AsamDownloader.h */,
 				24D5345F171C63760076BCF7 /* AsamDownloader.m */,
+				2F8DBD34209CC20D00838176 /* Launch.xib */,
 			);
 			name = "Common View Controller";
 			sourceTree = "<group>";
@@ -673,7 +678,7 @@
 		24C78D4114D5B35E0027AE3B = {
 			isa = PBXGroup;
 			children = (
-				F7F5045A1A092629002551D5 /* Images.xcassets */,
+				2F02D1F1209CC55B007BA2B1 /* Images.xcassets */,
 				24C78D5814D5B35E0027AE3B /* Asam */,
 				24C78D4F14D5B35E0027AE3B /* Frameworks */,
 				24C78D4D14D5B35E0027AE3B /* Products */,
@@ -760,6 +765,7 @@
 		24C9F3AB14D9718D00172AAC /* images */ = {
 			isa = PBXGroup;
 			children = (
+				2F02D1F3209DF2D1007BA2B1 /* launch.png */,
 				2427FD611714735B004B0947 /* background@2x.png */,
 				2490E8DB1709C01E00EB9ACB /* background.png */,
 				249E5477168231CC0058BD27 /* slider-fill@2x.png */,
@@ -927,6 +933,8 @@
 				240B738D16514AD600D59CC8 /* DoneDown3.png in Resources */,
 				240B738E16514AD600D59CC8 /* DoneUp.png in Resources */,
 				240B738F16514AD600D59CC8 /* DoneUp3.png in Resources */,
+				2F02D1F4209DF2D1007BA2B1 /* launch.png in Resources */,
+				2F02D1F2209CC55C007BA2B1 /* Images.xcassets in Resources */,
 				240B739216514AD600D59CC8 /* nga.png in Resources */,
 				24B5BEDE165168B400D0B112 /* AboutAsam_iphone.xib in Resources */,
 				2405494816528272007150C7 /* AsamListViewController_iphone.xib in Resources */,
@@ -944,7 +952,6 @@
 				242AA544166E74D10005CFDA /* iTunesArtwork@2x in Resources */,
 				24999393166F7C3E000F8452 /* LegalViewController_iphone.xib in Resources */,
 				249993A8166F87F6000F8452 /* dsactivityview.txt in Resources */,
-				F7F5045B1A092629002551D5 /* Images.xcassets in Resources */,
 				249993A9166F87F6000F8452 /* jsonframework.txt in Resources */,
 				249993AA166F87F6000F8452 /* reachability.txt in Resources */,
 				249993AB166F87F6000F8452 /* revclustermap.txt in Resources */,
@@ -968,6 +975,7 @@
 				249E54731682316F0058BD27 /* left@2x.png in Resources */,
 				249E54741682316F0058BD27 /* right@2x.png in Resources */,
 				249E5479168231CC0058BD27 /* slider-fill@2x.png in Resources */,
+				2F8DBD35209CC20D00838176 /* Launch.xib in Resources */,
 				249E547A168231CC0058BD27 /* slider-track@2x.png in Resources */,
 				2490E8DC1709C01E00EB9ACB /* background.png in Resources */,
 				2427FD621714735B004B0947 /* background@2x.png in Resources */,
