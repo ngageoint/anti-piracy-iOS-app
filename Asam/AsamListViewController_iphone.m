@@ -120,7 +120,7 @@ static NSString *CellClassName = @"AsamCustomCell";
         title = @"Back";
     }
     UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:title style:UIBarButtonItemStyleBordered target:nil action:nil];
-    backButton.tintColor = [UIColor blackColor];
+    backButton.tintColor = [UIColor whiteColor];
     self.navigationItem.backBarButtonItem = backButton;
 
     
