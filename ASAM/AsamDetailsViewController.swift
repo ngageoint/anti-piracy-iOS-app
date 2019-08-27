@@ -10,7 +10,7 @@ import MapKit
 class AsamDetailsViewController: UIViewController, AsamSelectDelegate {
 
     var asam: Asam?
-    var dateFormatter = NSDateFormatter()
+    var dateFormatter = DateFormatter()
     let MAP_SPAN_DELTA: Double = 30.0
     
     @IBOutlet weak var date: UILabel!
@@ -34,11 +34,11 @@ class AsamDetailsViewController: UIViewController, AsamSelectDelegate {
         initializeDetails()
     }
     
-    func asamSelected(asam: AsamAnnotation) {
+    func asamSelected(_ asam: AsamAnnotation) {
         //no action to perform.  We're already on the details screen.
     }
     
-    private func initializeMap() {
+    fileprivate func initializeMap() {
         if let asam = asam {
             let mapCenterLatitude:  Double = asam.lat as Double
             let mapCenterLongitude: Double = asam.lng as Double
@@ -53,44 +53,44 @@ class AsamDetailsViewController: UIViewController, AsamSelectDelegate {
             let dropPin = AsamAnnotation(coordinate: newLocation, asam: asam)
 
             
-            asamMapViewDelegate.clusteringController = KPClusteringController(mapView: self.mapView)
-            asamMapViewDelegate.clusteringController.setAnnotations([dropPin])
+            //asamMapViewDelegate.clusteringController = KPClusteringController(mapView: self.mapView)
+            //asamMapViewDelegate.clusteringController.setAnnotations([dropPin])
         }
         
-        if let mapType = asamMapViewDelegate.defaults.stringForKey(MapView.MAP_TYPE) {
+        if let mapType = asamMapViewDelegate.defaults.string(forKey: MapView.MAP_TYPE) {
             switch mapType {
             case "Standard":
-                self.mapView.mapType = MKMapType.Standard
+                self.mapView.mapType = MKMapType.standard
                 self.mapView.removeOverlays(asamMapViewDelegate.offlineMap.polygons)
             case "Satellite":
-                self.mapView.mapType = MKMapType.Satellite
+                self.mapView.mapType = MKMapType.satellite
                 self.mapView.removeOverlays(asamMapViewDelegate.offlineMap.polygons)
             case "Hybrid":
-                self.mapView.mapType = MKMapType.Hybrid
+                self.mapView.mapType = MKMapType.hybrid
                 self.mapView.removeOverlays(asamMapViewDelegate.offlineMap.polygons)
             case "Offline":
-                self.mapView.mapType = MKMapType.Standard
+                self.mapView.mapType = MKMapType.standard
                 self.mapView.addOverlays(asamMapViewDelegate.offlineMap.polygons)
             default:
-                self.mapView.mapType = MKMapType.Standard
+                self.mapView.mapType = MKMapType.standard
                 self.mapView.removeOverlays(asamMapViewDelegate.offlineMap.polygons)
             }
         }
         
     }
     
-    private func initializeDetails() {
+    fileprivate func initializeDetails() {
         if let asam = asam {
             self.title = "ASAM Details"
-            date.text = dateFormatter.stringFromDate(asam.date)
+            date.text = dateFormatter.string(from: asam.date)
             aggressor.text = asam.aggressor
             victim.text = asam.victim
             number.text = asam.reference
             subregion.text = asam.subregion.stringValue
             
             let rawCoordinate = "Lat: " + asam.latitude + ", Lon: " + asam.longitude
-            let options: [String : AnyObject] = [NSDocumentTypeDocumentAttribute : NSHTMLTextDocumentType, NSCharacterEncodingDocumentAttribute : NSUTF8StringEncoding]
-            if let data = rawCoordinate.dataUsingEncoding(NSUTF8StringEncoding) {
+            let options: [String : AnyObject] = [NSDocumentTypeDocumentAttribute : NSHTMLTextDocumentType as AnyObject, NSCharacterEncodingDocumentAttribute : String.Encoding.utf8 as AnyObject]
+            if let data = rawCoordinate.data(using: String.Encoding.utf8) {
                 do {
                     let unescaped = try NSAttributedString(data: data, options: options, documentAttributes: nil)
                     coordinate.text = unescaped.string

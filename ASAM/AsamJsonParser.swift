@@ -10,19 +10,19 @@ import CoreData
 
 class AsamJsonParser {
     
-    let path = NSBundle.mainBundle().pathForResource("asam", ofType: "json")
+    let path = Bundle.main.path(forResource: "asam", ofType: "json")
     var asams = [NSManagedObject]()
     
     init() {
         //1
         let appDelegate =
-        UIApplication.sharedApplication().delegate as! AppDelegate
+        UIApplication.shared.delegate as! AppDelegate
         
         let managedContext = appDelegate.managedObjectContext!
         
         //2
-        let entity =  NSEntityDescription.entityForName("Asam",
-            inManagedObjectContext:
+        let entity =  NSEntityDescription.entity(forEntityName: "Asam",
+            in:
             managedContext)
         
         let json: NSDictionary = generateDictionaryFromJson(path!) as! NSDictionary
@@ -30,7 +30,7 @@ class AsamJsonParser {
         for item in dataArray { 
             let obj = item as! NSDictionary
             let asam = NSManagedObject(entity: entity!,
-                insertIntoManagedObjectContext:managedContext)
+                insertInto:managedContext)
             
             //3
             asam.setValue(obj["Reference"]!, forKey: "reference")
@@ -48,9 +48,9 @@ class AsamJsonParser {
             asam.setValue(Int((obj["Subregion"]! as! String)), forKey: "subregion")
             
             //dates
-            let formatter = NSDateFormatter()
+            let formatter = DateFormatter()
             formatter.dateFormat = "MM/dd/yyyy"
-            let date = formatter.dateFromString(obj["Date"] as! String)
+            let date = formatter.date(from: obj["Date"] as! String)
             print(date)
             asam.setValue(date, forKey: "date")
             
@@ -65,10 +65,10 @@ class AsamJsonParser {
         }
     }
     
-    func generateDictionaryFromJson(path: String) -> AnyObject
+    func generateDictionaryFromJson(_ path: String) -> AnyObject
     {
-        let fileContent = NSData(contentsOfFile: path)
-        let jsonDict: AnyObject? = try? NSJSONSerialization.JSONObjectWithData(fileContent!, options: [])
+        let fileContent = try? Data(contentsOf: URL(fileURLWithPath: path))
+        let jsonDict: AnyObject? = try? JSONSerialization.jsonObject(with: fileContent!, options: []) as AnyObject
         return jsonDict!
     }
     

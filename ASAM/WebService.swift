@@ -7,7 +7,7 @@
 import Foundation
 
 protocol WebService {
-    func didReceiveResponse(results: NSArray)
+    func didReceiveResponse(_ results: NSArray)
 }
 
 
@@ -23,16 +23,16 @@ class AsamRetrieval: NSObject {
     }
 
     
-    func searchForAsams(startDate: String, endDate: String) {
+    func searchForAsams(_ startDate: String, endDate: String) {
         //Dateformate yyyyMMdd
         let urlPath = "http://msi.nga.mil/MSI_JWS/ASAM_JSON/getJSON?typename=DateRange_AllRefNumbers&fromDate=" + startDate + "&toDate=" + endDate
         searchAsams(urlPath)
     }
     
     
-    func searchAsams(urlPath: String) {
-        let url: NSURL = NSURL(string: urlPath)!
-        let request: NSURLRequest = NSURLRequest(URL: url)
+    func searchAsams(_ urlPath: String) {
+        let url: URL = URL(string: urlPath)!
+        let request: URLRequest = URLRequest(url: url)
         let connection: NSURLConnection = NSURLConnection(request: request, delegate: self, startImmediately: false)!
         
         print("Searching: \(url)")
@@ -41,38 +41,38 @@ class AsamRetrieval: NSObject {
     }
     
     
-    func connection(connection: NSURLConnection!, didFailWithError error: NSError!) {
+    func connection(_ connection: NSURLConnection!, didFailWithError error: NSError!) {
         print("Failed with error:\(error.localizedDescription)")
     }
     
     
-    func connection(didReceiveResponse: NSURLConnection!, didReceiveResponse response: NSURLResponse!) {
+    func connection(_ didReceiveResponse: NSURLConnection!, didReceiveResponse response: URLResponse!) {
         //New request, clear the data object
         self.data = NSMutableData()
     }
     
     
-    func connection(connection: NSURLConnection!, didReceiveData data: NSData!) {
+    func connection(_ connection: NSURLConnection!, didReceiveData data: Data!) {
         
         //Perform data manipulation to remove extra whitespace
-        let stringData = NSString(data: data!, encoding: NSUTF8StringEncoding)
-        let nonTrimData: NSString = stringData!.stringByReplacingOccurrencesOfString("[\\s+]", withString: "  ", options: NSStringCompareOptions.RegularExpressionSearch, range: NSRange(location: 0, length: stringData!.length))
-        let trimData: NSString = nonTrimData.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
-        let utf8str = trimData.dataUsingEncoding(NSUTF8StringEncoding)
+        let stringData = NSString(data: data!, encoding: String.Encoding.utf8.rawValue)
+        let nonTrimData: NSString = stringData!.replacingOccurrences(of: "[\\s+]", with: "  ", options: NSString.CompareOptions.regularExpression, range: NSRange(location: 0, length: stringData!.length)) as NSString
+        let trimData: NSString = nonTrimData.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines) as NSString
+        let utf8str = trimData.data(using: String.Encoding.utf8.rawValue)
         
         // fromRaw(0) is equivalent to objc 'base64EncodedStringWithOptions:0'
-        let base64Encoded = utf8str!.base64EncodedStringWithOptions(NSDataBase64EncodingOptions(rawValue: 0))
-        let newData = NSData(base64EncodedString: base64Encoded, options:   NSDataBase64DecodingOptions(rawValue: 0))
+        let base64Encoded = utf8str!.base64EncodedString(options: NSData.Base64EncodingOptions(rawValue: 0))
+        let newData = Data(base64Encoded: base64Encoded, options:   NSData.Base64DecodingOptions(rawValue: 0))
         
-        self.data.appendData(newData!)
+        self.data.append(newData!)
     }
     
     
-    func connectionDidFinishLoading(connection: NSURLConnection!) {
+    func connectionDidFinishLoading(_ connection: NSURLConnection!) {
         
         if data.length > 0 {
             do {
-                let jsonObject: AnyObject = try NSJSONSerialization.JSONObjectWithData(data, options: [])
+                let jsonObject: Any = try JSONSerialization.jsonObject(with: data as Data, options: [])
                 if let jsonArray = jsonObject as? NSArray {
                     delegate?.didReceiveResponse(jsonArray)
                 } else {

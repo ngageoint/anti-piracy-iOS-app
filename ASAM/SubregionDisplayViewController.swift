@@ -8,7 +8,7 @@ import UIKit
 
 class SubregionDisplayViewController: UIViewController {
     
-    func populateRegionText(regions: Array<String>, textView: UITextField) {
+    func populateRegionText(_ regions: Array<String>, textView: UITextField) {
         var regionsText = String()
         
         for region in regions {
@@ -16,7 +16,7 @@ class SubregionDisplayViewController: UIViewController {
         }
     
         if !regions.isEmpty {
-            textView.text = regionsText.substringToIndex(regionsText.endIndex.predecessor())
+            textView.text = regionsText.substring(to: regionsText.characters.index(before: regionsText.endIndex))
         }
         else {
             textView.text = String()

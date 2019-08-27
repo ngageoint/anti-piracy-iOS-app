@@ -8,6 +8,6 @@ import Foundation
 
 protocol AsamSelectDelegate {
 
-    func asamSelected(asam: AsamAnnotation)
+    func asamSelected(_ asam: AsamAnnotation)
 
 }

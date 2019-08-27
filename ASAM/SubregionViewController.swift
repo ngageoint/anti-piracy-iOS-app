@@ -12,7 +12,7 @@ class SubregionViewController: SubregionDisplayViewController, MKMapViewDelegate
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var regionsText: UITextField!
 
-    let defaults = NSUserDefaults.standardUserDefaults()
+    let defaults = UserDefaults.standard
     
     let polygonIntersection:Polygon = Polygon()
     var selectedRegions = Array<String>()
@@ -20,14 +20,14 @@ class SubregionViewController: SubregionDisplayViewController, MKMapViewDelegate
     let unselectedColor:UIColor = UIColor(red: 128/255.0, green: 255/255.0, blue: 130/255.0, alpha: 0.5)
     let selectedColor:UIColor   = UIColor(red: 0.0/255.0, green: 255/255.0, blue: 0.0/255.0, alpha: 0.9)
     
-    @IBAction func clearSelected(sender: AnyObject) {
+    @IBAction func clearSelected(_ sender: AnyObject) {
         regionsText.text = String()
         
         for polygon in mapView.overlays as! [MKPolygon] {
-            let renderer:MKPolygonRenderer = self.mapView.rendererForOverlay(polygon) as! MKPolygonRenderer
+            let renderer:MKPolygonRenderer = self.mapView.renderer(for: polygon) as! MKPolygonRenderer
             
             if selectedRegions.contains(polygon.title!) {
-                selectedRegions.removeAtIndex(selectedRegions.indexOf(polygon.title!)!)
+                selectedRegions.remove(at: selectedRegions.index(of: polygon.title!)!)
             }
             
             renderer.fillColor = unselectedColor
@@ -51,7 +51,7 @@ class SubregionViewController: SubregionDisplayViewController, MKMapViewDelegate
     }
     
     //Offline Map Polygons
-    func mapView(mapView: MKMapView, rendererForOverlay overlay: MKOverlay) -> MKOverlayRenderer {
+    func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
         
         let polygonRenderer = MKPolygonRenderer(overlay: overlay);
 
@@ -63,17 +63,17 @@ class SubregionViewController: SubregionDisplayViewController, MKMapViewDelegate
             else {
                 polygonRenderer.fillColor = unselectedColor
             }            
-            polygonRenderer.strokeColor = UIColor.blackColor()
+            polygonRenderer.strokeColor = UIColor.black
             polygonRenderer.lineWidth = 1.0
         }
         return polygonRenderer
     }
     
-    func action(gestureRecognizer:UIGestureRecognizer) {
+    func action(_ gestureRecognizer:UIGestureRecognizer) {
 
         //where did the user click
-        let touchPoint = gestureRecognizer.locationInView(self.mapView)
-        let tapCoordinate:CLLocationCoordinate2D = mapView.convertPoint(touchPoint, toCoordinateFromView: self.mapView)
+        let touchPoint = gestureRecognizer.location(in: self.mapView)
+        let tapCoordinate:CLLocationCoordinate2D = mapView.convert(touchPoint, toCoordinateFrom: self.mapView)
         let point = MKMapPointForCoordinate(tapCoordinate)
         let mapRect = MKMapRectMake(point.x, point.y, 0, 0);
         
@@ -81,14 +81,14 @@ class SubregionViewController: SubregionDisplayViewController, MKMapViewDelegate
         for polygon in mapView.overlays as! [MKPolygon] {
             
             //quick check
-            if polygon.intersectsMapRect(mapRect) {
+            if polygon.intersects(mapRect) {
                 
                 //comprehensive check
                 if self.polygonIntersection.isPointInPolygon(polygon, point: point) {
 
-                    let renderer:MKPolygonRenderer = self.mapView.rendererForOverlay(polygon) as! MKPolygonRenderer
+                    let renderer:MKPolygonRenderer = self.mapView.renderer(for: polygon) as! MKPolygonRenderer
                     if selectedRegions.contains(polygon.title!) {
-                        selectedRegions.removeAtIndex(selectedRegions.indexOf(polygon.title!)!)
+                        selectedRegions.remove(at: selectedRegions.index(of: polygon.title!)!)
                         renderer.fillColor = unselectedColor
                     }
                     else {
@@ -96,11 +96,11 @@ class SubregionViewController: SubregionDisplayViewController, MKMapViewDelegate
                         renderer.fillColor = selectedColor
 
                     }
-                    renderer.strokeColor = UIColor.blackColor()
+                    renderer.strokeColor = UIColor.black
                     renderer.lineWidth = 1.0
                     renderer.setNeedsDisplay()
                     
-                    selectedRegions.sortInPlace()
+                    selectedRegions.sort()
                     populateRegionText(selectedRegions, textView: regionsText)
                     regions = regionsText.text!
                 }

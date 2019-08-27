@@ -10,7 +10,7 @@ import MapKit
 
 class CurrentSubregion: NSObject {
     
-    func calculateSubregion(currentLocation: CLLocation?) -> String {
+    func calculateSubregion(_ currentLocation: CLLocation?) -> String {
         var currentSubregion = Filter.Basic.DEFAULT_SUBREGION
         let subregionPolygons = SubregionMap()
 
@@ -20,22 +20,25 @@ class CurrentSubregion: NSObject {
         }
 
         for polygon in subregionPolygons.polygons {
-            let pathRef: CGMutablePathRef = CGPathCreateMutable()
+            let pathRef: CGMutablePath = CGMutablePath()
             let polygonPoints = polygon.points()
             
             for count in 0..<polygon.pointCount {
                 let mp: MKMapPoint = polygonPoints[count]
                 if count == 0 {
-                    CGPathMoveToPoint(pathRef, nil, CGFloat(mp.x), CGFloat(mp.y))
+                    pathRef.move(to: CGPoint(x: mp.x, y: mp.y))
+                    //CGPathMoveToPoint(pathRef, nil, CGFloat(mp.x), CGFloat(mp.y))
                 } else {
-                    CGPathAddLineToPoint(pathRef, nil, CGFloat(mp.x), CGFloat(mp.y))
+                    pathRef.addLine(to: CGPoint(x: mp.x, y: mp.y))
+                    //CGPathAddLineToPoint(pathRef, nil, CGFloat(mp.x), CGFloat(mp.y))
                 }
             }
             
             let mapPoint: MKMapPoint  = MKMapPointForCoordinate(mapCoordinate);
-            let mapPointAsCGP: CGPoint = CGPointMake(CGFloat(mapPoint.x), CGFloat(mapPoint.y))
+            let mapPointAsCGP: CGPoint = CGPoint(x: CGFloat(mapPoint.x), y: CGFloat(mapPoint.y))
             
-            let pointIsInPolygon: Bool = CGPathContainsPoint(pathRef, nil, mapPointAsCGP, false)
+            let pointIsInPolygon = pathRef.contains(mapPointAsCGP)
+            //let pointIsInPolygon: Bool = CGPathContainsPoint(pathRef, nil, mapPointAsCGP, false)
             
             if pointIsInPolygon {
                 currentSubregion = polygon.title!

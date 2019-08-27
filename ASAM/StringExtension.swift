@@ -16,7 +16,7 @@ extension String {
             value = -999.99
         }
         else {
-            value = NSNumberFormatter().numberFromString(self)!.doubleValue
+            value = NumberFormatter().number(from: self)!.doubleValue
         }
         
         return value

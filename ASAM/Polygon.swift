@@ -9,7 +9,7 @@ import MapKit
 class Polygon {
 
     //Ray casting algorithm
-    func isPointInPolygon(polygon:MKPolygon, point:MKMapPoint) -> Bool {
+    func isPointInPolygon(_ polygon:MKPolygon, point:MKMapPoint) -> Bool {
         var isInPolygon = false
         var xVertex:[Double] = [];
         var yVertex:[Double] = [];

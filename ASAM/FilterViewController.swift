@@ -9,7 +9,7 @@ import CoreData
 import MapKit
 
 class FilterViewController: SubregionDisplayViewController, UIPickerViewDelegate, UIPickerViewDataSource, CLLocationManagerDelegate {
-    @IBAction func hideKeyboard(sender: AnyObject) {
+    @IBAction func hideKeyboard(_ sender: AnyObject) {
          scrollView.endEditing(true)
     }
     
@@ -21,7 +21,7 @@ class FilterViewController: SubregionDisplayViewController, UIPickerViewDelegate
     @IBOutlet weak var scrollView: UIScrollView!
     var currentSubregion = Filter.Basic.DEFAULT_SUBREGION
     var dateIntervalPicker: UIPickerView!
-    var dateFormatter = NSDateFormatter()
+    var dateFormatter = DateFormatter()
     var subregionLocation = CurrentSubregion()
 
 
@@ -33,7 +33,7 @@ class FilterViewController: SubregionDisplayViewController, UIPickerViewDelegate
 
     var subregionInitialized = false
     let pickerData = [Date.ALL, Date.DAYS_30, Date.DAYS_60, Date.DAYS_120, Date.YEARS_1]
-    let defaults = NSUserDefaults.standardUserDefaults()
+    let defaults = UserDefaults.standard
     
     
     override func viewDidLoad() {
@@ -52,29 +52,29 @@ class FilterViewController: SubregionDisplayViewController, UIPickerViewDelegate
     
 
     
-    @IBAction func dateIntervalEditBegin(sender: AnyObject) {
+    @IBAction func dateIntervalEditBegin(_ sender: AnyObject) {
             selectedInterval.text = pickerData[Date.DEFAULT]
     }
     
     
     func userBasicFilters() {
         
-        if let userDefaultInterval = defaults.stringForKey(Filter.Basic.DATE_INTERVAL) {
+        if let userDefaultInterval = defaults.string(forKey: Filter.Basic.DATE_INTERVAL) {
             selectedInterval.text = userDefaultInterval
         } else {
             selectedInterval.text = pickerData[Date.DEFAULT]
         }
 
-        if let userDefaultKeyword = defaults.stringForKey(Filter.Basic.KEYWORD) {
+        if let userDefaultKeyword = defaults.string(forKey: Filter.Basic.KEYWORD) {
             keyword.text = userDefaultKeyword
         } else {
             keyword.text = String()
         }
         
-        let userDefaultCurrentEnabled = defaults.boolForKey(Filter.Basic.CURRENT_SUBREGION_ENABLED)
+        let userDefaultCurrentEnabled = defaults.bool(forKey: Filter.Basic.CURRENT_SUBREGION_ENABLED)
         currentSubregionEnabled.setOn(userDefaultCurrentEnabled, animated: false)
         if userDefaultCurrentEnabled {
-            if let userDefaultCurrentSubregion = defaults.stringForKey(Filter.Basic.CURRENT_SUBREGION) {
+            if let userDefaultCurrentSubregion = defaults.string(forKey: Filter.Basic.CURRENT_SUBREGION) {
                 currentSubregion = userDefaultCurrentSubregion
             }
         }
@@ -88,18 +88,18 @@ class FilterViewController: SubregionDisplayViewController, UIPickerViewDelegate
     
     
     func saveBasicFilter() {
-        defaults.setObject(Filter.BASIC_TYPE, forKey: Filter.FILTER_TYPE)
-        defaults.setObject(selectedInterval.text, forKey: Filter.Basic.DATE_INTERVAL)
-        defaults.setObject(keyword.text, forKey: Filter.Basic.KEYWORD)
-        defaults.setBool(currentSubregionEnabled.on, forKey: Filter.Basic.CURRENT_SUBREGION_ENABLED)
-        defaults.setObject(currentSubregion, forKey: Filter.Basic.CURRENT_SUBREGION)
+        defaults.set(Filter.BASIC_TYPE, forKey: Filter.FILTER_TYPE)
+        defaults.set(selectedInterval.text, forKey: Filter.Basic.DATE_INTERVAL)
+        defaults.set(keyword.text, forKey: Filter.Basic.KEYWORD)
+        defaults.set(currentSubregionEnabled.isOn, forKey: Filter.Basic.CURRENT_SUBREGION_ENABLED)
+        defaults.set(currentSubregion, forKey: Filter.Basic.CURRENT_SUBREGION)
     }
     
     
-    @IBAction func switchCurrentSubregion(sender: AnyObject) {
+    @IBAction func switchCurrentSubregion(_ sender: AnyObject) {
         var canAskPermission = true
         
-        if currentSubregionEnabled.on {
+        if currentSubregionEnabled.isOn {
             if !subregionInitialized {
                 subregionInitialized = true
                 canAskPermission = false
@@ -121,14 +121,14 @@ class FilterViewController: SubregionDisplayViewController, UIPickerViewDelegate
     
     
     func checkForCurrentSubregion() {
-        if currentSubregionEnabled.on && subregionInitialized && hasPermission() {
+        if currentSubregionEnabled.isOn && subregionInitialized && hasPermission() {
             //Assumes location is found, otherwise will use a default
             currentSubregion = subregionLocation.calculateSubregion(currentLocation)
         }
     }
     
     
-    @IBAction func clearBasicFilters(sender: AnyObject) {
+    @IBAction func clearBasicFilters(_ sender: AnyObject) {
         basicDefaults()
     }
     
@@ -141,7 +141,7 @@ class FilterViewController: SubregionDisplayViewController, UIPickerViewDelegate
     }
     
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "applyBasicFilter" {
             checkForCurrentSubregion()
             saveBasicFilter()
@@ -152,23 +152,23 @@ class FilterViewController: SubregionDisplayViewController, UIPickerViewDelegate
     //MARK: - Delegates and data sources
     //MARK: Data Sources
     
-    func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int {
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
     }
     
     
-    func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         return pickerData.count
     }
 
     //MARK: Delegates
     
-    func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         return pickerData[row]
     }
     
     
-    func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         selectedInterval.text = pickerData[row]
     }
 
@@ -187,55 +187,55 @@ class FilterViewController: SubregionDisplayViewController, UIPickerViewDelegate
         let alertController = UIAlertController(
             title: "Location Access Disabled",
             message: "To enable Current Subregion, please open this app's settings and set location access to 'While Using the App'.",
-            preferredStyle: .Alert)
+            preferredStyle: .alert)
         
-        let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel, handler: nil)
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         alertController.addAction(cancelAction)
         
-        let openAction = UIAlertAction(title: "Open Settings", style: .Default) { (action) in
-            if let url = NSURL(string:UIApplicationOpenSettingsURLString) {
-                UIApplication.sharedApplication().openURL(url)
+        let openAction = UIAlertAction(title: "Open Settings", style: .default) { (action) in
+            if let url = URL(string:UIApplicationOpenSettingsURLString) {
+                UIApplication.shared.openURL(url)
             }
         }
         alertController.addAction(openAction)
         
-        self.presentViewController(alertController, animated: true, completion: nil)
+        self.present(alertController, animated: true, completion: nil)
     }
     
     
     func hasPermission() -> Bool {
-        return CLLocationManager.authorizationStatus() == .AuthorizedWhenInUse
+        return CLLocationManager.authorizationStatus() == .authorizedWhenInUse
     }
     
 
     //MARK: Location Delegates
     
-    func locationManager(manager: CLLocationManager, didFailWithError error: NSError) {
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         locationManager.stopUpdatingLocation()
         print("Error while updating location " + error.localizedDescription)
     }
 
     
-    func locationManager(manager: CLLocationManager, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
 
-        if status == .NotDetermined {
+        if status == .notDetermined {
             isInitialAuthorizationCheck = true
             locationManager.requestWhenInUseAuthorization()
-        } else if status != .AuthorizedWhenInUse {
+        } else if status != .authorizedWhenInUse {
             if !isInitialAuthorizationCheck {
                 askPermission()
             }
             isInitialAuthorizationCheck = false
         }
         
-        if status == .AuthorizedWhenInUse && !locationFixAchieved {
+        if status == .authorizedWhenInUse && !locationFixAchieved {
             currentSubregionEnabled.setOn(true, animated: true)
             locationManager.startUpdatingLocation()
         }
     }
 
     
-    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if (locationFixAchieved == false) {
             locationFixAchieved = true
             let locationArray = locations as NSArray

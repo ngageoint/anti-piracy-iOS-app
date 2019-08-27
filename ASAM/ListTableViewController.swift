@@ -28,28 +28,28 @@ class ListTableViewController: UITableViewController {
     
     // MARK: - Table view data source
     
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Potentially incomplete method implementation.
         // Return the number of sections.
         return 1
     }
     
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete method implementation.
         // Return the number of rows in the section.
         return asams.count
     }
     
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("asamCell", forIndexPath: indexPath) as! ListViewCell
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "asamCell", for: indexPath) as! ListViewCell
         
         let asam = asams[indexPath.row].asam// as Asam
         
-        let dateFormatter = NSDateFormatter()
-        dateFormatter.dateStyle = .ShortStyle
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = .short
         
-        let theDate = dateFormatter.stringFromDate(asam.date)
+        let theDate = dateFormatter.string(from: asam.date)
         
         cell.aggressor.text = "Aggressor: " + asam.aggressor
         cell.victim.text = "Victim: " + asam.victim
@@ -96,9 +96,9 @@ class ListTableViewController: UITableViewController {
     
     // MARK: - Navigation
 
-    override func prepareForSegue(segue: UIStoryboardSegue?, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue?, sender: Any?) {
         if (segue?.identifier == "singleListAsamDetails") {
-            let viewController: AsamDetailsViewController = segue!.destinationViewController as! AsamDetailsViewController
+            let viewController: AsamDetailsViewController = segue!.destination as! AsamDetailsViewController
             let path = self.tableView.indexPathForSelectedRow!
             
             let selectedAsam = asams[path.row] as AsamAnnotation

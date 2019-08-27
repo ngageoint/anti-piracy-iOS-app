@@ -6,7 +6,6 @@
 import UIKit
 import MapKit
 import CoreData
-import EZLoadingActivity
 
 class ViewController: UIViewController, AsamSelectDelegate, WebService {
 
@@ -26,31 +25,30 @@ class ViewController: UIViewController, AsamSelectDelegate, WebService {
         
         super.viewDidLoad()
         
-        if let userDefaultFilterType = asamMapViewDelegate.defaults.stringForKey(Filter.FILTER_TYPE) {
+        if let userDefaultFilterType = asamMapViewDelegate.defaults.string(forKey: Filter.FILTER_TYPE) {
             filterType = userDefaultFilterType
         }
         
         asamMapViewDelegate.asamSelectDelegate = self
 
         //clustering
-        asamMapViewDelegate.clusteringController = KPClusteringController(mapView: self.mapView)
+        //asamMapViewDelegate.clusteringController = KPClusteringController(mapView: self.mapView)
         
         //Display existing Asams
         asams = retrieveAnnotations(filterType)
-        asamMapViewDelegate.clusteringController.setAnnotations(asams)
+        //asamMapViewDelegate.clusteringController.setAnnotations(asams)
 
         asamRetrieval.delegate = self
         
-        let firstLaunch = asamMapViewDelegate.defaults.boolForKey(AppSettings.FIRST_LAUNCH)
-        EZLoadingActivity.show("Retrieving ASAMs", disableUI: false)
+        let firstLaunch = asamMapViewDelegate.defaults.bool(forKey: AppSettings.FIRST_LAUNCH)
         if !firstLaunch {
             asamRetrieval.searchAllAsams()
             asamMapViewDelegate.defaults.setValue(true, forKey: AppSettings.FIRST_LAUNCH)
         } else {
-            let formatter = NSDateFormatter()
+            let formatter = DateFormatter()
             formatter.dateFormat = "yyyyMMdd" //ex: "20150221"
-            let startDate = formatter.stringFromDate(model.getLatestAsamDate())
-            let endDate = formatter.stringFromDate(NSDate())
+            let startDate = formatter.string(from: model.getLatestAsamDate())
+            let endDate = formatter.string(from: Foundation.Date())
             asamRetrieval.searchForAsams(startDate, endDate: endDate)
         }
 
@@ -61,10 +59,10 @@ class ViewController: UIViewController, AsamSelectDelegate, WebService {
     
     func configureMap() {
         //rebuild map center and map span from persisted user data
-        var mapCenterLatitude:  Double = asamMapViewDelegate.defaults.doubleForKey(MapView.LATITUDE)
-        var mapCenterLongitude: Double = asamMapViewDelegate.defaults.doubleForKey(MapView.LONGITUDE)
-        var mapSpanLatitudeDelta: Double = asamMapViewDelegate.defaults.doubleForKey(MapView.LAT_DELTA)
-        var mapSpanLongitudeDelta: Double = asamMapViewDelegate.defaults.doubleForKey(MapView.LON_DELTA)
+        var mapCenterLatitude:  Double = asamMapViewDelegate.defaults.double(forKey: MapView.LATITUDE)
+        var mapCenterLongitude: Double = asamMapViewDelegate.defaults.double(forKey: MapView.LONGITUDE)
+        var mapSpanLatitudeDelta: Double = asamMapViewDelegate.defaults.double(forKey: MapView.LAT_DELTA)
+        var mapSpanLongitudeDelta: Double = asamMapViewDelegate.defaults.double(forKey: MapView.LON_DELTA)
         
         if mapCenterLatitude.isNaN {
             mapCenterLatitude = 0.0
@@ -93,42 +91,42 @@ class ViewController: UIViewController, AsamSelectDelegate, WebService {
         self.mapView.region = mapRegion
         
         //set map type from persisted user data
-        if let mapType = asamMapViewDelegate.defaults.stringForKey(MapView.MAP_TYPE) {
+        if let mapType = asamMapViewDelegate.defaults.string(forKey: MapView.MAP_TYPE) {
             switch mapType {
             case "Standard":
-                self.mapView.mapType = MKMapType.Standard
+                self.mapView.mapType = MKMapType.standard
                 self.mapView.removeOverlays(asamMapViewDelegate.offlineMap.polygons)
             case "Satellite":
-                self.mapView.mapType = MKMapType.Satellite
+                self.mapView.mapType = MKMapType.satellite
                 self.mapView.removeOverlays(asamMapViewDelegate.offlineMap.polygons)
             case "Hybrid":
-                self.mapView.mapType = MKMapType.Hybrid
+                self.mapView.mapType = MKMapType.hybrid
                 self.mapView.removeOverlays(asamMapViewDelegate.offlineMap.polygons)
             case "Offline":
-                self.mapView.mapType = MKMapType.Standard
+                self.mapView.mapType = MKMapType.standard
                 self.mapView.addOverlays(asamMapViewDelegate.offlineMap.polygons)
             default:
-                self.mapView.mapType = MKMapType.Standard
+                self.mapView.mapType = MKMapType.standard
                 self.mapView.removeOverlays(asamMapViewDelegate.offlineMap.polygons)
             }
         }
         
     }
     
-    
-    func didReceiveResponse(results: NSArray) {
+    func didReceiveResponse(_ results: NSArray) {
         print("Success! Response was received.")
 
-        model.populateEntity(results)
+        if let json = results as? [[String:Any]] {
+            model.populateEntity(json)
+        }
         
         asams = retrieveAnnotations(filterType)
         
-        asamMapViewDelegate.clusteringController.setAnnotations(asams)
-        EZLoadingActivity.hide()
+        //asamMapViewDelegate.clusteringController.setAnnotations(asams)
     }
     
     
-    func retrieveAnnotations(filterType: String) -> [AsamAnnotation] {
+    func retrieveAnnotations(_ filterType: String) -> [AsamAnnotation] {
         
         var annotations: [AsamAnnotation] = []
 
@@ -150,40 +148,40 @@ class ViewController: UIViewController, AsamSelectDelegate, WebService {
     }
     
         
-    @IBAction func showLayerActionSheet(sender: UIButton) {
+    @IBAction func showLayerActionSheet(_ sender: UIButton) {
         
         // Action Sheet Label
-        let optionMenu = UIAlertController(title: nil, message: "Select Map Type", preferredStyle: .ActionSheet)
+        let optionMenu = UIAlertController(title: nil, message: "Select Map Type", preferredStyle: .actionSheet)
         
         // Action Sheet Options
-        let standardMapAction = UIAlertAction(title: "Standard", style: .Default, handler: {
+        let standardMapAction = UIAlertAction(title: "Standard", style: .default, handler: {
             (alert: UIAlertAction) -> Void in
-            self.mapView.mapType = MKMapType.Standard
+            self.mapView.mapType = MKMapType.standard
             self.mapView.removeOverlays(self.asamMapViewDelegate.offlineMap.polygons)
-            self.asamMapViewDelegate.defaults.setObject("Standard", forKey: MapView.MAP_TYPE)
+            self.asamMapViewDelegate.defaults.set("Standard", forKey: MapView.MAP_TYPE)
         })
-        let satelliteMapAction = UIAlertAction(title: "Satellite", style: .Default, handler: {
+        let satelliteMapAction = UIAlertAction(title: "Satellite", style: .default, handler: {
             (alert: UIAlertAction) -> Void in
-            self.mapView.mapType = MKMapType.Satellite
+            self.mapView.mapType = MKMapType.satellite
             self.mapView.removeOverlays(self.asamMapViewDelegate.offlineMap.polygons)
-            self.asamMapViewDelegate.defaults.setObject("Satellite", forKey: MapView.MAP_TYPE)
+            self.asamMapViewDelegate.defaults.set("Satellite", forKey: MapView.MAP_TYPE)
 
         })
-        let hybridMapAction = UIAlertAction(title: "Hybrid", style: .Default, handler: {
+        let hybridMapAction = UIAlertAction(title: "Hybrid", style: .default, handler: {
             (alert: UIAlertAction) -> Void in
-            self.mapView.mapType = MKMapType.Hybrid
+            self.mapView.mapType = MKMapType.hybrid
             self.mapView.removeOverlays(self.asamMapViewDelegate.offlineMap.polygons)
-            self.asamMapViewDelegate.defaults.setObject("Hybrid", forKey: MapView.MAP_TYPE)
+            self.asamMapViewDelegate.defaults.set("Hybrid", forKey: MapView.MAP_TYPE)
         })
-        let offlineMapAction = UIAlertAction(title: "Offline", style: .Default, handler: {
+        let offlineMapAction = UIAlertAction(title: "Offline", style: .default, handler: {
             (alert: UIAlertAction) -> Void in
-            self.mapView.mapType = MKMapType.Standard
+            self.mapView.mapType = MKMapType.standard
             self.mapView.addOverlays(self.asamMapViewDelegate.offlineMap.polygons)
-            self.asamMapViewDelegate.defaults.setObject("Offline", forKey: MapView.MAP_TYPE)
+            self.asamMapViewDelegate.defaults.set("Offline", forKey: MapView.MAP_TYPE)
         })
         
         // Action Sheet Cancel
-        let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel, handler: {
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: {
             (alert: UIAlertAction) -> Void in
             print("Cancelled")
         })
@@ -196,51 +194,51 @@ class ViewController: UIViewController, AsamSelectDelegate, WebService {
         optionMenu.addAction(cancelAction)
         
         // Show Action Sheet
-        self.presentViewController(optionMenu, animated: true, completion: nil)
+        self.present(optionMenu, animated: true, completion: nil)
         
     }
     
 
-    @IBAction func setupSegueToFilter(sender: AnyObject) {
+    @IBAction func setupSegueToFilter(_ sender: AnyObject) {
         if filterType == Filter.ADVANCED_TYPE {
-            performSegueWithIdentifier("advancedFilter", sender: self)
+            performSegue(withIdentifier: "advancedFilter", sender: self)
         } else {
-            performSegueWithIdentifier("basicFilter", sender: self)
+            performSegue(withIdentifier: "basicFilter", sender: self)
         }
     }
     
     
-    func asamSelected(asam: AsamAnnotation) {
-        performSegueWithIdentifier("singleAsamDetails", sender: asam.asam)
+    func asamSelected(_ asam: AsamAnnotation) {
+        performSegue(withIdentifier: "singleAsamDetails", sender: asam.asam)
     }
     
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if (segue.identifier == "singleAsamDetails") {
-            let viewController: AsamDetailsViewController = segue.destinationViewController as! AsamDetailsViewController
+            let viewController: AsamDetailsViewController = segue.destination as! AsamDetailsViewController
             viewController.asam = sender as! Asam?
         } else if (segue.identifier == "listDisplayedAsams") {
-            let listController = segue.destinationViewController as! ListTableViewController
+            let listController = segue.destination as! ListTableViewController
            // let listController = navController.topViewController as! ListTableViewController
             listController.asams = asams
         }
     }
     
     
-    @IBAction func unwindFromFilter(segue: UIStoryboardSegue) {
+    @IBAction func unwindFromFilter(_ segue: UIStoryboardSegue) {
         
     }
     
     
-    @IBAction func applyFilters(segue:UIStoryboardSegue) {
-        if segue.sourceViewController.isKindOfClass(FilterViewController) {
+    @IBAction func applyFilters(_ segue:UIStoryboardSegue) {
+        if segue.source.isKind(of: FilterViewController.self) {
             filterType = Filter.BASIC_TYPE
         }
-        if let mapViewController = segue.sourceViewController as? AdvFilterViewController {
+        if let mapViewController = segue.source as? AdvFilterViewController {
             filterType = mapViewController.filterType
         }
         asams = retrieveAnnotations(filterType)
-        asamMapViewDelegate.clusteringController.setAnnotations(asams)
+        //asamMapViewDelegate.clusteringController.setAnnotations(asams)
     }
     
 }

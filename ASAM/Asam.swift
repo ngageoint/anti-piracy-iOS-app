@@ -11,7 +11,7 @@ import CoreData
 class Asam: NSManagedObject {
 
     @NSManaged var aggressor: String
-    @NSManaged var date: NSDate
+    @NSManaged var date: Foundation.Date
     @NSManaged var desc: String
     @NSManaged var lat: NSNumber
     @NSManaged var latitude: String

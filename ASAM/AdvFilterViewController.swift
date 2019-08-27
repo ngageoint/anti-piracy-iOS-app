@@ -9,7 +9,7 @@ import UIKit
 import CoreData
 
 class AdvFilterViewController: SubregionDisplayViewController {
-    @IBAction func hideKeyboard(sender: AnyObject) {
+    @IBAction func hideKeyboard(_ sender: AnyObject) {
         scrollView.endEditing(true)
     }
     
@@ -27,8 +27,8 @@ class AdvFilterViewController: SubregionDisplayViewController {
     @IBOutlet weak var aggressor: UITextField!
     
     
-    let dateFormatter = NSDateFormatter()
-    let defaults = NSUserDefaults.standardUserDefaults()
+    let dateFormatter = DateFormatter()
+    let defaults = UserDefaults.standard
     
     var selectedRegions = Array<String>()
     var filterType = Filter.BASIC_TYPE
@@ -49,64 +49,64 @@ class AdvFilterViewController: SubregionDisplayViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    @IBAction func selectStartDate(sender: UITextField) {
+    @IBAction func selectStartDate(_ sender: UITextField) {
         let datePickerView  : UIDatePicker = UIDatePicker()
-        datePickerView.datePickerMode = UIDatePickerMode.Date
+        datePickerView.datePickerMode = UIDatePickerMode.date
         
         
         //set date picker if user default exists
-        if let userDefaultStartDate: NSDate = defaults.objectForKey(Filter.Advanced.START_DATE) as? NSDate
+        if let userDefaultStartDate: Foundation.Date = defaults.object(forKey: Filter.Advanced.START_DATE) as? Foundation.Date
         {
             datePickerView.date = userDefaultStartDate
         }
         
         sender.inputView = datePickerView
-        datePickerView.addTarget(self, action: #selector(AdvFilterViewController.handleStartDatePicker(_:)), forControlEvents: UIControlEvents.ValueChanged)
+        datePickerView.addTarget(self, action: #selector(AdvFilterViewController.handleStartDatePicker(_:)), for: UIControlEvents.valueChanged)
     }
     
-    func handleStartDatePicker(sender: UIDatePicker) {
-        startDate.text = dateFormatter.stringFromDate(sender.date)
-        let defaults = NSUserDefaults.standardUserDefaults()
-        defaults.setObject(sender.date, forKey: Filter.Advanced.START_DATE)
+    func handleStartDatePicker(_ sender: UIDatePicker) {
+        startDate.text = dateFormatter.string(from: sender.date)
+        let defaults = UserDefaults.standard
+        defaults.set(sender.date, forKey: Filter.Advanced.START_DATE)
         checkDateRange()
     }
     
     
-    @IBAction func selectEndDate(sender: UITextField) {
+    @IBAction func selectEndDate(_ sender: UITextField) {
         
         let datePickerView  : UIDatePicker = UIDatePicker()
-        datePickerView.datePickerMode = UIDatePickerMode.Date
+        datePickerView.datePickerMode = UIDatePickerMode.date
         
         //set date picker if user default exists
-        if let userDefaultEndDate: NSDate = defaults.objectForKey(Filter.Advanced.END_DATE) as? NSDate
+        if let userDefaultEndDate: Foundation.Date = defaults.object(forKey: Filter.Advanced.END_DATE) as? Foundation.Date
         {
             datePickerView.date = userDefaultEndDate
         }
         
         sender.inputView = datePickerView
-        datePickerView.addTarget(self, action: #selector(AdvFilterViewController.handleEndDatePicker(_:)), forControlEvents: UIControlEvents.ValueChanged)
+        datePickerView.addTarget(self, action: #selector(AdvFilterViewController.handleEndDatePicker(_:)), for: UIControlEvents.valueChanged)
     }
     
     
-    func handleEndDatePicker(sender: UIDatePicker) {
-        endDate.text = dateFormatter.stringFromDate(sender.date)
-        let defaults = NSUserDefaults.standardUserDefaults()
-        defaults.setObject(sender.date, forKey: Filter.Advanced.END_DATE)
+    func handleEndDatePicker(_ sender: UIDatePicker) {
+        endDate.text = dateFormatter.string(from: sender.date)
+        let defaults = UserDefaults.standard
+        defaults.set(sender.date, forKey: Filter.Advanced.END_DATE)
         checkDateRange()
     }
     
     func checkDateRange() {
         
-        let date1 = dateFormatter.dateFromString(startDate.text!)
-        let date2 = dateFormatter.dateFromString(endDate.text!)
+        let date1 = dateFormatter.date(from: startDate.text!)
+        let date2 = dateFormatter.date(from: endDate.text!)
         
-        if date1?.compare(date2!) == NSComparisonResult.OrderedDescending {
+        if date1?.compare(date2!) == ComparisonResult.orderedDescending {
             print("Date Range Invalid")
-            errorTextDateRange.hidden = false
+            errorTextDateRange.isHidden = false
         }
         else {
             print("Date Range Valid")
-            errorTextDateRange.hidden = true
+            errorTextDateRange.isHidden = true
         }
         
     }
@@ -117,37 +117,37 @@ class AdvFilterViewController: SubregionDisplayViewController {
         advancedDefaults()
         
         //Apply user defaults if available
-        if let userDefaultStartDate: NSDate = defaults.objectForKey(Filter.Advanced.START_DATE) as? NSDate {
-            startDate.text = dateFormatter.stringFromDate(userDefaultStartDate)
+        if let userDefaultStartDate: Foundation.Date = defaults.object(forKey: Filter.Advanced.START_DATE) as? Foundation.Date {
+            startDate.text = dateFormatter.string(from: userDefaultStartDate)
         }
 
-        if let userDefaultEndDate: NSDate = defaults.objectForKey(Filter.Advanced.END_DATE) as? NSDate {
+        if let userDefaultEndDate: Foundation.Date = defaults.object(forKey: Filter.Advanced.END_DATE) as? Foundation.Date {
             print(userDefaultEndDate)
-            endDate.text = dateFormatter.stringFromDate(userDefaultEndDate)
+            endDate.text = dateFormatter.string(from: userDefaultEndDate)
         }
 
         checkDateRange()
 
-        if let userDefaultKeyword = defaults.stringForKey(Filter.Advanced.KEYWORD) {
+        if let userDefaultKeyword = defaults.string(forKey: Filter.Advanced.KEYWORD) {
             keyword.text = userDefaultKeyword
         }
         
-        if let userDefaultSelectedRegions:Array<String> = defaults.objectForKey(Filter.Advanced.SELECTED_REGION) as? Array<String> {
+        if let userDefaultSelectedRegions:Array<String> = defaults.object(forKey: Filter.Advanced.SELECTED_REGION) as? Array<String> {
             self.selectedRegions = userDefaultSelectedRegions
             populateRegionText(userDefaultSelectedRegions, textView: regions)
         }
 
-        if let userDefaultRefNum = defaults.stringForKey(Filter.Advanced.REFERENCE_NUM) {
-            let refNum = userDefaultRefNum.componentsSeparatedByString(Filter.Advanced.REF_SEPARATER)
+        if let userDefaultRefNum = defaults.string(forKey: Filter.Advanced.REFERENCE_NUM) {
+            let refNum = userDefaultRefNum.components(separatedBy: Filter.Advanced.REF_SEPARATER)
             refNumStart.text = refNum[0]
             refNumEnd.text = refNum[1]
         }
         
-        if let userDefaultVictim = defaults.stringForKey(Filter.Advanced.VICTIM) {
+        if let userDefaultVictim = defaults.string(forKey: Filter.Advanced.VICTIM) {
             victim.text = userDefaultVictim
         }
         
-        if let userDefaultAggressor = defaults.stringForKey(Filter.Advanced.AGGRESSOR) {
+        if let userDefaultAggressor = defaults.string(forKey: Filter.Advanced.AGGRESSOR) {
             aggressor.text = userDefaultAggressor
         }
       
@@ -156,33 +156,33 @@ class AdvFilterViewController: SubregionDisplayViewController {
 
     func saveAdvancedFilter() {
         if checkForClearedFilter() {
-            defaults.setObject(Filter.BASIC_TYPE, forKey: Filter.FILTER_TYPE)
+            defaults.set(Filter.BASIC_TYPE, forKey: Filter.FILTER_TYPE)
             filterType = Filter.BASIC_TYPE
         } else {
-            defaults.setObject(Filter.ADVANCED_TYPE, forKey: Filter.FILTER_TYPE)
+            defaults.set(Filter.ADVANCED_TYPE, forKey: Filter.FILTER_TYPE)
             filterType = Filter.ADVANCED_TYPE
         }
-        defaults.setObject(dateFormatter.dateFromString(startDate.text!), forKey: Filter.Advanced.START_DATE)
-        defaults.setObject(dateFormatter.dateFromString(endDate.text!), forKey: Filter.Advanced.END_DATE)
-        defaults.setObject(keyword.text, forKey: Filter.Advanced.KEYWORD)
-        defaults.setObject(selectedRegions, forKey: Filter.Advanced.SELECTED_REGION)
-        defaults.setObject(refNumStart.text! + Filter.Advanced.REF_SEPARATER + refNumEnd.text!, forKey: Filter.Advanced.REFERENCE_NUM)
-        defaults.setObject(victim.text, forKey: Filter.Advanced.VICTIM)
-        defaults.setObject(aggressor.text, forKey: Filter.Advanced.AGGRESSOR)
+        defaults.set(dateFormatter.date(from: startDate.text!), forKey: Filter.Advanced.START_DATE)
+        defaults.set(dateFormatter.date(from: endDate.text!), forKey: Filter.Advanced.END_DATE)
+        defaults.set(keyword.text, forKey: Filter.Advanced.KEYWORD)
+        defaults.set(selectedRegions, forKey: Filter.Advanced.SELECTED_REGION)
+        defaults.set(refNumStart.text! + Filter.Advanced.REF_SEPARATER + refNumEnd.text!, forKey: Filter.Advanced.REFERENCE_NUM)
+        defaults.set(victim.text, forKey: Filter.Advanced.VICTIM)
+        defaults.set(aggressor.text, forKey: Filter.Advanced.AGGRESSOR)
     }
     
     func checkForClearedFilter() -> Bool {
         var isCleared = false;
-        let calendar = NSCalendar.currentCalendar()
-        let today = calendar.startOfDayForDate(NSDate())
-        let approxOneYearAgo = calendar.dateByAddingUnit(.Year, value: -1, toDate: today, options: [])!
+        let calendar = Calendar.current
+        let today = calendar.startOfDay(for: Foundation.Date())
+        let approxOneYearAgo = (calendar as NSCalendar).date(byAdding: .year, value: -1, to: today, options: [])!
         
-        dateFormatter.dateStyle = .ShortStyle
+        dateFormatter.dateStyle = .short
         
-        let theDate = dateFormatter.stringFromDate(approxOneYearAgo)
+        let theDate = dateFormatter.string(from: approxOneYearAgo)
 
         if startDate.text == theDate &&
-            endDate.text == dateFormatter.stringFromDate(NSDate()) &&
+            endDate.text == dateFormatter.string(from: Foundation.Date()) &&
             keyword.text == String() &&
             regions.text == String() &&
             selectedRegions.isEmpty &&
@@ -196,22 +196,22 @@ class AdvFilterViewController: SubregionDisplayViewController {
         return isCleared
     }
     
-    @IBAction func clearAdvancedFilters(sender: AnyObject) {
+    @IBAction func clearAdvancedFilters(_ sender: AnyObject) {
         advancedDefaults()
     }
     
     
     func advancedDefaults() {
-        let calendar = NSCalendar.currentCalendar()
-        let today = calendar.startOfDayForDate(NSDate())
-        let approxOneYearAgo = calendar.dateByAddingUnit(.Year, value: -1, toDate: today, options: [])!
+        let calendar = Calendar.current
+        let today = calendar.startOfDay(for: Foundation.Date())
+        let approxOneYearAgo = (calendar as NSCalendar).date(byAdding: .year, value: -1, to: today, options: [])!
         
-        dateFormatter.dateStyle = .ShortStyle
+        dateFormatter.dateStyle = .short
         
-        let theDate = dateFormatter.stringFromDate(approxOneYearAgo)
+        let theDate = dateFormatter.string(from: approxOneYearAgo)
 
         startDate.text = theDate
-        endDate.text = dateFormatter.stringFromDate(NSDate())
+        endDate.text = dateFormatter.string(from: Foundation.Date())
         keyword.text = String()
         regions.text = String()
         selectedRegions = Array<String>()
@@ -221,11 +221,11 @@ class AdvFilterViewController: SubregionDisplayViewController {
         aggressor.text = String()
     }
     
-    override func prepareForSegue(segue: UIStoryboardSegue?, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue?, sender: Any?) {
         if segue?.identifier == "applyAdvancedFilter" {
             saveAdvancedFilter()
         } else if (segue?.identifier == "changeSubregions") {
-            let viewController: SubregionViewController = segue!.destinationViewController as! SubregionViewController
+            let viewController: SubregionViewController = segue!.destination as! SubregionViewController
             viewController.regions = regions.text!
             viewController.selectedRegions = selectedRegions
         }
@@ -236,22 +236,22 @@ class AdvFilterViewController: SubregionDisplayViewController {
     
     // Call this method somewhere in your view controller setup code.
     func registerForKeyboardNotifications() {
-        let notificationCenter = NSNotificationCenter.defaultCenter()
+        let notificationCenter = NotificationCenter.default
         notificationCenter.addObserver(self,
             selector: #selector(AdvFilterViewController.keyboardWillBeShown(_:)),
-            name: UIKeyboardWillShowNotification,
+            name: NSNotification.Name.UIKeyboardWillShow,
             object: nil)
         notificationCenter.addObserver(self,
             selector: #selector(AdvFilterViewController.keyboardWillBeHidden(_:)),
-            name: UIKeyboardWillHideNotification,
+            name: NSNotification.Name.UIKeyboardWillHide,
             object: nil)
     }
 
     // Called when the UIKeyboardDidShowNotification is sent.
-    func keyboardWillBeShown(sender: NSNotification) {
-        let info: NSDictionary = sender.userInfo!
-        let value: NSValue = info.valueForKey(UIKeyboardFrameBeginUserInfoKey) as! NSValue
-        let keyboardSize: CGSize = value.CGRectValue().size
+    func keyboardWillBeShown(_ sender: Notification) {
+        let info: NSDictionary = sender.userInfo! as NSDictionary
+        let value: NSValue = info.value(forKey: UIKeyboardFrameBeginUserInfoKey) as! NSValue
+        let keyboardSize: CGSize = value.cgRectValue.size
         let contentInsets: UIEdgeInsets = UIEdgeInsetsMake(0.0, 0.0, keyboardSize.height, 0.0)
         scrollView.contentInset = contentInsets
         scrollView.scrollIndicatorInsets = contentInsets
@@ -261,43 +261,43 @@ class AdvFilterViewController: SubregionDisplayViewController {
         aRect.size.height -= keyboardSize.height
         let activeTextFieldRect: CGRect? = aggressor?.frame
         let activeTextFieldOrigin: CGPoint? = activeTextFieldRect?.origin
-        if (!CGRectContainsPoint(aRect, activeTextFieldOrigin!)) {
+        if (!aRect.contains(activeTextFieldOrigin!)) {
             scrollView.scrollRectToVisible(activeTextFieldRect!, animated:true)
         }
     }
     
     // Called when the UIKeyboardWillHideNotification is sent
-    func keyboardWillBeHidden(sender: NSNotification) {
-        let contentInsets: UIEdgeInsets = UIEdgeInsetsZero
+    func keyboardWillBeHidden(_ sender: Notification) {
+        let contentInsets: UIEdgeInsets = UIEdgeInsets.zero
         scrollView.contentInset = contentInsets
         scrollView.scrollIndicatorInsets = contentInsets
     }
     
     //MARK: - UITextField Delegate Methods
     
-    func textFieldDidBeginEditing(textField: UITextField!) {
+    func textFieldDidBeginEditing(_ textField: UITextField!) {
         aggressor = textField
-        scrollView.scrollEnabled = true
+        scrollView.isScrollEnabled = true
     }
     
-    func textFieldDidEndEditing(textField: UITextField!) {
+    func textFieldDidEndEditing(_ textField: UITextField!) {
         aggressor = nil
-        scrollView.scrollEnabled = false
+        scrollView.isScrollEnabled = false
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.registerForKeyboardNotifications()
     }
     
-    override func viewDidDisappear(animated: Bool) {
+    override func viewDidDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        NSNotificationCenter.defaultCenter().removeObserver(self)
+        NotificationCenter.default.removeObserver(self)
     }
     
     
-    @IBAction func unwindSubregionFilters(segue:UIStoryboardSegue) {
-        if let controller = segue.sourceViewController as? SubregionViewController {
+    @IBAction func unwindSubregionFilters(_ segue:UIStoryboardSegue) {
+        if let controller = segue.source as? SubregionViewController {
             regions.text = controller.regions
             selectedRegions = controller.selectedRegions
         }

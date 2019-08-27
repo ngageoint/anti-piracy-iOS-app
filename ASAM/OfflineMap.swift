@@ -9,7 +9,7 @@ import MapKit
 
 class OfflineMap {
     
-    let path = NSBundle.mainBundle().pathForResource("ne_50m_land.simplify0.2", ofType: "geojson")
+    let path = Bundle.main.path(forResource: "ne_50m_land.simplify0.2", ofType: "geojson")
     var polygons: [MKPolygon] = [];
     
     init()
@@ -22,16 +22,16 @@ class OfflineMap {
     func generateDictionaryFromGeoJson() -> NSDictionary
     {
         var jsonDict: NSDictionary = ["empty":"empty"]
-        let fileContent = NSData(contentsOfFile: path!)
+        let fileContent = try? Data(contentsOf: URL(fileURLWithPath: path!))
         do {
-            jsonDict = (try NSJSONSerialization.JSONObjectWithData(fileContent!, options: NSJSONReadingOptions.MutableContainers)) as! NSDictionary
+            jsonDict = (try JSONSerialization.jsonObject(with: fileContent!, options: JSONSerialization.ReadingOptions.mutableContainers)) as! NSDictionary
         } catch _ {
             //Do nothing
         }
         return jsonDict
     }
     
-    func generateExteriorPolygons(features: NSArray) {
+    func generateExteriorPolygons(_ features: NSArray) {
         
         //add ocean polygons
         var ocean1Coordinates = [
@@ -57,10 +57,9 @@ class OfflineMap {
         polygons.append(ocean2)
         
         //add feature polygons
-        for feature in features
-        {
-            
-            let geometry = feature["geometry"] as! NSDictionary
+        for feature in features {
+            let aFeature = feature as! [String:Any]
+            let geometry = aFeature["geometry"] as! NSDictionary
             let geometryType = geometry["type"]! as! String
             
             if "MultiPolygon" == geometryType {
@@ -70,22 +69,19 @@ class OfflineMap {
                     let subPolygon = generatePolygon(subPolygon as! NSArray)
                     polygons.append(subPolygon)
                 }
-                
             }
-            
         }
-        
     }
     
-    func generatePolygon(coordinates: NSArray) -> MKPolygon {
+    func generatePolygon(_ coordinates: NSArray) -> MKPolygon {
         
-        let exteriorPolygonCoordinates = coordinates[0] as! NSArray;
+        let exteriorPolygonCoordinates = coordinates[0] as! [[Double]];
         var exteriorCoordinates: [CLLocationCoordinate2D] = [];
         
         //build out Array of coordinates
         for coordinate in exteriorPolygonCoordinates {
-            let y = coordinate[0] as! Double;
-            let x = coordinate[1] as! Double;
+            let y = coordinate[0];
+            let x = coordinate[1];
             let exteriorCoordinate = CLLocationCoordinate2DMake(x, y);
             exteriorCoordinates.append(exteriorCoordinate)
         }
