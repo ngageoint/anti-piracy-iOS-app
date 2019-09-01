@@ -50,7 +50,7 @@ class SubregionViewController: SubregionDisplayViewController, MKMapViewDelegate
             let renderer = mapView.renderer(for: polygon) as? MKPolygonRenderer
             
             if selectedRegions.contains(polygon.title!) {
-                selectedRegions.remove(at: selectedRegions.index(of: polygon.title!)!)
+                selectedRegions.remove(at: selectedRegions.firstIndex(of: polygon.title!)!)
             }
             
             renderer?.fillColor = unselectedColor
@@ -67,7 +67,7 @@ class SubregionViewController: SubregionDisplayViewController, MKMapViewDelegate
                 let polygonViewPoint: CGPoint = renderer.point(for: point)
                 if renderer.path.contains(polygonViewPoint) {
                     if selectedRegions.contains(polygon.title!) {
-                        selectedRegions.remove(at: selectedRegions.index(of: polygon.title!)!)
+                        selectedRegions.remove(at: selectedRegions.firstIndex(of: polygon.title!)!)
                         renderer.fillColor = unselectedColor
                     } else {
                         selectedRegions.append(polygon.title!)
