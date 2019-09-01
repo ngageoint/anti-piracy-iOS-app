@@ -16,83 +16,57 @@ class AsamModelFacade {
     let AND_PREDICATE = " and "
     let OR_PREDICATE = " or "
     let ASAM_ENTITY = "Asam"
-    let dateFormatter = DateFormatter()
-    let defaults = UserDefaults.standard
+
+    let dateFormatter : DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "MM/dd/yyyy"
+        return formatter
+    }()
     
     var managedContext: NSManagedObjectContext {
         return (UIApplication.shared.delegate as! AppDelegate).managedObjectContext!
     }
     
-    
-    func populateEntity(_ newAsams: [[String:Any]]) {
-
-        if newAsams.count == 0 {
-            return
-        }
-
-        //compare to whats stored
-        let toAddAsams = removeDuplicates(newAsams)
-
-        if toAddAsams.count > 0 {
-            addAsams(toAddAsams as NSArray)
-        }
-        
+    func populateEntity(_ asams: [[String:Any]]) {
+        addAsams(asams)
     }
     
-    
-    func clearEntity() {
-
-        let request = NSFetchRequest<NSFetchRequestResult>(entityName: ASAM_ENTITY)
-        request.returnsObjectsAsFaults = false
-        
-        do {
-            let deleteRequest = try managedContext.fetch(request)
-            
-            if deleteRequest.count > 0 {
-                
-                for result: Any in deleteRequest {
-                    managedContext.delete(result as! NSManagedObject)
-                }
-                
-                saveContext(managedContext)
-            }
-        } catch _ {
-            //Do nothing
-        }
-    }
-    
-    
-    func addAsams(_ addAsams: NSArray) {
-
+    func addAsams(_ asams: [[String:Any]]) {
         let entity = NSEntityDescription.entity(forEntityName: ASAM_ENTITY, in: managedContext)
         
-        for item in addAsams {
-            let retrievedAsam = item as! NSDictionary
-            let asam = NSManagedObject(entity: entity!, insertInto:managedContext)
+        for json: [String:Any] in asams {
+            let asam: Asam = NSManagedObject(entity: entity!, insertInto:managedContext) as! Asam
             
-            asam.setValue(retrievedAsam["Reference"]!, forKey: "reference")
-            asam.setValue(retrievedAsam["Aggressor"]!, forKey: "aggressor")
-            asam.setValue(retrievedAsam["Victim"]!, forKey: "victim")
-            asam.setValue(retrievedAsam["Description"]!, forKey: "desc")
-            asam.setValue(retrievedAsam["Latitude"]!, forKey: "latitude")
-            asam.setValue(retrievedAsam["Longitude"]!, forKey: "longitude")
-            asam.setValue((retrievedAsam["lat"]! as! String).getDouble, forKey: "lat")
-            asam.setValue((retrievedAsam["lng"]! as! String).getDouble, forKey: "lng")
-            asam.setValue(Int((retrievedAsam["Subregion"]! as! String)), forKey: "subregion")
-            
-            let formatter = DateFormatter()
-            formatter.dateFormat = "MM/dd/yyyy"
-            let date = formatter.date(from: retrievedAsam["Date"] as! String)
-
-            asam.setValue(date, forKey: "date")
+            if let reference = json["Reference"] as? String {
+                asam.reference = reference
+            }
+            if let latitude = json["lat"] as? String {
+                asam.latitude = latitude.getDouble
+            }
+            if let longitude = json["lng"] as? String {
+                asam.longitude = longitude.getDouble
+            }
+            if let subregion = json["Subregion"] as? String {
+                asam.subregion = Int(subregion)!
+            }
+            if let hostility = json["Aggressor"] as? String {
+                asam.hostility = hostility
+            }
+            if let victim = json["Victim"] as? String {
+                asam.victim = victim
+            }
+            if let detail = json["Description"] as? String {
+                asam.detail = detail
+            }
+            if let date = json["Date"] as? String {
+                asam.date = dateFormatter.date(from: date)!
+            }
             
             saveContext(managedContext)
         }
     }
     
-    
     func saveContext(_ managedContext: NSManagedObjectContext) {
-        
         do {
             try managedContext.save()
         } catch let error as NSError {
@@ -100,79 +74,9 @@ class AsamModelFacade {
         }
     }
     
-    
     func logError(_ message: String, error: NSError?) {
-        
-        print(message + " \(error): \(error?.userInfo)")
+        print(message + " \(String(describing: error)): \(String(describing: error?.userInfo))")
     }
-    
-    
-    func removeDuplicates(_ toCheckAsams: [[String:Any]]) -> [Asam] {
-        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: ASAM_ENTITY)
-        let sortDescriptor = NSSortDescriptor(key: "reference", ascending: false)
-
-        var toAddAsams = NSMutableArray()
-        
-        let sortedAsams = toCheckAsams.sorted { (item1, item2) -> Bool in
-            let ref1 = item1["Reference"] as! String
-            let ref2 = item2["Reference"] as! String
-            
-            if  ref1 < ref2 {
-                return true
-            } else {
-                return false
-            }
-        }
-        
-        var refNumToCheck = [String]()
-        for item in sortedAsams {
-            let refNum = item as! NSDictionary
-            if let ref = refNum["Reference"] as? String {
-                refNumToCheck.append(ref)
-            }
-        }
-        
-        fetchRequest.predicate = NSPredicate(format: "(reference IN %@)", refNumToCheck)
-        fetchRequest.sortDescriptors = [sortDescriptor]
-
-        //var error: NSError?
-        var fetchResults = [Asam]()
-        do {
-            try fetchResults = (managedContext.fetch(fetchRequest) as? [Asam])!
-        } catch _ {
-            //No results returned.
-        }
-        print("Number of results: \(fetchResults.count)")
-        
-        if fetchResults.count > 0 {
-            var iterator = 0
-            if fetchResults.count <= sortedAsams.count {
-            for item in sortedAsams {
-                let anAsam = item as! NSDictionary
-                if (iterator < fetchResults.count) &&
-                    (anAsam["Reference"] as! String == fetchResults[iterator].reference) {
-                        iterator = iterator + 1
-                } else {
-                    toAddAsams.add(anAsam)
-                }
-            }
-            } else {
-                print("Error: Duplicates in the database, resetting values")
-                //Duplicates should not be allowed in the database, if any are found it was the result
-                //of an error. Clear out the database and reload all ASAMs
-                clearEntity()
-                defaults.setValue(false, forKey: AppSettings.FIRST_LAUNCH)
-                //TODO: App will need to get restarted to load ASAMs
-                //Might want to reload Asams here instead
-            }
-            
-        } else {
-            toAddAsams = toCheckAsams as! NSMutableArray
-        }
-        
-        return toAddAsams as NSArray as! [Asam]
-    }
-    
     
     func getLatestAsamDate() -> Foundation.Date {
         var latestDate: Foundation.Date!
@@ -207,7 +111,6 @@ class AsamModelFacade {
         return latestDate
     }
     
-    
     func getAsams(_ filterType: String)-> Array<Asam> {
 
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: ASAM_ENTITY)
@@ -229,7 +132,6 @@ class AsamModelFacade {
         return filteredAsams
     }
     
-    
     func getFilterPredicate(_ filterType: String) -> NSPredicate {
         
         var filterPredicate = NSPredicate()
@@ -248,7 +150,6 @@ class AsamModelFacade {
         return filterPredicate
     }
     
-    
     func getBasicFilterPredicate() -> NSPredicate {
         var basicFilterPredicate = getDateIntervalPredicate()
         
@@ -262,7 +163,6 @@ class AsamModelFacade {
         
         return basicFilterPredicate
     }
-    
     
     func getAdvancedFilterPredicate() -> NSPredicate {
         var advancedFilterPredicate = getDatePredicate()
@@ -283,18 +183,17 @@ class AsamModelFacade {
             advancedFilterPredicate = NSCompoundPredicate(type: NSCompoundPredicate.LogicalType.and, subpredicates: [advancedFilterPredicate, victimPredicate])
         }
 
-        if let aggressorPredicate = getAggressorPredicate() {
-            advancedFilterPredicate = NSCompoundPredicate(type: NSCompoundPredicate.LogicalType.and, subpredicates: [advancedFilterPredicate, aggressorPredicate])
+        if let hostilityPredicate = getHostilityPredicate() {
+            advancedFilterPredicate = NSCompoundPredicate(type: NSCompoundPredicate.LogicalType.and, subpredicates: [advancedFilterPredicate, hostilityPredicate])
         }
         
         return advancedFilterPredicate
     }
     
-    
     func getDateIntervalPredicate() -> NSPredicate {
         
-        var interval = Date.ALL
-        if let userInterval = defaults.string(forKey: Filter.Basic.DATE_INTERVAL) {
+        var interval = DateQuery.ALL
+        if let userInterval = UserDefaults.standard.string(forKey: Filter.Basic.DATE_INTERVAL) {
             interval = userInterval
         }
         let calendar = Calendar.current
@@ -304,13 +203,13 @@ class AsamModelFacade {
         var intervalDate = (calendar as NSCalendar).date(byAdding: .year, value: -100, to: today, options: [])!
         
         switch interval {
-        case Date.DAYS_30:
+        case DateQuery.DAYS_30:
             intervalDate = (calendar as NSCalendar).date(byAdding: .day, value: -30, to: today, options: [])!
-        case Date.DAYS_60:
+        case DateQuery.DAYS_60:
             intervalDate = (calendar as NSCalendar).date(byAdding: .day, value: -60, to: today, options: [])!
-        case Date.DAYS_120:
+        case DateQuery.DAYS_120:
             intervalDate = (calendar as NSCalendar).date(byAdding: .day, value: -120, to: today, options: [])!
-        case Date.YEARS_1:
+        case DateQuery.YEARS_1:
             intervalDate = (calendar as NSCalendar).date(byAdding: .year, value: -1, to: today, options: [])!
         default:
             break
@@ -322,11 +221,10 @@ class AsamModelFacade {
         
     }
     
-    
     func getKeywordPredicate(_ keywordType: String) -> NSPredicate? {
         var keywordPredicate: NSPredicate? = nil
         var keyword = String()
-        if let userKeyword: String = defaults.string(forKey: keywordType) {
+        if let userKeyword: String = UserDefaults.standard.string(forKey: keywordType) {
             keyword = userKeyword
         }
         
@@ -334,17 +232,15 @@ class AsamModelFacade {
             var intervalNames: [String] = []
             var intervalValues: [String] = []
             
-            intervalNames.append("(aggressor CONTAINS[c] %@)")
+            intervalNames.append("(hostility CONTAINS[c] %@)")
             intervalValues.append(keyword)
             intervalNames.append("(date CONTAINS %@)")
             intervalValues.append(keyword)
-            intervalNames.append("(desc CONTAINS %@)")
-            intervalValues.append(keyword)
-            intervalNames.append("(lat CONTAINS %@)")
+            intervalNames.append("(detail CONTAINS %@)")
             intervalValues.append(keyword)
             intervalNames.append("(latitude CONTAINS %@)")
             intervalValues.append(keyword)
-            intervalNames.append("(lng CONTAINS %@)")
+            intervalNames.append("(longitude CONTAINS %@)")
             intervalValues.append(keyword)
             intervalNames.append("(longitude CONTAINS %@)")
             intervalValues.append(keyword)
@@ -363,15 +259,14 @@ class AsamModelFacade {
         return keywordPredicate
     }
     
-    
     func getCurrentSubregionPredicate() -> NSPredicate? {
         var currentSubregionPredicate: NSPredicate? = nil
         
         
-        let userDefaultCurrentEnabled = defaults.bool(forKey: Filter.Basic.CURRENT_SUBREGION_ENABLED)
+        let userDefaultCurrentEnabled = UserDefaults.standard.bool(forKey: Filter.Basic.CURRENT_SUBREGION_ENABLED)
         
         if userDefaultCurrentEnabled {
-            if let userDefaultCurrentSubregion = defaults.string(forKey: Filter.Basic.CURRENT_SUBREGION) {
+            if let userDefaultCurrentSubregion = UserDefaults.standard.string(forKey: Filter.Basic.CURRENT_SUBREGION) {
                 currentSubregionPredicate = NSPredicate(format: "(subregion = %@)", userDefaultCurrentSubregion )
             }
         }
@@ -379,13 +274,12 @@ class AsamModelFacade {
         return currentSubregionPredicate
     }
     
-    
     func getDatePredicate() -> NSPredicate {
         var dateNames: [String] = []
         var dateValues: [AnyObject] = []
         
         
-        if let userDefaultStartDate: Foundation.Date = defaults.object(forKey: Filter.Advanced.START_DATE) as? Foundation.Date {
+        if let userDefaultStartDate: Foundation.Date = UserDefaults.standard.object(forKey: Filter.Advanced.START_DATE) as? Foundation.Date {
             dateNames.append("(date > %@)")
             dateValues.append(userDefaultStartDate as AnyObject)
         } else {
@@ -398,7 +292,7 @@ class AsamModelFacade {
             dateValues.append(approxOneYearAgo as AnyObject)
         }
         
-        if let userDefaultEndDate: Foundation.Date = defaults.object(forKey: Filter.Advanced.END_DATE) as? Foundation.Date {
+        if let userDefaultEndDate: Foundation.Date = UserDefaults.standard.object(forKey: Filter.Advanced.END_DATE) as? Foundation.Date {
             dateNames.append("(date < %@)")
             dateValues.append(userDefaultEndDate as AnyObject)
         } else {
@@ -411,14 +305,13 @@ class AsamModelFacade {
 
         return datePredicate
     }
-
     
     func getSubregionPredicate() -> NSPredicate? {
         var subregionPredicate: NSPredicate? = nil
         var regionNames = [String]()
         var regionValues = [AnyObject]()
         
-        if let userDefaultSubRegion: Array<String> = defaults.object(forKey: Filter.Advanced.SELECTED_REGION) as? Array<String> {
+        if let userDefaultSubRegion: Array<String> = UserDefaults.standard.object(forKey: Filter.Advanced.SELECTED_REGION) as? Array<String> {
             if userDefaultSubRegion.count > 0 {
                 for (region) in userDefaultSubRegion {
                     regionNames.append("(subregion = %@)")
@@ -433,11 +326,10 @@ class AsamModelFacade {
         return subregionPredicate
     }
     
-    
     func getRefNumPredicate() -> NSPredicate? {
         var refNumPredicate: NSPredicate? = nil
         
-        if let userDefaultRefNum = defaults.string(forKey: Filter.Advanced.REFERENCE_NUM) {
+        if let userDefaultRefNum = UserDefaults.standard.string(forKey: Filter.Advanced.REFERENCE_NUM) {
             var refNumNames = String()
             var refNumValues = String()
             
@@ -462,11 +354,10 @@ class AsamModelFacade {
         return refNumPredicate
     }
     
-    
     func getVictimPredicate() -> NSPredicate? {
         var victimPredicate: NSPredicate? = nil
         
-        if let userDefaultVictim = defaults.string(forKey: Filter.Advanced.VICTIM) {
+        if let userDefaultVictim = UserDefaults.standard.string(forKey: Filter.Advanced.VICTIM) {
             if !userDefaultVictim.isEmpty {
                 victimPredicate = NSPredicate(format: "(victim CONTAINS[c] %@)", userDefaultVictim)
             }
@@ -475,20 +366,18 @@ class AsamModelFacade {
         return victimPredicate
     }
     
-    
-    func getAggressorPredicate() -> NSPredicate? {
-        var aggressorPredicate: NSPredicate? = nil
+    func getHostilityPredicate() -> NSPredicate? {
+        var predicate: NSPredicate? = nil
         
-        if let userDefaultAggressor = defaults.string(forKey: Filter.Advanced.AGGRESSOR) {
-            if !userDefaultAggressor.isEmpty {
-                aggressorPredicate = NSPredicate(format: "(aggressor CONTAINS[c] %@)", userDefaultAggressor)
+        if let defaultHostility = UserDefaults.standard.string(forKey: Filter.Advanced.HOSTILITY) {
+            if !defaultHostility.isEmpty {
+                predicate = NSPredicate(format: "(hostility CONTAINS[c] %@)", defaultHostility)
             }
         }
         
-        return aggressorPredicate
+        return predicate
     }
     
-  
     func buildPredicateFormat(_ predicateType: String, names: [String]) -> String {
         var predicateFormat = String()
         if names.count > 0 {
@@ -503,5 +392,4 @@ class AsamModelFacade {
         
         return predicateFormat
     }
-    
 }

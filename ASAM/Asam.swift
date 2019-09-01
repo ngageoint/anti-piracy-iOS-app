@@ -10,15 +10,13 @@ import CoreData
 @objc(Asam)
 class Asam: NSManagedObject {
 
-    @NSManaged var aggressor: String
+    @NSManaged var hostility: String
     @NSManaged var date: Foundation.Date
-    @NSManaged var desc: String
-    @NSManaged var lat: NSNumber
-    @NSManaged var latitude: String
-    @NSManaged var lng: NSNumber
-    @NSManaged var longitude: String
+    @NSManaged var detail: String
+    @NSManaged var latitude: Double
+    @NSManaged var longitude: Double
     @NSManaged var reference: String
-    @NSManaged var subregion: NSNumber
+    @NSManaged var subregion: Int
     @NSManaged var victim: String
 
 }

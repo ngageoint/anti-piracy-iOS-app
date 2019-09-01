@@ -14,7 +14,7 @@ struct Filter {
         static let SELECTED_REGION = "selectedRegions"
         static let REFERENCE_NUM = "referenceNum"
         static let VICTIM = "victim"
-        static let AGGRESSOR = "aggressor"
+        static let HOSTILITY = "hostility"
         static let REF_SEPARATER = "-"
     }
     struct Basic {
@@ -29,7 +29,7 @@ struct Filter {
     static let BASIC_TYPE = "basicFilter"
 }
 
-struct Date {
+struct DateQuery {
     static let ALL = "All"
     static let DAYS_30 = "Last 30 Days"
     static let DAYS_60 = "Last 60 Days"
@@ -49,4 +49,6 @@ struct MapView {
 
 struct AppSettings {
     static let FIRST_LAUNCH = "firstApplicationLaunch"
+    static let HIDE_DISCLAIMER = "hideDisclaimer"
+    static let LAST_SYNC = "lastSync"
 }

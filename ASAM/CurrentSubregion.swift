@@ -34,7 +34,7 @@ class CurrentSubregion: NSObject {
                 }
             }
             
-            let mapPoint: MKMapPoint  = MKMapPointForCoordinate(mapCoordinate);
+            let mapPoint: MKMapPoint  = MKMapPoint.init(mapCoordinate);
             let mapPointAsCGP: CGPoint = CGPoint(x: CGFloat(mapPoint.x), y: CGFloat(mapPoint.y))
             
             let pointIsInPolygon = pathRef.contains(mapPointAsCGP)

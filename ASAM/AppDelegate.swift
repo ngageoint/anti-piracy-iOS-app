@@ -12,9 +12,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        let navigationBarAppearace = UINavigationBar.appearance()
+        navigationBarAppearace.titleTextAttributes = [NSAttributedString.Key.foregroundColor:UIColor.white]
 
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+        UILabel.appearance(whenContainedInInstancesOf: [UINavigationBar.self]).textColor = UIColor.white
+        
+        if (!UserDefaults.standard.bool(forKey: AppSettings.HIDE_DISCLAIMER)) {
+            let disclaimerViewController = DisclaimerViewController(nibName:"Disclaimer", bundle:nil)
+            let rootViewController = window?.rootViewController as! UINavigationController
+            rootViewController.setViewControllers([disclaimerViewController], animated: true)
+        }
+        
         return true
     }
 
@@ -73,7 +82,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             dict[NSLocalizedDescriptionKey] = "Failed to initialize the application's saved data"
             dict[NSLocalizedFailureReasonErrorKey] = failureReason
             dict[NSUnderlyingErrorKey] = error
-            error = NSError(domain: "YOUR_ERROR_DOMAIN", code: 9999, userInfo: dict)
+            error = NSError(domain: "YOUR_ERROR_DOMAIN", code: 9999, userInfo: dict as? [String : Any])
             // Replace this with code to handle the error appropriately.
             // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
             NSLog("Unresolved error \(error), \(error!.userInfo)")
@@ -93,6 +102,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         var managedObjectContext = NSManagedObjectContext()
         managedObjectContext.persistentStoreCoordinator = coordinator
+        managedObjectContext.mergePolicy = NSMergeByPropertyStoreTrumpMergePolicy
         return managedObjectContext
     }()
 

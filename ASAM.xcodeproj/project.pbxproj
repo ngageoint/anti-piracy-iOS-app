@@ -7,15 +7,21 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2F08C88D2319780B00BDF5ED /* SubregionDisplayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F08C88C2319780B00BDF5ED /* SubregionDisplayViewController.swift */; };
+		2F08C88F231AD03D00BDF5ED /* Disclaimer.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2F08C88E231AD03D00BDF5ED /* Disclaimer.xib */; };
+		2F08C891231AD38800BDF5ED /* DisclaimerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F08C890231AD38800BDF5ED /* DisclaimerViewController.swift */; };
+		2F08C893231C460C00BDF5ED /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F08C892231C460C00BDF5ED /* AboutViewController.swift */; };
+		2F2B16D72315D2710010701B /* AsamMarkerAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F2B16D62315D2710010701B /* AsamMarkerAnnotationView.swift */; };
+		2F2B16D92315D4080010701B /* AsamClusterAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F2B16D82315D4080010701B /* AsamClusterAnnotationView.swift */; };
 		2F37A6731B71387100953AC0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2F37A6711B71387100953AC0 /* Main.storyboard */; };
 		2F37A6751B71387100953AC0 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2F37A6741B71387100953AC0 /* Images.xcassets */; };
 		2F37A6781B71387100953AC0 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2F37A6761B71387100953AC0 /* LaunchScreen.xib */; };
 		2F37A6841B71387100953AC0 /* ASAMTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F37A6831B71387100953AC0 /* ASAMTests.swift */; };
+		2F43410F2318204D0089CE68 /* LoadingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F43410E2318204D0089CE68 /* LoadingController.swift */; };
 		2FC48D871B713C8B0007B8C6 /* Asam.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FC48D861B713C8B0007B8C6 /* Asam.swift */; };
 		2FC48D8C1B713CBD0007B8C6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FC48D8B1B713CBD0007B8C6 /* AppDelegate.swift */; };
 		2FC48D8E1B713E450007B8C6 /* AsamMapViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FC48D8D1B713E450007B8C6 /* AsamMapViewDelegate.swift */; };
 		2FC48D901B713E4E0007B8C6 /* AsamSelectDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FC48D8F1B713E4E0007B8C6 /* AsamSelectDelegate.swift */; };
-		2FC48D931B713E630007B8C6 /* Polygon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FC48D921B713E630007B8C6 /* Polygon.swift */; };
 		2FC48D961B713E780007B8C6 /* AsamModelFacade.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FC48D951B713E780007B8C6 /* AsamModelFacade.swift */; };
 		2FC48D9B1B713EA00007B8C6 /* AsamAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FC48D9A1B713EA00007B8C6 /* AsamAnnotation.swift */; };
 		2FC48D9E1B713EB00007B8C6 /* ClusterImageGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FC48D9D1B713EB00007B8C6 /* ClusterImageGenerator.swift */; };
@@ -23,10 +29,8 @@
 		2FC48DA31B713ECD0007B8C6 /* ne_50m_land.simplify0.2.geojson in Resources */ = {isa = PBXBuildFile; fileRef = 2FC48DA21B713ECD0007B8C6 /* ne_50m_land.simplify0.2.geojson */; };
 		2FC48DA51B713ED70007B8C6 /* OfflineMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FC48DA41B713ED70007B8C6 /* OfflineMap.swift */; };
 		2FC48DA71B713EDD0007B8C6 /* SubregionMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FC48DA61B713EDD0007B8C6 /* SubregionMap.swift */; };
-		2FC48DAA1B713EEC0007B8C6 /* asam.json in Resources */ = {isa = PBXBuildFile; fileRef = 2FC48DA91B713EEC0007B8C6 /* asam.json */; };
 		2FC48DAC1B713EFA0007B8C6 /* AsamJsonParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FC48DAB1B713EFA0007B8C6 /* AsamJsonParser.swift */; };
 		2FC48DB01B713F060007B8C6 /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FC48DAF1B713F060007B8C6 /* StringExtension.swift */; };
-		2FC48DB21B713F0C0007B8C6 /* SubregionDisplayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FC48DB11B713F0C0007B8C6 /* SubregionDisplayViewController.swift */; };
 		2FC48DB41B713F1D0007B8C6 /* FilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FC48DB31B713F1D0007B8C6 /* FilterViewController.swift */; };
 		2FC48DB61B713F2B0007B8C6 /* AdvFilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FC48DB51B713F2B0007B8C6 /* AdvFilterViewController.swift */; };
 		2FC48DB81B713F310007B8C6 /* SubregionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FC48DB71B713F310007B8C6 /* SubregionViewController.swift */; };
@@ -42,7 +46,7 @@
 		751782D01D95BD440084E357 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 751782CD1D95BD440084E357 /* LICENSE */; };
 		751782D11D95BD440084E357 /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = 751782CE1D95BD440084E357 /* Podfile */; };
 		751782D21D95BD440084E357 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 751782CF1D95BD440084E357 /* README.md */; };
-		75B314391B84EBF200122B09 /* WebService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75B314381B84EBF200122B09 /* WebService.swift */; };
+		75B314391B84EBF200122B09 /* AsamResource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75B314381B84EBF200122B09 /* AsamResource.swift */; };
 		C13F85B765C99AB6944C65CF /* Pods_ASAM.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4013090EA3D7C955840FB612 /* Pods_ASAM.framework */; };
 /* End PBXBuildFile section */
 
@@ -57,6 +61,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		2F08C88C2319780B00BDF5ED /* SubregionDisplayViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SubregionDisplayViewController.swift; sourceTree = "<group>"; };
+		2F08C88E231AD03D00BDF5ED /* Disclaimer.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = Disclaimer.xib; sourceTree = "<group>"; };
+		2F08C890231AD38800BDF5ED /* DisclaimerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisclaimerViewController.swift; sourceTree = "<group>"; };
+		2F08C892231C460C00BDF5ED /* AboutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutViewController.swift; sourceTree = "<group>"; };
+		2F2B16D62315D2710010701B /* AsamMarkerAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsamMarkerAnnotationView.swift; sourceTree = "<group>"; };
+		2F2B16D82315D4080010701B /* AsamClusterAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsamClusterAnnotationView.swift; sourceTree = "<group>"; };
 		2F37A6681B71387100953AC0 /* ASAM.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ASAM.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2F37A66C1B71387100953AC0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2F37A6721B71387100953AC0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -65,11 +75,11 @@
 		2F37A67D1B71387100953AC0 /* ASAMTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ASAMTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2F37A6821B71387100953AC0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2F37A6831B71387100953AC0 /* ASAMTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ASAMTests.swift; sourceTree = "<group>"; };
+		2F43410E2318204D0089CE68 /* LoadingController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingController.swift; sourceTree = "<group>"; };
 		2FC48D861B713C8B0007B8C6 /* Asam.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Asam.swift; sourceTree = "<group>"; };
 		2FC48D8B1B713CBD0007B8C6 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2FC48D8D1B713E450007B8C6 /* AsamMapViewDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AsamMapViewDelegate.swift; sourceTree = "<group>"; };
 		2FC48D8F1B713E4E0007B8C6 /* AsamSelectDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AsamSelectDelegate.swift; sourceTree = "<group>"; };
-		2FC48D921B713E630007B8C6 /* Polygon.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Polygon.swift; sourceTree = "<group>"; };
 		2FC48D951B713E780007B8C6 /* AsamModelFacade.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AsamModelFacade.swift; sourceTree = "<group>"; };
 		2FC48D9A1B713EA00007B8C6 /* AsamAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AsamAnnotation.swift; sourceTree = "<group>"; };
 		2FC48D9D1B713EB00007B8C6 /* ClusterImageGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClusterImageGenerator.swift; sourceTree = "<group>"; };
@@ -77,10 +87,8 @@
 		2FC48DA21B713ECD0007B8C6 /* ne_50m_land.simplify0.2.geojson */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ne_50m_land.simplify0.2.geojson; sourceTree = "<group>"; };
 		2FC48DA41B713ED70007B8C6 /* OfflineMap.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OfflineMap.swift; sourceTree = "<group>"; };
 		2FC48DA61B713EDD0007B8C6 /* SubregionMap.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SubregionMap.swift; sourceTree = "<group>"; };
-		2FC48DA91B713EEC0007B8C6 /* asam.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = asam.json; sourceTree = "<group>"; };
 		2FC48DAB1B713EFA0007B8C6 /* AsamJsonParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AsamJsonParser.swift; sourceTree = "<group>"; };
 		2FC48DAF1B713F060007B8C6 /* StringExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
-		2FC48DB11B713F0C0007B8C6 /* SubregionDisplayViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SubregionDisplayViewController.swift; sourceTree = "<group>"; };
 		2FC48DB31B713F1D0007B8C6 /* FilterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterViewController.swift; sourceTree = "<group>"; };
 		2FC48DB51B713F2B0007B8C6 /* AdvFilterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdvFilterViewController.swift; sourceTree = "<group>"; };
 		2FC48DB71B713F310007B8C6 /* SubregionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SubregionViewController.swift; sourceTree = "<group>"; };
@@ -97,7 +105,7 @@
 		751782CD1D95BD440084E357 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		751782CE1D95BD440084E357 /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		751782CF1D95BD440084E357 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
-		75B314381B84EBF200122B09 /* WebService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebService.swift; sourceTree = "<group>"; };
+		75B314381B84EBF200122B09 /* AsamResource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AsamResource.swift; sourceTree = "<group>"; };
 		B99B59F9BBB3BED9F872E7AF /* Pods-ASAM.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ASAM.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ASAM/Pods-ASAM.debug.xcconfig"; sourceTree = "<group>"; };
 		C9397BBCD91F5B672117DD2D /* Pods-ASAM.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ASAM.release.xcconfig"; path = "Pods/Target Support Files/Pods-ASAM/Pods-ASAM.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -157,7 +165,7 @@
 		2F37A66A1B71387100953AC0 /* Asam */ = {
 			isa = PBXGroup;
 			children = (
-				2FC48D941B713E670007B8C6 /* Sample Data */,
+				2FC48D941B713E670007B8C6 /* Data */,
 				75B1D7E61CC65CD20095A98E /* Models */,
 				75B1D7E71CC65F770095A98E /* Views */,
 				2FC48D8A1B713CA20007B8C6 /* Controllers */,
@@ -165,6 +173,7 @@
 				2FC48D8B1B713CBD0007B8C6 /* AppDelegate.swift */,
 				2F37A6711B71387100953AC0 /* Main.storyboard */,
 				2F37A6761B71387100953AC0 /* LaunchScreen.xib */,
+				2F08C88E231AD03D00BDF5ED /* Disclaimer.xib */,
 				2F37A6741B71387100953AC0 /* Images.xcassets */,
 				2F37A66B1B71387100953AC0 /* Supporting Files */,
 			);
@@ -207,26 +216,27 @@
 				2FC48DB71B713F310007B8C6 /* SubregionViewController.swift */,
 				2FC48DB51B713F2B0007B8C6 /* AdvFilterViewController.swift */,
 				2FC48DB31B713F1D0007B8C6 /* FilterViewController.swift */,
-				2FC48DB11B713F0C0007B8C6 /* SubregionDisplayViewController.swift */,
 				75029C921B73EE71004BD9E2 /* ListTableViewController.swift */,
+				2F43410E2318204D0089CE68 /* LoadingController.swift */,
+				2F08C88C2319780B00BDF5ED /* SubregionDisplayViewController.swift */,
+				2F08C890231AD38800BDF5ED /* DisclaimerViewController.swift */,
+				2F08C892231C460C00BDF5ED /* AboutViewController.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
 		};
-		2FC48D941B713E670007B8C6 /* Sample Data */ = {
+		2FC48D941B713E670007B8C6 /* Data */ = {
 			isa = PBXGroup;
 			children = (
-				2FC48DA91B713EEC0007B8C6 /* asam.json */,
 				2FC48DA21B713ECD0007B8C6 /* ne_50m_land.simplify0.2.geojson */,
 				2FC48DA01B713EC60007B8C6 /* subregions.csv */,
 			);
-			name = "Sample Data";
+			name = Data;
 			sourceTree = "<group>";
 		};
 		757C75C11D8B19EB00549054 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
-				2FC48D921B713E630007B8C6 /* Polygon.swift */,
 				2FC48DAF1B713F060007B8C6 /* StringExtension.swift */,
 				2FC48DAB1B713EFA0007B8C6 /* AsamJsonParser.swift */,
 				75029C961B7A5124004BD9E2 /* Constants.swift */,
@@ -241,7 +251,7 @@
 				2FC48D9A1B713EA00007B8C6 /* AsamAnnotation.swift */,
 				2FC48D951B713E780007B8C6 /* AsamModelFacade.swift */,
 				75029C941B78DCB2004BD9E2 /* ListViewCell.swift */,
-				75B314381B84EBF200122B09 /* WebService.swift */,
+				75B314381B84EBF200122B09 /* AsamResource.swift */,
 				2FC48DBB1B713FB00007B8C6 /* anti_piracy_iOS_app.xcdatamodeld */,
 			);
 			name = Models;
@@ -256,6 +266,8 @@
 				750AD0821B824620006F7C28 /* CurrentSubregion.swift */,
 				2FC48DA41B713ED70007B8C6 /* OfflineMap.swift */,
 				2FC48DA61B713EDD0007B8C6 /* SubregionMap.swift */,
+				2F2B16D62315D2710010701B /* AsamMarkerAnnotationView.swift */,
+				2F2B16D82315D4080010701B /* AsamClusterAnnotationView.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -322,11 +334,12 @@
 				TargetAttributes = {
 					2F37A6671B71387100953AC0 = {
 						CreatedOnToolsVersion = 6.4;
-						LastSwiftMigration = 0830;
+						DevelopmentTeam = AGS5AN2U6G;
+						LastSwiftMigration = 1010;
 					};
 					2F37A67C1B71387100953AC0 = {
 						CreatedOnToolsVersion = 6.4;
-						LastSwiftMigration = 0830;
+						LastSwiftMigration = 1010;
 						TestTargetID = 2F37A6671B71387100953AC0;
 					};
 				};
@@ -336,6 +349,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);
@@ -356,9 +370,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				2F37A6731B71387100953AC0 /* Main.storyboard in Resources */,
-				2FC48DAA1B713EEC0007B8C6 /* asam.json in Resources */,
 				751782D11D95BD440084E357 /* Podfile in Resources */,
 				2FC48DA11B713EC60007B8C6 /* subregions.csv in Resources */,
+				2F08C88F231AD03D00BDF5ED /* Disclaimer.xib in Resources */,
 				751782D01D95BD440084E357 /* LICENSE in Resources */,
 				2F37A6781B71387100953AC0 /* LaunchScreen.xib in Resources */,
 				2FC48DA31B713ECD0007B8C6 /* ne_50m_land.simplify0.2.geojson in Resources */,
@@ -401,17 +415,21 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				75B314391B84EBF200122B09 /* WebService.swift in Sources */,
+				75B314391B84EBF200122B09 /* AsamResource.swift in Sources */,
 				2FC48DA51B713ED70007B8C6 /* OfflineMap.swift in Sources */,
 				2FC48DB61B713F2B0007B8C6 /* AdvFilterViewController.swift in Sources */,
 				2FC48DBA1B713F370007B8C6 /* AsamDetailsViewController.swift in Sources */,
 				2FC48D901B713E4E0007B8C6 /* AsamSelectDelegate.swift in Sources */,
 				2FC48DB81B713F310007B8C6 /* SubregionViewController.swift in Sources */,
 				2FC48DA71B713EDD0007B8C6 /* SubregionMap.swift in Sources */,
-				2FC48D931B713E630007B8C6 /* Polygon.swift in Sources */,
+				2F43410F2318204D0089CE68 /* LoadingController.swift in Sources */,
+				2F2B16D92315D4080010701B /* AsamClusterAnnotationView.swift in Sources */,
+				2F08C891231AD38800BDF5ED /* DisclaimerViewController.swift in Sources */,
 				2FC48DAC1B713EFA0007B8C6 /* AsamJsonParser.swift in Sources */,
+				2F2B16D72315D2710010701B /* AsamMarkerAnnotationView.swift in Sources */,
 				2FC48D8C1B713CBD0007B8C6 /* AppDelegate.swift in Sources */,
 				2FC48D8E1B713E450007B8C6 /* AsamMapViewDelegate.swift in Sources */,
+				2F08C88D2319780B00BDF5ED /* SubregionDisplayViewController.swift in Sources */,
 				2FC48D9B1B713EA00007B8C6 /* AsamAnnotation.swift in Sources */,
 				751782D21D95BD440084E357 /* README.md in Sources */,
 				2FC48DB01B713F060007B8C6 /* StringExtension.swift in Sources */,
@@ -423,8 +441,8 @@
 				2FC48D9E1B713EB00007B8C6 /* ClusterImageGenerator.swift in Sources */,
 				2FD26C281B714E01001267CA /* ViewController.swift in Sources */,
 				75029C931B73EE71004BD9E2 /* ListTableViewController.swift in Sources */,
+				2F08C893231C460C00BDF5ED /* AboutViewController.swift in Sources */,
 				2FC48DBD1B713FB00007B8C6 /* anti_piracy_iOS_app.xcdatamodeld in Sources */,
-				2FC48DB21B713F0C0007B8C6 /* SubregionDisplayViewController.swift in Sources */,
 				75029C971B7A5124004BD9E2 /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -557,13 +575,15 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				DEVELOPMENT_TEAM = AGS5AN2U6G;
 				INFOPLIST_FILE = ASAM/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "mil.dod.nga.giat.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = mil.dod.nga.giat.ASAM.wnewman;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.2;
 			};
 			name = Debug;
 		};
@@ -573,12 +593,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				DEVELOPMENT_TEAM = AGS5AN2U6G;
 				INFOPLIST_FILE = ASAM/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "mil.dod.nga.giat.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = mil.dod.nga.giat.ASAM.wnewman;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.2;
 			};
 			name = Release;
 		};
@@ -598,7 +620,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "mil.dod.nga.giat.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.2;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ASAM.app/ASAM";
 			};
 			name = Debug;
@@ -615,7 +638,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "mil.dod.nga.giat.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.2;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ASAM.app/ASAM";
 			};
 			name = Release;

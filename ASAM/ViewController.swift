@@ -7,55 +7,33 @@ import UIKit
 import MapKit
 import CoreData
 
-class ViewController: UIViewController, AsamSelectDelegate, WebService {
+class ViewController: UIViewController, AsamSelectDelegate {
+    static var clusteringIdentifierCount = 1
 
     @IBOutlet weak var mapView: MKMapView!
-    @IBOutlet weak var asamCountLabel: UILabel!
     @IBOutlet weak var asamMapViewDelegate: AsamMapViewDelegate!
     
-    var asams = [AsamAnnotation]()
+    var asams = [String:AsamAnnotation]()
     var filterType = Filter.BASIC_TYPE
-    var asamRetrieval: AsamRetrieval = AsamRetrieval()
     var model = AsamModelFacade()
-    
-    //Used for local testing, populates ~6.8K ASAMs
-    //let asamJsonParser:AsamJsonParser = AsamJsonParser();
 
     override func viewDidLoad() {
-        
         super.viewDidLoad()
         
+        navigationItem.largeTitleDisplayMode = .never
+        navigationController?.navigationBar.barStyle = .black
+        navigationController?.setNavigationBarHidden(false, animated: true)
+
         if let userDefaultFilterType = asamMapViewDelegate.defaults.string(forKey: Filter.FILTER_TYPE) {
             filterType = userDefaultFilterType
         }
         
-        asamMapViewDelegate.asamSelectDelegate = self
-
-        //clustering
-        //asamMapViewDelegate.clusteringController = KPClusteringController(mapView: self.mapView)
-        
-        //Display existing Asams
-        asams = retrieveAnnotations(filterType)
-        //asamMapViewDelegate.clusteringController.setAnnotations(asams)
-
-        asamRetrieval.delegate = self
-        
-        let firstLaunch = asamMapViewDelegate.defaults.bool(forKey: AppSettings.FIRST_LAUNCH)
-        if !firstLaunch {
-            asamRetrieval.searchAllAsams()
-            asamMapViewDelegate.defaults.setValue(true, forKey: AppSettings.FIRST_LAUNCH)
-        } else {
-            let formatter = DateFormatter()
-            formatter.dateFormat = "yyyyMMdd" //ex: "20150221"
-            let startDate = formatter.string(from: model.getLatestAsamDate())
-            let endDate = formatter.string(from: Foundation.Date())
-            asamRetrieval.searchForAsams(startDate, endDate: endDate)
-        }
-
-        configureMap()
-        
-    }
+        asamMapViewDelegate.delegate = self
+        mapView.register(AsamMarkerAnnotationView.self, forAnnotationViewWithReuseIdentifier: MKMapViewDefaultAnnotationViewReuseIdentifier)
+        mapView.register(AsamClusterAnnotationView.self, forAnnotationViewWithReuseIdentifier: MKMapViewDefaultClusterAnnotationViewReuseIdentifier)
     
+        configureMap()
+    }
     
     func configureMap() {
         //rebuild map center and map span from persisted user data
@@ -84,9 +62,9 @@ class ViewController: UIViewController, AsamSelectDelegate, WebService {
         print("Retrieving Map Deltas (lat delta: \(mapSpanLatitudeDelta)," +
             "lon delta:\(mapSpanLongitudeDelta))");
         
-        let mapSpan = MKCoordinateSpanMake(mapSpanLatitudeDelta, mapSpanLongitudeDelta)
+        let mapSpan = MKCoordinateSpan.init(latitudeDelta: mapSpanLatitudeDelta, longitudeDelta: mapSpanLongitudeDelta)
         let mapCenter = CLLocationCoordinate2DMake(mapCenterLatitude, mapCenterLongitude)
-        let mapRegion =  MKCoordinateRegionMake(mapCenter, mapSpan)
+        let mapRegion =  MKCoordinateRegion.init(center: mapCenter, span: mapSpan)
         
         self.mapView.region = mapRegion
         
@@ -111,43 +89,41 @@ class ViewController: UIViewController, AsamSelectDelegate, WebService {
             }
         }
         
+        // Display existing Asams
+        asams = addAsams(filterType)
     }
     
-    func didReceiveResponse(_ results: NSArray) {
-        print("Success! Response was received.")
-
-        if let json = results as? [[String:Any]] {
-            model.populateEntity(json)
+    func addAsams(_ filterType: String) -> [String:AsamAnnotation] {
+        ViewController.clusteringIdentifierCount += 1
+        
+        var annotations = [String:AsamAnnotation]()
+        
+        for asam in model.getAsams(filterType) {
+            if (asams[asam.reference] == nil) {
+                let annotation = AsamAnnotation(coordinate: CLLocationCoordinate2DMake(asam.latitude, asam.longitude), asam: asam)
+                mapView.addAnnotation(annotation)
+                annotations[asam.reference] = annotation
+            } else {
+                annotations[asam.reference] = asams[asam.reference]
+            }
         }
         
-        asams = retrieveAnnotations(filterType)
-        
-        //asamMapViewDelegate.clusteringController.setAnnotations(asams)
-    }
-    
-    
-    func retrieveAnnotations(_ filterType: String) -> [AsamAnnotation] {
-        
-        var annotations: [AsamAnnotation] = []
-
-        let filteredAsams = model.getAsams(filterType)
-        for asam in filteredAsams {
-            // Drop a pin
-            let newLocation = CLLocationCoordinate2DMake(asam.lat as Double, asam.lng as Double)
-            let dropPin = AsamAnnotation(coordinate: newLocation, asam: asam)
-            annotations.append(dropPin)
+        var allReferences = Set(asams.keys)
+        allReferences.subtract(Set(annotations.keys))
+        for reference in allReferences {
+            if let annotation = asams[reference] {
+                mapView.removeAnnotation(annotation)
+            }
         }
-        
-        asamCountLabel.text = "Now Showing \(filteredAsams.count) ASAMS"
+
+        navigationItem.prompt = "\(annotations.count) ASAMs match filter"
         return annotations
     }
-    
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
     
-        
     @IBAction func showLayerActionSheet(_ sender: UIButton) {
         
         // Action Sheet Label
@@ -195,7 +171,6 @@ class ViewController: UIViewController, AsamSelectDelegate, WebService {
         
         // Show Action Sheet
         self.present(optionMenu, animated: true, completion: nil)
-        
     }
     
 
@@ -207,11 +182,13 @@ class ViewController: UIViewController, AsamSelectDelegate, WebService {
         }
     }
     
-    
     func asamSelected(_ asam: AsamAnnotation) {
         performSegue(withIdentifier: "singleAsamDetails", sender: asam.asam)
     }
     
+    func clusterSelected(asams: [AsamAnnotation]) {
+        performSegue(withIdentifier: "listDisplayedAsams", sender: asams)
+    }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if (segue.identifier == "singleAsamDetails") {
@@ -219,31 +196,23 @@ class ViewController: UIViewController, AsamSelectDelegate, WebService {
             viewController.asam = sender as! Asam?
         } else if (segue.identifier == "listDisplayedAsams") {
             let listController = segue.destination as! ListTableViewController
-           // let listController = navController.topViewController as! ListTableViewController
-            listController.asams = asams
+            let annotations = sender as? [AsamAnnotation] ?? Array(asams.values)
+            listController.asams = annotations
         }
     }
     
-    
     @IBAction func unwindFromFilter(_ segue: UIStoryboardSegue) {
-        
     }
-    
     
     @IBAction func applyFilters(_ segue:UIStoryboardSegue) {
         if segue.source.isKind(of: FilterViewController.self) {
             filterType = Filter.BASIC_TYPE
         }
-        if let mapViewController = segue.source as? AdvFilterViewController {
-            filterType = mapViewController.filterType
+        
+        if let advFilterController = segue.source as? AdvFilterViewController {
+            filterType = advFilterController.filterType
         }
-        asams = retrieveAnnotations(filterType)
-        //asamMapViewDelegate.clusteringController.setAnnotations(asams)
+        
+        asams = addAsams(filterType)
     }
-    
 }
-
-
-
-
-

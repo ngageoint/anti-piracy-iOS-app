@@ -22,6 +22,21 @@
 	<string>1</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSExceptionDomains</key>
+		<dict>
+			<key>msi.nga.mil</key>
+			<dict>
+				<key>NSIncludesSubdomains</key>
+				<true/>
+				<key>NSTemporaryExceptionAllowsInsecureHTTPLoads</key>
+				<true/>
+				<key>NSTemporaryExceptionMinimumTLSVersion</key>
+				<string>TLSv1.1</string>
+			</dict>
+		</dict>
+	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>ASAM requires access to your phone&apos;s location and is only used to calculate the Current Subregion. </string>
 	<key>UILaunchStoryboardName</key>
@@ -32,27 +47,14 @@
 	<array>
 		<string>armv7</string>
 	</array>
+	<key>UIStatusBarStyle</key>
+	<string>UIStatusBarStyleLightContent</string>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
-	<key>NSAppTransportSecurity</key>
-	<dict>
-		<key>NSExceptionDomains</key>
-        <dict>
-            <key>msi.nga.mil</key>
-            <dict>
-                <key>NSIncludesSubdomains</key>
-                <true/>
-                <key>NSTemporaryExceptionAllowsInsecureHTTPLoads</key>
-                <true/>
-                <key>NSTemporaryExceptionMinimumTLSVersion</key>
-                <string>TLSv1.1</string>
-            </dict>
-        </dict>
-	</dict>
 	<key>UISupportedInterfaceOrientations~ipad</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
@@ -60,5 +62,7 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>UIViewControllerBasedStatusBarAppearance</key>
+	<false/>
 </dict>
 </plist>
