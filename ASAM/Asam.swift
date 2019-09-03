@@ -17,6 +17,7 @@ class Asam: NSManagedObject {
     @NSManaged var longitude: Double
     @NSManaged var reference: String
     @NSManaged var subregion: Int
+    @NSManaged var navArea: String
     @NSManaged var victim: String
 
 }

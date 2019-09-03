@@ -11,6 +11,7 @@
 		2F08C88F231AD03D00BDF5ED /* Disclaimer.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2F08C88E231AD03D00BDF5ED /* Disclaimer.xib */; };
 		2F08C891231AD38800BDF5ED /* DisclaimerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F08C890231AD38800BDF5ED /* DisclaimerViewController.swift */; };
 		2F08C893231C460C00BDF5ED /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F08C892231C460C00BDF5ED /* AboutViewController.swift */; };
+		2F08C895231C70E200BDF5ED /* asam_seed.json in Resources */ = {isa = PBXBuildFile; fileRef = 2F08C894231C70E200BDF5ED /* asam_seed.json */; };
 		2F2B16D72315D2710010701B /* AsamMarkerAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F2B16D62315D2710010701B /* AsamMarkerAnnotationView.swift */; };
 		2F2B16D92315D4080010701B /* AsamClusterAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F2B16D82315D4080010701B /* AsamClusterAnnotationView.swift */; };
 		2F37A6731B71387100953AC0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2F37A6711B71387100953AC0 /* Main.storyboard */; };
@@ -24,21 +25,18 @@
 		2FC48D901B713E4E0007B8C6 /* AsamSelectDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FC48D8F1B713E4E0007B8C6 /* AsamSelectDelegate.swift */; };
 		2FC48D961B713E780007B8C6 /* AsamModelFacade.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FC48D951B713E780007B8C6 /* AsamModelFacade.swift */; };
 		2FC48D9B1B713EA00007B8C6 /* AsamAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FC48D9A1B713EA00007B8C6 /* AsamAnnotation.swift */; };
-		2FC48D9E1B713EB00007B8C6 /* ClusterImageGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FC48D9D1B713EB00007B8C6 /* ClusterImageGenerator.swift */; };
 		2FC48DA11B713EC60007B8C6 /* subregions.csv in Resources */ = {isa = PBXBuildFile; fileRef = 2FC48DA01B713EC60007B8C6 /* subregions.csv */; };
 		2FC48DA31B713ECD0007B8C6 /* ne_50m_land.simplify0.2.geojson in Resources */ = {isa = PBXBuildFile; fileRef = 2FC48DA21B713ECD0007B8C6 /* ne_50m_land.simplify0.2.geojson */; };
 		2FC48DA51B713ED70007B8C6 /* OfflineMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FC48DA41B713ED70007B8C6 /* OfflineMap.swift */; };
 		2FC48DA71B713EDD0007B8C6 /* SubregionMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FC48DA61B713EDD0007B8C6 /* SubregionMap.swift */; };
-		2FC48DAC1B713EFA0007B8C6 /* AsamJsonParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FC48DAB1B713EFA0007B8C6 /* AsamJsonParser.swift */; };
-		2FC48DB01B713F060007B8C6 /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FC48DAF1B713F060007B8C6 /* StringExtension.swift */; };
 		2FC48DB41B713F1D0007B8C6 /* FilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FC48DB31B713F1D0007B8C6 /* FilterViewController.swift */; };
 		2FC48DB61B713F2B0007B8C6 /* AdvFilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FC48DB51B713F2B0007B8C6 /* AdvFilterViewController.swift */; };
 		2FC48DB81B713F310007B8C6 /* SubregionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FC48DB71B713F310007B8C6 /* SubregionViewController.swift */; };
 		2FC48DBA1B713F370007B8C6 /* AsamDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FC48DB91B713F370007B8C6 /* AsamDetailsViewController.swift */; };
-		2FC48DBD1B713FB00007B8C6 /* anti_piracy_iOS_app.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 2FC48DBB1B713FB00007B8C6 /* anti_piracy_iOS_app.xcdatamodeld */; };
+		2FC48DBD1B713FB00007B8C6 /* asam.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 2FC48DBB1B713FB00007B8C6 /* asam.xcdatamodeld */; };
 		2FC48DBF1B713FFB0007B8C6 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FC48DBE1B713FFB0007B8C6 /* MapKit.framework */; };
 		2FC48DC11B7142370007B8C6 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FC48DC01B7142370007B8C6 /* UIKit.framework */; };
-		2FD26C281B714E01001267CA /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FD26C271B714E01001267CA /* ViewController.swift */; };
+		2FD26C281B714E01001267CA /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FD26C271B714E01001267CA /* MapViewController.swift */; };
 		75029C931B73EE71004BD9E2 /* ListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75029C921B73EE71004BD9E2 /* ListTableViewController.swift */; };
 		75029C951B78DCB2004BD9E2 /* ListViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75029C941B78DCB2004BD9E2 /* ListViewCell.swift */; };
 		75029C971B7A5124004BD9E2 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75029C961B7A5124004BD9E2 /* Constants.swift */; };
@@ -65,6 +63,7 @@
 		2F08C88E231AD03D00BDF5ED /* Disclaimer.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = Disclaimer.xib; sourceTree = "<group>"; };
 		2F08C890231AD38800BDF5ED /* DisclaimerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisclaimerViewController.swift; sourceTree = "<group>"; };
 		2F08C892231C460C00BDF5ED /* AboutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutViewController.swift; sourceTree = "<group>"; };
+		2F08C894231C70E200BDF5ED /* asam_seed.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = asam_seed.json; sourceTree = "<group>"; };
 		2F2B16D62315D2710010701B /* AsamMarkerAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsamMarkerAnnotationView.swift; sourceTree = "<group>"; };
 		2F2B16D82315D4080010701B /* AsamClusterAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsamClusterAnnotationView.swift; sourceTree = "<group>"; };
 		2F37A6681B71387100953AC0 /* ASAM.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ASAM.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -82,13 +81,10 @@
 		2FC48D8F1B713E4E0007B8C6 /* AsamSelectDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AsamSelectDelegate.swift; sourceTree = "<group>"; };
 		2FC48D951B713E780007B8C6 /* AsamModelFacade.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AsamModelFacade.swift; sourceTree = "<group>"; };
 		2FC48D9A1B713EA00007B8C6 /* AsamAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AsamAnnotation.swift; sourceTree = "<group>"; };
-		2FC48D9D1B713EB00007B8C6 /* ClusterImageGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClusterImageGenerator.swift; sourceTree = "<group>"; };
 		2FC48DA01B713EC60007B8C6 /* subregions.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = subregions.csv; sourceTree = "<group>"; };
 		2FC48DA21B713ECD0007B8C6 /* ne_50m_land.simplify0.2.geojson */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ne_50m_land.simplify0.2.geojson; sourceTree = "<group>"; };
 		2FC48DA41B713ED70007B8C6 /* OfflineMap.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OfflineMap.swift; sourceTree = "<group>"; };
 		2FC48DA61B713EDD0007B8C6 /* SubregionMap.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SubregionMap.swift; sourceTree = "<group>"; };
-		2FC48DAB1B713EFA0007B8C6 /* AsamJsonParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AsamJsonParser.swift; sourceTree = "<group>"; };
-		2FC48DAF1B713F060007B8C6 /* StringExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
 		2FC48DB31B713F1D0007B8C6 /* FilterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterViewController.swift; sourceTree = "<group>"; };
 		2FC48DB51B713F2B0007B8C6 /* AdvFilterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdvFilterViewController.swift; sourceTree = "<group>"; };
 		2FC48DB71B713F310007B8C6 /* SubregionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SubregionViewController.swift; sourceTree = "<group>"; };
@@ -96,7 +92,7 @@
 		2FC48DBC1B713FB00007B8C6 /* anti_piracy_iOS_app.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = anti_piracy_iOS_app.xcdatamodel; sourceTree = "<group>"; };
 		2FC48DBE1B713FFB0007B8C6 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		2FC48DC01B7142370007B8C6 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
-		2FD26C271B714E01001267CA /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		2FD26C271B714E01001267CA /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		4013090EA3D7C955840FB612 /* Pods_ASAM.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ASAM.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		75029C921B73EE71004BD9E2 /* ListTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListTableViewController.swift; sourceTree = "<group>"; };
 		75029C941B78DCB2004BD9E2 /* ListViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListViewCell.swift; sourceTree = "<group>"; };
@@ -140,6 +136,60 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		2F08C896231EBB9300BDF5ED /* Map */ = {
+			isa = PBXGroup;
+			children = (
+				2F08C88C2319780B00BDF5ED /* SubregionDisplayViewController.swift */,
+				2FD26C271B714E01001267CA /* MapViewController.swift */,
+				2F2B16D62315D2710010701B /* AsamMarkerAnnotationView.swift */,
+				2F2B16D82315D4080010701B /* AsamClusterAnnotationView.swift */,
+				2FC48DA41B713ED70007B8C6 /* OfflineMap.swift */,
+				2FC48DB71B713F310007B8C6 /* SubregionViewController.swift */,
+				2FC48D8D1B713E450007B8C6 /* AsamMapViewDelegate.swift */,
+				2FC48D9A1B713EA00007B8C6 /* AsamAnnotation.swift */,
+				2FC48DA61B713EDD0007B8C6 /* SubregionMap.swift */,
+				750AD0821B824620006F7C28 /* CurrentSubregion.swift */,
+				2FC48D8F1B713E4E0007B8C6 /* AsamSelectDelegate.swift */,
+			);
+			name = Map;
+			sourceTree = "<group>";
+		};
+		2F08C897231EBEBB00BDF5ED /* List */ = {
+			isa = PBXGroup;
+			children = (
+				75029C941B78DCB2004BD9E2 /* ListViewCell.swift */,
+				75029C921B73EE71004BD9E2 /* ListTableViewController.swift */,
+			);
+			name = List;
+			sourceTree = "<group>";
+		};
+		2F08C898231EBEF000BDF5ED /* Filter */ = {
+			isa = PBXGroup;
+			children = (
+				2FC48DB51B713F2B0007B8C6 /* AdvFilterViewController.swift */,
+				2FC48DB31B713F1D0007B8C6 /* FilterViewController.swift */,
+			);
+			name = Filter;
+			sourceTree = "<group>";
+		};
+		2F08C899231EBFF300BDF5ED /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				2F37A6761B71387100953AC0 /* LaunchScreen.xib */,
+				2F08C88E231AD03D00BDF5ED /* Disclaimer.xib */,
+				2F37A6711B71387100953AC0 /* Main.storyboard */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
+		2F08C89A231EC02200BDF5ED /* Details */ = {
+			isa = PBXGroup;
+			children = (
+				2FC48DB91B713F370007B8C6 /* AsamDetailsViewController.swift */,
+			);
+			name = Details;
+			sourceTree = "<group>";
+		};
 		2F37A65F1B71387100953AC0 = {
 			isa = PBXGroup;
 			children = (
@@ -166,14 +216,17 @@
 			isa = PBXGroup;
 			children = (
 				2FC48D941B713E670007B8C6 /* Data */,
+				2F08C89A231EC02200BDF5ED /* Details */,
+				2F08C898231EBEF000BDF5ED /* Filter */,
+				2F08C897231EBEBB00BDF5ED /* List */,
+				2F08C896231EBB9300BDF5ED /* Map */,
 				75B1D7E61CC65CD20095A98E /* Models */,
-				75B1D7E71CC65F770095A98E /* Views */,
-				2FC48D8A1B713CA20007B8C6 /* Controllers */,
-				757C75C11D8B19EB00549054 /* Utilities */,
+				2F08C899231EBFF300BDF5ED /* Views */,
+				2F08C892231C460C00BDF5ED /* AboutViewController.swift */,
 				2FC48D8B1B713CBD0007B8C6 /* AppDelegate.swift */,
-				2F37A6711B71387100953AC0 /* Main.storyboard */,
-				2F37A6761B71387100953AC0 /* LaunchScreen.xib */,
-				2F08C88E231AD03D00BDF5ED /* Disclaimer.xib */,
+				75029C961B7A5124004BD9E2 /* Constants.swift */,
+				2F08C890231AD38800BDF5ED /* DisclaimerViewController.swift */,
+				2F43410E2318204D0089CE68 /* LoadingController.swift */,
 				2F37A6741B71387100953AC0 /* Images.xcassets */,
 				2F37A66B1B71387100953AC0 /* Supporting Files */,
 			);
@@ -208,68 +261,25 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		2FC48D8A1B713CA20007B8C6 /* Controllers */ = {
-			isa = PBXGroup;
-			children = (
-				2FD26C271B714E01001267CA /* ViewController.swift */,
-				2FC48DB91B713F370007B8C6 /* AsamDetailsViewController.swift */,
-				2FC48DB71B713F310007B8C6 /* SubregionViewController.swift */,
-				2FC48DB51B713F2B0007B8C6 /* AdvFilterViewController.swift */,
-				2FC48DB31B713F1D0007B8C6 /* FilterViewController.swift */,
-				75029C921B73EE71004BD9E2 /* ListTableViewController.swift */,
-				2F43410E2318204D0089CE68 /* LoadingController.swift */,
-				2F08C88C2319780B00BDF5ED /* SubregionDisplayViewController.swift */,
-				2F08C890231AD38800BDF5ED /* DisclaimerViewController.swift */,
-				2F08C892231C460C00BDF5ED /* AboutViewController.swift */,
-			);
-			name = Controllers;
-			sourceTree = "<group>";
-		};
 		2FC48D941B713E670007B8C6 /* Data */ = {
 			isa = PBXGroup;
 			children = (
+				2F08C894231C70E200BDF5ED /* asam_seed.json */,
 				2FC48DA21B713ECD0007B8C6 /* ne_50m_land.simplify0.2.geojson */,
 				2FC48DA01B713EC60007B8C6 /* subregions.csv */,
 			);
 			name = Data;
 			sourceTree = "<group>";
 		};
-		757C75C11D8B19EB00549054 /* Utilities */ = {
-			isa = PBXGroup;
-			children = (
-				2FC48DAF1B713F060007B8C6 /* StringExtension.swift */,
-				2FC48DAB1B713EFA0007B8C6 /* AsamJsonParser.swift */,
-				75029C961B7A5124004BD9E2 /* Constants.swift */,
-			);
-			name = Utilities;
-			sourceTree = "<group>";
-		};
 		75B1D7E61CC65CD20095A98E /* Models */ = {
 			isa = PBXGroup;
 			children = (
 				2FC48D861B713C8B0007B8C6 /* Asam.swift */,
-				2FC48D9A1B713EA00007B8C6 /* AsamAnnotation.swift */,
 				2FC48D951B713E780007B8C6 /* AsamModelFacade.swift */,
-				75029C941B78DCB2004BD9E2 /* ListViewCell.swift */,
 				75B314381B84EBF200122B09 /* AsamResource.swift */,
-				2FC48DBB1B713FB00007B8C6 /* anti_piracy_iOS_app.xcdatamodeld */,
+				2FC48DBB1B713FB00007B8C6 /* asam.xcdatamodeld */,
 			);
 			name = Models;
-			sourceTree = "<group>";
-		};
-		75B1D7E71CC65F770095A98E /* Views */ = {
-			isa = PBXGroup;
-			children = (
-				2FC48D8D1B713E450007B8C6 /* AsamMapViewDelegate.swift */,
-				2FC48D8F1B713E4E0007B8C6 /* AsamSelectDelegate.swift */,
-				2FC48D9D1B713EB00007B8C6 /* ClusterImageGenerator.swift */,
-				750AD0821B824620006F7C28 /* CurrentSubregion.swift */,
-				2FC48DA41B713ED70007B8C6 /* OfflineMap.swift */,
-				2FC48DA61B713EDD0007B8C6 /* SubregionMap.swift */,
-				2F2B16D62315D2710010701B /* AsamMarkerAnnotationView.swift */,
-				2F2B16D82315D4080010701B /* AsamClusterAnnotationView.swift */,
-			);
-			name = Views;
 			sourceTree = "<group>";
 		};
 		BE02B5BAC5F25B717FAAEC56 /* Frameworks */ = {
@@ -334,7 +344,7 @@
 				TargetAttributes = {
 					2F37A6671B71387100953AC0 = {
 						CreatedOnToolsVersion = 6.4;
-						DevelopmentTeam = AGS5AN2U6G;
+						DevelopmentTeam = ZL8G5D9G2H;
 						LastSwiftMigration = 1030;
 					};
 					2F37A67C1B71387100953AC0 = {
@@ -375,6 +385,7 @@
 				2F08C88F231AD03D00BDF5ED /* Disclaimer.xib in Resources */,
 				751782D01D95BD440084E357 /* LICENSE in Resources */,
 				2F37A6781B71387100953AC0 /* LaunchScreen.xib in Resources */,
+				2F08C895231C70E200BDF5ED /* asam_seed.json in Resources */,
 				2FC48DA31B713ECD0007B8C6 /* ne_50m_land.simplify0.2.geojson in Resources */,
 				2F37A6751B71387100953AC0 /* Images.xcassets in Resources */,
 			);
@@ -425,24 +436,21 @@
 				2F43410F2318204D0089CE68 /* LoadingController.swift in Sources */,
 				2F2B16D92315D4080010701B /* AsamClusterAnnotationView.swift in Sources */,
 				2F08C891231AD38800BDF5ED /* DisclaimerViewController.swift in Sources */,
-				2FC48DAC1B713EFA0007B8C6 /* AsamJsonParser.swift in Sources */,
 				2F2B16D72315D2710010701B /* AsamMarkerAnnotationView.swift in Sources */,
 				2FC48D8C1B713CBD0007B8C6 /* AppDelegate.swift in Sources */,
 				2FC48D8E1B713E450007B8C6 /* AsamMapViewDelegate.swift in Sources */,
 				2F08C88D2319780B00BDF5ED /* SubregionDisplayViewController.swift in Sources */,
 				2FC48D9B1B713EA00007B8C6 /* AsamAnnotation.swift in Sources */,
 				751782D21D95BD440084E357 /* README.md in Sources */,
-				2FC48DB01B713F060007B8C6 /* StringExtension.swift in Sources */,
 				2FC48DB41B713F1D0007B8C6 /* FilterViewController.swift in Sources */,
 				750AD0831B824620006F7C28 /* CurrentSubregion.swift in Sources */,
 				2FC48D871B713C8B0007B8C6 /* Asam.swift in Sources */,
 				2FC48D961B713E780007B8C6 /* AsamModelFacade.swift in Sources */,
 				75029C951B78DCB2004BD9E2 /* ListViewCell.swift in Sources */,
-				2FC48D9E1B713EB00007B8C6 /* ClusterImageGenerator.swift in Sources */,
-				2FD26C281B714E01001267CA /* ViewController.swift in Sources */,
+				2FD26C281B714E01001267CA /* MapViewController.swift in Sources */,
 				75029C931B73EE71004BD9E2 /* ListTableViewController.swift in Sources */,
 				2F08C893231C460C00BDF5ED /* AboutViewController.swift in Sources */,
-				2FC48DBD1B713FB00007B8C6 /* anti_piracy_iOS_app.xcdatamodeld in Sources */,
+				2FC48DBD1B713FB00007B8C6 /* asam.xcdatamodeld in Sources */,
 				75029C971B7A5124004BD9E2 /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -575,11 +583,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				DEVELOPMENT_TEAM = AGS5AN2U6G;
+				DEVELOPMENT_TEAM = ZL8G5D9G2H;
 				INFOPLIST_FILE = ASAM/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = mil.dod.nga.giat.ASAM.wnewman;
+				PRODUCT_BUNDLE_IDENTIFIER = mil.nga.giat.ASAM;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -592,11 +600,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				DEVELOPMENT_TEAM = AGS5AN2U6G;
+				DEVELOPMENT_TEAM = ZL8G5D9G2H;
 				INFOPLIST_FILE = ASAM/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = mil.dod.nga.giat.ASAM.wnewman;
+				PRODUCT_BUNDLE_IDENTIFIER = mil.nga.giat.ASAM;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 			};
@@ -673,13 +681,13 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		2FC48DBB1B713FB00007B8C6 /* anti_piracy_iOS_app.xcdatamodeld */ = {
+		2FC48DBB1B713FB00007B8C6 /* asam.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
 				2FC48DBC1B713FB00007B8C6 /* anti_piracy_iOS_app.xcdatamodel */,
 			);
 			currentVersion = 2FC48DBC1B713FB00007B8C6 /* anti_piracy_iOS_app.xcdatamodel */;
-			path = anti_piracy_iOS_app.xcdatamodeld;
+			path = asam.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};

@@ -3,7 +3,6 @@
 //  ASAM
 //
 
-
 import UIKit
 
 class ListTableViewController: UITableViewController {

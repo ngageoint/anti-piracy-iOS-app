@@ -20,7 +20,7 @@ class AsamMarkerAnnotationView: MKMarkerAnnotationView {
     
     override var annotation: MKAnnotation? {
         willSet {
-            clusteringIdentifier = "asam\(ViewController.clusteringIdentifierCount)"
+            clusteringIdentifier = "asam\(MapViewController.clusteringIdentifierCount)"
             canShowCallout = false
             subtitleVisibility = .adaptive
             markerTintColor = UIColor.init(red: 55.0/255.0, green: 71.0/255.0, blue: 79.0/255.0, alpha: 1)

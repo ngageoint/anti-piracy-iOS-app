@@ -23,11 +23,18 @@ class LoadingController: UIViewController, AsamResourceDelegate {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
+        if (model.count() == 0) {
+            let path = Bundle.main.path(forResource: "asam_seed", ofType: "json")!
+            let data = try? Data(contentsOf: URL(fileURLWithPath: path))
+            let json = try? JSONSerialization.jsonObject(with: data!, options: .mutableContainers)  as? [String:Any]
+            model.addAsams(json!["asam"] as! [[String:Any]])
+        }
+        
         asamResource.query()
     }
+
     
     func success(_ json: [[String:Any]]) {
-        model.populateEntity(json)
         performSegue(withIdentifier: "launchSegue", sender: self)
     }
     

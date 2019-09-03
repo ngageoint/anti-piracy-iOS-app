@@ -3,7 +3,6 @@
 //  ASAM
 //
 
-
 import Foundation
 
 struct Filter {
@@ -48,7 +47,6 @@ struct MapView {
 }
 
 struct AppSettings {
-    static let FIRST_LAUNCH = "firstApplicationLaunch"
     static let HIDE_DISCLAIMER = "hideDisclaimer"
     static let LAST_SYNC = "lastSync"
 }

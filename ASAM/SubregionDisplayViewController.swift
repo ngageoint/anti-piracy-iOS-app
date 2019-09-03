@@ -16,7 +16,7 @@ class SubregionDisplayViewController: UIViewController {
         }
     
         if !regions.isEmpty {
-            textView.text = regionsText.substring(to: regionsText.characters.index(before: regionsText.endIndex))
+            textView.text = regionsText.substring(to: regionsText.index(before: regionsText.endIndex))
         }
         else {
             textView.text = String()

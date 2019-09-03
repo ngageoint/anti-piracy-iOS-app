@@ -3,11 +3,9 @@
 //  anti-piracy-iOS-app
 //
 
-
 import Foundation
 import CoreData
 import UIKit
-
 
 class AsamModelFacade {
 
@@ -19,16 +17,12 @@ class AsamModelFacade {
 
     let dateFormatter : DateFormatter = {
         let formatter = DateFormatter()
-        formatter.dateFormat = "MM/dd/yyyy"
+        formatter.dateFormat = "yyyy MM dd HH:mm:ss"
         return formatter
     }()
     
     var managedContext: NSManagedObjectContext {
-        return (UIApplication.shared.delegate as! AppDelegate).managedObjectContext!
-    }
-    
-    func populateEntity(_ asams: [[String:Any]]) {
-        addAsams(asams)
+        return (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     }
     
     func addAsams(_ asams: [[String:Any]]) {
@@ -37,33 +31,36 @@ class AsamModelFacade {
         for json: [String:Any] in asams {
             let asam: Asam = NSManagedObject(entity: entity!, insertInto:managedContext) as! Asam
             
-            if let reference = json["Reference"] as? String {
+            if let reference = json["reference"] as? String {
                 asam.reference = reference
             }
-            if let latitude = json["lat"] as? String {
-                asam.latitude = latitude.getDouble
+            if let latitude = json["latitude"] as? Double {
+                asam.latitude = latitude
             }
-            if let longitude = json["lng"] as? String {
-                asam.longitude = longitude.getDouble
+            if let longitude = json["longitude"] as? Double {
+                asam.longitude = longitude
             }
-            if let subregion = json["Subregion"] as? String {
+            if let subregion = json["subreg"] as? String {
                 asam.subregion = Int(subregion)!
             }
-            if let hostility = json["Aggressor"] as? String {
+            if let navArea = json["navArea"] as? String {
+                asam.navArea = navArea
+            }
+            if let hostility = json["hostility"] as? String {
                 asam.hostility = hostility
             }
-            if let victim = json["Victim"] as? String {
+            if let victim = json["victim"] as? String {
                 asam.victim = victim
             }
-            if let detail = json["Description"] as? String {
+            if let detail = json["description"] as? String {
                 asam.detail = detail
             }
-            if let date = json["Date"] as? String {
+            if let date = json["date"] as? String {
                 asam.date = dateFormatter.date(from: date)!
             }
-            
-            saveContext(managedContext)
         }
+        
+        saveContext(managedContext)
     }
     
     func saveContext(_ managedContext: NSManagedObjectContext) {
@@ -78,37 +75,37 @@ class AsamModelFacade {
         print(message + " \(String(describing: error)): \(String(describing: error?.userInfo))")
     }
     
-    func getLatestAsamDate() -> Foundation.Date {
-        var latestDate: Foundation.Date!
+    func count() -> Int {
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: ASAM_ENTITY)
-        let sortDescriptor = NSSortDescriptor(key: "date", ascending: false)
-
-        fetchRequest.sortDescriptors = [sortDescriptor]
+        do {
+            return try managedContext.count(for: fetchRequest)
+        } catch _ {
+            
+        }
+        
+        return 0
+    }
+    
+    func getLatestAsamDate() -> Date? {
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: ASAM_ENTITY)
+        fetchRequest.fetchLimit = 1
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "date", ascending: false)]
         let calendar = Calendar.current
         
-        let error: NSError? = nil
         do {
-            let fetchResults = try managedContext.fetch(fetchRequest) as? [Asam]
+            let results = try managedContext.fetch(fetchRequest) as? [Asam]
             
-            if let results = fetchResults {
-                if results.count > 0 {
-                    var latestResults = fetchResults!
-                    let latestAsam = latestResults[0]
-                    let asamDate = calendar.startOfDay(for: latestAsam.date)
-                    //Set back 60 days to grab any Asams input late
-                    latestDate = (calendar as NSCalendar).date(byAdding: .day, value: -60, to: asamDate, options: [])!
-                } else {
-                    //Default to 1 year if no Asam found
-                    let asamDate = calendar.startOfDay(for: Foundation.Date())
-                    latestDate = (calendar as NSCalendar).date(byAdding: .year, value: -1, to: asamDate, options: [])!
-                }
-            } else {
-                logError("Could not fetch latest ASAM", error: error)
+            if let asam = results?[0] {
+                let date = calendar.startOfDay(for: asam.date)
+                
+                //Set back 60 days to grab any Asams input late
+                return calendar.date(byAdding: .day, value: -60, to: date)
             }
         } catch _ {
             //No results returned.
         }
-        return latestDate
+        
+        return nil
     }
     
     func getAsams(_ filterType: String)-> Array<Asam> {
@@ -200,17 +197,17 @@ class AsamModelFacade {
         let today = calendar.startOfDay(for: Foundation.Date())
         
         //Default to 100 years, an approximate of ALL
-        var intervalDate = (calendar as NSCalendar).date(byAdding: .year, value: -100, to: today, options: [])!
+        var intervalDate = calendar.date(byAdding: .year, value: -100, to: today)!
         
         switch interval {
         case DateQuery.DAYS_30:
-            intervalDate = (calendar as NSCalendar).date(byAdding: .day, value: -30, to: today, options: [])!
+            intervalDate = calendar.date(byAdding: .day, value: -30, to: today)!
         case DateQuery.DAYS_60:
-            intervalDate = (calendar as NSCalendar).date(byAdding: .day, value: -60, to: today, options: [])!
+            intervalDate = calendar.date(byAdding: .day, value: -60, to: today)!
         case DateQuery.DAYS_120:
-            intervalDate = (calendar as NSCalendar).date(byAdding: .day, value: -120, to: today, options: [])!
+            intervalDate = calendar.date(byAdding: .day, value: -120, to: today)!
         case DateQuery.YEARS_1:
-            intervalDate = (calendar as NSCalendar).date(byAdding: .year, value: -1, to: today, options: [])!
+            intervalDate = calendar.date(byAdding: .year, value: -1, to: today)!
         default:
             break
         }
@@ -218,7 +215,6 @@ class AsamModelFacade {
         let intervalPredicate = NSPredicate(format: "(date > %@)", intervalDate as CVarArg )
         
         return intervalPredicate
-        
     }
     
     func getKeywordPredicate(_ keywordType: String) -> NSPredicate? {
@@ -286,7 +282,7 @@ class AsamModelFacade {
             let calendar = Calendar.current
             let today = calendar.startOfDay(for: Foundation.Date())
 
-            let approxOneYearAgo = (calendar as NSCalendar).date(byAdding: .year, value: -1, to: today, options: [])!
+            let approxOneYearAgo = calendar.date(byAdding: .year, value: -1, to: today)!
                 
             dateNames.append("(date > %@)")
             dateValues.append(approxOneYearAgo as AnyObject)

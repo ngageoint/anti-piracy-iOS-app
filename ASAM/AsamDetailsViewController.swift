@@ -79,6 +79,7 @@ class AsamDetailsViewController: UIViewController {
         victim.text = asam.victim
         number.text = asam.reference
         subregion.text = String(asam.subregion)
+        navArea.text = asam.navArea
         coordinate.text = "\(formatLatitudeDegMinSec()), \(formatLongitudeDegMinSec())"
         detail.text = asam.detail
     }

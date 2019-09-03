@@ -17,19 +17,15 @@ class AsamResource: NSObject {
     var model = AsamModelFacade()
 
     func query() {
-        let firstLaunch = UserDefaults.standard.bool(forKey: AppSettings.FIRST_LAUNCH)
-        if !firstLaunch {
-            let urlPath = "https://msi.nga.mil/MSI_JWS/ASAM_JSON/getJSON"
-            query(urlPath)
-            UserDefaults.standard.setValue(true, forKey: AppSettings.FIRST_LAUNCH)
-        } else {
-            let formatter = DateFormatter()
-            formatter.dateFormat = "yyyyMMdd" //ex: "20150221"
-            let startDate = formatter.string(from: model.getLatestAsamDate())
-            let endDate = formatter.string(from: Foundation.Date())
-            let urlPath = "https://msi.nga.mil/MSI_JWS/ASAM_JSON/getJSON?typename=DateRange_AllRefNumbers&fromDate=" + startDate + "&toDate=" + endDate
-            query(urlPath)
+        var urlPath = "https://msi.gs.mil/api/publications/asam?sort=date&output=html"
+
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd"
+        if let latestAsamDate = model.getLatestAsamDate() {
+            urlPath += "&minOccurDate=" + formatter.string(from: latestAsamDate) + "&maxOccurDate=" + formatter.string(from: Foundation.Date())
         }
+        
+        query(urlPath)
     }
     
     fileprivate func query(_ urlPath: String) {
@@ -43,11 +39,12 @@ class AsamResource: NSObject {
             }
             
             do {
-                let json = try JSONSerialization.jsonObject(with:dataResponse, options: [])
-                if let jsonArray = json as? [[String:Any]] {
+                let json = try JSONSerialization.jsonObject(with:dataResponse, options: []) as? [String: Any]
+                if let asams = json?["asam"] as? [[String:Any]] {
                     DispatchQueue.main.async {
+                        self.model.addAsams(asams)
                         UserDefaults.standard.set(Date(), forKey:AppSettings.LAST_SYNC)
-                        self.delegate?.success(jsonArray)
+                        self.delegate?.success(asams)
                     }
                 } else {
                     DispatchQueue.main.async {

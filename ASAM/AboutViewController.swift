@@ -47,7 +47,7 @@ class AboutViewController: UITableViewController, AsamResourceDelegate {
         }
     }
     
-    func success(_ results: [[String : Any]]) {
+    func success(_ json: [[String : Any]]) {
         stopAnimating()
     }
     
