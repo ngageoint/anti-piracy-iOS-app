@@ -13,11 +13,13 @@ class MapViewController: UIViewController, AsamSelectDelegate {
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var asamMapViewDelegate: AsamMapViewDelegate!
     
-    var asams = [String:AsamAnnotation]()
+    var asams = [String:Asam]()
     var filterType = Filter.BASIC_TYPE
     var model = AsamModelFacade()
 
     override func viewDidLoad() {
+        print("DEBUG - map controller viewDidLoad")
+
         super.viewDidLoad()
         
         navigationItem.largeTitleDisplayMode = .never
@@ -32,7 +34,9 @@ class MapViewController: UIViewController, AsamSelectDelegate {
         mapView.register(AsamMarkerAnnotationView.self, forAnnotationViewWithReuseIdentifier: MKMapViewDefaultAnnotationViewReuseIdentifier)
         mapView.register(AsamClusterAnnotationView.self, forAnnotationViewWithReuseIdentifier: MKMapViewDefaultClusterAnnotationViewReuseIdentifier)
     
+        print("DEBUG - configure map")
         configureMap()
+        print("DEBUG - done configure map")
     }
     
     func configureMap() {
@@ -90,19 +94,20 @@ class MapViewController: UIViewController, AsamSelectDelegate {
         }
         
         // Display existing Asams
+        print("DEBUG - map annotations")
         asams = addAsams(filterType)
+        print("DEBUG - done map annotations")
     }
     
-    func addAsams(_ filterType: String) -> [String:AsamAnnotation] {
+    func addAsams(_ filterType: String) -> [String:Asam] {
         MapViewController.clusteringIdentifierCount += 1
         
-        var annotations = [String:AsamAnnotation]()
+        var annotations = [String:Asam]()
         
         for asam in model.getAsams(filterType) {
             if (asams[asam.reference] == nil) {
-                let annotation = AsamAnnotation(coordinate: CLLocationCoordinate2DMake(asam.latitude, asam.longitude), asam: asam)
-                mapView.addAnnotation(annotation)
-                annotations[asam.reference] = annotation
+                mapView.addAnnotation(asam)
+                annotations[asam.reference] = asam
             } else {
                 annotations[asam.reference] = asams[asam.reference]
             }
@@ -118,10 +123,6 @@ class MapViewController: UIViewController, AsamSelectDelegate {
 
         navigationItem.prompt = "\(annotations.count) ASAMs match filter"
         return annotations
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
     }
     
     @IBAction func showLayerActionSheet(_ sender: UIButton) {
@@ -182,11 +183,11 @@ class MapViewController: UIViewController, AsamSelectDelegate {
         }
     }
     
-    func asamSelected(_ asam: AsamAnnotation) {
-        performSegue(withIdentifier: "singleAsamDetails", sender: asam.asam)
+    func asamSelected(_ asam: Asam) {
+        performSegue(withIdentifier: "singleAsamDetails", sender: asam)
     }
     
-    func clusterSelected(asams: [AsamAnnotation]) {
+    func clusterSelected(asams: [Asam]) {
         performSegue(withIdentifier: "listDisplayedAsams", sender: asams)
     }
     
@@ -196,8 +197,7 @@ class MapViewController: UIViewController, AsamSelectDelegate {
             viewController.asam = sender as! Asam?
         } else if (segue.identifier == "listDisplayedAsams") {
             let listController = segue.destination as! ListTableViewController
-            let annotations = sender as? [AsamAnnotation] ?? Array(asams.values)
-            listController.asams = annotations
+            listController.asams = sender as? [Asam] ?? Array(asams.values)
         }
     }
     

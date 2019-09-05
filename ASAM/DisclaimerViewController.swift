@@ -10,6 +10,12 @@ import UIKit
 
 class DisclaimerViewController: UIViewController {
     
+    @IBOutlet weak var disclaimer: UITextView!
+
+    override func viewDidLayoutSubviews() {
+        disclaimer.setContentOffset(.zero, animated: false)
+    }
+    
     @IBAction func onAgreeTapped(_ sender: Any) {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let vc = storyboard.instantiateViewController(withIdentifier: "loadingViewController")

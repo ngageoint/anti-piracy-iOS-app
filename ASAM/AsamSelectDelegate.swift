@@ -8,7 +8,7 @@ import Foundation
 
 protocol AsamSelectDelegate {
 
-    func asamSelected(_ asam: AsamAnnotation)
-    func clusterSelected(asams: [AsamAnnotation])
+    func asamSelected(_ asam: Asam)
+    func clusterSelected(asams: [Asam])
 
 }

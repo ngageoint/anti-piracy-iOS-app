@@ -175,7 +175,7 @@ class FilterViewController: SubregionDisplayViewController, UIPickerViewDelegate
         
         let openAction = UIAlertAction(title: "Open Settings", style: .default) { (action) in
             if let url = URL(string:UIApplication.openSettingsURLString) {
-                UIApplication.shared.openURL(url)
+                UIApplication.shared.open(url, options: [:], completionHandler: nil)
             }
         }
         alertController.addAction(openAction)

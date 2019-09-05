@@ -47,9 +47,7 @@ class AsamDetailsViewController: UIViewController {
             let mapRegion =  MKCoordinateRegion.init(center: mapCenter, span: mapSpan)
             mapView.region = mapRegion
 
-            let newLocation = CLLocationCoordinate2DMake(asam.latitude, asam.longitude)
-            let annotation = AsamAnnotation(coordinate: newLocation, asam: asam)
-            mapView.addAnnotation(annotation)
+            mapView.addAnnotation(asam)
         }
         
         if let mapType = UserDefaults.standard.string(forKey: MapView.MAP_TYPE) {

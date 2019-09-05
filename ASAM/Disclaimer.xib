@@ -12,6 +12,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="DisclaimerViewController" customModule="ASAM" customModuleProvider="target">
             <connections>
+                <outlet property="disclaimer" destination="qK7-Sa-VJm" id="l8u-ud-dvr"/>
                 <outlet property="view" destination="iN0-l3-epB" id="MiA-K3-X1Y"/>
             </connections>
         </placeholder>
@@ -38,27 +39,15 @@
                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="0.87" colorSpace="custom" customColorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OAO-ge-Ujs">
-                    <rect key="frame" x="20" y="188.5" width="374" height="412"/>
-                    <attributedString key="attributedText">
-                        <fragment>
-                            <mutableString key="content">Information contained in this Application resides on a computer system funded by the National Geospatial-Intelligence Agency. This system and related equipment are intended for the communication, transmission, processing and storage of U.S. Government information.  With respect to information available in this Application, neither the United States Government nor the National Geospatial-Intelligence Agency nor any of their employees, makes any warranty, express or implied, including the warranties of merchantability and fitness for a particular purpose, or assumes any legal liability or responsibility for the accuracy, completeness, or usefulness of any information, apparatus, product, or process disclosed, or represents that its use would not infringe privately owned rights.  User agrees, through use of this product, to assume any and all liability for any damage or loss resulting from your use of the content or the products and holds NGA harmless from liability.</mutableString>
-                            <attributes>
-                                <color key="NSColor" red="0.0" green="0.0" blue="0.0" alpha="0.87" colorSpace="custom" customColorSpace="calibratedRGB"/>
-                                <font key="NSFont" size="15" name=".AppleSystemUIFont"/>
-                            </attributes>
-                        </fragment>
-                    </attributedString>
-                    <nil key="highlightedColor"/>
-                </label>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Show this disclaimer on launch" textAlignment="natural" lineBreakMode="wordWrap" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Fkr-tR-SI6">
-                    <rect key="frame" x="86" y="654" width="236" height="20.5"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="0.87" colorSpace="custom" customColorSpace="calibratedRGB"/>
-                    <nil key="highlightedColor"/>
-                </label>
+                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="qK7-Sa-VJm">
+                    <rect key="frame" x="20" y="180.5" width="374" height="528.5"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <mutableString key="text">Information contained in this Application resides on a computer system funded by the National Geospatial-Intelligence Agency. This system and related equipment are intended for the communication, transmission, processing and storage of U.S. Government information.  With respect to information available in this Application, neither the United States Government nor the National Geospatial-Intelligence Agency nor any of their employees, makes any warranty, express or implied, including the warranties of merchantability and fitness for a particular purpose, or assumes any legal liability or responsibility for the accuracy, completeness, or usefulness of any information, apparatus, product, or process disclosed, or represents that its use would not infringe privately owned rights.  User agrees, through use of this product, to assume any and all liability for any damage or loss resulting from your use of the content or the products and holds NGA harmless from liability.</mutableString>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                </textView>
                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="kWu-wP-b8B">
-                    <rect key="frame" x="20" y="648.5" width="51" height="31"/>
+                    <rect key="frame" x="20" y="733" width="51" height="31"/>
                     <userDefinedRuntimeAttributes>
                         <userDefinedRuntimeAttribute type="color" keyPath="onTintColor">
                             <color key="value" red="0.8980392157" green="0.22352941179999999" blue="0.20784313730000001" alpha="1" colorSpace="calibratedRGB"/>
@@ -69,7 +58,7 @@
                     </connections>
                 </switch>
                 <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="qfo-7m-J3e">
-                    <rect key="frame" x="20" y="832" width="374" height="30"/>
+                    <rect key="frame" x="20" y="812" width="374" height="30"/>
                     <subviews>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Jwm-x8-Sgk">
                             <rect key="frame" x="0.0" y="0.0" width="187" height="30"/>
@@ -96,23 +85,31 @@
                         <constraint firstAttribute="height" constant="30" id="8uk-uT-owa"/>
                     </constraints>
                 </stackView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" text="Show this disclaimer on launch" textAlignment="natural" lineBreakMode="wordWrap" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Fkr-tR-SI6">
+                    <rect key="frame" x="86" y="698.5" width="236" height="100"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="0.87" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
                 <constraint firstItem="Fkr-tR-SI6" firstAttribute="leading" secondItem="kWu-wP-b8B" secondAttribute="trailing" constant="17" id="3aU-Z7-Gce"/>
+                <constraint firstItem="qfo-7m-J3e" firstAttribute="top" secondItem="Fkr-tR-SI6" secondAttribute="bottom" constant="13.5" id="3eO-Cn-7kO"/>
                 <constraint firstItem="K9k-cb-Oum" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="20" id="4fQ-oW-f2h"/>
-                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="OAO-ge-Ujs" secondAttribute="trailing" constant="20" id="682-ct-LLm"/>
+                <constraint firstItem="kWu-wP-b8B" firstAttribute="top" secondItem="qK7-Sa-VJm" secondAttribute="bottom" constant="24" id="5Z7-xd-gg8"/>
                 <constraint firstItem="Fkr-tR-SI6" firstAttribute="centerY" secondItem="kWu-wP-b8B" secondAttribute="centerY" id="6lq-aF-uOq"/>
+                <constraint firstItem="qK7-Sa-VJm" firstAttribute="top" secondItem="K9k-cb-Oum" secondAttribute="bottom" constant="8" id="CES-H6-4vB"/>
                 <constraint firstItem="qfo-7m-J3e" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="20" id="DNr-5L-EY2"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="qfo-7m-J3e" secondAttribute="trailing" constant="20" id="DvQ-bW-Mn7"/>
-                <constraint firstItem="qfo-7m-J3e" firstAttribute="bottom" secondItem="vUN-kp-3ea" secondAttribute="bottom" id="ONX-qc-S1u"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="qfo-7m-J3e" secondAttribute="bottom" constant="20" id="ONX-qc-S1u"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="qK7-Sa-VJm" secondAttribute="trailing" constant="20" id="QjG-hm-fzW"/>
                 <constraint firstItem="K9k-cb-Oum" firstAttribute="top" secondItem="wvk-pV-pDP" secondAttribute="bottom" constant="8" id="ShW-aD-axf"/>
+                <constraint firstItem="qK7-Sa-VJm" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="20" id="dgW-wp-Ehp"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="K9k-cb-Oum" secondAttribute="trailing" constant="20" id="fau-uh-MSv"/>
                 <constraint firstItem="kWu-wP-b8B" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="20" id="g2B-DJ-Jn7"/>
-                <constraint firstItem="kWu-wP-b8B" firstAttribute="top" secondItem="OAO-ge-Ujs" secondAttribute="bottom" constant="48" id="gSw-GE-vwc"/>
-                <constraint firstItem="OAO-ge-Ujs" firstAttribute="top" secondItem="K9k-cb-Oum" secondAttribute="bottom" constant="16" id="gUt-bl-igY"/>
                 <constraint firstItem="wvk-pV-pDP" firstAttribute="centerX" secondItem="vUN-kp-3ea" secondAttribute="centerX" id="gg7-Td-LVB"/>
-                <constraint firstItem="OAO-ge-Ujs" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="20" id="uzC-mw-ri4"/>
+                <constraint firstItem="qfo-7m-J3e" firstAttribute="top" secondItem="kWu-wP-b8B" secondAttribute="bottom" constant="48" id="tsp-3j-pXA"/>
                 <constraint firstItem="wvk-pV-pDP" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" id="zBC-FF-4HZ"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>

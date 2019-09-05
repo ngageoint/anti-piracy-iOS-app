@@ -24,7 +24,6 @@
 		2FC48D8E1B713E450007B8C6 /* AsamMapViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FC48D8D1B713E450007B8C6 /* AsamMapViewDelegate.swift */; };
 		2FC48D901B713E4E0007B8C6 /* AsamSelectDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FC48D8F1B713E4E0007B8C6 /* AsamSelectDelegate.swift */; };
 		2FC48D961B713E780007B8C6 /* AsamModelFacade.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FC48D951B713E780007B8C6 /* AsamModelFacade.swift */; };
-		2FC48D9B1B713EA00007B8C6 /* AsamAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FC48D9A1B713EA00007B8C6 /* AsamAnnotation.swift */; };
 		2FC48DA11B713EC60007B8C6 /* subregions.csv in Resources */ = {isa = PBXBuildFile; fileRef = 2FC48DA01B713EC60007B8C6 /* subregions.csv */; };
 		2FC48DA31B713ECD0007B8C6 /* ne_50m_land.simplify0.2.geojson in Resources */ = {isa = PBXBuildFile; fileRef = 2FC48DA21B713ECD0007B8C6 /* ne_50m_land.simplify0.2.geojson */; };
 		2FC48DA51B713ED70007B8C6 /* OfflineMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FC48DA41B713ED70007B8C6 /* OfflineMap.swift */; };
@@ -80,7 +79,6 @@
 		2FC48D8D1B713E450007B8C6 /* AsamMapViewDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AsamMapViewDelegate.swift; sourceTree = "<group>"; };
 		2FC48D8F1B713E4E0007B8C6 /* AsamSelectDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AsamSelectDelegate.swift; sourceTree = "<group>"; };
 		2FC48D951B713E780007B8C6 /* AsamModelFacade.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AsamModelFacade.swift; sourceTree = "<group>"; };
-		2FC48D9A1B713EA00007B8C6 /* AsamAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AsamAnnotation.swift; sourceTree = "<group>"; };
 		2FC48DA01B713EC60007B8C6 /* subregions.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = subregions.csv; sourceTree = "<group>"; };
 		2FC48DA21B713ECD0007B8C6 /* ne_50m_land.simplify0.2.geojson */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ne_50m_land.simplify0.2.geojson; sourceTree = "<group>"; };
 		2FC48DA41B713ED70007B8C6 /* OfflineMap.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OfflineMap.swift; sourceTree = "<group>"; };
@@ -139,17 +137,15 @@
 		2F08C896231EBB9300BDF5ED /* Map */ = {
 			isa = PBXGroup;
 			children = (
-				2F08C88C2319780B00BDF5ED /* SubregionDisplayViewController.swift */,
-				2FD26C271B714E01001267CA /* MapViewController.swift */,
-				2F2B16D62315D2710010701B /* AsamMarkerAnnotationView.swift */,
-				2F2B16D82315D4080010701B /* AsamClusterAnnotationView.swift */,
-				2FC48DA41B713ED70007B8C6 /* OfflineMap.swift */,
-				2FC48DB71B713F310007B8C6 /* SubregionViewController.swift */,
+				2F9CF4F6232160E600460035 /* Annotation */,
 				2FC48D8D1B713E450007B8C6 /* AsamMapViewDelegate.swift */,
-				2FC48D9A1B713EA00007B8C6 /* AsamAnnotation.swift */,
-				2FC48DA61B713EDD0007B8C6 /* SubregionMap.swift */,
-				750AD0821B824620006F7C28 /* CurrentSubregion.swift */,
 				2FC48D8F1B713E4E0007B8C6 /* AsamSelectDelegate.swift */,
+				750AD0821B824620006F7C28 /* CurrentSubregion.swift */,
+				2FD26C271B714E01001267CA /* MapViewController.swift */,
+				2FC48DA41B713ED70007B8C6 /* OfflineMap.swift */,
+				2F08C88C2319780B00BDF5ED /* SubregionDisplayViewController.swift */,
+				2FC48DA61B713EDD0007B8C6 /* SubregionMap.swift */,
+				2FC48DB71B713F310007B8C6 /* SubregionViewController.swift */,
 			);
 			name = Map;
 			sourceTree = "<group>";
@@ -259,6 +255,15 @@
 				2F37A6821B71387100953AC0 /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		2F9CF4F6232160E600460035 /* Annotation */ = {
+			isa = PBXGroup;
+			children = (
+				2F2B16D82315D4080010701B /* AsamClusterAnnotationView.swift */,
+				2F2B16D62315D2710010701B /* AsamMarkerAnnotationView.swift */,
+			);
+			name = Annotation;
 			sourceTree = "<group>";
 		};
 		2FC48D941B713E670007B8C6 /* Data */ = {
@@ -440,7 +445,6 @@
 				2FC48D8C1B713CBD0007B8C6 /* AppDelegate.swift in Sources */,
 				2FC48D8E1B713E450007B8C6 /* AsamMapViewDelegate.swift in Sources */,
 				2F08C88D2319780B00BDF5ED /* SubregionDisplayViewController.swift in Sources */,
-				2FC48D9B1B713EA00007B8C6 /* AsamAnnotation.swift in Sources */,
 				751782D21D95BD440084E357 /* README.md in Sources */,
 				2FC48DB41B713F1D0007B8C6 /* FilterViewController.swift in Sources */,
 				750AD0831B824620006F7C28 /* CurrentSubregion.swift in Sources */,

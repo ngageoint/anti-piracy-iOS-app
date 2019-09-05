@@ -42,7 +42,7 @@ class CurrentSubregion: NSObject {
             
             if pointIsInPolygon {
                 currentSubregion = polygon.title!
-                print("Point found in region: \(polygon.title)")
+                print("Point found in region: \(String(describing: polygon.title))")
                 break
             }
         }

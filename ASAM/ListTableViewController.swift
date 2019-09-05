@@ -8,7 +8,7 @@ import UIKit
 class ListTableViewController: UITableViewController {
     
     let model = AsamModelFacade()
-    var asams = [AsamAnnotation]()
+    var asams = [Asam]()
     let dateFormatter = DateFormatter()
     
     override func viewDidLoad() {
@@ -37,7 +37,7 @@ class ListTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "asamCell", for: indexPath) as! ListViewCell
         
-        let asam = asams[indexPath.row].asam// as Asam
+        let asam = asams[indexPath.row]
         
         let theDate = dateFormatter.string(from: asam.date)
         
@@ -54,9 +54,7 @@ class ListTableViewController: UITableViewController {
         if (segue?.identifier == "singleListAsamDetails") {
             let viewController: AsamDetailsViewController = segue!.destination as! AsamDetailsViewController
             let path = self.tableView.indexPathForSelectedRow!
-            
-            let selectedAsam = asams[path.row] as AsamAnnotation
-            viewController.asam = selectedAsam.asam
+            viewController.asam = asams[path.row] as Asam
         }
     }
 }

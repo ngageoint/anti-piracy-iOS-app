@@ -33,13 +33,12 @@ class AsamMapViewDelegate: NSObject, MKMapViewDelegate {
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
         mapView.deselectAnnotation(view.annotation, animated: false)
         
-        switch view {
-            case is AsamClusterAnnotationView:
-                let annotations = (view.annotation as! MKClusterAnnotation).memberAnnotations as! [AsamAnnotation]
+        switch view.annotation {
+            case is MKClusterAnnotation:
+                let annotations = (view.annotation as! MKClusterAnnotation).memberAnnotations as! [Asam]
                 delegate.clusterSelected(asams: annotations)
             default:
-                delegate.asamSelected(view.annotation as! AsamAnnotation)
-
+                delegate.asamSelected(view.annotation as! Asam)
         }
     }
 

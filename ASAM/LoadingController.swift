@@ -30,9 +30,11 @@ class LoadingController: UIViewController, AsamResourceDelegate {
             model.addAsams(json!["asam"] as! [[String:Any]])
         }
         
-        asamResource.query()
+        print("DEBUG - query for new asams")
+//        asamResource.query()
+        print("DEBUG - done query for new asams")
+        performSegue(withIdentifier: "launchSegue", sender: self)
     }
-
     
     func success(_ json: [[String:Any]]) {
         performSegue(withIdentifier: "launchSegue", sender: self)
