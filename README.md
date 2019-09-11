@@ -8,25 +8,13 @@ ASAM was developed at the National Geospatial-Intelligence Agency (NGA) in colla
 
 ## Setup
 
-Install [CocoaPods](http://cocoapods.org), a dependency manager for Objective-C and Swift. You can install CocoaPods with the following command:
-
-```bash
-$ gem install cocoapods
-```
-
-Then, pull down the latest source:
+Pull down the latest source:
 ```bash
 $ git clone git@github.com:ngageoint/anti-piracy-iOS-app.git
 ```
 
-Run the following command in the anti-piracy-iOS-app directory:
-```bash
-$ pod install
-```
-
 Launch Xcode:
 ```bash
-$ open ASAM.xcworkspace
 ```
 
 ## Requirements

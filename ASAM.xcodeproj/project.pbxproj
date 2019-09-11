@@ -41,10 +41,8 @@
 		75029C971B7A5124004BD9E2 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75029C961B7A5124004BD9E2 /* Constants.swift */; };
 		750AD0831B824620006F7C28 /* CurrentSubregion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 750AD0821B824620006F7C28 /* CurrentSubregion.swift */; };
 		751782D01D95BD440084E357 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 751782CD1D95BD440084E357 /* LICENSE */; };
-		751782D11D95BD440084E357 /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = 751782CE1D95BD440084E357 /* Podfile */; };
 		751782D21D95BD440084E357 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 751782CF1D95BD440084E357 /* README.md */; };
 		75B314391B84EBF200122B09 /* AsamResource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75B314381B84EBF200122B09 /* AsamResource.swift */; };
-		C13F85B765C99AB6944C65CF /* Pods_ASAM.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4013090EA3D7C955840FB612 /* Pods_ASAM.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -91,7 +89,6 @@
 		2FC48DBE1B713FFB0007B8C6 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		2FC48DC01B7142370007B8C6 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		2FD26C271B714E01001267CA /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
-		4013090EA3D7C955840FB612 /* Pods_ASAM.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ASAM.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		75029C921B73EE71004BD9E2 /* ListTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListTableViewController.swift; sourceTree = "<group>"; };
 		75029C941B78DCB2004BD9E2 /* ListViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListViewCell.swift; sourceTree = "<group>"; };
 		75029C961B7A5124004BD9E2 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
@@ -100,8 +97,6 @@
 		751782CE1D95BD440084E357 /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		751782CF1D95BD440084E357 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		75B314381B84EBF200122B09 /* AsamResource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AsamResource.swift; sourceTree = "<group>"; };
-		B99B59F9BBB3BED9F872E7AF /* Pods-ASAM.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ASAM.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ASAM/Pods-ASAM.debug.xcconfig"; sourceTree = "<group>"; };
-		C9397BBCD91F5B672117DD2D /* Pods-ASAM.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ASAM.release.xcconfig"; path = "Pods/Target Support Files/Pods-ASAM/Pods-ASAM.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -111,7 +106,6 @@
 			files = (
 				2FC48DC11B7142370007B8C6 /* UIKit.framework in Frameworks */,
 				2FC48DBF1B713FFB0007B8C6 /* MapKit.framework in Frameworks */,
-				C13F85B765C99AB6944C65CF /* Pods_ASAM.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -125,15 +119,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		06A76CF14F6F7A49B1DEDE50 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				B99B59F9BBB3BED9F872E7AF /* Pods-ASAM.debug.xcconfig */,
-				C9397BBCD91F5B672117DD2D /* Pods-ASAM.release.xcconfig */,
-			);
-			name = Pods;
-			sourceTree = "<group>";
-		};
 		2F08C896231EBB9300BDF5ED /* Map */ = {
 			isa = PBXGroup;
 			children = (
@@ -195,7 +180,6 @@
 				2F37A6801B71387100953AC0 /* AsamTests */,
 				2F37A6691B71387100953AC0 /* Products */,
 				BE02B5BAC5F25B717FAAEC56 /* Frameworks */,
-				06A76CF14F6F7A49B1DEDE50 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -292,7 +276,6 @@
 			children = (
 				2FC48DC01B7142370007B8C6 /* UIKit.framework */,
 				2FC48DBE1B713FFB0007B8C6 /* MapKit.framework */,
-				4013090EA3D7C955840FB612 /* Pods_ASAM.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -304,7 +287,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2F37A6871B71387100953AC0 /* Build configuration list for PBXNativeTarget "ASAM" */;
 			buildPhases = (
-				69E000C476D69F34194E5F2B /* [CP] Check Pods Manifest.lock */,
 				2F37A6641B71387100953AC0 /* Sources */,
 				2F37A6651B71387100953AC0 /* Frameworks */,
 				2F37A6661B71387100953AC0 /* Resources */,
@@ -385,7 +367,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				2F37A6731B71387100953AC0 /* Main.storyboard in Resources */,
-				751782D11D95BD440084E357 /* Podfile in Resources */,
 				2FC48DA11B713EC60007B8C6 /* subregions.csv in Resources */,
 				2F08C88F231AD03D00BDF5ED /* Disclaimer.xib in Resources */,
 				751782D01D95BD440084E357 /* LICENSE in Resources */,
@@ -404,27 +385,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		69E000C476D69F34194E5F2B /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-ASAM-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		2F37A6641B71387100953AC0 /* Sources */ = {
@@ -583,7 +543,6 @@
 		};
 		2F37A6881B71387100953AC0 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B99B59F9BBB3BED9F872E7AF /* Pods-ASAM.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -600,7 +559,6 @@
 		};
 		2F37A6891B71387100953AC0 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C9397BBCD91F5B672117DD2D /* Pods-ASAM.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
