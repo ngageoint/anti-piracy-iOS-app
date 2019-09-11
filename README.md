@@ -31,7 +31,7 @@ $ open ASAM.xcworkspace
 
 ## Requirements
 
-ASAM requires iOS 9.0+.
+ASAM requires iOS 11.0+.
 
 ## Pull Requests
 
