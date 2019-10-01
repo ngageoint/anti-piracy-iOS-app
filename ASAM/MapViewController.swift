@@ -18,8 +18,6 @@ class MapViewController: UIViewController, AsamSelectDelegate {
     var model = AsamModelFacade()
 
     override func viewDidLoad() {
-        print("DEBUG - map controller viewDidLoad")
-
         super.viewDidLoad()
         
         navigationItem.largeTitleDisplayMode = .never
@@ -34,9 +32,7 @@ class MapViewController: UIViewController, AsamSelectDelegate {
         mapView.register(AsamMarkerAnnotationView.self, forAnnotationViewWithReuseIdentifier: MKMapViewDefaultAnnotationViewReuseIdentifier)
         mapView.register(AsamClusterAnnotationView.self, forAnnotationViewWithReuseIdentifier: MKMapViewDefaultClusterAnnotationViewReuseIdentifier)
     
-        print("DEBUG - configure map")
         configureMap()
-        print("DEBUG - done configure map")
     }
     
     func configureMap() {
@@ -94,9 +90,7 @@ class MapViewController: UIViewController, AsamSelectDelegate {
         }
         
         // Display existing Asams
-        print("DEBUG - map annotations")
         asams = addAsams(filterType)
-        print("DEBUG - done map annotations")
     }
     
     func addAsams(_ filterType: String) -> [String:Asam] {
