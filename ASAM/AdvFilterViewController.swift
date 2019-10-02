@@ -278,6 +278,9 @@ class AdvFilterViewController: SubregionDisplayViewController, UITextFieldDelega
         NotificationCenter.default.removeObserver(self)
     }
     
+    @IBAction func unwindSubregionCancel(_ segue:UIStoryboardSegue) {
+    }
+    
     @IBAction func unwindSubregionFilters(_ segue:UIStoryboardSegue) {
         if let controller = segue.source as? SubregionViewController {
             regions.text = controller.regions
