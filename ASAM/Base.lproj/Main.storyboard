@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15400" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="3di-yO-od7">
-    <device id="retina5_9" orientation="portrait" appearance="light"/>
+    <device id="retina5_9" orientation="portrait" appearance="dark"/>
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15404"/>
@@ -96,7 +96,7 @@
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" id="P3m-lF-tIN">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="672"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <color key="backgroundColor" red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="calibratedRGB"/>
                         <sections>
                             <tableViewSection id="u1T-xs-UCa">
                                 <cells>
@@ -116,6 +116,7 @@
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <connections>
                                             <segue destination="fcK-hC-1dc" kind="show" id="M0y-lD-qF8"/>
                                         </connections>
@@ -140,6 +141,7 @@
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <connections>
                                             <segue destination="yzz-a7-zly" kind="show" id="NyH-PM-SBJ"/>
                                         </connections>
@@ -160,6 +162,7 @@
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <connections>
                                             <segue destination="Oq6-rI-0Zm" kind="show" id="gfJ-qC-d44"/>
                                         </connections>
@@ -191,6 +194,7 @@
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
@@ -1067,11 +1071,7 @@
                         <viewLayoutGuide key="safeArea" id="X7e-lz-1Io"/>
                     </view>
                     <navigationItem key="navigationItem" title="Basic" id="lYf-Qh-C4P">
-                        <barButtonItem key="leftBarButtonItem" title="Cancel" id="sms-SI-goR">
-                            <connections>
-                                <segue destination="Wda-US-8jv" kind="unwind" unwindAction="unwindSubregionCancel:" id="6F3-dg-7J0"/>
-                            </connections>
-                        </barButtonItem>
+                        <barButtonItem key="leftBarButtonItem" title="Cancel" id="sms-SI-goR"/>
                         <rightBarButtonItems>
                             <barButtonItem title="Apply" id="EHz-CL-LDr">
                                 <connections>
@@ -1137,7 +1137,7 @@
                             </label>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" text="1-800-362-6289" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="Giw-HB-OKf">
                                 <rect key="frame" x="20" y="346" width="335" height="33"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="33" id="YMN-jp-IBh"/>
                                 </constraints>
@@ -1148,7 +1148,7 @@
                             </textView>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" text="mcdASAM@nga.mil" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="31I-y4-Bwq">
                                 <rect key="frame" x="20" y="379" width="335" height="33"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="33" id="zL3-PV-JkO"/>
                                 </constraints>
@@ -1230,7 +1230,7 @@
                         <subviews>
                             <textView clipsSubviews="YES" contentMode="scaleToFill" editable="NO" usesAttributedText="YES" translatesAutoresizingMaskIntoConstraints="NO" id="GFJ-FH-ob1">
                                 <rect key="frame" x="20" y="20" width="335" height="598"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <attributedString key="attributedText">
                                     <fragment>
                                         <string key="content">NGA Mobile Application Privacy Policy for ASAM Mobile    This App is exclusively licensed to and operated by the National Geospatial-Intelligence Agency (NGA). Our Privacy Policy informs you, the user, what personally identifiable information (PII) we collect when you use this App, how we use and share the PII we collect, and how we protect your privacy. Further information on NGA\'s privacy practices can be found at http://www.nga.mil, at the "Privacy and Security" tab.    If you have any questions about this Policy or our privacy practices, please contact us using the following information: publicaffairs@nga.mil. Effective Date: 20 August 2012    Your Consent: Please review NGA\'s Privacy Policy before using this App. By using this App you are consenting to the collection, use, and disclosure of your PII as set forth in this Policy. If you do not agree to be bound by this Policy, you may not access or use this App.    Privacy Notices    This Policy may be supplemented or amended from time to time and NGA will notify you by issuing “privacy notices.” These Privacy Notices will provide a level of detail describing the changes in our policy and how they may affect you. For example, this App may issue Privacy Notices providing details about changes in the function and use of the PII we collect, and why we need that information.    Types of Information We Collect   NGA will collect NO PII or information from your mobile device. NGA neither collects nor acquires any user names, passwords or other login information or personal information from Google.    Links to Third-Party Websites  This App may contain links to websites operated by other organizations. This Policy does not apply to PII collected on any of these third-party websites. When you access third-party websites through a link on this App, please take a few minutes to review the privacy policy posted on that site. This App uses the Google Maps/Google Earth API. It incorporates by reference the Google Privacy Policy, which can be viewed at http://www.google.com/privacy.html, as amended by Google from time to time.</string>
