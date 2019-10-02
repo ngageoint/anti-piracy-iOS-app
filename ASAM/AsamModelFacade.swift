@@ -112,6 +112,8 @@ class AsamModelFacade {
 
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: ASAM_ENTITY)
         fetchRequest.predicate = getFilterPredicate(filterType)
+        let sort = NSSortDescriptor(key: #keyPath(Asam.date), ascending: false)
+        fetchRequest.sortDescriptors = [sort]
         
         let error: NSError? = nil
         do {
@@ -134,10 +136,7 @@ class AsamModelFacade {
         var filterPredicate = NSPredicate()
         let basicFilterPredicate = getBasicFilterPredicate()
         let advancedFilterPredicate = getAdvancedFilterPredicate()
-        //Filters are currently isolated
-        //        if filterType == Filter.BOTH {
-        //            filterPredicate = NSCompoundPredicate(type: NSCompoundPredicateType.AndPredicateType, subpredicates: [basicFilterPredicate, advancedFilterPredicate])
-        //        } else
+
         if filterType == Filter.BASIC_TYPE {
             filterPredicate = basicFilterPredicate
         } else if filterType == Filter.ADVANCED_TYPE {

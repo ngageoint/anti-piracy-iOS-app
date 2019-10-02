@@ -13,7 +13,8 @@ class MapViewController: UIViewController, AsamSelectDelegate {
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var asamMapViewDelegate: AsamMapViewDelegate!
     
-    var asams = [String:Asam]()
+    var asams = [Asam]()
+    var annotations = [String:Asam]()
     var filterType = Filter.BASIC_TYPE
     var model = AsamModelFacade()
 
@@ -90,33 +91,34 @@ class MapViewController: UIViewController, AsamSelectDelegate {
         }
         
         // Display existing Asams
-        asams = addAsams(filterType)
+        addAsams(filterType)
     }
     
-    func addAsams(_ filterType: String) -> [String:Asam] {
+    func addAsams(_ filterType: String) {
         MapViewController.clusteringIdentifierCount += 1
         
-        var annotations = [String:Asam]()
+        var newAnnotations = [String:Asam]()
+        asams = model.getAsams(filterType)
         
-        for asam in model.getAsams(filterType) {
-            if (asams[asam.reference] == nil) {
+        for asam in asams {
+            if (annotations[asam.reference] == nil) {
                 mapView.addAnnotation(asam)
-                annotations[asam.reference] = asam
+                newAnnotations[asam.reference] = asam
             } else {
-                annotations[asam.reference] = asams[asam.reference]
+                newAnnotations[asam.reference] = annotations[asam.reference]
             }
         }
         
-        var allReferences = Set(asams.keys)
-        allReferences.subtract(Set(annotations.keys))
+        var allReferences = Set(annotations.keys)
+        allReferences.subtract(Set(newAnnotations.keys))
         for reference in allReferences {
-            if let annotation = asams[reference] {
+            if let annotation = annotations[reference] {
                 mapView.removeAnnotation(annotation)
             }
         }
 
-        navigationItem.prompt = "\(annotations.count) ASAMs match filter"
-        return annotations
+        navigationItem.prompt = "\(asams.count) ASAMs match filter"
+        annotations = newAnnotations
     }
     
     @IBAction func showLayerActionSheet(_ sender: UIButton) {
@@ -191,7 +193,11 @@ class MapViewController: UIViewController, AsamSelectDelegate {
             viewController.asam = sender as! Asam?
         } else if (segue.identifier == "listDisplayedAsams") {
             let listController = segue.destination as! ListTableViewController
-            listController.asams = sender as? [Asam] ?? Array(asams.values)
+            if let cluster = sender as? [Asam] {
+                listController.asams = cluster.sorted() {$0.date > $1.date}
+            } else {
+                listController.asams = asams
+            }
         }
     }
     
@@ -207,6 +213,6 @@ class MapViewController: UIViewController, AsamSelectDelegate {
             filterType = advFilterController.filterType
         }
         
-        asams = addAsams(filterType)
+        addAsams(filterType)
     }
 }
