@@ -12,6 +12,7 @@
 		2F08C891231AD38800BDF5ED /* DisclaimerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F08C890231AD38800BDF5ED /* DisclaimerViewController.swift */; };
 		2F08C893231C460C00BDF5ED /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F08C892231C460C00BDF5ED /* AboutViewController.swift */; };
 		2F08C895231C70E200BDF5ED /* asam_seed.json in Resources */ = {isa = PBXBuildFile; fileRef = 2F08C894231C70E200BDF5ED /* asam_seed.json */; };
+		2F0B26572349470400A4088B /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2F0B26562349470400A4088B /* Colors.xcassets */; };
 		2F2B16D72315D2710010701B /* AsamMarkerAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F2B16D62315D2710010701B /* AsamMarkerAnnotationView.swift */; };
 		2F2B16D92315D4080010701B /* AsamClusterAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F2B16D82315D4080010701B /* AsamClusterAnnotationView.swift */; };
 		2F37A6731B71387100953AC0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2F37A6711B71387100953AC0 /* Main.storyboard */; };
@@ -64,6 +65,7 @@
 		2F08C890231AD38800BDF5ED /* DisclaimerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisclaimerViewController.swift; sourceTree = "<group>"; };
 		2F08C892231C460C00BDF5ED /* AboutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutViewController.swift; sourceTree = "<group>"; };
 		2F08C894231C70E200BDF5ED /* asam_seed.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = asam_seed.json; sourceTree = "<group>"; };
+		2F0B26562349470400A4088B /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Colors.xcassets; path = Asam/Colors.xcassets; sourceTree = SOURCE_ROOT; };
 		2F2B16D62315D2710010701B /* AsamMarkerAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsamMarkerAnnotationView.swift; sourceTree = "<group>"; };
 		2F2B16D82315D4080010701B /* AsamClusterAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsamClusterAnnotationView.swift; sourceTree = "<group>"; };
 		2F37A6681B71387100953AC0 /* ASAM.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ASAM.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -230,6 +232,7 @@
 				2F08C890231AD38800BDF5ED /* DisclaimerViewController.swift */,
 				2F43410E2318204D0089CE68 /* LoadingController.swift */,
 				2F37A6741B71387100953AC0 /* Images.xcassets */,
+				2F0B26562349470400A4088B /* Colors.xcassets */,
 				2F37A66B1B71387100953AC0 /* Supporting Files */,
 			);
 			name = Asam;
@@ -392,6 +395,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2F0B26572349470400A4088B /* Colors.xcassets in Resources */,
 				2F37A6731B71387100953AC0 /* Main.storyboard in Resources */,
 				2FC48DA11B713EC60007B8C6 /* subregions.csv in Resources */,
 				2F08C88F231AD03D00BDF5ED /* Disclaimer.xib in Resources */,
@@ -620,7 +624,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_TEAM = ZL8G5D9G2H;
 				INFOPLIST_FILE = ASAM/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
@@ -638,7 +642,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_TEAM = ZL8G5D9G2H;
 				INFOPLIST_FILE = ASAM/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;

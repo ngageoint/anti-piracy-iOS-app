@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15400" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14868" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15404"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14824"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -34,13 +35,14 @@
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Disclaimer" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="K9k-cb-Oum">
                     <rect key="frame" x="20" y="141" width="374" height="31.5"/>
                     <fontDescription key="fontDescription" type="system" pointSize="26"/>
-                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="0.87" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                    <color key="textColor" name="textPrimary"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="qK7-Sa-VJm">
                     <rect key="frame" x="20" y="180.5" width="374" height="528.5"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <string key="text">Information contained in this Application resides on a computer system funded by the National Geospatial-Intelligence Agency. This system and related equipment are intended for the communication, transmission, processing and storage of U.S. Government information.  With respect to information available in this Application, neither the United States Government nor the National Geospatial-Intelligence Agency nor any of their employees, makes any warranty, express or implied, including the warranties of merchantability and fitness for a particular purpose, or assumes any legal liability or responsibility for the accuracy, completeness, or usefulness of any information, apparatus, product, or process disclosed, or represents that its use would not infringe privately owned rights.  User agrees, through use of this product, to assume any and all liability for any damage or loss resulting from your use of the content or the products and holds NGA harmless from liability.</string>
+                    <color key="textColor" name="textSecondary"/>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                 </textView>
@@ -62,7 +64,7 @@
                             <rect key="frame" x="0.0" y="0.0" width="187" height="30"/>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                             <state key="normal" title="EXIT">
-                                <color key="titleColor" white="0.0" alpha="0.87" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="titleColor" name="textPrimary"/>
                             </state>
                             <connections>
                                 <action selector="onExitTapped:" destination="-1" eventType="touchUpInside" id="Xgk-RU-KCp"/>
@@ -72,7 +74,7 @@
                             <rect key="frame" x="187" y="0.0" width="187" height="30"/>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                             <state key="normal" title="I AGREE">
-                                <color key="titleColor" white="0.0" alpha="0.87" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="titleColor" name="textPrimary"/>
                             </state>
                             <connections>
                                 <action selector="onAgreeTapped:" destination="-1" eventType="touchUpInside" id="pFI-6y-uBW"/>
@@ -86,11 +88,11 @@
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" text="Show this disclaimer on launch" textAlignment="natural" lineBreakMode="wordWrap" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Fkr-tR-SI6">
                     <rect key="frame" x="86" y="698.5" width="236" height="100"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="0.87" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                    <color key="textColor" name="textPrimary"/>
                     <nil key="highlightedColor"/>
                 </label>
             </subviews>
-            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <color key="backgroundColor" name="background"/>
             <constraints>
                 <constraint firstItem="Fkr-tR-SI6" firstAttribute="leading" secondItem="kWu-wP-b8B" secondAttribute="trailing" constant="17" id="3aU-Z7-Gce"/>
                 <constraint firstItem="qfo-7m-J3e" firstAttribute="top" secondItem="Fkr-tR-SI6" secondAttribute="bottom" constant="13.5" id="3eO-Cn-7kO"/>
@@ -116,5 +118,14 @@
     </objects>
     <resources>
         <image name="brand" width="180" height="44"/>
+        <namedColor name="background">
+            <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="textPrimary">
+            <color red="0.0" green="0.0" blue="0.0" alpha="0.87" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="textSecondary">
+            <color red="0.0" green="0.0" blue="0.0" alpha="0.54000000000000004" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
     </resources>
 </document>
